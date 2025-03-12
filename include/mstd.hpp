@@ -1,0 +1,7 @@
+#include "mstd_config.hpp"
+#include "functions.hpp"
+#include "arithmetic.hpp"
+#include "containers.hpp"
+#include "terminal.hpp"
+#include "macros.hpp"
+#include "string.hpp"
