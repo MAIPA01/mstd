@@ -13,71 +13,107 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\arithmetic">
+      <UniqueIdentifier>{c91f8ad5-a652-4ef7-907b-aa5d8b998316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\functions">
+      <UniqueIdentifier>{76d0132c-5eff-412f-b24a-a49681f84a07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\containers">
+      <UniqueIdentifier>{1cd81696-1eb5-46e0-81cf-94d7519af779}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\string">
+      <UniqueIdentifier>{22868422-8337-41de-bbf1-b67448d48a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\terminal">
+      <UniqueIdentifier>{fb5bc617-d784-4729-8eb1-d49a5882d5e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="pch.hpp">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\mstd.hpp">
+    <ClInclude Include="..\include\macros.hpp">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\mstd_types.hpp">
+    <ClInclude Include="..\include\mstd.hpp">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\mstd_libs.hpp">
+    <ClInclude Include="..\include\mstd_config.hpp">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\macros.hpp">
+    <ClInclude Include="..\include\mstd_libs.hpp">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\ordered_map.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\arithmetic.hpp">
+      <Filter>Pliki nagłówkowe\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\ordered_set.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\arithmetic_libs.hpp">
+      <Filter>Pliki nagłówkowe\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\isstrnum.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\arithmetic_types.hpp">
+      <Filter>Pliki nagłówkowe\arithmetic</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\overflow_operations.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\functions.hpp">
+      <Filter>Pliki nagłówkowe\functions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\strtonum.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\as_function.hpp">
+      <Filter>Pliki nagłówkowe\functions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\as_function.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\function_traits.hpp">
+      <Filter>Pliki nagłówkowe\functions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\function_traits.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\functions_libs.hpp">
+      <Filter>Pliki nagłówkowe\functions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\is_callable.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\is_callable.hpp">
+      <Filter>Pliki nagłówkowe\functions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\is_same_function.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\is_same_function.hpp">
+      <Filter>Pliki nagłówkowe\functions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\terminal.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\containers.hpp">
+      <Filter>Pliki nagłówkowe\containers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\mstd\string.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="..\include\containers_libs.hpp">
+      <Filter>Pliki nagłówkowe\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\containers_types.hpp">
+      <Filter>Pliki nagłówkowe\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ordered_map.hpp">
+      <Filter>Pliki nagłówkowe\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ordered_set.hpp">
+      <Filter>Pliki nagłówkowe\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\overflow_operations.hpp">
+      <Filter>Pliki nagłówkowe\arithmetic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\string.hpp">
+      <Filter>Pliki nagłówkowe\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\isstrnum.hpp">
+      <Filter>Pliki nagłówkowe\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\string_libs.hpp">
+      <Filter>Pliki nagłówkowe\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\string_types.hpp">
+      <Filter>Pliki nagłówkowe\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\strtonum.hpp">
+      <Filter>Pliki nagłówkowe\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\terminal.hpp">
+      <Filter>Pliki nagłówkowe\terminal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\terminal_libs.hpp">
+      <Filter>Pliki nagłówkowe\terminal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="isstrnum.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="terminal.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="string.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
