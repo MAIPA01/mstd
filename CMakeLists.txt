@@ -10,7 +10,7 @@ set(PROJECT_HEADERS ${PROJECT_NAME}_HEADERS)
 file(GLOB_RECURSE ${PROJECT_NAME_HEADERS} include/*.hpp)
 
 # make library
-add_library(${PROJECT_NAME} INTERFACE ${${PROJECT_NAME_HEADERS}})
+add_library(${PROJECT_NAME} INTERFACE ${${PROJECT_HEADERS}})
 
 # set library alias
 set(PROJECT_NAMESPACE ${PROJECT_NAME}::)
