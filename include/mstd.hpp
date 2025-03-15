@@ -14,5 +14,3 @@
 #include "terminal.hpp"
 #include "macros.hpp"
 #include "string.hpp"
-
-// TODO: make cmake project
