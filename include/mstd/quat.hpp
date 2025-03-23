@@ -7,6 +7,7 @@
  * Copyright (c) 2025, Patryk Antosik (MAIPA01)
  *
  * Tested and fixed by Muppetsg2 (https://github.com/Muppetsg2)
+ * Good reference site: https://www.tobynorris.com/work/prog/csharp/quatview/help/orientations_and_quaternions.htm
  */
 
 #pragma once
