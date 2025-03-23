@@ -9,3 +9,6 @@
 
 #pragma once
 #include <limits>
+#include <type_traits>
+#define _USE_MATH_DEFINES
+#include <math.h>
