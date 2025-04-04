@@ -290,18 +290,21 @@ namespace mstd {
 			res._fill_values(value);
 			return res;
 		}
-		static mat<C, R, T> identity() {
+
+#pragma region PREDEFINED_SQUARE_MATRIX
+		static typename std::enable_if_t<(C == R), mat<C, R, T>> 
+			identity() {
 			mat<C, R, T> res;
 			res._set_identity_values(1);
 			return res;
 		}
-		static mat<C, R, T> fill_identity(const T& value) {
+		static typename std::enable_if_t<(C == R), mat<C, R, T>> 
+			fill_identity(const T& value) {
 			mat<C, R, T> res;
 			res._set_identity_values(value);
 			return res;
 		}
 
-#pragma region PREDEFINED_SQUARE_MATRIX
 		static typename std::enable_if_t<(C == R && R > 1), mat<C, R, T>> 
 			translation(const vec<R - 1, T>& trans_vec) {
 			mat<C, R, T> res = mat<C, R, T>::identity();
@@ -391,9 +394,141 @@ namespace mstd {
 
 			return res;
 		}
+
+		template<class = std::enable_if_t<(C == R && C == 4)>>
+		static mat<C, R, T> frustrum(const T& left, const T& right, const T& bottom, const T& top, const T& near, const T& far,
+			const T& res_left = T(-1), const T& res_right = T(1), const T& res_bottom = T(-1), const T& res_top = T(1), 
+			const T& res_near = T(-1), const T& res_far = T(1)) {
+			
+			const T& x_dir = right > left ? T(1) : T(-1);
+			const T& y_dir = top > bottom ? T(1) : T(-1);
+			const T& z_dir = -(x_dir * y_dir);
+
+			const T& abs_near = std::abs(near);
+			const T& abs_far = std::abs(far);
+
+			const T& inv_rl = 1.f / (right - left);
+			const T& inv_tb = 1.f / (top - bottom);
+			const T& inv_fn = 1.f / (abs_far - abs_near);
+
+			mat<C, R, T>& res = mat<C, R, T>::zero();
+			res[0][0] = (res_right - res_left) * abs_near * inv_rl;
+			res[2][0] = (res_left * right - res_right * left) * z_dir * inv_rl;
+			res[1][1] = (res_top - res_bottom) * abs_near * inv_tb;
+			res[2][1] = (res_bottom * top - res_top * bottom) * z_dir * inv_tb;
+			res[2][2] = (res_far - res_near) * z_dir * inv_fn;
+			res[3][2] = (res_near * abs_far - res_far * abs_near) * inv_fn;
+			res[2][3] = z_dir;
+			return res;
+		}
+
+		// left = -right, bottom = -top
+		template<class = std::enable_if_t<(C == R && C == 4)>>
+		static mat<C, R, T> frustrum(const T& right, const T& top, const T& near, const T& far, const T& res_right = T(1), 
+			const T& res_top = T(1), const T& res_near = T(-1), const T& res_far(1)) {
+			return frustrum(-right, right, -top, top, near, far, -res_right, res_right, -res_top, res_top, res_near, res_far);
+		}
+
+		template<class = std::enable_if_t<(C == R && C == 4)>>
+		static mat<C, R, T> perspective(const T& fov, const T& aspect, const T& near, const T& far, bool right_pos_x = true, 
+			bool top_pos_y = true, bool vertical_fov = true, const T& res_right = T(1), const T& res_top = T(1), 
+			const T& res_near = T(-1), const T& res_far(1)) {
+
+			const T& abs_near = std::abs(near);
+			const T& abs_far = std::abs(far);
+
+			T right;
+			T top;
+			if (vertical_fov) {
+				right = std::tan(fov * 0.5) * abs_near;
+				top = right / aspect;
+			}
+			else {
+				top = std::tan(fov * 0.5) * abs_near;
+				right = top * aspect;
+			}
+
+			return frustrum(right_pos_x ? right : -right, top_pos_y ? top : -top, abs_near, abs_far, 
+				-res_right, res_right, -res_top, res_top, res_near, res_far);
+		}
+
+		template<class = std::enable_if_t<(C == R && C == 4)>>
+		static mat<C, R, T> ortographic(const T& left, const T& right, const T& bottom, const T& top, const T& near, 
+			const T& far, const T& res_left = T(-1), const T& res_right = T(1), const T& res_bottom = T(-1), 
+			const T& res_top = T(1), const T& res_near = T(-1), const T& res_far = T(1)) {
+			
+			const T& x_dir = right > left ? T(1) : T(-1);
+			const T& y_dir = top > bottom ? T(1) : T(-1);
+			const T& z_dir = -(x_dir * y_dir);
+
+			const T& abs_near = std::abs(near);
+			const T& abs_far = std::abs(far);
+
+			const T& inv_rl = 1.0 / (right - left);
+			const T& inv_tb = 1.0 / (top - bottom);
+			const T& inv_fn = 1.0 / (abs_far - abs_near);
+
+			mat<C, R, T> res = mat<C, R, T>::zero();
+			res[0][0] = (res_right - res_left) * inv_rl;
+			res[3][0] = (res_left * right - res_right * left) * inv_rl;
+			res[1][1] = (res_top - res_bottom) * inv_tb;
+			res[3][1] = (res_bottom * top - res_top * bottom) * inv_tb;
+			res[2][2] = (res_far - res_near) * z_dir * inv_fn;
+			res[3][2] = (res_near * abs_far - res_far * abs_near) * inv_fn;
+			res[2][3] = z_dir;
+			return res;
+		}
+
+		template<class = std::enable_if_t<(C == R && C == 4)>>
+		static mat<C, R, T> ortographic(const T& right, const T& top, const T& near,
+			const T& far, const T& res_right = T(1), const T& res_top = T(1), const T& res_near = T(-1), 
+			const T& res_far = T(1)) {
+			return ortographic(-right, right, -top, top, near, far, -res_right, res_right, -res_top, res_top, res_near, res_far);
+		}
 #pragma endregion // PREDEFINED_MATRIX_4x4
 #pragma endregion // PREDEFINED_SQUARE_MATRIX
 #pragma endregion // PREDEFINED
+
+#pragma region PREDEFINED_CHECKS
+		bool is_zero() const {
+			return is_filled_with(T(0));
+		}
+
+		bool is_one() const {
+			return is_filled_with(T(1));
+		}
+
+		bool is_filled_with(const T& value) const {
+			for (size_t x = 0; x != C; ++x) {
+				for (size_t y = 0; y != R; ++y) {
+					if (_values[x][y] != value) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+#pragma region PREDEFINED_SQUARE_MATRIX_CHECKS
+		template<class = std::enable_if_t<(C == R)>>
+		bool is_identity() const {
+			return is_identity_filled_with(1);
+		}
+
+		template<class = std::enable_if_t<(C == R)>>
+		bool is_identity_filled_with(const T& value) const {
+			for (size_t x = 0; x != C; ++x) {
+				for (size_t y = 0; y != R; ++y) {
+					if ((x == y && _values[x][y] != value) || (x != y && _values[x][y] != T(0))) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+#pragma endregion // PREDEFINED_SQUARE_MATRIX_CHECKS
+#pragma endregion // PREDEFINED_CHECKS
 
 #pragma region MATRIX_OPERATIONS
 		mat<R, C, T> transposed() const {
@@ -550,7 +685,7 @@ namespace mstd {
 		template<class = std::enable_if_t<(R == C)>>
 		mat<C, R, T> inverted() const {
 			if constexpr (R == 1) {
-				if (_values[0][0] != 0) {
+				if (_values[0][0] != T(0)) {
 					throw std::runtime_error("division by zero");
 				}
 				return mat<C, R, T>(1.0 / _values[0][0]);
@@ -559,7 +694,7 @@ namespace mstd {
 				// calculate det
 				T det = determinant();
 
-				if (det == 0) {
+				if (det == T(0)) {
 					throw std::runtime_error("determinant was zero");
 				}
 
@@ -705,6 +840,9 @@ namespace mstd {
 			res *= other;
 			return res;
 		}
+		friend static mat<C, R, T> operator*(const T& other, const mat<C, R, T>& matrix) {
+			return matrix * other;
+		}
 		mat<C, R, T> operator/(const T& other) const {
 			mat<C, R, T> res = *this;
 			res /= other;
@@ -719,11 +857,6 @@ namespace mstd {
 				}
 			}
 			return res;
-		}
-
-		template<class = std::enable_if_t<(C > 1)>>
-		vec<R, T> operator*(const vec<C - 1, T>& other) const {
-			return (*this) * vec<C, T>(other, 1);
 		}
 
 		mat<C, R, T> operator+() const {

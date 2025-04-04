@@ -9,6 +9,8 @@
 
 #pragma once
 #include "overflow_operations.hpp"
+#include "math_functions.hpp"
+#include "bit_operations.hpp"
 #include "vec.hpp"
 #include "quat.hpp"
 #include "mat.hpp"

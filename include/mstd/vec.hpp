@@ -92,7 +92,7 @@ namespace mstd {
 #pragma region CONSTRUCTORS
 		// vecN()
 		vec() {
-			_fill_values(0);
+			_fill_values(T(0));
 		}
 
 		// vecN(x, y, ...)
@@ -162,7 +162,7 @@ namespace mstd {
 		}
 		static vec<N, T> one() {
 			vec<N, T> res;
-			res._fill_values(1);
+			res._fill_values(T(1));
 			return res;
 		}
 		static vec<N, T> fill(const T& value) {
@@ -171,6 +171,29 @@ namespace mstd {
 			return res;
 		}
 #pragma endregion // PREDEFINED
+
+#pragma region PREDEFINED_CHECKS
+		bool is_zero() const {
+			return is_filled_with(T(0));
+		}
+
+		bool is_one() const {
+			return is_filled_with(T(1));
+		}
+
+		bool is_filled_with(const T& value) {
+			for (size_t i = 0; i != N; ++i) {
+				if (_values[i] != value) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		bool is_normalized() const {
+			return length() == T(1);
+		}
+#pragma endregion // PREDEFINED_CHECKS
 
 #pragma region VECTOR_GETTERS
 		T& x() {
@@ -247,6 +270,110 @@ namespace mstd {
 			}
 
 			return std::acos(dot(other) / (this_len * other_len));
+		}
+
+		vec<N, T>& reflect(const vec<N, T>& other) noexcept {
+			float dotProduct = this->dot(other);
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] -= 2.0f * dotProduct * other[i];
+			}
+			return *this;
+		}
+
+		vec<N, T> reflected(const vec<N, T>& other) const noexcept {
+			vec<N, T> res = *this;
+			return res.reflect(other);
+		}
+
+		vec<N, T>& refract(const vec<N, T>& other, const T& eta) {
+			float N_dot_I = other.dot(*this);
+			float k = 1.f - (float)eta * (float)eta * (1.f - N_dot_I * N_dot_I);
+			for (size_t i = 0; i != N; ++i) {
+				if (k >= 0.f) {
+					_values[i] = T((float)eta * (float)_values[i] - ((float)eta * N_dot_I + sqrtf(k)) * (float)other[i]);
+				}
+				else {
+					_values[i] = T(0);
+				}
+			}
+			return *this;
+		}
+
+		vec<N, T> refracted(const vec<N, T>& other, const T& eta) const {
+			vec<N, T> res = *this;
+			return res.refract(other, eta);
+		}
+
+		vec<N, T>& saturate() noexcept {
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] = saturate(_values[i]);
+			}
+			return *this;
+		}
+
+		vec<N, T> saturated() const noexcept {
+			vec<N, T> res = *this;
+			return res.saturate();
+		}
+
+		vec<N, T>& fract() noexcept {
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] = fract(_values[i]);
+			}
+			return *this;
+		}
+
+		vec<N, T> fracted() const noexcept {
+			vec<N, T> res = *this;
+			return res.fract();
+		}
+
+		vec<N, T>& mod(const T& y) {
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] -= y * std::floor(_values[i] / y);
+			}
+			return *this;
+		}
+
+		vec<N, T> modded(const T& y) const {
+			vec<N, T> res = *this;
+			return res.mod(y);
+		}
+
+		vec<N, T>& mod(const vec<N, T>& other) {
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] -= other[i] * std::floor(_values[i] / other[i]);
+			}
+			return *this;
+		}
+
+		vec<N, T> modded(const vec<N, T>& other) const {
+			vec<N, T> res = *this;
+			return res.mod(other);
+		}
+		
+		vec<N, T>& pow(const T& y) {
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] = std::pow(_values[i], y);
+			}
+			return *this;
+		}
+
+		vec<N, T> powed(const T& y) const {
+			vec<N, T> res = *this;
+			return res.pow(y);
+		}
+
+		vec<N, T>& pow(const vec<N, T>& other) {
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] = std::pow(_values[i], other[i]);
+			}
+			return *this;
+		}
+
+		vec<N, T> powed(const vec<N, T>& other) const {
+			vec<N, T> res = *this;
+			return res.pow(other);
 		}
 
 #pragma region VECTOR_3_OPERATIONS
@@ -373,6 +500,9 @@ namespace mstd {
 			res *= other;
 			return res;
 		}
+		friend static vec<N, T> operator*(const T& other, const vec<N, T>& vector) {
+			return vector * other;
+		}
 		vec<N, T> operator/(const T& other) const {
 			vec<N, T> res = *this;
 			res /= other;
@@ -435,15 +565,123 @@ namespace mstd {
 #pragma endregion // OPERATORS
 	};
 
+#pragma region EXTRA_OPERATORS
+	template<class T, size_t N>
+	static vec<N, T> max(const vec<N, T>& a, const vec<N, T>& b) noexcept {
+		vec<N, T> res;
+		for (size_t i = 0; i != N; ++i) {
+			res[i] = std::max(a[i], b[i]);
+		}
+		return res;
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> min(const vec<N, T>& a, const vec<N, T>& b) noexcept {
+		vec<N, T> res;
+		for (size_t i = 0; i != N; ++i) {
+			res[i] = std::min(a[i], b[i]);
+		}
+		return res;
+	}
+
+	template<class T, size_t N>
+	static T dot(const vec<N, T>& a, const vec<N, T>& b) {
+		return a.dot(b);
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> cross(const vec<N, T>& a, const vec<N, T>& b) {
+		return a.cross(b);
+	}
+	
+	template<class T, size_t N>
+	static T angle_between(const vec<N, T>& a, const vec<N, T>& b) {
+		return a.angle_between(b);
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> reflect(const vec<N, T>& a, const vec<N, T>& b) {
+		return a.reflected(b);
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> refract(const vec<N, T>& a, const vec<N, T>& b) {
+		return a.refracted(b);
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> saturate(const vec<N, T>& a) {
+		return a.saturated();
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> fract(const vec<N, T>& a) {
+		return a.fracted();
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> mod(const vec<N, T>& a, const T& y) {
+		return a.modded(y);
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> mod(const vec<N, T>& a, const vec<N, T>& b) {
+		return a.modded(b);
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> pow(const vec<N, T>& a, const T& y) {
+		return a.powed(y);
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> pow(const vec<N, T>& a, const vec<N, T>& b) {
+		return a.powed(b);
+	}
+#pragma endregion // EXTRA_OPERATORS
+
 #pragma region PREDEFINED_TYPES
 	using vec2 = vec<2ull, float>;
 	using dvec2 = vec<2ull, double>;
+	using ldvec2 = vec<2ull, long double>;
+	using ivec2 = vec<2ull, int>;
+	using uvec2 = vec<2ull, unsigned int>;
+	using bvec2 = vec<2ull, bool>;
+	using cvec2 = vec<2ull, char>;
+	using ucvec2 = vec<2ull, unsigned char>;
+	using scvec2 = vec<2ull, signed char>;
+	using lvec2 = vec<2ull, long>;
+	using ulvec2 = vec<2ull, unsigned long>;
+	using llvec2 = vec<2ull, long long>;
+	using ullvec2 = vec<2ull, unsigned long long>;
 
 	using vec3 = vec<3ull, float>;
 	using dvec3 = vec<3ull, double>;
+	using ldvec3 = vec<3ull, long double>;
+	using ivec3 = vec<3ull, int>;
+	using uvec3 = vec<3ull, unsigned int>;
+	using bvec3 = vec<3ull, bool>;
+	using cvec3 = vec<3ull, char>;
+	using ucvec3 = vec<3ull, unsigned char>;
+	using scvec3 = vec<3ull, signed char>;
+	using lvec3 = vec<3ull, long>;
+	using ulvec3 = vec<3ull, unsigned long>;
+	using llvec3 = vec<3ull, long long>;
+	using ullvec3 = vec<3ull, unsigned long long>;
 
 	using vec4 = vec<4ull, float>;
 	using dvec4 = vec<4ull, double>;
+	using ldvec4 = vec<4ull, long double>;
+	using ivec4 = vec<4ull, int>;
+	using uvec4 = vec<4ull, unsigned int>;
+	using bvec4 = vec<4ull, bool>;
+	using cvec4 = vec<4ull, char>;
+	using ucvec4 = vec<4ull, unsigned char>;
+	using scvec4 = vec<4ull, signed char>;
+	using lvec4 = vec<4ull, long>;
+	using ulvec4 = vec<4ull, unsigned long>;
+	using llvec4 = vec<4ull, long long>;
+	using ullvec4 = vec<4ull, unsigned long long>;
 #pragma endregion // PREDEFINED_TYPES
 }
 
