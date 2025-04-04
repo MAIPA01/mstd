@@ -327,6 +327,27 @@ namespace mstd {
 				scale(const T& scale_factor) {
 				return mat<C, R, T>::fill_identity(scale_factor);
 			}
+			
+#pragma region PREDEFINED_MATRIX_3x3
+			template<class = std::enable_if_t<(C == R && C == 3)>>
+			static mat<C, R, T> screen(const T& left, const T& right, const T& bottom, const T& top, const T& width, const T& height) {
+				const T& inv_bt = 1.0 / (bottom - top);
+				const T& inv_rl = 1.0 / (right - left);
+
+				mat<C, R, T> res = mat<C, R, T>::zero();
+				res[0][0] = width * inv_rl;
+				res[2][0] = -width * left * inv_rl;
+				res[1][1] = height * inv_bt;
+				res[2][1] = -height * top * inv_bt;
+				return res;
+			}
+
+			template<class = std::enable_if_t<(C == R && C == 3)>>
+			static mat<C, R, T> symetric_screen(const T& right, const T& top, const T& width, const T& height) {
+				return screen(-right, right, -top, top, width, height);
+			}
+
+#pragma endregion // PREDEFINED_MATRIX_3x3
 
 #pragma region PREDEFINED_MATRIX_4x4
 			template<class = std::enable_if_t<(C == R && C == 4)>>
@@ -400,12 +421,16 @@ namespace mstd {
 				const T& res_left = T(-1), const T& res_right = T(1), const T& res_bottom = T(-1), const T& res_top = T(1),
 				const T& res_near = T(-1), const T& res_far = T(1)) {
 
-				const T& x_dir = right > left ? T(1) : T(-1);
-				const T& y_dir = top > bottom ? T(1) : T(-1);
-				const T& z_dir = -(x_dir * y_dir);
+				if (right == left) throw std::runtime_error("right cannot be equal left");
+				if (top == bottom) throw std::runtime_error("top cannot be equal bottom");
 
 				const T& abs_near = std::abs(near);
 				const T& abs_far = std::abs(far);
+				if (abs_near == abs_far) throw std::runtime_error("absolute of near cannot be equal absolute of far");
+
+				const T& x_dir = right > left ? T(1) : T(-1);
+				const T& y_dir = top > bottom ? T(1) : T(-1);
+				const T& z_dir = -(x_dir * y_dir);
 
 				const T& inv_rl = 1.f / (right - left);
 				const T& inv_tb = 1.f / (top - bottom);
@@ -440,6 +465,8 @@ namespace mstd {
 				T right;
 				T top;
 				if (vertical_fov) {
+					if (aspect == T(0)) throw std::runtime_error("aspect was zero");
+					
 					right = std::tan(fov * 0.5) * abs_near;
 					top = right / aspect;
 				}
@@ -448,8 +475,8 @@ namespace mstd {
 					right = top * aspect;
 				}
 
-				return frustrum(right_pos_x ? right : -right, top_pos_y ? top : -top, abs_near, abs_far,
-					-res_right, res_right, -res_top, res_top, res_near, res_far);
+				return frustrum((right_pos_x ? right : -right), (top_pos_y ? top : -top), abs_near, abs_far,
+					res_right, res_top, res_near, res_far);
 			}
 
 			template<class = std::enable_if_t<(C == R && C == 4)>>
@@ -457,12 +484,16 @@ namespace mstd {
 				const T& far, const T& res_left = T(-1), const T& res_right = T(1), const T& res_bottom = T(-1),
 				const T& res_top = T(1), const T& res_near = T(-1), const T& res_far = T(1)) {
 
-				const T& x_dir = right > left ? T(1) : T(-1);
-				const T& y_dir = top > bottom ? T(1) : T(-1);
-				const T& z_dir = -(x_dir * y_dir);
+				if (right == left) throw std::runtime_error("right cannot be equal left");
+				if (top == bottom) throw std::runtime_error("top cannot be equal bottom");
 
 				const T& abs_near = std::abs(near);
 				const T& abs_far = std::abs(far);
+				if (abs_near == abs_far) throw std::runtime_error("absolute of near cannot be equal absolute of far");
+
+				const T& x_dir = right > left ? T(1) : T(-1);
+				const T& y_dir = top > bottom ? T(1) : T(-1);
+				const T& z_dir = -(x_dir * y_dir);
 
 				const T& inv_rl = 1.0 / (right - left);
 				const T& inv_tb = 1.0 / (top - bottom);
