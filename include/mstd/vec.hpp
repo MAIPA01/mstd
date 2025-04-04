@@ -92,7 +92,7 @@ namespace mstd {
 #pragma region CONSTRUCTORS
 		// vecN()
 		vec() {
-			_fill_values(T(0));
+			_fill_values(0);
 		}
 
 		// vecN(x, y, ...)
@@ -162,7 +162,7 @@ namespace mstd {
 		}
 		static vec<N, T> one() {
 			vec<N, T> res;
-			res._fill_values(T(1));
+			res._fill_values(1);
 			return res;
 		}
 		static vec<N, T> fill(const T& value) {
@@ -455,7 +455,7 @@ namespace mstd {
 			return *this;
 		}
 		vec<N, T>& operator/=(const T& other) {
-			if (other == 0) {
+			if (other == T(0)) {
 				throw std::runtime_error("division by zero");
 			}
 			for (size_t i = 0; i != N; ++i) {

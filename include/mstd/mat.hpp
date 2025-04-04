@@ -616,38 +616,38 @@ namespace mstd {
 			}
 			else if constexpr (R == 3) {
 				T det = 0;
-				if (_values[0][0] != 0) {
+				if (_values[0][0] != T(0)) {
 					det += _values[0][0] * (_values[1][1] * _values[2][2] - _values[2][1] * _values[1][2]);
 				}
-				if (_values[1][0] != 0) {
+				if (_values[1][0] != T(0)) {
 					det += _values[1][0] * (_values[2][1] * _values[0][2] - _values[0][1] * _values[2][2]);
 				}
-				if (_values[2][0] != 0) {
+				if (_values[2][0] != T(0)) {
 					det += _values[2][0] * (_values[0][1] * _values[1][2] - _values[1][1] * _values[0][2]);
 				}
 				return det;
 			}
 			else if constexpr (R == 4) {
 				T det = 0;
-				if (_values[0][0] != 0) {
+				if (_values[0][0] != T(0)) {
 					det += _values[0][0] * 
 						(_values[1][1] * (_values[2][2] * _values[3][3] - _values[3][2] * _values[2][3]) +
 						_values[2][1] * (_values[3][2] * _values[1][3] - _values[1][2] * _values[3][3]) +
 						_values[3][1] * (_values[1][2] * _values[2][3] - _values[2][2] * _values[1][3]));
 				}
-				if (_values[0][1] != 0) {
+				if (_values[0][1] != T(0)) {
 					det -= _values[1][0] *
 						(_values[0][1] * (_values[2][2] * _values[3][3] - _values[3][2] * _values[2][3]) +
 						_values[2][1] * (_values[3][2] * _values[0][3] - _values[0][2] * _values[3][3]) +
 						_values[3][1] * (_values[0][2] * _values[2][3] - _values[2][2] * _values[0][3]));
 				}
-				if (_values[2][0] != 0) {
+				if (_values[2][0] != T(0)) {
 					det += _values[2][0] *
 						(_values[0][1] * (_values[1][2] * _values[3][3] - _values[3][2] * _values[1][3]) +
 						_values[1][1] * (_values[3][2] * _values[0][3] - _values[0][2] * _values[3][3]) +
 						_values[3][1] * (_values[0][2] * _values[1][3] - _values[1][2] * _values[0][3]));
 				}
-				if (_values[3][0] != 0) {
+				if (_values[3][0] != T(0)) {
 					det -= _values[3][0] * 
 						(_values[0][1] * (_values[1][2] * _values[2][3] - _values[2][2] * _values[1][3]) +
 						_values[1][1] * (_values[2][2] * _values[0][3] - _values[0][2] * _values[2][3]) +
@@ -659,7 +659,7 @@ namespace mstd {
 				T det = 0;
 				int sign = 1;
 				for (size_t x = 0; x != C; ++x) {
-					if (_values[x][0] != 0) {
+					if (_values[x][0] != T(0)) {
 						// get sub matrix
 						mat<C - 1, R - 1, T> sub_mat = get_sub_matrix(0, x);
 
@@ -791,7 +791,7 @@ namespace mstd {
 			return *this;
 		}
 		mat<C, R, T>& operator/=(const T& other) {
-			if (other == 0) {
+			if (other == T(0)) {
 				throw std::runtime_error("division by zero");
 			}
 			for (size_t x = 0; x != C; ++x) {

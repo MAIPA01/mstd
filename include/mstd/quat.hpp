@@ -141,6 +141,11 @@ namespace mstd {
 			v = other.v * t + v * other.s + v.cross(other.v);
 			return *this;
 		}
+		quat<T>& operator*=(const vec<3, T>& other) {
+			quat<T> p(T(0), other);
+			*this = p;
+			return *this;
+		}
 		quat<T>& operator*=(const T& other) {
 			s *= other;
 			v *= other;
@@ -170,6 +175,13 @@ namespace mstd {
 		quat<T> operator*(const quat<T>& other) const {
 			quat<T> res = *this;
 			return res *= other;
+		}
+		quat<T> operator*(const vec<3, T>& other) const {
+			quat<T> res = *this;
+			return res *= this;
+		}
+		friend static quat<T> operator*(const vec<3, T>& other, const quat<T>& quaternion) {
+			return quaternion * other;
 		}
 		quat<T> operator*(const T& other) const {
 			quat<T> res = *this;
