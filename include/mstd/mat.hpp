@@ -573,8 +573,8 @@ namespace mstd {
 			}
 
 			template<class = std::enable_if_t<(R > 1 && C > 1)>>
-				mat<R - 1, C - 1, T> get_sub_matrix(const size_t& row_idx, const size_t& col_idx) const {
-				mat<R - 1, C - 1, T> res;
+				mat<C - 1, R - 1, T> get_sub_matrix(const size_t& row_idx, const size_t& col_idx) const {
+				mat<C - 1, R - 1, T> res;
 				for (size_t x = 0, sub_x = 0; x != C; ++x) {
 					if (x == col_idx) continue;
 					size_t sub_y = 0;
@@ -593,8 +593,8 @@ namespace mstd {
 				return res;
 			}
 			template<class = std::enable_if_t<(R > 1)>>
-				mat<R - 1, C, T> get_sub_row_matrix(const size_t& row_idx) const {
-				mat<R - 1, C, T> res;
+				mat<C, R - 1, T> get_sub_row_matrix(const size_t& row_idx) const {
+				mat<C, R - 1, T> res;
 				for (size_t x = 0; x != C; ++x) {
 					size_t sub_y = 0;
 
@@ -611,8 +611,8 @@ namespace mstd {
 				return res;
 			}
 			template<class = std::enable_if_t<(C > 1)>>
-				mat<R, C - 1, T> get_sub_col_matrix(const size_t& col_idx) const {
-				mat<R, C - 1, T> res;
+				mat<C - 1, R, T> get_sub_col_matrix(const size_t& col_idx) const {
+				mat<C - 1, R, T> res;
 				for (size_t x = 0, sub_x = 0; x != C; ++x) {
 					if (x == col_idx) continue;
 
@@ -622,6 +622,35 @@ namespace mstd {
 				}
 				return res;
 			}
+			
+			mat<C, R, T>& clamp(const T& min_val, const T& max_val) {
+				for (size_t x = 0; x != C; ++x) {
+					for (size_t y = 0; y != R; ++y) {
+						_values[x][y] = std::clamp(_values[x][y], min_val, max_val);
+					}
+				}
+				return *this;
+			}
+
+			mat<C, R, T> clampped(const T& min_val, const T& max_val) const {
+				mat<C, R, T> res = *this;
+				return res.clamp(min_val, max_val);
+			}
+
+			mat<C, R, T>& clamp(const mat<C, R, T>& min_val, const mat<C, R, T>& max_val) {
+				for (size_t x = 0; x != C; ++x) {
+					for (size_t y = 0; y != R; ++y) {
+						_values[x][y] = std::clamp(_values[x][y], min_val[x][y], max_val[x][y]);
+					}
+				}
+				return *this;
+			}
+
+			mat<C, R, T> clampped(const mat<C, R, T>& min_val, const mat<C, R, T>& max_val) const {
+				mat<C, R, T> res = *this;
+				return res.clamp(min_val, max_val);
+			}
+			
 #pragma region SQUARE_MATRIX_OPERATIONS
 			template<class = std::enable_if_t<(R == C)>>
 			mat<R, C, T>& transpose() {
@@ -1007,6 +1036,18 @@ namespace mstd {
 #pragma endregion // SQUARE_MATRIX_OPERATORS
 #pragma endregion // OPERATORS
 	};
+
+#pragma region EXTRA_OPERATIONS
+	template<size_t C, size_t R, class T>
+	static mat<C, R, T> clamp(const mat<C, R, T>& a, const T& min_val, const T& max_val) {
+		return a.clampped(min_val, max_val);
+	}
+
+	template<size_t C, size_t R, class T>
+	static mat<C, R, T> clamp(const mat<C, R, T>& a, const mat<C, R, T>& min_val, const mat<C, R, T>& max_val) {
+		return a.clampped(min_val, max_val);
+	}
+#pragma endregion // EXTRA_OPERATIONS
 
 #pragma region PREDEFINED_TYPES
 	using mat3x2 = mat<3, 2, float>;

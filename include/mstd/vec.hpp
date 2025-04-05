@@ -375,6 +375,30 @@ namespace mstd {
 			vec<N, T> res = *this;
 			return res.pow(other);
 		}
+		
+					vec<N, T>& clamp(const T& min_val, const T& max_val) {
+				for (size_t i = 0; i != N; ++i) {
+					_values[i] = std::clamp(_values[i], min_val, max_val);
+				}
+				return *this;
+			}
+
+			vec<N, T> clampped(const T& min_val, const T& max_val) const {
+				vec<N, T> res = *this;
+				return res.clamp(min_val, max_val);
+			}
+
+			vec<N, T>& clamp(const vec<N, T>& min_val, const vec<N, T>& max_val) {
+				for (size_t i = 0; i != N; ++i) {
+					_values[i] = std::clamp(_values[i], min_val[i], max_val[i]);
+				}
+				return *this;
+			}
+
+			vec<N, T> clampped(const vec<N, T>& min_val, const vec<N, T>& max_val) const {
+				vec<N, T> res = *this;
+				return res.clamp(min_val, max_val);
+			}
 
 #pragma region VECTOR_3_OPERATIONS
 		template<class = std::enable_if_t<(N == 3)>>
@@ -637,6 +661,16 @@ namespace mstd {
 	template<class T, size_t N>
 	static vec<N, T> pow(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.powed(b);
+	}
+	
+	template<class T, size_t N>
+	static vec<N, T> clamp(const vec<N, T>& a, const T& min_val, const T& max_val) {
+		return a.clampped(min_val, max_val);
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> clamp(const vec<N, T>& a, const vec<N, T>& min_val, const vec<N, T>& max_val) {
+		return a.clampped(min_val, max_val);
 	}
 #pragma endregion // EXTRA_OPERATORS
 
