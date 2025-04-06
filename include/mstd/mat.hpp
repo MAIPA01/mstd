@@ -436,13 +436,13 @@ namespace mstd {
 				const T& inv_tb = 1.f / (top - bottom);
 				const T& inv_fn = 1.f / (abs_far - abs_near);
 
-				mat<C, R, T> res = mat<C, R, T>::zero();
+				mat<C, R, T> res;
 				res[0][0] = (res_right - res_left) * abs_near * inv_rl;
 				res[2][0] = (res_left * right - res_right * left) * z_dir * inv_rl;
 				res[1][1] = (res_top - res_bottom) * abs_near * inv_tb;
 				res[2][1] = (res_bottom * top - res_top * bottom) * z_dir * inv_tb;
-				res[2][2] = (res_far - res_near) * z_dir * inv_fn;
-				res[3][2] = (res_near * abs_far - res_far * abs_near) * inv_fn;
+				res[2][2] = (res_far * abs_far - res_near * abs_near) * z_dir * inv_fn;
+				res[3][2] = (res_near - res_far) * abs_near * abs_far * inv_fn;
 				res[2][3] = z_dir;
 				return res;
 			}
@@ -499,14 +499,14 @@ namespace mstd {
 				const T& inv_tb = 1.0 / (top - bottom);
 				const T& inv_fn = 1.0 / (abs_far - abs_near);
 
-				mat<C, R, T> res = mat<C, R, T>::zero();
+				mat<C, R, T> res;
 				res[0][0] = (res_right - res_left) * inv_rl;
 				res[3][0] = (res_left * right - res_right * left) * inv_rl;
 				res[1][1] = (res_top - res_bottom) * inv_tb;
 				res[3][1] = (res_bottom * top - res_top * bottom) * inv_tb;
 				res[2][2] = (res_far - res_near) * z_dir * inv_fn;
 				res[3][2] = (res_near * abs_far - res_far * abs_near) * inv_fn;
-				res[2][3] = z_dir;
+				res[3][3] = 1;
 				return res;
 			}
 
