@@ -22,6 +22,97 @@ namespace mstd {
 			using column_type = vec<R, T>;
 			using row_type = vec<C, T>;
 
+			class mat_column {
+			private:
+				mat<C, R, T>* _parent;
+				size_t _column;
+
+			public:
+				mat_column(mat<C, R, T>* parent, size_t column) : _parent(parent), _column(column) {}
+				mat_column(const mat_column& other) : _parent(other._parent), _column(other._column) {}
+
+				mat_column& operator=(const mat_column& other) {
+					for (size_t y = 0; y != R; ++y) {
+						_parent->_values[_column][y] = other[y];
+					}
+					return *this;
+				}
+				mat_column& operator=(const vec<R, T>& other) {
+					for (size_t y = 0; y != R; ++y) {
+						_parent->_values[_column][y] = other[y];
+					}
+					return *this;
+				}
+
+				bool operator==(const mat_column& other) const {
+					for (size_t y = 0; y != R; ++y) {
+						if (_parent->_values[_column][y] != other[y]) {
+							return false;
+						}
+					}
+					return true;
+				}
+				bool operator!=(const mat_column& other) const {
+					return !this->operator==(other);
+				}
+
+				T& operator[](const size_t& idx) {
+					return _parent->_values[_column][idx];
+				}
+				T operator[](const size_t& idx) const {
+					return _parent->_values[_column][idx];
+				}
+				
+				operator const T* () const {
+					return _parent->_values[_column];
+				}
+				operator vec<R, T>() const {
+					vec<R, T> res;
+					for (size_t y = 0; y != R; ++y) {
+						res[y] = _parent->_values[_column][y];
+					}
+					return res;
+				}
+			};
+
+			class const_mat_column {
+			private:
+				const mat<C, R, T>* _parent;
+				size_t _column;
+
+			public:
+				const_mat_column(const mat<C, R, T>* parent, size_t column) : _parent(parent), _column(column) {}
+				const_mat_column(const mat_column& other) : _parent(other._parent), _column(other._column) {}
+				const_mat_column(const const_mat_column& other) : _parent(other._parent), _column(other._column) {}
+
+				bool operator==(const mat_column& other) const {
+					for (size_t y = 0; y != R; ++y) {
+						if (_parent->_values[_column][y] != other[y]) {
+							return false;
+						}
+					}
+					return true;
+				}
+				bool operator!=(const mat_column& other) const {
+					return !this->operator==(other);
+				}
+
+				T operator[](const size_t& idx) const {
+					return _parent->_values[_column][idx];
+				}
+
+				operator const T* () const {
+					return _parent->_values[_column];
+				}
+				operator vec<R, T>() const {
+					vec<R, T> res;
+					for (size_t y = 0; y != R; ++y) {
+						res[y] = _parent->_values[_column][y];
+					}
+					return res;
+				}
+			};
+
 		private:
 			T _values[C][R] = {};
 
@@ -449,7 +540,7 @@ namespace mstd {
 
 			// left = -right, bottom = -top
 			template<class = std::enable_if_t<(C == R && C == 4)>>
-			static mat<C, R, T> frustrum(const T& right, const T& top, const T& near, const T& far, const T& res_right = T(1),
+			static mat<C, R, T> symetric_frustrum(const T& right, const T& top, const T& near, const T& far, const T& res_right = T(1),
 				const T& res_top = T(1), const T& res_near = T(-1), const T& res_far = T(1)) {
 				return frustrum(-right, right, -top, top, near, far, -res_right, res_right, -res_top, res_top, res_near, res_far);
 			}
@@ -511,10 +602,25 @@ namespace mstd {
 			}
 
 			template<class = std::enable_if_t<(C == R && C == 4)>>
-			static mat<C, R, T> ortographic(const T& right, const T& top, const T& near,
+			static mat<C, R, T> symetric_ortographic(const T& right, const T& top, const T& near,
 				const T& far, const T& res_right = T(1), const T& res_top = T(1), const T& res_near = T(-1),
 				const T& res_far = T(1)) {
 				return ortographic(-right, right, -top, top, near, far, -res_right, res_right, -res_top, res_top, res_near, res_far);
+			}
+			
+			template<class = std::enable_if_t<(C == R && C == 4)>>
+			static mat<C, R, T> view(const vec3& eye, const vec3& center, const vec3& up) {
+				vec3 f = (center - eye).normalize();
+				vec3 norm_up = up.normalized();
+				vec3 s = f.cross(up);
+				vec3 u = s.cross(f);
+
+				mat<C, R, T> res;
+				res[0] = vec4(s[0], u[0], -f[0], T(0));
+				res[1] = vec4(s[1], u[1], -f[1], T(0));
+				res[2] = vec4(s[2], u[2], -f[2], T(0));
+				res[3] = vec4(-eye[0], -eye[1], -eye[2], T(1));
+				return res;
 			}
 #pragma endregion // PREDEFINED_MATRIX_4x4
 #pragma endregion // PREDEFINED_SQUARE_MATRIX
@@ -965,11 +1071,11 @@ namespace mstd {
 				return _values;
 			}
 
-			T* operator[](const size_t& idx) {
-				return _values[idx];
+			mat_column operator[](const size_t& idx) {
+				return mat_column(this, idx);
 			}
-			const T* operator[](const size_t& idx) const {
-				return _values[idx];
+			const const_mat_column operator[](const size_t& idx) const {
+				return const_mat_column(this, idx);
 			}
 
 			friend static std::ostream& operator<<(std::ostream& str, const mat<C, R, T>& matrix) {
