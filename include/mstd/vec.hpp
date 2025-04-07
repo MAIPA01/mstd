@@ -181,7 +181,7 @@ namespace mstd {
 			return is_filled_with(T(1));
 		}
 
-		bool is_filled_with(const T& value) {
+		bool is_filled_with(const T& value) const {
 			for (size_t i = 0; i != N; ++i) {
 				if (_values[i] != value) {
 					return false;
@@ -414,9 +414,10 @@ namespace mstd {
 		vec<N, T>& rotate(const T& radians, const vec<N, T>& axis) {
 			const quat<T> p(T(0), (*this));
 
-			const vec<N, T>& norm_axis = axis.normalized();
+			vec<N, T> norm_axis = axis;
+			if (!norm_axis.is_zero()) norm_axis.normalize();
 
-			const quat<T>& q = quat<T>(radians, norm_axis).to_rotation_quaternion();
+			const quat<T>& q = quat<T>::rotation(radians, norm_axis);
 
 			const quat<T>& invers_q = q.inverted();
 

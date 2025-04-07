@@ -26,6 +26,10 @@ namespace mstd {
 		quat() : s(0), v() {}
 		quat(const T& scalar, const vec<3, T>& vector) : s(scalar), v(vector) {}
 		quat(const T& scalar, const T& x, const T& y, const T& z) : s(scalar), v(x, y, z) {}
+		quat(const vec<3, T>& euler_angles) : s(deg_to_rad(euler_angles.length())), 
+			v(euler_angles.is_zero() ? euler_angles : euler_angles.normalized()) {
+			to_rotation_quaternion();
+		}
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
 		quat(const quat<OT>& other) : s(other.s), v(other.v) {}
 #pragma endregion // CONSTRUCTORS
@@ -43,6 +47,25 @@ namespace mstd {
 		}
 #pragma endregion // ASSIGN
 
+#pragma region PREDEFINED_QUATERNIONS
+		static quat<T> rotation(const vec<3, T>& axis, const T& radians) {
+			if (!axis.is_zero()) {
+				return quat<T>(std::cos(radians * 0.5), axis.normalized() * std::sin(radians * 0.5));
+			}
+			else {
+				return quat<T>(std::cos(radians * 0.5), axis);
+			}
+		}
+
+		static quat<T> from_euler_angels(const vec<3, T>& euler_angels) {
+			return from_radians({ deg_to_rad(euler_angels[0]), deg_to_rad(euler_angels[1]), deg_to_rad(euler_angels[2]) });
+		}
+
+		static quat<T> from_radians(const vec<3, T>& radians) {
+			return rotation(radians.is_zero() ? radians : radians.normalized(), radians.length());
+		}
+#pragma endregion // PREDEFINED_QUATERNIONS
+
 #pragma region QUATERNION_OPERATIONS
 		T magnitude() const {
 			return std::sqrt(s * s + v.dot(v));
@@ -56,17 +79,6 @@ namespace mstd {
 		quat<T> normalized() const {
 			quat<T> res = *this;
 			return res.normalize();
-		}
-
-		quat<T>& to_rotation_quaternion() {
-			T angle = s;
-			s = std::cos(angle * 0.5);
-			v = v.normalized() * std::sin(angle * 0.5);
-			return *this;
-		}
-		quat<T> as_rotation_quaternion() const {
-			quat<T> res = *this;
-			return res.to_rotation_quaternion();
 		}
 
 		quat<T>& conjugate() {
@@ -95,7 +107,7 @@ namespace mstd {
 			return res.invert();
 		}
 
-		vec<3, T> to_euler_angles() const {
+		vec<3, T> to_radians() const {
 			vec<3, T> res;
 			quat<T> q = *this;
 
@@ -116,6 +128,14 @@ namespace mstd {
 			T cosz_cosp = 1.0 - 2.0 * (q.v[1] * q.v[1] + q.v[2] * q.v[2]);
 			res[2] = std::atan2(sinz_cosp, cosz_cosp);
 
+			return res;
+		}
+		
+		vec<3, T> to_euler_angles() const {
+			vec<3, T> res = to_radians();
+			res[0] = rad_to_deg(res[0]);
+			res[1] = rad_to_deg(res[1]);
+			res[2] = rad_to_deg(res[2]);
 			return res;
 		}
 

@@ -484,26 +484,56 @@ namespace mstd {
 			}
 
 			template<class = std::enable_if_t<(C == R && C == 4)>>
-			static mat<C, R, T>	rot(const T& radians, const vec<R - 1, T>& axis) {
-				const vec<R - 1, T>& normAxis = axis.normalized();
-
+			static mat<C, R, T>	rot(const vec<R - 1, T>& axis, const T& radians) {
 				const T& sinA = (T)std::sin(radians);
 				const T& cosA = (T)std::cos(radians);
 				const T& oneMinCosA = T(1) - cosA;
 
+				vec<R - 1, T> norm_axis = axis;
+				if (!norm_axis.is_zero()) norm_axis.normalize();
+
 				mat<C, R, T> res = mat<C, R, T>::identity();
-				res[0][0] = (normAxis[0] * normAxis[0]) + cosA * (1 - (normAxis[0] * normAxis[0]));
-				res[0][1] = (normAxis[0] * normAxis[1]) * oneMinCosA - sinA * normAxis[2];
-				res[0][2] = (normAxis[0] * normAxis[2]) * oneMinCosA - sinA * normAxis[1];
+				res[0][0] = (norm_axis[0] * norm_axis[0]) + cosA * (1 - (norm_axis[0] * norm_axis[0]));
+				res[0][1] = (norm_axis[0] * norm_axis[1]) * oneMinCosA - sinA * norm_axis[2];
+				res[0][2] = (norm_axis[0] * norm_axis[2]) * oneMinCosA - sinA * norm_axis[1];
 
-				res[1][0] = (normAxis[0] * normAxis[1]) * oneMinCosA + sinA * normAxis[2];
-				res[1][1] = (normAxis[1] * normAxis[1]) + cosA * (1 - (normAxis[1] * normAxis[1]));
-				res[1][2] = (normAxis[1] * normAxis[2]) * oneMinCosA - sinA * normAxis[0];
+				res[1][0] = (norm_axis[0] * norm_axis[1]) * oneMinCosA + sinA * norm_axis[2];
+				res[1][1] = (norm_axis[1] * norm_axis[1]) + cosA * (1 - (norm_axis[1] * norm_axis[1]));
+				res[1][2] = (norm_axis[1] * norm_axis[2]) * oneMinCosA - sinA * norm_axis[0];
 
-				res[2][0] = (normAxis[0] * normAxis[2]) * oneMinCosA - sinA * normAxis[1];
-				res[2][1] = (normAxis[1] * normAxis[2]) * oneMinCosA + sinA * normAxis[0];
-				res[2][2] = (normAxis[2] * normAxis[2]) + cosA * (1 - (normAxis[2] * normAxis[2]));
+				res[2][0] = (norm_axis[0] * norm_axis[2]) * oneMinCosA - sinA * norm_axis[1];
+				res[2][1] = (norm_axis[1] * norm_axis[2]) * oneMinCosA + sinA * norm_axis[0];
+				res[2][2] = (norm_axis[2] * norm_axis[2]) + cosA * (1 - (norm_axis[2] * norm_axis[2]));
 
+				return res;
+			}
+
+			template<class = std::enable_if_t<(C == R && C == 4)>>
+			static mat<C, R, T> rot(const quat<T>& quaternion) {
+				const T& s2 = quaternion.s * quaternion.s;
+				const T& x2 = quaternion.v[0] * quaternion.v[0];
+				const T& y2 = quaternion.v[1] * quaternion.v[1];
+				const T& z2 = quaternion.v[2] * quaternion.v[2];
+
+				const T& sx = quaternion.s * quaternion.v[0];
+				const T& sy = quaternion.s * quaternion.v[1];
+				const T& sz = quaternion.s * quaternion.v[2];
+				const T& xy = quaternion.v[0] * quaternion.v[1];
+				const T& xz = quaternion.v[0] * quaternion.v[2];
+				const T& yz = quaternion.v[1] * quaternion.v[2];
+
+				mat<C, R, T> res = mat<C, R, T>::identity();
+				res[0][0] = 1.f - 2.f * (y2 + z2);
+				res[1][0] = 2.f * (xy - sz);
+				res[2][0] = 2.f * (xz + sy);
+
+				res[0][1] = 2.f * (xy + sz);
+				res[1][1] = 1.f - 2.f * (x2 + z2);
+				res[2][1] = 2.f * (yz - sx);
+
+				res[0][2] = 2.f * (xz - sy);
+				res[1][2] = 2.f * (yz + sx);
+				res[2][2] = 1.f - 2.f * (x2 + y2);
 				return res;
 			}
 
@@ -547,7 +577,7 @@ namespace mstd {
 
 			template<class = std::enable_if_t<(C == R && C == 4)>>
 			static mat<C, R, T> perspective(const T& fov, const T& aspect, const T& near, const T& far, bool right_pos_x = true,
-				bool top_pos_y = true, bool vertical_fov = true, const T& res_right = T(1), const T& res_top = T(1),
+				bool top_pos_y = true, bool horizontal_fov = true, const T& res_right = T(1), const T& res_top = T(1),
 				const T& res_near = T(-1), const T& res_far = T(1)) {
 
 				const T& abs_near = std::abs(near);
@@ -555,7 +585,7 @@ namespace mstd {
 
 				T right;
 				T top;
-				if (vertical_fov) {
+				if (horizontal_fov) {
 					if (aspect == T(0)) throw std::runtime_error("aspect was zero");
 					
 					right = std::tan(fov * 0.5) * abs_near;
