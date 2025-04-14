@@ -14,23 +14,28 @@
 #include "vec.hpp"
 
 namespace mstd {
+#if _HAS_CXX20
+	template<arithmetic T>
+#else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool>>
+#endif
 	class quat {
 	public:
 		using value_type = T;
+		using vec_type = vec<3ull, T>;
 
 		T s;
-		vec<3, T> v;
+		vec_type v;
 
 #pragma region CONSTRUCTORS
 		quat() : s(0), v() {}
-		quat(const T& scalar, const vec<3, T>& vector) : s(scalar), v(vector) {}
+		quat(const T& scalar, const vec_type& vector) : s(scalar), v(vector) {}
 		quat(const T& scalar, const T& x, const T& y, const T& z) : s(scalar), v(x, y, z) {}
-		quat(const vec<3, T>& euler_angles) : s(deg_to_rad(euler_angles.length())), 
-			v(euler_angles.is_zero() ? euler_angles : euler_angles.normalized()) {
-			to_rotation_quaternion();
-		}
+#if _HAS_CXX20
+		template<arithmetic OT>
+#else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
+#endif
 		quat(const quat<OT>& other) : s(other.s), v(other.v) {}
 #pragma endregion // CONSTRUCTORS
 
@@ -39,29 +44,33 @@ namespace mstd {
 #pragma endregion // DESTRUCTOR
 
 #pragma region ASSIGN
+#if _HAS_CXX20
+		template<arithmetic OT>
+#else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
+#endif
 		quat<T>& operator=(const quat<OT>& other) {
-			s = other.s;
+			s = (T)other.s;
 			v = other.v;
 			return *this;
 		}
 #pragma endregion // ASSIGN
 
 #pragma region PREDEFINED_QUATERNIONS
-		static quat<T> rotation(const vec<3, T>& axis, const T& radians) {
+		static quat<T> rotation(const vec_type& axis, const T& radians) {
 			if (!axis.is_zero()) {
-				return quat<T>(std::cos(radians * 0.5), axis.normalized() * std::sin(radians * 0.5));
+				return quat<T>((T)std::cos(radians * 0.5), axis.normalized() * (T)std::sin(radians * 0.5));
 			}
 			else {
-				return quat<T>(std::cos(radians * 0.5), axis);
+				return quat<T>((T)std::cos(radians * 0.5), axis);
 			}
 		}
 
-		static quat<T> from_euler_angels(const vec<3, T>& euler_angels) {
+		static quat<T> from_euler_angels(const vec_type& euler_angels) {
 			return from_radians({ deg_to_rad(euler_angels[0]), deg_to_rad(euler_angels[1]), deg_to_rad(euler_angels[2]) });
 		}
 
-		static quat<T> from_radians(const vec<3, T>& radians) {
+		static quat<T> from_radians(const vec_type& radians) {
 			return rotation(radians.is_zero() ? radians : radians.normalized(), radians.length());
 		}
 #pragma endregion // PREDEFINED_QUATERNIONS
@@ -107,8 +116,8 @@ namespace mstd {
 			return res.invert();
 		}
 
-		vec<3, T> to_radians() const {
-			vec<3, T> res;
+		vec_type to_radians() const {
+			vec_type res;
 			quat<T> q = *this;
 
 			if (q.magnitude() != T(0)) q.normalize();
@@ -130,9 +139,9 @@ namespace mstd {
 
 			return res;
 		}
-		
-		vec<3, T> to_euler_angles() const {
-			vec<3, T> res = to_radians();
+
+		vec_type to_euler_angles() const {
+			vec_type res = to_radians();
 			res[0] = rad_to_deg(res[0]);
 			res[1] = rad_to_deg(res[1]);
 			res[2] = rad_to_deg(res[2]);
@@ -161,7 +170,7 @@ namespace mstd {
 			v = other.v * t + v * other.s + v.cross(other.v);
 			return *this;
 		}
-		quat<T>& operator*=(const vec<3, T>& other) {
+		quat<T>& operator*=(const vec_type& other) {
 			quat<T> p(T(0), other);
 			*this = p;
 			return *this;
@@ -196,11 +205,11 @@ namespace mstd {
 			quat<T> res = *this;
 			return res *= other;
 		}
-		quat<T> operator*(const vec<3, T>& other) const {
+		quat<T> operator*(const vec_type& other) const {
 			quat<T> res = *this;
-			return res *= this;
+			return res *= other;
 		}
-		friend static quat<T> operator*(const vec<3, T>& other, const quat<T>& quaternion) {
+		friend static quat<T> operator*(const vec_type& other, const quat<T>& quaternion) {
 			return quaternion * other;
 		}
 		quat<T> operator*(const T& other) const {
@@ -239,7 +248,6 @@ namespace mstd {
 		bool operator==(const quat<T>& other) const {
 			return s == other.s && v == other.v;
 		}
-
 		bool operator!=(const quat<T>& other) const {
 			return s != other.s || v != other.v;
 		}

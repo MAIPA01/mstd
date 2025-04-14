@@ -32,7 +32,12 @@ namespace mstd {
 	using make_index_sequence_for_from = decltype(shift_index_sequence<Start>(std::index_sequence_for<Ts...>()));
 #pragma endregion // CONSTEXPR
 
+#if _HAS_CXX20
+	template<size_t N, arithmetic T>
+	requires (N > 0)
+#else
 	template<size_t N, class T, std::enable_if_t<(N > 0 && std::is_arithmetic_v<T>), bool>>
+#endif
 	class vec {
 	public:
 		static constexpr const size_t size = N;
@@ -42,19 +47,32 @@ namespace mstd {
 		T _values[N] = {};
 
 #pragma region PRIVATE_METHODS
+#if _HAS_CXX20
+		template<arithmetic... Ts, size_t... Idxs>
+#else
 		template<class... Ts, size_t... Idxs>
+#endif
 		constexpr void _set_values(const std::index_sequence<Idxs...>&, const Ts&... values) {
 			((_values[Idxs] = (T)values), ...);
 		}
 
 		constexpr void _fill_values(const T& value) {
-			std::fill_n(_values, N, value);
+			std::fill_n(&_values[0], N, value);
 		}
 
+		constexpr void _fill_values_from(size_t first_idx, const T& value) {
+			if (first_idx >= N) return;
+			std::fill_n(&_values[0] + first_idx, N - first_idx, value);
+		}
+
+#if _HAS_CXX20
+		template<arithmetic OT>
+#else
 		template<class OT>
+#endif
 		constexpr void _copy_values_from(const OT*& values, const size_t& size) {
-			if (std::is_same_v<OT, T>) {
-				std::memcpy(_values, values, std::min(N, size) * sizeof(T));
+			if constexpr (std::is_same_v<OT, T>) {
+				std::memcpy(&_values[0], values, std::min(N, size) * sizeof(T));
 			}
 			else {
 				for (size_t i = 0; i != std::min(N, size); ++i) {
@@ -62,11 +80,15 @@ namespace mstd {
 				}
 			}
 		}
-		
+
+#if _HAS_CXX20
+		template<size_t TN, arithmetic OT>
+#else
 		template<size_t TN, class OT>
+#endif
 		constexpr void _copy_values_from(const OT(&values)[TN]) {
 			if constexpr (std::is_same_v<T, OT>) {
-				std::memcpy(_values, values, std::min(N, TN) * sizeof(T));
+				std::memcpy(&_values[0], &values[0], std::min(N, TN) * sizeof(T));
 			}
 			else {
 				for (size_t i = 0; i != std::min(N, TN); ++i) {
@@ -75,10 +97,15 @@ namespace mstd {
 			}
 		}
 
+#if _HAS_CXX20
+		template<size_t ON, arithmetic OT>
+		requires (ON > 0)
+#else
 		template<size_t ON, class OT>
+#endif
 		constexpr void _copy_values_from(const vec<ON, OT>& other) {
 			if constexpr (std::is_same_v<OT, T>) {
-				std::memcpy(_values, static_cast<const T*>(other), std::min(N, ON) * sizeof(T));
+				std::memcpy(&_values[0], static_cast<const T*>(other), std::min(N, ON) * sizeof(T));
 			}
 			else {
 				for (size_t i = 0; i != std::min(N, ON); ++i) {
@@ -92,48 +119,79 @@ namespace mstd {
 #pragma region CONSTRUCTORS
 		// vecN()
 		vec() {
-			_fill_values(0);
+			_fill_values(T(0));
 		}
 
 		// vecN(x, y, ...)
-		template<class... Ts, 
-			std::enable_if_t<(sizeof...(Ts) > 0 && sizeof...(Ts) <= N && 
+#if _HAS_CXX20
+		template<arithmetic... Ts>
+		requires (sizeof...(Ts) > 0 && sizeof...(Ts) <= N)
+#else
+		template<class... Ts,
+			std::enable_if_t<(sizeof...(Ts) > 0 && sizeof...(Ts) <= N &&
 				are_all_v<std::is_arithmetic, Ts...>), bool> = true>
-		vec(const Ts&... values) : vec() {
+#endif
+		vec(const Ts&... values) {
 			_set_values<Ts...>(std::index_sequence_for<Ts...>(), values...);
+			_fill_values_from(sizeof...(Ts), 0);
 		}
 
 		// vecN(vec, z, ...)
+#if _HAS_CXX20
+		template<size_t ON, arithmetic OT, arithmetic... Ts>
+		requires (sizeof...(Ts) > 0 && sizeof...(Ts) <= N - ON && ON < N)
+#else
 		template<size_t ON, class OT, class... Ts,
 			std::enable_if_t<(sizeof...(Ts) > 0 && sizeof...(Ts) <= N - ON && ON < N &&
 				are_all_v<std::is_arithmetic, OT, Ts...>), bool> = true>
-		vec(const vec<ON, OT>& other, const Ts&... values) : vec() {
+#endif
+		vec(const vec<ON, OT>& other, const Ts&... values) {
 			_copy_values_from(other);
 			_set_values<Ts...>(make_index_sequence_for_from<ON, Ts...>(), values...);
+			_fill_values_from(sizeof...(Ts) + ON, 0);
 		}
 
 		// vecN({ 1, 2 })
+#if _HAS_CXX20
+		template<size_t TN, arithmetic OT>
+#else
 		template<size_t TN, class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
-		vec(const OT (&values)[TN]) : vec() {
+#endif
+		vec(const OT (&values)[TN]) {
 			_copy_values_from(values);
+			_fill_values_from(TN, 0);
 		}
 
 		// vecN(&table)
+#if _HAS_CXX20
+		template<arithmetic OT>
+#else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
-		vec(const OT* values, const size_t& size) : vec() {
+#endif
+		vec(const OT* values, const size_t& size) {
 			_copy_values_from(values, size);
+			_fill_values_from(size, 0);
 		}
 
 		// vecN(vecON)
+#if _HAS_CXX20
+		template<size_t ON, arithmetic OT>
+#else
 		template<size_t ON, class OT>
-		vec(const vec<ON, OT>& other) : vec() {
+#endif
+		vec(const vec<ON, OT>& other) {
 			_copy_values_from(other);
+			_fill_values_from(ON, 0);
 		}
 
 #pragma region VECTOR_3_CONSTRUCTORS
-		// tylko dla 3
-		template<class AT, class BT, std::enable_if_t<(N == 3 && are_all_v<std::is_arithmetic, AT, BT>), bool> = true>
-		vec(const vec<N, AT>& other_a, const vec<N, BT>& other_b) : vec(other_a.cross(other_b)) {}
+#if _HAS_CXX20
+		template<arithmetic AT, arithmetic BT, size_t ON>
+		requires (ON == 3)
+#else
+		template<class AT, class BT, size_t ON, std::enable_if_t<(ON == 3), bool> = true>
+#endif
+		vec(const vec<ON, AT>& other_a, const vec<ON, BT>& other_b) : vec(other_a.cross(other_b)) {}
 #pragma endregion // VECTOR_3_CONSTRUCTORS
 #pragma endregion // CONSTRUCTORS
 
@@ -142,16 +200,24 @@ namespace mstd {
 #pragma endregion // DESTRUCTOR
 
 #pragma region ASSIGN
+#if _HAS_CXX20
+		template<size_t TN, arithmetic OT>
+#else
 		template<size_t TN, class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
+#endif
 		vec<N, T>& operator=(const OT(&values)[TN]) {
-			_fill_values(0);
 			_copy_values_from(values);
+			_fill_values_from(TN, 0);
 			return *this;
 		}
+#if _HAS_CXX20
+		template<size_t ON, arithmetic OT>
+#else
 		template<size_t ON, class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
+#endif
 		vec<N, T>& operator=(const vec<ON, OT>& other) {
-			_fill_values(0);
 			_copy_values_from(other);
+			_fill_values_from(ON, 0);
 			return *this;
 		}
 #pragma endregion // ASSIGN
@@ -161,9 +227,7 @@ namespace mstd {
 			return vec<N, T>();
 		}
 		static vec<N, T> one() {
-			vec<N, T> res;
-			res._fill_values(1);
-			return res;
+			return fill(T(1));
 		}
 		static vec<N, T> fill(const T& value) {
 			vec<N, T> res;
@@ -203,30 +267,112 @@ namespace mstd {
 			return _values[0];
 		}
 
+		T& r() {
+			return _values[0];
+		}
+		T r() const {
+			return _values[0];
+		}
+
+#if _HAS_CXX20
+		T& y() requires (N > 1) {
+#else
 		template<class = std::enable_if_t<(N > 1)>>
 		T& y() {
+#endif
 			return _values[1];
 		}
+#if _HAS_CXX20
+		T y() const requires (N > 1) {
+#else
 		template<class = std::enable_if_t<(N > 1)>>
 		T y() const {
+#endif
 			return _values[1];
 		}
 
+#if _HAS_CXX20
+		T& g() requires (N > 1) {
+#else
+		template<class = std::enable_if_t<(N > 1)>>
+		T& g() {
+#endif
+			return _values[1];
+		}
+#if _HAS_CXX20
+		T g() const requires (N > 1) {
+#else
+		template<class = std::enable_if_t<(N > 1)>>
+		T g() const {
+#endif
+			return _values[1];
+		}
+			
+#if _HAS_CXX20
+		T& z() requires (N > 2) {
+#else
 		template<class = std::enable_if_t<(N > 2)>>
 		T& z() {
+#endif
 			return _values[2];
 		}
+#if _HAS_CXX20
+		T z() const requires (N > 2) {
+#else
 		template<class = std::enable_if_t<(N > 2)>>
 		T z() const {
+#endif
 			return _values[2];
 		}
 
+#if _HAS_CXX20
+		T& b() requires (N > 2) {
+#else
+		template<class = std::enable_if_t<(N > 2)>>
+		T& b() {
+#endif
+			return _values[2];
+		}
+#if _HAS_CXX20
+		T b() const requires (N > 2) {
+#else
+		template<class = std::enable_if_t<(N > 2)>>
+		T b() const {
+#endif
+			return _values[2];
+		}
+
+#if _HAS_CXX20
+		T& w() requires (N > 3) {
+#else
 		template<class = std::enable_if_t<(N > 3)>>
 		T& w() {
+#endif
 			return _values[3];
 		}
+#if _HAS_CXX20
+		T w() const requires (N > 3) {
+#else
 		template<class = std::enable_if_t<(N > 3)>>
 		T w() const {
+#endif
+			return _values[3];
+		}
+
+#if _HAS_CXX20
+		T& a() requires (N > 3) {
+#else
+		template<class = std::enable_if_t<(N > 3)>>
+		T& a() {
+#endif
+			return _values[3];
+		}
+#if _HAS_CXX20
+		T a() const requires (N > 3) {
+#else
+		template<class = std::enable_if_t<(N > 3)>>
+		T a() const {
+#endif
 			return _values[3];
 		}
 #pragma endregion // VECTOR_GETTERS
@@ -242,6 +388,9 @@ namespace mstd {
 
 		vec<N, T>& normalize() {
 			T len = length();
+			if (len == T(0)) {
+				throw std::runtime_error("length was zero");
+			}
 			*this /= len;
 			return *this;
 		}
@@ -351,7 +500,7 @@ namespace mstd {
 			vec<N, T> res = *this;
 			return res.mod(other);
 		}
-		
+
 		vec<N, T>& pow(const T& y) {
 			for (size_t i = 0; i != N; ++i) {
 				_values[i] = std::pow(_values[i], y);
@@ -375,34 +524,38 @@ namespace mstd {
 			vec<N, T> res = *this;
 			return res.pow(other);
 		}
-		
-					vec<N, T>& clamp(const T& min_val, const T& max_val) {
-				for (size_t i = 0; i != N; ++i) {
-					_values[i] = std::clamp(_values[i], min_val, max_val);
-				}
-				return *this;
-			}
 
-			vec<N, T> clampped(const T& min_val, const T& max_val) const {
-				vec<N, T> res = *this;
-				return res.clamp(min_val, max_val);
+		vec<N, T>& clamp(const T& min_val, const T& max_val) {
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] = std::clamp(_values[i], min_val, max_val);
 			}
+			return *this;
+		}
 
-			vec<N, T>& clamp(const vec<N, T>& min_val, const vec<N, T>& max_val) {
-				for (size_t i = 0; i != N; ++i) {
-					_values[i] = std::clamp(_values[i], min_val[i], max_val[i]);
-				}
-				return *this;
-			}
+		vec<N, T> clampped(const T& min_val, const T& max_val) const {
+			vec<N, T> res = *this;
+			return res.clamp(min_val, max_val);
+		}
 
-			vec<N, T> clampped(const vec<N, T>& min_val, const vec<N, T>& max_val) const {
-				vec<N, T> res = *this;
-				return res.clamp(min_val, max_val);
+		vec<N, T>& clamp(const vec<N, T>& min_val, const vec<N, T>& max_val) {
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] = std::clamp(_values[i], min_val[i], max_val[i]);
 			}
+			return *this;
+		}
+
+		vec<N, T> clampped(const vec<N, T>& min_val, const vec<N, T>& max_val) const {
+			vec<N, T> res = *this;
+			return res.clamp(min_val, max_val);
+		}
 
 #pragma region VECTOR_3_OPERATIONS
+#if _HAS_CXX20
+		vec<N, T> cross(const vec<N, T>& other) const requires (N == 3) {
+#else
 		template<class = std::enable_if_t<(N == 3)>>
 		vec<N, T> cross(const vec<N, T>& other) const {
+#endif
 			return vec<N, T>(
 				_values[1] * other[2] - _values[2] * other[1],
 				_values[2] * other[0] - _values[0] * other[2],
@@ -410,24 +563,32 @@ namespace mstd {
 			);
 		}
 
+#if _HAS_CXX20
+		vec<N, T>& rotate(const vec<N, T>& axis, const T& radians) requires (N == 3) {
+#else
 		template<class = std::enable_if_t<(N == 3)>>
-		vec<N, T>& rotate(const T& radians, const vec<N, T>& axis) {
+		vec<N, T>& rotate(const vec<N, T>& axis, const T& radians) {
+#endif
 			const quat<T> p(T(0), (*this));
 
 			vec<N, T> norm_axis = axis;
 			if (!norm_axis.is_zero()) norm_axis.normalize();
 
-			const quat<T>& q = quat<T>::rotation(radians, norm_axis);
+			const quat<T>& q = quat<T>::rotation(norm_axis, radians);
 
 			const quat<T>& invers_q = q.inverted();
 
 			*this = (q * p * invers_q).v;
 			return *this;
 		}
+#if _HAS_CXX20
+		vec<N, T> rotated(const vec<N, T>& axis, const T& radians) requires (N == 3) {
+#else
 		template<class = std::enable_if_t<(N == 3)>>
-		vec<N, T> rotated(const T& radians, const vec<N, T>& axis) {
+		vec<N, T> rotated(const vec<N, T>& axis, const T& radians) {
+#endif
 			vec<N, T> res = *this;
-			return res.rotate(radians, axis);
+			return res.rotate(axis, radians);
 		}
 #pragma endregion // VECTOR_3_OPERATIONS
 #pragma endregion // VECTOR_OPERTATIONS
@@ -586,7 +747,6 @@ namespace mstd {
 			}
 			return str << "]";
 		}
-
 #pragma endregion // OPERATORS
 	};
 
@@ -614,11 +774,16 @@ namespace mstd {
 		return a.dot(b);
 	}
 
+#if _HAS_CXX20
 	template<class T, size_t N>
+	requires (N == 3)
+#else
+	template<class T, size_t N, std::enable_if_t<(N == 3), bool> = true>
+#endif
 	static vec<N, T> cross(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.cross(b);
 	}
-	
+
 	template<class T, size_t N>
 	static T angle_between(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.angle_between(b);
@@ -630,8 +795,8 @@ namespace mstd {
 	}
 
 	template<class T, size_t N>
-	static vec<N, T> refract(const vec<N, T>& a, const vec<N, T>& b) {
-		return a.refracted(b);
+	static vec<N, T> refract(const vec<N, T>& a, const vec<N, T>& b, const T& eta) {
+		return a.refracted(b, eta);
 	}
 
 	template<class T, size_t N>
@@ -663,7 +828,7 @@ namespace mstd {
 	static vec<N, T> pow(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.powed(b);
 	}
-	
+
 	template<class T, size_t N>
 	static vec<N, T> clamp(const vec<N, T>& a, const T& min_val, const T& max_val) {
 		return a.clampped(min_val, max_val);
