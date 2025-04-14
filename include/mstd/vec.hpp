@@ -421,36 +421,27 @@ namespace mstd {
 			return std::acos(dot(other) / (this_len * other_len));
 		}
 
-		vec<N, T>& reflect(const vec<N, T>& other) noexcept {
-			float dotProduct = this->dot(other);
-			for (size_t i = 0; i != N; ++i) {
-				_values[i] -= 2.0f * dotProduct * other[i];
-			}
+		vec<N, T>& reflect(const vec<N, T>& normal) noexcept {
+			*this -= 2.0f * this->dot(normal) * normal;
 			return *this;
 		}
 
-		vec<N, T> reflected(const vec<N, T>& other) const noexcept {
+		vec<N, T> reflected(const vec<N, T>& normal) const noexcept {
 			vec<N, T> res = *this;
-			return res.reflect(other);
+			return res.reflect(normal);
 		}
 
-		vec<N, T>& refract(const vec<N, T>& other, const T& eta) {
-			float N_dot_I = other.dot(*this);
-			float k = 1.f - (float)eta * (float)eta * (1.f - N_dot_I * N_dot_I);
-			for (size_t i = 0; i != N; ++i) {
-				if (k >= 0.f) {
-					_values[i] = T((float)eta * (float)_values[i] - ((float)eta * N_dot_I + sqrtf(k)) * (float)other[i]);
-				}
-				else {
-					_values[i] = T(0);
-				}
-			}
+		vec<N, T>& refract(const vec<N, T>& normal, const T& eta) {
+			*this = this->refracted(normal, eta);
 			return *this;
 		}
 
-		vec<N, T> refracted(const vec<N, T>& other, const T& eta) const {
-			vec<N, T> res = *this;
-			return res.refract(other, eta);
+		vec<N, T> refracted(const vec<N, T>& normal, const T& eta) const {
+			float cos_theta = std::min(dot(-(*this), normal), 1.0f);
+			vec<N, T> r_out_perp = eta * (*this + cos_theta * normal);
+			float length = r_out_perp.length();
+			vec<N, T> r_out_parallel = -std::sqrt(std::abs(1.0f - length * length)) * normal;
+			return r_out_perp + r_out_parallel;
 		}
 
 		vec<N, T>& saturate() noexcept {
@@ -790,13 +781,13 @@ namespace mstd {
 	}
 
 	template<class T, size_t N>
-	static vec<N, T> reflect(const vec<N, T>& a, const vec<N, T>& b) {
-		return a.reflected(b);
+	static vec<N, T> reflect(const vec<N, T>& dir, const vec<N, T>& normal) {
+		return dir.reflected(normal);
 	}
 
 	template<class T, size_t N>
-	static vec<N, T> refract(const vec<N, T>& a, const vec<N, T>& b, const T& eta) {
-		return a.refracted(b, eta);
+	static vec<N, T> refract(const vec<N, T>& dir, const vec<N, T>& normal, const T& eta) {
+		return dir.refracted(normal, eta);
 	}
 
 	template<class T, size_t N>
