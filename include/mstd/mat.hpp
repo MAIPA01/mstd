@@ -709,11 +709,11 @@ namespace mstd {
 				if (horizontal_fov) {
 					if (aspect == T(0)) throw std::runtime_error("aspect was zero");
 
-					right = std::tan(fov * 0.5) * abs_near;
+					right = (T)std::tan(fov * 0.5) * abs_near;
 					top = right / aspect;
 				}
 				else {
-					top = std::tan(fov * 0.5) * abs_near;
+					top = (T)std::tan(fov * 0.5) * abs_near;
 					right = top * aspect;
 				}
 

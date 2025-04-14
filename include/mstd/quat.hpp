@@ -123,19 +123,19 @@ namespace mstd {
 			if (q.magnitude() != T(0)) q.normalize();
 
 			// roll (x-axis rotation)
-			T sinx_cosp = 2.0 * (q.s * q.v[0] + q.v[1] * q.v[2]);
-			T cosx_cosp = 1.0 - 2.0 * (q.v[0] * q.v[0] + q.v[1] * q.v[1]);
-			res[0] = std::atan2(sinx_cosp, cosx_cosp);
+			T sinx_cosp = (T)(2.0 * (q.s * q.v[0] + q.v[1] * q.v[2]));
+			T cosx_cosp = (T)(1.0 - 2.0 * (q.v[0] * q.v[0] + q.v[1] * q.v[1]));
+			res[0] = (T)std::atan2(sinx_cosp, cosx_cosp);
 
 			// pitch (y-axis rotation)
-			T siny = std::sqrt(1.0 + 2.0 * (q.s * q.v[1] - q.v[0] * q.v[2]));
-			T cosy = std::sqrt(1.0 - 2.0 * (q.s * q.v[1] - q.v[0] * q.v[2]));
-			res[1] = 2.0 * std::atan2(siny, cosy) - M_PI / 2.0;
+			T siny = (T)std::sqrt(1.0 + 2.0 * (q.s * q.v[1] - q.v[0] * q.v[2]));
+			T cosy = (T)std::sqrt(1.0 - 2.0 * (q.s * q.v[1] - q.v[0] * q.v[2]));
+			res[1] = (T)(2.0 * std::atan2(siny, cosy) - M_PI / 2.0);
 
 			// yaw (z-axis rotation)
-			T sinz_cosp = 2.0 * (q.s * q.v[2] + q.v[0] * q.v[1]);
-			T cosz_cosp = 1.0 - 2.0 * (q.v[1] * q.v[1] + q.v[2] * q.v[2]);
-			res[2] = std::atan2(sinz_cosp, cosz_cosp);
+			T sinz_cosp = (T)(2.0 * (q.s * q.v[2] + q.v[0] * q.v[1]));
+			T cosz_cosp = (T)(1.0 - 2.0 * (q.v[1] * q.v[1] + q.v[2] * q.v[2]));
+			res[2] = (T)std::atan2(sinz_cosp, cosz_cosp);
 
 			return res;
 		}
