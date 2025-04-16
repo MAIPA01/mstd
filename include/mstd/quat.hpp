@@ -58,12 +58,15 @@ namespace mstd {
 
 #pragma region PREDEFINED_QUATERNIONS
 		static quat<T> rotation(const vec_type& axis, const T& radians) {
+			quat<T> q;
 			if (!axis.is_zero()) {
-				return quat<T>((T)std::cos(radians * 0.5), axis.normalized() * (T)std::sin(radians * 0.5));
+				q = quat<T>((T)std::cos(radians * 0.5), axis.normalized() * (T)std::sin(radians * 0.5));
 			}
 			else {
-				return quat<T>((T)std::cos(radians * 0.5), axis);
+				q = quat<T>((T)std::cos(radians * 0.5), axis);
 			}
+			if (q.magnitude() != T(0)) q.normalize();
+			return q;
 		}
 
 		static quat<T> from_euler_angels(const vec_type& euler_angels) {
@@ -71,7 +74,14 @@ namespace mstd {
 		}
 
 		static quat<T> from_radians(const vec_type& radians) {
-			return rotation(radians.is_zero() ? radians : radians.normalized(), radians.length());
+			quat<T> qx = rotation(vec_type(T(1), T(0), T(0), radians[0]));
+			quat<T> qy = rotation(vec_type(T(0), T(1), T(0), radians[1]));
+			quat<T> qz = rotation(vec_type(T(0), T(0), T(1), radians[2]));
+
+			// ZYX convention
+			quat<T> q = qz * qy * qx;
+			if (q.magnitude() != T(0)) q.normalize();
+			return q;
 		}
 #pragma endregion // PREDEFINED_QUATERNIONS
 

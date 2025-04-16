@@ -362,8 +362,7 @@ namespace mstd {
 #else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
 #endif
-		mat(const OT* values, const size_t& size)
-		{
+		mat(const OT* values, const size_t& size) {
 			_copy_values_from(values, size);
 			_fill_values_from(size, T(0));
 		}
@@ -524,10 +523,11 @@ namespace mstd {
 			static typename std::enable_if_t<(C == R && R > 1), mat<C, R, T>>
 			scale(const vec<R - 1, T>& scale_vec) {
 #endif
-				mat<C, R, T> res = mat<C, R, T>::identity();
+				mat<C, R, T> res;
 				for (size_t i = 0; i != R - 1; ++i) {
 					res[i][i] = scale_vec[i];
 				}
+				mat[C - 1][R - 1] = T(1);
 				return res;
 			}
 
@@ -631,7 +631,6 @@ namespace mstd {
 
 			template<class = std::enable_if_t<(C == R && C == 4)>>
 			static mat<C, R, T> rot(const quat<T>& quaternion) {
-				const T& s2 = quaternion.s * quaternion.s;
 				const T& x2 = quaternion.v[0] * quaternion.v[0];
 				const T& y2 = quaternion.v[1] * quaternion.v[1];
 				const T& z2 = quaternion.v[2] * quaternion.v[2];
@@ -1073,13 +1072,13 @@ namespace mstd {
 					}
 					else if constexpr (R == 3) {
 						res[0][0] = (_values[1][1] * _values[2][2] - _values[2][1] * _values[1][2]) * invD;
-						res[1][0] = -(_values[1][0] * _values[2][2] - _values[2][0] * _values[1][2]) * invD;
+						res[1][0] = (_values[2][0] * _values[1][2] - _values[1][0] * _values[2][2]) * invD;
 						res[2][0] = (_values[1][0] * _values[2][1] - _values[2][0] * _values[1][1]) * invD;
-						res[0][1] = -(_values[0][1] * _values[2][2] - _values[2][1] * _values[0][2]) * invD;
-						res[1][1] = -(_values[0][0] * _values[2][2] - _values[0][2] * _values[2][0]) * invD;
-						res[2][1] = -(_values[0][0] * _values[1][2] - _values[0][2] * _values[1][0]) * invD;
-						res[0][2] = (_values[0][1] * _values[1][2] - _values[0][2] * _values[1][1]) * invD;
-						res[1][2] = -(_values[0][0] * _values[1][2] - _values[0][2] * _values[1][0]) * invD;
+						res[0][1] = (_values[0][2] * _values[2][1] - _values[0][1] * _values[2][2]) * invD;
+						res[1][1] = (_values[0][0] * _values[2][2] - _values[2][0] * _values[0][2]) * invD;
+						res[2][1] = (_values[2][0] * _values[0][1] - _values[0][0] * _values[2][1]) * invD;
+						res[0][2] = (_values[0][1] * _values[1][2] - _values[1][1] * _values[0][2]) * invD;
+						res[1][2] = (_values[1][0] * _values[0][2] - _values[0][0] * _values[1][2]) * invD;
 						res[2][2] = (_values[0][0] * _values[1][1] - _values[0][1] * _values[1][0]) * invD;
 					}
 					else {
@@ -1105,6 +1104,7 @@ namespace mstd {
 								}
 							}
 						}
+						res.transpose();
 					}
 					return res;
 				}
