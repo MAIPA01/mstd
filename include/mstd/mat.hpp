@@ -527,7 +527,7 @@ namespace mstd {
 				for (size_t i = 0; i != R - 1; ++i) {
 					res[i][i] = scale_vec[i];
 				}
-				mat[C - 1][R - 1] = T(1);
+				res[C - 1][R - 1] = T(1);
 				return res;
 			}
 
