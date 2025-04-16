@@ -74,9 +74,9 @@ namespace mstd {
 		}
 
 		static quat<T> from_radians(const vec_type& radians) {
-			quat<T> qx = rotation(vec_type(T(1), T(0), T(0), radians[0]));
-			quat<T> qy = rotation(vec_type(T(0), T(1), T(0), radians[1]));
-			quat<T> qz = rotation(vec_type(T(0), T(0), T(1), radians[2]));
+			quat<T> qx = rotation(vec_type(T(1), T(0), T(0)), radians[0]);
+			quat<T> qy = rotation(vec_type(T(0), T(1), T(0)), radians[1]);
+			quat<T> qz = rotation(vec_type(T(0), T(0), T(1)), radians[2]);
 
 			// ZYX convention
 			quat<T> q = qz * qy * qx;
