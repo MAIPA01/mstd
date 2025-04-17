@@ -1061,7 +1061,7 @@ namespace mstd {
 						throw std::runtime_error("determinant was zero");
 					}
 
-					T invD = 1.0 / det;
+					T invD = (T)(1.0 / det);
 
 					mat<C, R, T> res;
 					if constexpr (R == 2) {
