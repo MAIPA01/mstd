@@ -76,7 +76,7 @@ namespace mstd {
 			}
 			else {
 				for (size_t i = 0; i != std::min(N, size); ++i) {
-					_values[i] = values[i];
+					_values[i] = (T)values[i];
 				}
 			}
 		}
@@ -92,7 +92,7 @@ namespace mstd {
 			}
 			else {
 				for (size_t i = 0; i != std::min(N, TN); ++i) {
-					_values[i] = values[i];
+					_values[i] = (T)values[i];
 				}
 			}
 		}
@@ -109,7 +109,7 @@ namespace mstd {
 			}
 			else {
 				for (size_t i = 0; i != std::min(N, ON); ++i) {
-					_values[i] = other[i];
+					_values[i] = (T)other[i];
 				}
 			}
 		}
