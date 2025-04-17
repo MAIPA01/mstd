@@ -112,7 +112,7 @@ namespace mstd {
 		quat<T>& invert() {
 			T magnitudes = magnitude();
 			magnitudes *= magnitudes;
-			magnitudes = 1.0 / magnitudes;
+			magnitudes = (T)(1.0 / magnitudes);
 
 			conjugate();
 
