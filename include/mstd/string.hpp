@@ -15,9 +15,14 @@
 namespace mstd {
 	static constexpr std::string trim(const std::string& str) {
 		const std::string::const_iterator & start = 
-			std::find_if_not(str.begin(), str.end(), &std::isspace);
+			std::find_if_not(str.begin(), str.end(), [](unsigned char ch) {
+				return std::isspace(ch);
+			});
+		
 		const std::string::const_iterator& end = 
-			std::find_if_not(str.rbegin(), str.rend(), &std::isspace).base();
+			std::find_if_not(str.rbegin(), str.rend(), [](unsigned char ch) {
+				return std::isspace(ch);
+			}).base();
 
 		return (start < end) ? std::string(start, end) : std::string();
 	}
