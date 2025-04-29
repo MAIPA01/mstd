@@ -8,9 +8,9 @@
  */
 
 #include "mstd_config.hpp"
-#include "functions.hpp"
-#include "arithmetic.hpp"
-#include "containers.hpp"
-#include "terminal.hpp"
 #include "macros.hpp"
-#include "string.hpp"
+#include "../functions/mstd/functions.hpp"
+#include "../arithmetic/mstd/arithmetic.hpp"
+#include "../containers/mstd/containers.hpp"
+#include "../terminal/mstd/terminal.hpp"
+#include "../string/mstd/string.hpp"
