@@ -11,6 +11,7 @@
 
 #pragma once
 #include "arithmetic_types.hpp"
+#include "math_functions.hpp"
 
 namespace mstd {
 #pragma region CONSTEXPR
@@ -540,6 +541,30 @@ namespace mstd {
 			return res.clamp(min_val, max_val);
 		}
 
+		vec<N, T>& step(const T& edge) noexcept {
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] = step(edge, _values[i]);
+			}
+			return *this;
+		}
+
+		vec<N, T>& step(const vec<N, T>& edge) noexcept {
+			for (size_t i = 0; i != N; ++i) {
+				_values[i] = step(edge[i], _values[i]);
+			}
+			return *this;
+		}
+
+		vec<N, T> stepped(const T& edge) const noexcept {
+			vec<N, T> res = *this;
+			return res.step(edge);
+		}
+
+		vec<N, T> stepped(const vec<N, T>& edge) const noexcept {
+			vec<N, T> res = *this;
+			return res.step(edge);
+		}
+
 #pragma region VECTOR_3_OPERATIONS
 #if _HAS_CXX20
 		vec<N, T> cross(const vec<N, T>& other) const requires (N == 3) {
@@ -743,6 +768,16 @@ namespace mstd {
 
 #pragma region EXTRA_OPERATORS
 	template<class T, size_t N>
+	static T length(const vec<N, T>& a) noexcept {
+		return a.length();
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> normalize(const vec<N, T>& a) noexcept {
+		return a.normalized();
+	}
+
+	template<class T, size_t N>
 	static vec<N, T> max(const vec<N, T>& a, const vec<N, T>& b) noexcept {
 		vec<N, T> res;
 		for (size_t i = 0; i != N; ++i) {
@@ -828,6 +863,16 @@ namespace mstd {
 	template<class T, size_t N>
 	static vec<N, T> clamp(const vec<N, T>& a, const vec<N, T>& min_val, const vec<N, T>& max_val) {
 		return a.clampped(min_val, max_val);
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> step(const T& edge, const vec<N, T>& a) {
+		return a.stepped(edge);
+	}
+
+	template<class T, size_t N>
+	static vec<N, T> step(const vec<N, T>& edge, const vec<N, T>& a) {
+		return a.stepped(edge);
 	}
 #pragma endregion // EXTRA_OPERATORS
 

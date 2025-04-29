@@ -21,6 +21,12 @@ namespace mstd {
 	template<class T>
 	concept arithmetic = std::is_arithmetic_v<T>;
 
+	template<class T>
+	concept floating_point = std::is_floating_point_v<T>;
+
+	template<class T>
+	concept integral = std::is_integral_v<T>;
+
 	template<size_t N, arithmetic T>
 	requires (N > 0)
 	class vec;
