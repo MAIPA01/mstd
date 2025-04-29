@@ -9,7 +9,7 @@
 
 #pragma once
 #include "string_types.hpp"
-#include "../../arithmetic/mstd/overflow_operations.hpp"
+#include <mstd/overflow_operations.hpp>
 
 namespace mstd {
 	// 0x0F...
