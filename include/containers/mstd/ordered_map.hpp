@@ -14,7 +14,7 @@ namespace mstd {
     template <class Key, class T>
     class ordered_map {
     private:
-        using _data_type = std::vector<std::pair<const Key, T>>;
+        using _data_type = std::vector<std::pair<Key, T>>;
 
     public:
         using key_type = Key;
