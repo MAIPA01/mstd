@@ -13,16 +13,19 @@
 namespace mstd {
     template <class Key, class T>
     class ordered_map {
+    private:
+        using _data_type = std::vector<std::pair<const Key, T>>;
+
     public:
         using key_type = Key;
         using value_type = T;
-        using iterator = std::vector<std::pair<Key, T>>::iterator;
-        using const_iterator = std::vector<std::pair<Key, T>>::const_iterator;
-        using reverse_iterator = std::vector<std::pair<Key, T>>::reverse_iterator;
-        using const_reverse_iterator = std::vector<std::pair<Key, T>>::const_reverse_iterator;
+        using iterator = _data_type::iterator;
+        using const_iterator = _data_type::const_iterator;
+        using reverse_iterator = _data_type::reverse_iterator;
+        using const_reverse_iterator = _data_type::const_reverse_iterator;
 
     private:
-        std::vector<std::pair<Key, T>> _ordered_elements;
+        _data_type _ordered_elements;
         std::unordered_map<Key, size_t> _elements_map;
 
         void _update_indexes(const size_t& from) {
@@ -38,7 +41,7 @@ namespace mstd {
             insert(this->end(), init.begin(), init.end());
         }
 
-        ordered_map(const ordered_map& other) {
+        ordered_map(const ordered_map<Key, T>& other) {
             insert(this->end(), other.begin(), other.end());
         }
 

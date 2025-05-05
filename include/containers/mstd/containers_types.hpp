@@ -14,6 +14,15 @@ namespace mstd {
 	template<class T>
 	class ordered_set;
 
-	template<class K, class T>
+	template<class Key, class T>
 	class ordered_map;
+
+	template<class Key, class T, template<class, class, class...> class Map = std::map>
+	class bimap;
+
+	template<class Key, class T>
+	using unordered_bimap = bimap<Key, T, std::unordered_map>;
+
+	template<class Key, class T>
+	using ordered_bimap = bimap<Key, T, ordered_map>;
 }
