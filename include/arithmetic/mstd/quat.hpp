@@ -219,14 +219,14 @@ namespace mstd {
 			quat<T> res = *this;
 			return res *= other;
 		}
-		friend static quat<T> operator*(const vec_type& other, const quat<T>& quaternion) {
+		friend quat<T> operator*(const vec_type& other, const quat<T>& quaternion) {
 			return quaternion * other;
 		}
 		quat<T> operator*(const T& other) const {
 			quat<T> res = *this;
 			return res *= other;
 		}
-		friend static quat<T> operator*(const T& other, const quat<T>& quaternion) {
+		friend quat<T> operator*(const T& other, const quat<T>& quaternion) {
 			return quaternion * other;
 		}
 		quat<T> operator/(const quat<T>& other) const {
@@ -262,7 +262,7 @@ namespace mstd {
 			return s != other.s || v != other.v;
 		}
 
-		friend static std::ostream& operator<<(std::ostream& str, const quat<T>& quaternion) {
+		friend std::ostream& operator<<(std::ostream& str, const quat<T>& quaternion) {
 			return str << "(" << std::to_string(quaternion.s) << ", " << quaternion.v << ")";
 		}
 #pragma endregion // OPERATORS
