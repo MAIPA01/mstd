@@ -65,7 +65,7 @@ namespace mstd {
             // get maps iterators
             size_t min_idx = _data.size() - 1;
             if (_map.contains(value.first)) {
-                T& value_idx = _map.at(value.first);
+                size_t value_idx = _map.at(value.first);
 
                 // set min idx
                 if (value_idx < min_idx) min_idx = value_idx;
@@ -81,7 +81,7 @@ namespace mstd {
             }
 
             if (_inverted_map.contains(value.second)) {
-                Key& key_idx = _inverted_map.at(value.second);
+                size_t key_idx = _inverted_map.at(value.second);
 
                 // set min idx
                 if (key_idx < min_idx) min_idx = key_idx;
