@@ -8,5 +8,7 @@
  */
 
 #pragma once
+#include "containers_types.hpp"
 #include "ordered_map.hpp"
 #include "ordered_set.hpp"
+#include "bimap.hpp"
