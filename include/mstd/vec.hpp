@@ -677,7 +677,7 @@ namespace mstd {
 			res *= other;
 			return res;
 		}
-		friend static vec<N, T> operator*(const T& other, const vec<N, T>& vector) {
+		friend vec<N, T> operator*(const T& other, const vec<N, T>& vector) {
 			return vector * other;
 		}
 		vec<N, T> operator/(const T& other) const {
@@ -730,7 +730,7 @@ namespace mstd {
 			return _values[idx];
 		}
 
-		friend static std::ostream& operator<<(std::ostream& str, const vec<N, T>& vector) {
+		friend std::ostream& operator<<(std::ostream& str, const vec<N, T>& vector) {
 			str << "[";
 			for (size_t i = 0; i != N; ++i) {
 				str << std::to_string(vector[i]);

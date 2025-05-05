@@ -1204,7 +1204,7 @@ namespace mstd {
 			res *= other;
 			return res;
 		}
-		friend static mat<C, R, T> operator*(const T& other, const mat<C, R, T>& matrix) {
+		friend mat<C, R, T> operator*(const T& other, const mat<C, R, T>& matrix) {
 			return matrix * other;
 		}
 		mat<C, R, T> operator/(const T& other) const {
@@ -1276,7 +1276,7 @@ namespace mstd {
 			return const_mat_column(this, idx);
 		}
 
-		friend static std::ostream& operator<<(std::ostream& str, const mat<C, R, T>& matrix) {
+		friend std::ostream& operator<<(std::ostream& str, const mat<C, R, T>& matrix) {
 			size_t cell_width = 0;
 
 			for (size_t y = 0; y != R; ++y) {
