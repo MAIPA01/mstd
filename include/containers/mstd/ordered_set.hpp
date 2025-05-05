@@ -95,12 +95,12 @@ namespace mstd {
 
         iterator find(const T& item) {
             auto it = _elements_map.find(item);
-            return it != _elements_map.end() ? it->second : _ordered_elements.end();
+            return it != _elements_map.end() ? _ordered_elements.begin + it->second : _ordered_elements.end();
         }
 
         const_iterator find(const T& item) const {
             auto it = _elements_map.find(item);
-            return it != _elements_map.end() ? it->second : _ordered_elements.end();
+            return it != _elements_map.end() ? _ordered_elements.begin + it->second : _ordered_elements.end();
         }
 
         size_t size() const {
