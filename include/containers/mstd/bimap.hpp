@@ -14,7 +14,7 @@ namespace mstd {
     template <class Key, class T, template<class, class, class...> class Map>
     class bimap {
     private:
-        using _data_type = std::vector<std::pair<Key, T>> _data;
+        using _data_type = std::vector<std::pair<Key, T>>;
         using _map_type = Map<Key, size_t>;
         using _inverted_map_type = Map<T, size_t>;
 
