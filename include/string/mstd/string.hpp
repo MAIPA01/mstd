@@ -13,7 +13,7 @@
 #include "strtonum.hpp"
 
 namespace mstd {
-	static constexpr std::string trim(const std::string& str) {
+	static std::string trim(const std::string& str) {
 		const std::string::const_iterator & start = 
 			std::find_if_not(str.begin(), str.end(), [](unsigned char ch) {
 				return std::isspace(ch);
@@ -28,7 +28,7 @@ namespace mstd {
 	}
 
 	template<class... _Strings>
-	static constexpr std::string concat(_Strings&&... strs) {
+	static std::string concat(_Strings&&... strs) {
 		std::string str;
 		str.reserve(_concat_impl<_Strings...>::size(std::forward<_Strings>(strs)...));
 		_concat_impl<_Strings...>::concat(str, std::forward<_Strings>(strs)...);
