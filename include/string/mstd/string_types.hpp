@@ -14,7 +14,37 @@ namespace mstd {
 	template<class _String>
 	struct _string_size_impl {};
 
-		template<size_t N>
+	template<>
+	struct _string_size_impl<char> {
+		static constexpr size_t size(const char&) { return 1; }
+	};
+
+	template<>
+	struct _string_size_impl<const char> {
+		static constexpr size_t size(const char&) { return 1; }
+	};
+
+	template<>
+	struct _string_size_impl<unsigned char> {
+		static constexpr size_t size(const unsigned char&) { return 1; }
+	};
+
+	template<>
+	struct _string_size_impl<const unsigned char> {
+		static constexpr size_t size(const unsigned char&) { return 1; }
+	};
+
+	template<>
+	struct _string_size_impl<signed char> {
+		static constexpr size_t size(const signed char&) { return 1; }
+	};
+
+	template<>
+	struct _string_size_impl<const signed char> {
+		static constexpr size_t size(const signed char&) { return 1; }
+	};
+
+	template<size_t N>
 	struct _string_size_impl<const char[N]> {
 		static constexpr size_t size(const char(&)[N]) { return N - 1; }
 	};
