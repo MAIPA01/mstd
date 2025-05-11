@@ -14,14 +14,54 @@ namespace mstd {
 	template<class _String>
 	struct _string_size_impl {};
 
-	template<size_t N>
+		template<size_t N>
 	struct _string_size_impl<const char[N]> {
 		static constexpr size_t size(const char(&)[N]) { return N - 1; }
 	};
 
 	template<size_t N>
 	struct _string_size_impl<char[N]> {
-		static constexpr size_t size(char (&s)[N]) { return N ? std::strlen(s) : 0; }
+		static constexpr size_t size(char (&s)[N]) { return N - 1; }
+	};
+
+	template<size_t N>
+	struct _string_size_impl<const unsigned char[N]> {
+		static constexpr size_t size(const unsigned char(&)[N]) { return N - 1; }
+	};
+
+	template<size_t N>
+	struct _string_size_impl<unsigned char[N]> {
+		static constexpr size_t size(unsigned char(&s)[N]) { return N - 1; }
+	};
+
+	template<size_t N>
+	struct _string_size_impl<const signed char[N]> {
+		static constexpr size_t size(const signed char(&)[N]) { return N - 1; }
+	};
+
+	template<size_t N>
+	struct _string_size_impl<signed char[N]> {
+		static constexpr size_t size(signed char(&s)[N]) { return N - 1; }
+	};
+
+	template<>
+	struct _string_size_impl<const unsigned char*> {
+		static constexpr size_t size(const unsigned char* s) { return s ? std::strlen((const char*)s) : 0; }
+	};
+
+	template<>
+	struct _string_size_impl<unsigned char*> {
+		static constexpr size_t size(unsigned char* s) { return s ? std::strlen((const char*)s) : 0; }
+	};
+
+	template<>
+	struct _string_size_impl<const signed char*> {
+		static constexpr size_t size(const signed char* s) { return s ? std::strlen((const char*)s) : 0; }
+	};
+
+	template<>
+	struct _string_size_impl<signed char*> {
+		static constexpr size_t size(signed char* s) { return s ? std::strlen((const char*)s) : 0; }
 	};
 
 	template<>
@@ -36,6 +76,11 @@ namespace mstd {
 
 	template<>
 	struct _string_size_impl<std::string> {
+		static constexpr size_t size(const std::string& s) { return s.size(); }
+	};
+
+	template<>
+	struct _string_size_impl<const std::string> {
 		static constexpr size_t size(const std::string& s) { return s.size(); }
 	};
 

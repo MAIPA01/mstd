@@ -34,4 +34,10 @@ namespace mstd {
 		_concat_impl<_Strings...>::concat(str, std::forward<_Strings>(strs)...);
 		return str;
 	}
+	
+	template<class... _Strings>
+	static constexpr void concat_to(std::string& out, _Strings&&... strs) {
+		out.reserve(out.size() + _concat_impl<_Strings...>::size(std::forward<_Strings>(strs)...));
+		_concat_impl<_Strings...>::concat(out, std::forward<_Strings>(strs)...);
+	}
 }
