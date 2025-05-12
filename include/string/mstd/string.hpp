@@ -12,14 +12,8 @@
 #include "isstrnum.hpp"
 #include "strtonum.hpp"
 
-namespace mstd {
-	template<class _String>
-	static inline constexpr size_t string_size(_String&& s) {
-		using string_t = std::remove_reference_t<_String>;
-		return string_type_info<string_t>::size(s);
-	}
-	
-	static inline std::string trim(const std::string& str) {
+namespace mstd {	
+	static std::string trim(const std::string& str) {
 		const std::string::const_iterator & start = 
 			std::find_if_not(str.begin(), str.end(), [](unsigned char ch) {
 				return std::isspace(ch);
