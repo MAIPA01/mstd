@@ -11,131 +11,46 @@
 #include "string_libs.hpp"
 
 namespace mstd {
-	template<class _String>
-	struct _string_size_impl {};
+    namespace mstd {
+        template<typename T, typename = void>
+        struct string_type_info;
 
-	template<>
-	struct _string_size_impl<char> {
-		static constexpr size_t size(const char&) { return 1; }
-	};
+        template<typename T>
+        struct string_type_info<T, std::enable_if_t<
+            std::is_same_v<std::remove_cv_t<T>, char> ||
+            std::is_same_v<std::remove_cv_t<T>, signed char> ||
+            std::is_same_v<std::remove_cv_t<T>, unsigned char>>> {
+            static constexpr size_t size(const T&) { return 1; }
+        };
 
-	template<>
-	struct _string_size_impl<const char> {
-		static constexpr size_t size(const char&) { return 1; }
-	};
+        template<typename T, size_t N>
+        struct string_type_info<T[N], std::enable_if_t<
+            std::is_same_v<std::remove_cv_t<T>, char> ||
+            std::is_same_v<std::remove_cv_t<T>, signed char> ||
+            std::is_same_v<std::remove_cv_t<T>, unsigned char>>> {
+            static constexpr size_t size(const T(&)[N]) { return N - 1; }
+        };
 
-	template<>
-	struct _string_size_impl<unsigned char> {
-		static constexpr size_t size(const unsigned char&) { return 1; }
-	};
+        template<typename T>
+        struct string_type_info<T, std::enable_if_t<
+            std::is_pointer_v<T> &&
+            (std::is_same_v<std::remove_cv_t<std::remove_pointer_t<T>>, char> ||
+                std::is_same_v<std::remove_cv_t<std::remove_pointer_t<T>>, signed char> ||
+                std::is_same_v<std::remove_cv_t<std::remove_pointer_t<T>>, unsigned char>)>> {
+            static size_t size(T s) {
+                return s ? std::strlen(reinterpret_cast<const char*>(s)) : 0;
+            }
+        };
 
-	template<>
-	struct _string_size_impl<const unsigned char> {
-		static constexpr size_t size(const unsigned char&) { return 1; }
-	};
+        template<typename T>
+        struct string_type_info<T, std::enable_if_t<std::is_same_v<std::remove_cv_t<T>, std::string>>> {
+            static size_t size(const std::string& s) { return s.size(); }
+        };
 
-	template<>
-	struct _string_size_impl<signed char> {
-		static constexpr size_t size(const signed char&) { return 1; }
-	};
-
-	template<>
-	struct _string_size_impl<const signed char> {
-		static constexpr size_t size(const signed char&) { return 1; }
-	};
-
-	template<size_t N>
-	struct _string_size_impl<const char[N]> {
-		static constexpr size_t size(const char(&)[N]) { return N - 1; }
-	};
-
-	template<size_t N>
-	struct _string_size_impl<char[N]> {
-		static constexpr size_t size(char (&s)[N]) { return N - 1; }
-	};
-
-	template<size_t N>
-	struct _string_size_impl<const unsigned char[N]> {
-		static constexpr size_t size(const unsigned char(&)[N]) { return N - 1; }
-	};
-
-	template<size_t N>
-	struct _string_size_impl<unsigned char[N]> {
-		static constexpr size_t size(unsigned char(&s)[N]) { return N - 1; }
-	};
-
-	template<size_t N>
-	struct _string_size_impl<const signed char[N]> {
-		static constexpr size_t size(const signed char(&)[N]) { return N - 1; }
-	};
-
-	template<size_t N>
-	struct _string_size_impl<signed char[N]> {
-		static constexpr size_t size(signed char(&s)[N]) { return N - 1; }
-	};
-
-	template<>
-	struct _string_size_impl<const unsigned char*> {
-		static constexpr size_t size(const unsigned char* s) { return s ? std::strlen((const char*)s) : 0; }
-	};
-
-	template<>
-	struct _string_size_impl<unsigned char*> {
-		static constexpr size_t size(unsigned char* s) { return s ? std::strlen((const char*)s) : 0; }
-	};
-
-	template<>
-	struct _string_size_impl<const signed char*> {
-		static constexpr size_t size(const signed char* s) { return s ? std::strlen((const char*)s) : 0; }
-	};
-
-	template<>
-	struct _string_size_impl<signed char*> {
-		static constexpr size_t size(signed char* s) { return s ? std::strlen((const char*)s) : 0; }
-	};
-
-	template<>
-	struct _string_size_impl<const char*> {
-		static constexpr size_t size(const char* s) { return s ? std::strlen(s) : 0; }
-	};
-
-	template<>
-	struct _string_size_impl<char*> {
-		static constexpr size_t size(char* s) { return s ? std::strlen(s) : 0; }
-	};
-
-	template<>
-	struct _string_size_impl<std::string> {
-		static constexpr size_t size(const std::string& s) { return s.size(); }
-	};
-
-	template<>
-	struct _string_size_impl<const std::string> {
-		static constexpr size_t size(const std::string& s) { return s.size(); }
-	};
-
-	template<class _String>
-	static constexpr size_t string_size(_String&& s) {
-		using string_t = std::remove_reference_t<_String>;
-		return _string_size_impl<string_t>::size(s);
-	}
-
-	template<class _String, class... _Rest>
-	struct _concat_impl {
-		static constexpr size_t size(_String&& s, _Rest&&... rest) {
-			if constexpr (sizeof...(_Rest) == 0) {
-				return string_size(s);
-			}
-			else {
-				return string_size(s) + _concat_impl<_Rest...>::size(std::forward<_Rest>(rest)...);
-			}
-		}
-
-		static constexpr void concat(std::string& str, _String&& s, _Rest&&... rest) {
-			str += s;
-			if constexpr (sizeof...(_Rest) > 0) {
-				_concat_impl<_Rest...>::concat(str, std::forward<_Rest>(rest)...);
-			}
-		}
-	};
+        template<class _String>
+        static constexpr size_t string_size(_String&& s) {
+            using string_t = std::remove_reference_t<_String>;
+            return string_type_info<string_t>::size(s);
+        }
+    }
 }
