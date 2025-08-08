@@ -10,23 +10,8 @@
 #pragma once
 #include "arithmetic_libs.hpp"
 
-namespace mstd {	
-	template<class... Ns>
-	constexpr bool are_unsigned_v = (std::is_unsigned_v<Ns> && ...);
-
-	template<class... Ns>
-	constexpr bool are_arithmetic_v = (std::is_arithmetic_v<Ns> && ...);
-
+namespace mstd {
 #if _HAS_CXX20
-	template<class T>
-	concept arithmetic = std::is_arithmetic_v<T>;
-
-	template<class T>
-	concept floating_point = std::is_floating_point_v<T>;
-
-	template<class T>
-	concept integral = std::is_integral_v<T>;
-
 	template<size_t N, arithmetic T>
 	requires (N > 0)
 	class vec;

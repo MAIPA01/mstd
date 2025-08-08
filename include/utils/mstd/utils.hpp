@@ -8,13 +8,6 @@
  */
 
 #pragma once
-#include <limits>
-#include <type_traits>
-#define _USE_MATH_DEFINES
-#include <math.h>
-#include <cmath>
-#include <algorithm>
-#include <bit>
-#include <iostream>
-#include <iomanip>
-#include "../../utils/mstd/types.hpp"
+#include "utils_libs.hpp"
+#include "id_manager.hpp"
+#include "types.hpp"

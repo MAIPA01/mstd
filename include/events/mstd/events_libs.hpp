@@ -8,13 +8,9 @@
  */
 
 #pragma once
-#include <limits>
-#include <type_traits>
-#define _USE_MATH_DEFINES
-#include <math.h>
-#include <cmath>
-#include <algorithm>
-#include <bit>
-#include <iostream>
-#include <iomanip>
+#include <functional>
+#include <unordered_map>
+#include <queue>
+#include "../../functions/mstd/is_same_function.hpp"
+#include "../../utils/mstd/id_manager.hpp"
 #include "../../utils/mstd/types.hpp"

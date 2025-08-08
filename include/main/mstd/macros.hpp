@@ -21,6 +21,8 @@
 #define _RESCAN3(...) _RESCAN4(_RESCAN4(_RESCAN4(_RESCAN4(__VA_ARGS__))))
 #define _RESCAN4(...) __VA_ARGS__
 
+#pragma region SIGNLE_FOR_EACH
+
 #define DO_FOR_EACH(func, ...)\
 	__VA_OPT__(_RESCAN(DO_FOR_EACH_HELPER(func, __VA_ARGS__)))
 #define DO_FOR_EACH_HELPER(func, a1, ...)\
@@ -34,6 +36,10 @@
 	func(a1)\
 	__VA_OPT__(_NEXT_ELEM LIST_DO_FOR_EACH_AGAIN _PARENS (func, __VA_ARGS__))
 #define LIST_DO_FOR_EACH_AGAIN() LIST_DO_FOR_EACH_HELPER
+
+#pragma endregion SIGNLE_FOR_EACH
+
+#pragma region PAIR_FOR_EACH
 
 #define DO_FOR_EACH_PAIR(func, a1, ...)\
 	__VA_OPT__(_RESCAN(DO_FOR_EACH_PAIR_HELPER(func, a1, __VA_ARGS__)))
@@ -49,6 +55,26 @@
 	__VA_OPT__(_NEXT_ELEM LIST_DO_FOR_EACH_PAIR_AGAIN _PARENS (func, __VA_ARGS__))
 #define LIST_DO_FOR_EACH_PAIR_AGAIN() LIST_DO_FOR_EACH_PAIR_HELPER
 
+#pragma endregion
+
+#pragma region THREE_FOR_EACH
+
+#define DO_FOR_EACH_THREE(func, a1, a2, ...)\
+	__VA_OPT__(_RESCAN(DO_FOR_EACH_THREE_HELPER(func, a1, a2, __VA_ARGS__)))
+#define DO_FOR_EACH_THREE_HELPER(func, a1, a2, a3, ...)\
+	func(a1, a2, a3)\
+	__VA_OPT__(DO_FOR_EACH_THREE_AGAIN _PARENS (func, __VA_ARGS__))
+#define DO_FOR_EACH_THREE_AGAIN() DO_FOR_EACH_THREE_HELPER
+
+#define LIST_DO_FOR_EACH_THREE(func, a1, a2, ...)\
+	__VA_OPT__(_RESCAN(LIST_DO_FOR_EACH_THREE_HELPER(func, a1, a2, __VA_ARGS__)))
+#define LIST_DO_FOR_EACH_THREE_HELPER(func, a1, a2, a3, ...)\
+	func(a1, a2, a3)\
+	__VA_OPT__(_NEXT_ELEM LIST_DO_FOR_EACH_THREE_AGAIN _PARENS (func, __VA_ARGS__))
+#define LIST_DO_FOR_EACH_THREE_AGAIN() LIST_DO_FOR_EACH_THREE_HELPER
+
+#pragma endregion
+
 #endif
 
 #pragma endregion
@@ -58,71 +84,108 @@
 
 #ifdef USE_ENUMS_MACROS
 
-// STANDARD ENUMS
-#define _ENUM_ELEMENT(name) name
-#define _ENUM_ELEMENT_COUNT(name) + 1
-#define _ENUM_CASE(name) case name: return #name;
+#define _ENUM_ELEMENT_COUNT(...) + 1
+#define _ENUM_CASE(name, ...) case name: return #name;
 
-#define _ENUM_DECLARATION(type, name, base, ...)\
-type name base { LIST_DO_FOR_EACH(_ENUM_ELEMENT, __VA_ARGS__) };
+#define _ENUM_DECLARATION(type, name, base, list_for_each, elem_func, ...)\
+type name base { list_for_each(elem_func, __VA_ARGS__) };
 
-#define _ENUM_SIZE_FUNC(name, ...)\
+#define _ENUM_SIZE_FUNC(name, for_each, ...)\
 template<class T> static size_t size();\
 template<> static constexpr size_t size<name>() {\
-	return DO_FOR_EACH(_ENUM_ELEMENT_COUNT, __VA_ARGS__); }
+	return for_each(_ENUM_ELEMENT_COUNT, __VA_ARGS__);\
+}
 
-#define _ENUM_TO_STRING(name, ...)\
+#define _ENUM_TO_STRING_FUNC(name, for_each, case_func, ...)\
 static constexpr const std::string to_string(const name& v) {\
 	using enum name;\
 	switch(v) {\
-	DO_FOR_EACH(_ENUM_CASE, __VA_ARGS__)\
+	for_each(case_func, __VA_ARGS__)\
 	default:\
 		return "UNKNOWN";\
 	}\
 }
 
-#define _ENUM_TEMPLATE(type, name, base, ...)\
-	_ENUM_DECLARATION(type, name, base, __VA_ARGS__)\
-	_ENUM_SIZE_FUNC(name, __VA_ARGS__)\
-	_ENUM_TO_STRING(name, __VA_ARGS__)
+#define _ENUM_TEMPLATE(type, name, base, declaration_func, size_func, string_func, ...)\
+	declaration_func(type, name, base, __VA_ARGS__)\
+	size_func(name, __VA_ARGS__)\
+	string_func(name, __VA_ARGS__)
 
-#define ENUM(name, ...) _ENUM_TEMPLATE(enum, name, , __VA_ARGS__)
-#define ENUM_BASE(name, base, ...) _ENUM_TEMPLATE(enum, name, : base, __VA_ARGS__)
-#define ENUM_CLASS(name, ...) _ENUM_TEMPLATE(enum class, name, , __VA_ARGS__)
-#define ENUM_CLASS_BASE(name, base, ...) _ENUM_TEMPLATE(enum class, name, : base, __VA_ARGS__)
+#pragma region STANDARD_ENUMS
 
-// ENUMS WITH VALUES
-#define _ENUM_VALUE_ELEMENT(name, value) name = value
-#define _ENUM_VALUE_ELEMENT_COUNT(name, value) + 1
-#define _ENUM_VALUE_CASE(name, value) case name: return #name;
+#define _STANDARD_ENUM_ELEMENT(name) name
+#define _STANDARD_ENUM_CASE_STRING(name, string) case name: return string;
 
-#define _ENUM_VALUE_DECLARATION(type, name, base, ...)\
-type name base { LIST_DO_FOR_EACH_PAIR(_ENUM_VALUE_ELEMENT, __VA_ARGS__) };
+#define _STANDARD_ENUM_DECLARATION(type, name, base, ...)\
+_ENUM_DECLARATION(type, name, base, LIST_DO_FOR_EACH, _STANDARD_ENUM_ELEMENT, __VA_ARGS__)
 
-#define _ENUM_VALUE_SIZE_FUNC(name, ...)\
-template<class T> static size_t size();\
-template<> static constexpr size_t size<name>() {\
-	return DO_FOR_EACH_PAIR(_ENUM_VALUE_ELEMENT_COUNT, __VA_ARGS__); }
+#define _STANDARD_ENUM_SIZE_FUNC(name, ...)\
+_ENUM_SIZE_FUNC(name, DO_FOR_EACH, __VA_ARGS__)
 
-#define _ENUM_VALUE_TO_STRING(name, ...)\
-static constexpr const std::string to_string(const name& v) {\
-	using enum name;\
-	switch(v) {\
-	DO_FOR_EACH_PAIR(_ENUM_VALUE_CASE, __VA_ARGS__)\
-	default:\
-		return "UNKNOWN";\
-	}\
-}
+#define _STANDARD_ENUM_TO_STRING_FUNC(name, ...)\
+_ENUM_TO_STRING_FUNC(name, DO_FOR_EACH, _ENUM_CASE, __VA_ARGS__)
 
-#define _ENUM_VALUE_TEMPLATE(type, name, base, ...)\
-	_ENUM_VALUE_DECLARATION(type, name, base, __VA_ARGS__)\
-	_ENUM_VALUE_SIZE_FUNC(name, __VA_ARGS__)\
-	_ENUM_VALUE_TO_STRING(name, __VA_ARGS__)
+#define _STANDARD_ENUM_TO_STRING_VALUES_FUNC(name, ...)\
+_ENUM_TO_STRING_FUNC(name, DO_FOR_EACH_PAIR, _STANDARD_ENUM_CASE_STRING, __VA_ARGS__)
 
-#define ENUM_VALUE(name, ...) _ENUM_VALUE_TEMPLATE(enum, name, , __VA_ARGS__)
-#define ENUM_BASE_VALUE(name, base, ...) _ENUM_VALUE_TEMPLATE(enum, name, : base, __VA_ARGS__)
-#define ENUM_CLASS_VALUE(name, ...) _ENUM_VALUE_TEMPLATE(enum class, name, , __VA_ARGS__)
-#define ENUM_CLASS_BASE_VALUE(name, base, ...) _ENUM_VALUE_TEMPLATE(enum class, name, : base, __VA_ARGS__)
+#define _STANDARD_ENUM_TEMPLATE(type, name, base, string_func, ...)\
+_ENUM_TEMPLATE(type, name, base, _STANDARD_ENUM_DECLARATION, _STANDARD_ENUM_SIZE_FUNC, string_func, __VA_ARGS__)
+
+#define _STANDARD_ENUM(name, base, ...) _STANDARD_ENUM_TEMPLATE(enum, name, base, _STANDARD_ENUM_TO_STRING_FUNC, __VA_ARGS__)
+#define _STANDARD_ENUM_CLASS(name, base, ...) _STANDARD_ENUM_TEMPLATE(enum class, name, base, _STANDARD_ENUM_TO_STRING_FUNC, __VA_ARGS__)
+
+#define _STANDARD_ENUM_STRING(name, base, ...) _STANDARD_ENUM_TEMPLATE(enum, name, base, _STANDARD_ENUM_TO_STRING_VALUES_FUNC, __VA_ARGS__)
+#define _STANDARD_ENUM_CLASS_STRING(name, base, ...) _STANDARD_ENUM_TEMPLATE(enum class, name, base, _STANDARD_ENUM_TO_STRING_VALUES_FUNC, __VA_ARGS__)
+
+#define ENUM(name, ...) _STANDARD_ENUM(name, , __VA_ARGS__)
+#define ENUM_BASE(name, base, ...) _STANDARD_ENUM(name, : base, __VA_ARGS__)
+#define ENUM_CLASS(name, ...) _STANDARD_ENUM_CLASS(name, , __VA_ARGS__)
+#define ENUM_CLASS_BASE(name, base, ...) _STANDARD_ENUM_CLASS(name, : base, __VA_ARGS__)
+
+#define ENUM_STRING(name, ...) _STANDARD_ENUM_STRING(name, , __VA_ARGS__)
+#define ENUM_BASE_STRING(name, base, ...) _STANDARD_ENUM_STRING(name, : base, __VA_ARGS__)
+#define ENUM_CLASS_STRING(name, ...) _STANDARD_ENUM_CLASS_STRING(name, , __VA_ARGS__)
+#define ENUM_CLASS_BASE_STRING(name, base, ...) _STANDARD_ENUM_CLASS_STRING(name, : base, __VA_ARGS__)
+
+#pragma endregion
+
+#pragma region ENUMS_WITH_VALUE
+
+#define _VALUE_ENUM_ELEMENT(name, value) name = value
+#define _VALUE_ENUM_CASE_STRING(name, value, string) case name: return string;
+
+#define _VALUE_ENUM_DECLARATION(type, name, base, ...)\
+_ENUM_DECLARATION(type, name, base, LIST_DO_FOR_EACH_PAIR, _VALUE_ENUM_ELEMENT, __VA_ARGS__)
+
+#define _VALUE_ENUM_SIZE_FUNC(name, ...)\
+_ENUM_SIZE_FUNC(name, DO_FOR_EACH_PAIR, __VA_ARGS__)
+
+#define _VALUE_ENUM_TO_STRING_FUNC(name, ...)\
+_ENUM_TO_STRING_FUNC(name, DO_FOR_EACH_PAIR, _ENUM_CASE, __VA_ARGS__)
+
+#define _VALUE_ENUM_TO_STRING_VALUES_FUNC(name, ...)\
+_ENUM_TO_STRING_FUNC(name, DO_FOR_EACH_THREE, _VALUE_ENUM_CASE_STRING, __VA_ARGS__)
+
+#define _VALUE_ENUM_TEMPLATE(type, name, base, string_func, ...)\
+_ENUM_TEMPLATE(type, name, base, _VALUE_ENUM_DECLARATION, _VALUE_ENUM_SIZE_FUNC, string_func, __VA_ARGS__)
+
+#define _VALUE_ENUM(name, base, ...) _VALUE_ENUM_TEMPLATE(enum, name, base, _VALUE_ENUM_TO_STRING_FUNC, __VA_ARGS__)
+#define _VALUE_ENUM_CLASS(name, base, ...) _VALUE_ENUM_TEMPLATE(enum class, name, base, _VALUE_ENUM_TO_STRING_FUNC, __VA_ARGS__)
+
+#define _VALUE_ENUM_STRING(name, base, ...) _VALUE_ENUM_TEMPLATE(enum, name, base, _VALUE_ENUM_TO_STRING_VALUES_FUNC, __VA_ARGS__)
+#define _VALUE_ENUM_CLASS_STRING(name, base, ...) _VALUE_ENUM_TEMPLATE(enum class, name, base, _VALUE_ENUM_TO_STRING_VALUES_FUNC, __VA_ARGS__)
+
+#define ENUM_VALUE(name, ...) _VALUE_ENUM(name, , __VA_ARGS__)
+#define ENUM_BASE_VALUE(name, base, ...) _VALUE_ENUM(name, : base, __VA_ARGS__)
+#define ENUM_CLASS_VALUE(name, ...) _VALUE_ENUM_CLASS(name, , __VA_ARGS__)
+#define ENUM_CLASS_BASE_VALUE(name, base, ...) _VALUE_ENUM_CLASS(name, : base, __VA_ARGS__)
+
+#define ENUM_VALUE_STRING(name, ...) _VALUE_ENUM_STRING(name, , __VA_ARGS__)
+#define ENUM_BASE_VALUE_STRING(name, base, ...) _VALUE_ENUM_STRING(name, : base, __VA_ARGS__)
+#define ENUM_CLASS_VALUE_STRING(name, ...) _VALUE_ENUM_CLASS_STRING(name, , __VA_ARGS__)
+#define ENUM_CLASS_BASE_VALUE_STRING(name, base, ...) _VALUE_ENUM_CLASS_STRING(name, : base, __VA_ARGS__)
+
+#pragma endregion
 
 #endif
 
