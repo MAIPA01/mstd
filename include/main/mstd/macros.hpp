@@ -200,8 +200,8 @@ _ENUM_TEMPLATE(type, name, base, _VALUE_ENUM_DECLARATION, _VALUE_ENUM_SIZE_FUNC,
 virtual class_name* Clone() const base_class_operator;\
 void CloneTo(class_name* cloned) const;
 
-#define CloneFuncDeclaration(class_name) _CLONE_FUNC_DECLARATION_TEMPLATE(class_name, )
-#define CloneFuncDeclarationOverride(class_name) _CLONE_FUNC_DECLARATION_TEMPLATE(class_name, override)
+#define CloneFuncDeclaration(class_name) _CloneFuncDeclarationTemplate(class_name, )
+#define CloneFuncDeclarationOverride(class_name) _CloneFuncDeclarationTemplate(class_name, override)
 
 #define StandardClone(fieldName) fieldName, fieldName
 #define PointerDeepClone(fieldName, valueType) fieldName, new valueType(*fieldName)
