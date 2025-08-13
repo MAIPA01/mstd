@@ -33,7 +33,7 @@ namespace mstd {
 	using make_index_sequence_for_from = decltype(shift_index_sequence<Start>(std::index_sequence_for<Ts...>()));
 #pragma endregion // CONSTEXPR
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<size_t N, arithmetic T>
 	requires (N > 0)
 #else
@@ -48,7 +48,7 @@ namespace mstd {
 		T _values[N] = {};
 
 #pragma region PRIVATE_METHODS
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic... Ts, size_t... Idxs>
 #else
 		template<class... Ts, size_t... Idxs>
@@ -66,7 +66,7 @@ namespace mstd {
 			std::fill_n(&_values[0] + first_idx, N - first_idx, value);
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic OT>
 #else
 		template<class OT>
@@ -82,7 +82,7 @@ namespace mstd {
 			}
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t TN, arithmetic OT>
 #else
 		template<size_t TN, class OT>
@@ -98,7 +98,7 @@ namespace mstd {
 			}
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t ON, arithmetic OT>
 		requires (ON > 0)
 #else
@@ -124,7 +124,7 @@ namespace mstd {
 		}
 
 		// vecN(x, y, ...)
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic... Ts>
 		requires (sizeof...(Ts) > 0 && sizeof...(Ts) <= N)
 #else
@@ -138,7 +138,7 @@ namespace mstd {
 		}
 
 		// vecN(vec, z, ...)
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t ON, arithmetic OT, arithmetic... Ts>
 		requires (sizeof...(Ts) > 0 && sizeof...(Ts) <= N - ON && ON < N)
 #else
@@ -153,7 +153,7 @@ namespace mstd {
 		}
 
 		// vecN({ 1, 2 })
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t TN, arithmetic OT>
 #else
 		template<size_t TN, class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -164,7 +164,7 @@ namespace mstd {
 		}
 
 		// vecN(&table)
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic OT>
 #else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -175,7 +175,7 @@ namespace mstd {
 		}
 
 		// vecN(vecON)
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t ON, arithmetic OT>
 #else
 		template<size_t ON, class OT>
@@ -186,7 +186,7 @@ namespace mstd {
 		}
 
 #pragma region VECTOR_3_CONSTRUCTORS
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic AT, arithmetic BT, size_t ON>
 		requires (ON == 3)
 #else
@@ -201,7 +201,7 @@ namespace mstd {
 #pragma endregion // DESTRUCTOR
 
 #pragma region ASSIGN
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t TN, arithmetic OT>
 #else
 		template<size_t TN, class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -211,7 +211,7 @@ namespace mstd {
 			_fill_values_from(TN, 0);
 			return *this;
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t ON, arithmetic OT>
 #else
 		template<size_t ON, class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -275,7 +275,7 @@ namespace mstd {
 			return _values[0];
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T& y() requires (N > 1) {
 #else
 		template<class = std::enable_if_t<(N > 1)>>
@@ -283,7 +283,7 @@ namespace mstd {
 #endif
 			return _values[1];
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T y() const requires (N > 1) {
 #else
 		template<class = std::enable_if_t<(N > 1)>>
@@ -292,7 +292,7 @@ namespace mstd {
 			return _values[1];
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T& g() requires (N > 1) {
 #else
 		template<class = std::enable_if_t<(N > 1)>>
@@ -300,7 +300,7 @@ namespace mstd {
 #endif
 			return _values[1];
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T g() const requires (N > 1) {
 #else
 		template<class = std::enable_if_t<(N > 1)>>
@@ -309,7 +309,7 @@ namespace mstd {
 			return _values[1];
 		}
 			
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T& z() requires (N > 2) {
 #else
 		template<class = std::enable_if_t<(N > 2)>>
@@ -317,7 +317,7 @@ namespace mstd {
 #endif
 			return _values[2];
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T z() const requires (N > 2) {
 #else
 		template<class = std::enable_if_t<(N > 2)>>
@@ -326,7 +326,7 @@ namespace mstd {
 			return _values[2];
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T& b() requires (N > 2) {
 #else
 		template<class = std::enable_if_t<(N > 2)>>
@@ -334,7 +334,7 @@ namespace mstd {
 #endif
 			return _values[2];
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T b() const requires (N > 2) {
 #else
 		template<class = std::enable_if_t<(N > 2)>>
@@ -343,7 +343,7 @@ namespace mstd {
 			return _values[2];
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T& w() requires (N > 3) {
 #else
 		template<class = std::enable_if_t<(N > 3)>>
@@ -351,7 +351,7 @@ namespace mstd {
 #endif
 			return _values[3];
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T w() const requires (N > 3) {
 #else
 		template<class = std::enable_if_t<(N > 3)>>
@@ -360,7 +360,7 @@ namespace mstd {
 			return _values[3];
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T& a() requires (N > 3) {
 #else
 		template<class = std::enable_if_t<(N > 3)>>
@@ -368,7 +368,7 @@ namespace mstd {
 #endif
 			return _values[3];
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		T a() const requires (N > 3) {
 #else
 		template<class = std::enable_if_t<(N > 3)>>
@@ -566,7 +566,7 @@ namespace mstd {
 		}
 
 #pragma region VECTOR_3_OPERATIONS
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		vec<N, T> cross(const vec<N, T>& other) const requires (N == 3) {
 #else
 		template<class = std::enable_if_t<(N == 3)>>
@@ -579,7 +579,7 @@ namespace mstd {
 			);
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		vec<N, T>& rotate(const vec<N, T>& axis, const T& radians) requires (N == 3) {
 #else
 		template<class = std::enable_if_t<(N == 3)>>
@@ -597,7 +597,7 @@ namespace mstd {
 			*this = (q * p * invers_q).v;
 			return *this;
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		vec<N, T> rotated(const vec<N, T>& axis, const T& radians) requires (N == 3) {
 #else
 		template<class = std::enable_if_t<(N == 3)>>

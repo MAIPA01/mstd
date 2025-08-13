@@ -36,7 +36,7 @@ namespace mstd {
 	struct are_unsigned : all_check<std::is_unsigned, Ns...> {};
 	template<class... Ns> constexpr bool are_unsigned_v = are_unsigned<Ns...>::value;
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<class T> concept arithmetic = std::is_arithmetic_v<T>;
 	template<class T> concept floating_point = std::is_floating_point_v<T>;
 	template<class T> concept integral = std::is_integral_v<T>;
@@ -95,7 +95,7 @@ namespace mstd {
 
 	template<class T, class U> struct unique_impl {};
 	template<class... Ts, class T, class... Us> struct unique_impl<types_holder<Ts...>, types_holder<T, Us...>> {
-		using type = type_test_t<is_type_in_v<T, Ts...>,
+		using type = std::conditional_t<is_type_in_v<T, Ts...>,
 			unique_impl<types_holder<Ts...>, types_holder<Us...>>,
 			unique_impl<types_holder<Ts..., T>, types_holder<Us...>>>;
 	};

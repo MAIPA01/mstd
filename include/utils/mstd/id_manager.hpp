@@ -12,7 +12,7 @@
 #include "types.hpp"
 
 namespace mstd {
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<signed_integral _idT>
 #else
 	template<class _idT, std::enable_if_t<std::is_signed_v<_idT>, bool> = true>
@@ -74,11 +74,11 @@ namespace mstd {
 			_removedIds.clear();
 		}
 
-		static constexpr id_type max_ids() const {
+		static constexpr id_type max_ids() {
 			return _maxIds;
 		}
 
-		static constexpr id_type last_id() const {
+		static constexpr id_type last_id() {
 			return _maxIds - 1;
 		}
 	};

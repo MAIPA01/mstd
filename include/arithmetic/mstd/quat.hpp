@@ -14,7 +14,7 @@
 #include "vec.hpp"
 
 namespace mstd {
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<arithmetic T>
 #else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool>>
@@ -31,7 +31,7 @@ namespace mstd {
 		quat() : s(0), v() {}
 		quat(const T& scalar, const vec_type& vector) : s(scalar), v(vector) {}
 		quat(const T& scalar, const T& x, const T& y, const T& z) : s(scalar), v(x, y, z) {}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic OT>
 #else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -44,7 +44,7 @@ namespace mstd {
 #pragma endregion // DESTRUCTOR
 
 #pragma region ASSIGN
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic OT>
 #else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>

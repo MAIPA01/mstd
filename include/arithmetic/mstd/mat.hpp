@@ -13,7 +13,7 @@
 #include "vec.hpp"
 
 namespace mstd {
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<size_t C, size_t R, arithmetic T>
 	requires (C > 0 && R > 0)
 #else
@@ -142,7 +142,7 @@ namespace mstd {
 		T _values[C][R] = {};
 
 #pragma region PRIVATE_METHODS
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic... Ts, size_t... Idxs>
 #else
 		template<class... Ts, size_t... Idxs>
@@ -198,7 +198,7 @@ namespace mstd {
 			}
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			template<arithmetic OT>
 #else
 			template<class OT>
@@ -221,7 +221,7 @@ namespace mstd {
 				}
 			}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			template<arithmetic OT>
 #else
 			template<class OT>
@@ -245,7 +245,7 @@ namespace mstd {
 				}
 			}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			template<size_t ON, arithmetic OT>
 #else
 			template<size_t ON, class OT>
@@ -268,7 +268,7 @@ namespace mstd {
 				}
 			}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			template<size_t OC, size_t OR, arithmetic OT>
 #else
 			template<size_t OC, size_t OR, class OT>
@@ -357,7 +357,7 @@ namespace mstd {
 			_fill_values(0);
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic OT>
 #else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -367,7 +367,7 @@ namespace mstd {
 			_fill_values_from(size, T(0));
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic OT>
 #else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -376,7 +376,7 @@ namespace mstd {
 			_copy_values_from(values, columns, rows);
 			_fill_values_from(columns * R, T(0));
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t ON, arithmetic OT>
 #else
 		template<size_t ON, class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -385,7 +385,7 @@ namespace mstd {
 			_copy_values_from(values);
 			_fill_values_from(ON, T(0));
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t OC, size_t OR, arithmetic OT>
 #else
 		template<size_t OC, size_t OR, class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -394,7 +394,7 @@ namespace mstd {
 			_copy_values_from(values);
 			_fill_values_from(OC * R, T(0));
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<arithmetic... Ts>
 		requires (sizeof...(Ts) > 0 && sizeof...(Ts) <= size)
 #else
@@ -415,7 +415,7 @@ namespace mstd {
 			_copy_values_from(columns);
 			_fill_values_from(N * R, T(0));
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t VN, arithmetic... Ts>
 		requires (sizeof...(Ts) > 0 && sizeof...(Ts) <= C)
 #else
@@ -437,7 +437,7 @@ namespace mstd {
 #pragma endregion // DESTRUCTOR
 
 #pragma region ASSIGN
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t ON, arithmetic OT>
 #else
 		template<size_t ON, class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -447,7 +447,7 @@ namespace mstd {
 			_fill_values_from(ON, T(0));
 			return *this;
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<size_t OC, size_t OR, arithmetic OT>
 #else
 		template<size_t OC, size_t OR, class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
@@ -485,7 +485,7 @@ namespace mstd {
 		}
 
 #pragma region PREDEFINED_SQUARE_MATRIX
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			static mat<C, R, T> identity() requires (C == R) {
 #else
 			static typename std::enable_if_t<(C == R), mat<C, R, T>>
@@ -493,7 +493,7 @@ namespace mstd {
 #endif
 				return fill_identity(T(1));
 			}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			static mat<C, R, T> fill_identity(const T& value) requires (C == R) {
 #else
 			static typename std::enable_if_t<(C == R), mat<C, R, T>>
@@ -503,8 +503,8 @@ namespace mstd {
 				res._set_identity_values(value);
 				return res;
 			}
-
-#if _HAS_CXX20
+			
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			static mat<C, R, T> translation(const vec<R - 1, T>& trans_vec) requires (C == R && R > 1) {
 #else
 			static typename std::enable_if_t<(C == R && R > 1), mat<C, R, T>>
@@ -517,7 +517,7 @@ namespace mstd {
 				return res;
 			}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			static mat<C, R, T> scale(const vec<R - 1, T>& scale_vec) requires (C == R && R > 1) {
 #else
 			static typename std::enable_if_t<(C == R && R > 1), mat<C, R, T>>
@@ -531,7 +531,7 @@ namespace mstd {
 				return res;
 			}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			static mat<C, R, T>	scale(const T& scale_factor) requires (C == R) {
 #else
 			static typename std::enable_if_t<(C == R), mat<C, R, T>>
@@ -805,7 +805,7 @@ namespace mstd {
 		}
 
 #pragma region PREDEFINED_SQUARE_MATRIX_CHECKS
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			bool is_identity() const requires (C == R) {
 #else
 			template<class = std::enable_if_t<(C == R)>>
@@ -814,7 +814,7 @@ namespace mstd {
 				return is_identity_filled_with(1);
 			}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			bool is_identity_filled_with(const T& value) const requires (C == R) {
 #else
 			template<class = std::enable_if_t<(C == R)>>
@@ -844,7 +844,7 @@ namespace mstd {
 			return res;
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			mat<C - 1, R - 1, T> get_sub_matrix(const size_t& row_idx, const size_t& col_idx) const
 			requires (C > 1 &&  R > 1) {
 #else
@@ -869,7 +869,7 @@ namespace mstd {
 				}
 				return res;
 			}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			mat<C, R - 1, T> get_sub_row_matrix(const size_t& row_idx) const
 			requires (R > 1) {
 #else
@@ -892,7 +892,7 @@ namespace mstd {
 				}
 				return res;
 			}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			mat<C - 1, R, T> get_sub_col_matrix(const size_t& col_idx) const
 			requires (C > 1) {
 #else
@@ -939,7 +939,7 @@ namespace mstd {
 			}
 
 #pragma region SQUARE_MATRIX_OPERATIONS
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			mat<R, C, T>& transpose() requires (R == C) {
 #else
 			template<class = std::enable_if_t<(R == C)>>
@@ -957,7 +957,7 @@ namespace mstd {
 				return *this;
 			}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			T determinant() const requires (R == C) {
 #else
 			template<class = std::enable_if_t<(R == C)>>
@@ -1032,7 +1032,7 @@ namespace mstd {
 				}
 			}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			mat<C, R, T>& invert() requires (R == C) {
 #else
 			template<class = std::enable_if_t<(R == C)>>
@@ -1041,7 +1041,7 @@ namespace mstd {
 				*this = inverted();
 				return *this;
 			}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 			mat<C, R, T> inverted() const requires (R == C) {
 #else
 			template<class = std::enable_if_t<(R == C)>>
@@ -1320,7 +1320,7 @@ namespace mstd {
 		}
 
 #pragma region SQUARE_MATRIX_OPERATORS
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		mat<C, R, T>& operator*=(const mat<C, R, T>& other) requires (R == C) {
 #else
 		template<class = std::enable_if_t<(R == C)>>
@@ -1329,7 +1329,7 @@ namespace mstd {
 			*this = *this * other;
 			return *this;
 		}
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		mat<C, R, T>& operator/=(const mat<C, R, T>& other) requires (R == C) {
 #else
 		template<class = std::enable_if_t<(R == C)>>
@@ -1339,7 +1339,7 @@ namespace mstd {
 			return *this;
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		mat<C, R, T> operator/(const mat<C, R, T>& other) const requires (R == C) {
 #else
 		template<class = std::enable_if_t<(R == C)>>

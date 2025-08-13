@@ -7,6 +7,11 @@ namespace mstd {
 	template<class... Args> using action = func<void, Args...>;
 	using method = action<>;
 
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+	template<class F, class AT>
+	concept event_action_func = mstd::is_same_function_v<F, AT>;
+#endif
+
 	template<typename... Args>
 	class event_handler {
 		using id_type = int64_t;
@@ -18,17 +23,12 @@ namespace mstd {
 		events_type _events = {};
 		id_manager_type _ids = {};
 
-#if _HAS_CXX20
-		template<class F>
-		concept event_action_func = mstd::is_same_function_v<F, event_action_type>;
-#endif
-
 	public:
 		event_handler() = default;
 		virtual ~event_handler() = default;
 
-#if _HAS_CXX20
-		template<event_action_func F>
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+		template<event_action_func<event_action_type> F>
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
 #endif
@@ -61,7 +61,7 @@ namespace mstd {
 			}
 		}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<event_action_func F>
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>

@@ -2,7 +2,7 @@
 #include "arithmetic_types.hpp"
 
 namespace mstd {
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<arithmetic T>
 #else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
@@ -16,7 +16,7 @@ namespace mstd {
 		}
 	}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<arithmetic T>
 #else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
@@ -25,7 +25,7 @@ namespace mstd {
 		return x < edge ? T(0) : T(1);
 	}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<arithmetic T>
 #else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
@@ -34,7 +34,7 @@ namespace mstd {
 		return expectedStart + ((expectedEnd - expectedStart) / (currEnd - currStart)) * (input - currStart);
 	}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<arithmetic T>
 #else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
@@ -43,7 +43,7 @@ namespace mstd {
 		return angle * (static_cast<T>(M_PI) / static_cast<T>(180));
 	}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<arithmetic T>
 #else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
@@ -52,7 +52,7 @@ namespace mstd {
 		return rad * (static_cast<T>(180) / static_cast<T>(M_PI));
 	}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<arithmetic T>
 #else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
@@ -61,7 +61,7 @@ namespace mstd {
 		return std::abs(a - b) < epsilon;
 	}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<arithmetic T>
 #else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
@@ -70,7 +70,7 @@ namespace mstd {
 		return std::clamp(a, T(0), T(1));
 	}
 
-#if _HAS_CXX20
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 	template<arithmetic T>
 #else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>

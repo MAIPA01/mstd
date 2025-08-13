@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 project(mstd VERSION 1.2 LANGUAGES CXX)
 
-option(MSTD_CXX_20 OFF)
+option(MSTD_ENABLE_CXX20 OFF)
 
-if (MSTD_CXX_20)
+if (MSTD_ENABLE_CXX20)
 	set(CMAKE_CXX_STANDARD 20)
 else()
 	set(CMAKE_CXX_STANDARD 17)
@@ -45,6 +45,12 @@ if(MSVC)
 	target_compile_options(${PROJECT_NAME} INTERFACE /Zc:preprocessor)
 else()
 	#target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra -Wpendantic -Werror)
+endif()
+
+if (MSTD_ENABLE_CXX20)
+	target_compile_definitions(${PROJECT_NAME} INTERFACE _MSTD_ENABLE_CXX20=1)
+else()
+	target_compile_definitions(${PROJECT_NAME} INTERFACE _MSTD_ENABLE_CXX20=0)
 endif()
 
 # TODO: install
