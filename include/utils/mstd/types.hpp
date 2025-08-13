@@ -95,7 +95,7 @@ namespace mstd {
 
 	template<class T, class U> struct unique_impl {};
 	template<class... Ts, class T, class... Us> struct unique_impl<types_holder<Ts...>, types_holder<T, Us...>> {
-		using type = std::conditional_t<is_type_in_v<T, Ts...>,
+		using type = std::conditional_t<is_same_type_in_v<T, Ts...>,
 			unique_impl<types_holder<Ts...>, types_holder<Us...>>,
 			unique_impl<types_holder<Ts..., T>, types_holder<Us...>>>;
 	};
