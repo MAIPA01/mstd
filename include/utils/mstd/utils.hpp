@@ -11,3 +11,4 @@
 #include "utils_libs.hpp"
 #include "id_manager.hpp"
 #include "types.hpp"
+#include "hash.hpp"
