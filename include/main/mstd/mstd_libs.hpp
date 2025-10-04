@@ -8,8 +8,9 @@
  */
 
 #pragma once
-#include "functions_libs.hpp"
-#include "arithmetic_libs.hpp"
-#include "containers_libs.hpp"
-#include "terminal_libs.hpp"
-#include "string_libs.hpp"
+#include <mstd/utils_libs.hpp>
+#include <mstd/functions_libs.hpp>
+#include <mstd/arithmetic_libs.hpp>
+#include <mstd/containers_libs.hpp>
+#include <mstd/terminal_libs.hpp>
+#include <mstd/string_libs.hpp>

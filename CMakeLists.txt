@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(mstd VERSION 1.2 LANGUAGES CXX)
+project(mstd VERSION 1.2.0 LANGUAGES CXX)
 
 option(MSTD_ENABLE_CXX20 OFF)
 
@@ -10,6 +10,10 @@ else()
 endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+option(BUILD_MSTD_TESTS "Build mstd tests" OFF)
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/third_party.cmake)
 
 # header files
 set(PROJECT_HEADERS ${PROJECT_NAME}_HEADERS)
@@ -51,6 +55,12 @@ if (MSTD_ENABLE_CXX20)
 	target_compile_definitions(${PROJECT_NAME} INTERFACE _MSTD_ENABLE_CXX20=1)
 else()
 	target_compile_definitions(${PROJECT_NAME} INTERFACE _MSTD_ENABLE_CXX20=0)
+endif()
+
+message(STATUS "TESTS ${BUILD_MSTD_TESTS}")
+
+if(BUILD_MSTD_TESTS)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)
 endif()
 
 # TODO: install

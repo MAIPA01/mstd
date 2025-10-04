@@ -246,13 +246,23 @@ namespace mstd {
 		}
 		quat<T>& operator--() {
 			s -= 1;
-			v--;
+			--v;
 			return *this;
+		}
+		quat<T> operator--(int) {
+			quat<T> old = *this;
+			operator--();
+			return old;
 		}
 		quat<T>& operator++() {
 			s += 1;
-			v++;
+			++v;
 			return *this;
+		}
+		quat<T> operator++(int) {
+			quat<T> old = *this;
+			operator++();
+			return old;
 		}
 
 		bool operator==(const quat<T>& other) const {

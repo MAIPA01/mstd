@@ -11,4 +11,5 @@
 #include <unordered_set>
 #include <limits>
 #include <type_traits>
-#include <xhash>
+#include <functional>
+#include <mstd/mstd_config.hpp>

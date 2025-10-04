@@ -80,7 +80,7 @@ namespace mstd {
 			return x - std::floor(x);
 		}
 		else {
-			return x;
+			return 0;
 		}
 	}
 

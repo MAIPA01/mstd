@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <iostream>
+#include <mstd/mstd_config.hpp>
 
 #if defined(_WIN32)
 	#define VC_EXTRALEAN

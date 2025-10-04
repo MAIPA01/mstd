@@ -9,7 +9,14 @@
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
-      "ctestCommandArgs": ""
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "BUILD_MSTD_TESTS",
+          "value": "True",
+          "type": "BOOL"
+        }
+      ]
     },
     {
       "name": "x64-Release",

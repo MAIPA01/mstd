@@ -10,3 +10,4 @@
 #pragma once
 #include <functional>
 #include <type_traits>
+#include <mstd/mstd_config.hpp>

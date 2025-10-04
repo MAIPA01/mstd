@@ -438,7 +438,7 @@ namespace mstd {
 		}
 
 		vec<N, T> refracted(const vec<N, T>& normal, const T& eta) const {
-			float cos_theta = std::min(dot(-(*this), normal), 1.0f);
+			float cos_theta = std::min((-(*this)).dot(normal), 1.0f);
 			vec<N, T> r_out_perp = eta * (*this + cos_theta * normal);
 			float length = r_out_perp.length();
 			vec<N, T> r_out_parallel = -std::sqrt(std::abs(1.0f - length * length)) * normal;
@@ -447,7 +447,7 @@ namespace mstd {
 
 		vec<N, T>& saturate() noexcept {
 			for (size_t i = 0; i != N; ++i) {
-				_values[i] = saturate(_values[i]);
+				_values[i] = ::mstd::saturate(_values[i]);
 			}
 			return *this;
 		}
@@ -459,7 +459,7 @@ namespace mstd {
 
 		vec<N, T>& fract() noexcept {
 			for (size_t i = 0; i != N; ++i) {
-				_values[i] = fract(_values[i]);
+				_values[i] = ::mstd::fract(_values[i]);
 			}
 			return *this;
 		}
@@ -543,14 +543,14 @@ namespace mstd {
 
 		vec<N, T>& step(const T& edge) noexcept {
 			for (size_t i = 0; i != N; ++i) {
-				_values[i] = step(edge, _values[i]);
+				_values[i] = ::mstd::step(edge, _values[i]);
 			}
 			return *this;
 		}
 
 		vec<N, T>& step(const vec<N, T>& edge) noexcept {
 			for (size_t i = 0; i != N; ++i) {
-				_values[i] = step(edge[i], _values[i]);
+				_values[i] = ::mstd::step(edge[i], _values[i]);
 			}
 			return *this;
 		}
@@ -721,8 +721,18 @@ namespace mstd {
 		vec<N, T>& operator++() {
 			return *this += vec<N, T>::one();
 		}
+		vec<N, T> operator++(int) {
+			vec<N, T> old = *this;
+			operator++();
+			return old;
+		}
 		vec<N, T>& operator--() {
 			return *this -= vec<N, T>::one();
+		}
+		vec<N, T> operator--(int) {
+			vec<N, T> old = *this;
+			operator--();
+			return old;
 		}
 
 		template<size_t ON>

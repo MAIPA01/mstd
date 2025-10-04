@@ -10,3 +10,4 @@
 #pragma once
 #include <string>
 #include <algorithm>
+#include <mstd/mstd_config.hpp>
