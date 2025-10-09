@@ -10,20 +10,22 @@
 #pragma once
 #include "utils_libs.hpp"
 
-template<class T>
-void hash_combine(size_t& seed, const T& value) {
-	seed ^= std::hash<T>()(value) + 0x9e3779b9
-		+ (seed << 6) + (seed >> 2);
-}
+namespace mstd {
+	template<class T>
+	void hash_combine(size_t& seed, const T& value) {
+		seed ^= std::hash<T>()(value) + 0x9e3779b9
+			+ (seed << 6) + (seed >> 2);
+	}
 
-template<class... Ts>
-void hash_combine(size_t& seed, const Ts&... values) {
-	{ hash_combine(seed, values)... };
-}
+	template<class... Ts>
+	void hash_combine(size_t& seed, const Ts&... values) {
+		{ hash_combine(seed, values)... };
+	}
 
-template<class Iter>
-void hash_combine(size_t& seed, const Iter& begin, const Iter& end) {
-	for (const Iter& i = begin; i != end; ++i) {
-		hash_combine(seed, *i);
+	template<class Iter>
+	void hash_combine(size_t& seed, const Iter& begin, const Iter& end) {
+		for (const Iter& i = begin; i != end; ++i) {
+			hash_combine(seed, *i);
+		}
 	}
 }
