@@ -22,15 +22,33 @@ namespace mstd {
 		using type = std::function<R(Args...)>;
 	};
 
+	// for std::function (noexcept)
+	template<class R, class... Args>
+	struct as_function<std::function<R(Args...) noexcept>> {
+		using type = std::function<R(Args...)>;
+	};
+
 	// for function pointers
 	template<class R, class... Args>
 	struct as_function<R(*)(Args...)> {
 		using type = std::function<R(Args...)>;
 	};
 
+	// for function pointers (noexcept)
+	template<class R, class... Args>
+	struct as_function<R(*)(Args...) noexcept> {
+		using type = std::function<R(Args...)>;
+	};
+
 	// for function references
 	template<class R, class... Args>
 	struct as_function<R(&)(Args...)> {
+		using type = std::function<R(Args...)>;
+	};
+
+	// for function references (noexcept)
+	template<class R, class... Args>
+	struct as_function<R(&)(Args...) noexcept> {
 		using type = std::function<R(Args...)>;
 	};
 
@@ -44,9 +62,21 @@ namespace mstd {
 		using type = std::function<R(Args...)>;
 	};
 
+	// for member function pointers (non-const noexcept)
+	template<class C, class R, class... Args>
+	struct as_function<R(C::*)(Args...) noexcept> {
+		using type = std::function<R(Args...)>;
+	};
+
 	// for member function pointers (const)
 	template<class C, class R, class... Args>
 	struct as_function<R(C::*)(Args...) const> {
+		using type = std::function<R(Args...)>;
+	};
+
+	// for member function pointers (const noexcept)
+	template<class C, class R, class... Args>
+	struct as_function<R(C::*)(Args...) const noexcept> {
 		using type = std::function<R(Args...)>;
 	};
 
@@ -56,9 +86,21 @@ namespace mstd {
 		using type = std::function<R(Args...)>;
 	};
 
+	// for member function pointers (volatile noexcept)
+	template<class C, class R, class... Args>
+	struct as_function<R(C::*)(Args...) volatile noexcept> {
+		using type = std::function<R(Args...)>;
+	};
+
 	// for member function pointers (const volatile)
 	template<class C, class R, class... Args>
 	struct as_function<R(C::*)(Args...) const volatile> {
+		using type = std::function<R(Args...)>;
+	};
+
+	// for member function pointers (const volatile noexcept)
+	template<class C, class R, class... Args>
+	struct as_function<R(C::*)(Args...) const volatile noexcept> {
 		using type = std::function<R(Args...)>;
 	};
 

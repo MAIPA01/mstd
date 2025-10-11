@@ -19,7 +19,7 @@ namespace mstd {
 
 	template<class... Ts>
 	void hash_combine(size_t& seed, const Ts&... values) {
-		{ hash_combine(seed, values)... };
+		(hash_combine(seed, values), ...);
 	}
 
 	template<class Iter>
