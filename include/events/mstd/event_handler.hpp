@@ -62,7 +62,7 @@ namespace mstd {
 		}
 
 #if _HAS_CXX20 && _MSTD_ENABLE_CXX20
-		template<eevent_action_func<event_action_type> F>
+		template<event_action_func<event_action_type> F>
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
 #endif
