@@ -14,7 +14,7 @@ namespace mstd {
 
 	template<typename... Args>
 	class event_handler {
-		using id_type = int64_t;
+		using id_type = size_t;
 		using event_action_type = action<Args...>;
 		using events_type = std::unordered_map<id_type, event_action_type>;
 		using id_manager_type = id_manager<id_type>;
@@ -24,23 +24,23 @@ namespace mstd {
 		id_manager_type _ids = {};
 
 	public:
-		event_handler() = default;
-		virtual ~event_handler() = default;
+		event_handler() noexcept = default;
+		virtual ~event_handler() noexcept = default;
 
 #if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		template<event_action_func<event_action_type> F>
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
 #endif
-		constexpr id_type add_callback(const F& callback) {
+		[[nodiscard]] constexpr id_type add_callback(const F& callback) {
 			id_type id = _ids.get_next_id();
-			if (id == -1) return id;
+			if (id == id_manager_type::bad_id()) return id;
 
 			_events[id] = callback;
 			return id;
 		}
 
-		bool remove_callback(const id_type& callbackId) {
+		[[nodiscard]] constexpr bool remove_callback(const id_type& callbackId) {
 			auto& itr = _events.find(callbackId);
 			if (itr == _events.end()) {
 				return false;
@@ -62,15 +62,15 @@ namespace mstd {
 		}
 
 #if _HAS_CXX20 && _MSTD_ENABLE_CXX20
-		template<event_action_func F>
+		template<eevent_action_func<event_action_type> F>
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
 #endif
-		constexpr id_type operator+=(const F& callback) {
+		[[nodiscard]] constexpr id_type operator+=(const F& callback) {
 			return add_callback(callback);
 		}
 
-		constexpr bool operator-=(id_type callbackId) {
+		[[nodiscard]] constexpr bool operator-=(id_type callbackId) {
 			return remove_callback(callbackId);
 		}
 

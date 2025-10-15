@@ -13,9 +13,9 @@
 
 namespace mstd {
 #if _HAS_CXX20 && _MSTD_ENABLE_CXX20
-	template<signed_integral _idT>
+	template<unsigned_integral _idT>
 #else
-	template<class _idT, std::enable_if_t<std::is_signed_v<_idT>, bool> = true>
+	template<class _idT = size_t, std::enable_if_t<std::is_unsigned_v<_idT>, bool> = true>
 #endif
 	class id_manager {
 	public:
@@ -27,7 +27,7 @@ namespace mstd {
 
 		static constexpr id_type _maxIds = std::numeric_limits<id_type>::max();
 
-		void _update_removed_ids() {
+		constexpr void _update_removed_ids() {
 			if (_removedIds.empty()) return;
 
 			auto& last = --_removedIds.end();
@@ -42,25 +42,25 @@ namespace mstd {
 		}
 
 	public:
-		id_manager() = default;
-		virtual ~id_manager() = default;
+		id_manager() noexcept = default;
+		virtual ~id_manager() noexcept = default;
 
-		id_type get_next_id() {
+		[[nodiscard]] constexpr id_type get_next_id() {
 			if (!_removedIds.empty()) {
 				const id_type id = *_removedIds.begin();
 				_removedIds.erase(id);
 				return id;
 			}
 
-			if (_nextId == _maxIds) return id_type(-1);
+			if (_nextId == _maxIds) return bad_id();
 
 			const id_type id = _nextId;
 			++_nextId;
 			return _nextId;
 		}
 
-		bool return_id(const id_type& id) {
-			if (id == -1 || id >= _nextId || _removedIds.find(id) != _removedIds.end()) {
+		[[nodiscard]] constexpr bool return_id(const id_type& id) {
+			if (id == bad_id() || id >= _nextId || _removedIds.find(id) != _removedIds.end()) {
 				return false;
 			}
 
@@ -69,22 +69,26 @@ namespace mstd {
 			return true;
 		}
 
-		void reset() {
+		void reset() noexcept {
 			_nextId = 0;
 			_removedIds.clear();
 		}
 
-		static constexpr id_type max_ids() {
+		static constexpr id_type bad_id() noexcept {
+			return static_cast<id_type>(-1);
+		}
+
+		static constexpr id_type max_ids() noexcept {
 			return _maxIds;
 		}
 
-		static constexpr id_type last_id() {
+		static constexpr id_type last_id() noexcept {
 			return _maxIds - 1;
 		}
 	};
 
-	using id8_manager = id_manager<int8_t>;
-	using id16_manager = id_manager<int16_t>;
-	using id32_manager = id_manager<int32_t>;
-	using id64_manager = id_manager<int64_t>;
+	using id8_manager = id_manager<uint8_t>;
+	using id16_manager = id_manager<uint16_t>;
+	using id32_manager = id_manager<uint32_t>;
+	using id64_manager = id_manager<uint64_t>;
 }
