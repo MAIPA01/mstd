@@ -13,7 +13,7 @@
 
 namespace mstd {
 #if _HAS_CXX20 && _MSTD_ENABLE_CXX20
-	template<unsigned_integral _idT>
+	template<unsigned_integral _idT = size_t>
 #else
 	template<class _idT = size_t, std::enable_if_t<std::is_unsigned_v<_idT>, bool> = true>
 #endif
