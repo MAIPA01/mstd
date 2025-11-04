@@ -41,7 +41,7 @@ namespace mstd {
 		}
 
 		[[nodiscard]] constexpr bool remove_callback(const id_type& callbackId) {
-			auto& itr = _events.find(callbackId);
+			auto itr = _events.find(callbackId);
 			if (itr == _events.end()) {
 				return false;
 			}
