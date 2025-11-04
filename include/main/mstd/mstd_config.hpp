@@ -11,7 +11,7 @@
 #pragma region VERSION
 #define MSTD_VERSION_MAJOR 1
 #define MSTD_VERSION_MINOR 2
-#define MSTD_VERSION_PATCH 3
+#define MSTD_VERSION_PATCH 4
 
 #define _MSTD_STRINGIFY_HELPER(x) #x
 
@@ -30,8 +30,8 @@
 #pragma endregion
 
 #pragma region LAST_UPDATE
-#define MSTD_LAST_UPDATE_DAY 16
-#define MSTD_LAST_UPDATE_MONTH 10
+#define MSTD_LAST_UPDATE_DAY 04
+#define MSTD_LAST_UPDATE_MONTH 11
 #define MSTD_LAST_UPDATE_YEAR 2025
 
 #define _MSTD_LAST_UPDATE_DATE_HELPER(day, month, year) _MSTD_STRINGIFY_HELPER(day)"."\
