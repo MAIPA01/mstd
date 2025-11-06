@@ -11,21 +11,26 @@
 #include "utils_libs.hpp"
 
 namespace mstd {
-	template<class T>
-	void hash_combine(size_t& seed, const T& value) {
-		seed ^= std::hash<T>()(value) + 0x9e3779b9
-			+ (seed << 6) + (seed >> 2);
+	template<class T, class... Ts>
+	void hash_append(size_t& hash_value, const T& value, const Ts&... values) {
+		hash_value ^= std::hash<T>()(value) + 0x9e3779b9 + (hash_value << 6) + (hash_value >> 2);
+
+		if constexpr (sizeof...(Ts) != 0) {
+			hash_append(hash_value, values...);
+		}
 	}
 
-	template<class... Ts>
-	void hash_combine(size_t& seed, const Ts&... values) {
-		(hash_combine(seed, values), ...);
+	template<class T0, class T1, class... Ts>
+	size_t hash_combine(const T0& value0, const T1& value1, const Ts&... values) {
+		size_t hash_value = 0;
+		hash_append(hash_value, value0, value1, values...);
+		return hash_value;
 	}
 
 	template<class Iter>
-	void hash_combine(size_t& seed, const Iter& begin, const Iter& end) {
-		for (const Iter& i = begin; i != end; ++i) {
-			hash_combine(seed, *i);
+	void hash_range(size_t& seed, const Iter& begin, const Iter& end) {
+		for (Iter i = begin; i != end; ++i) {
+			hash_append(seed, *i);
 		}
 	}
 }

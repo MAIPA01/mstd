@@ -32,7 +32,7 @@ namespace mstd {
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
 #endif
-		[[nodiscard]] constexpr id_type add_callback(const F& callback) {
+		constexpr id_type add_callback(const F& callback) {
 			id_type id = _ids.get_next_id();
 			if (id == id_manager_type::bad_id()) return id;
 
@@ -40,7 +40,7 @@ namespace mstd {
 			return id;
 		}
 
-		[[nodiscard]] constexpr bool remove_callback(const id_type& callbackId) {
+		constexpr bool remove_callback(const id_type& callbackId) {
 			auto itr = _events.find(callbackId);
 			if (itr == _events.end()) {
 				return false;
@@ -66,11 +66,11 @@ namespace mstd {
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
 #endif
-		[[nodiscard]] constexpr id_type operator+=(const F& callback) {
+		constexpr id_type operator+=(const F& callback) {
 			return add_callback(callback);
 		}
 
-		[[nodiscard]] constexpr bool operator-=(id_type callbackId) {
+		constexpr bool operator-=(id_type callbackId) {
 			return remove_callback(callbackId);
 		}
 
