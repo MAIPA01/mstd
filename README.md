@@ -146,8 +146,6 @@ int main() {
 using namespace std;
 using namespace mstd;
 
-bool testFunc(string s) { return !s.empty(); }
-
 int main() {
     auto lambda = [](string s) -> bool { return !s.empty(); };
     static_assert(is_same_function_v<decltype(lambda), bool(*)(string)>);
