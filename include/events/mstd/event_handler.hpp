@@ -57,7 +57,7 @@ namespace mstd {
 
 		void invoke(Args... args) const {
 			for (const auto& [id, event] : _events) {
-				event.action(args...);
+				event(args...);
 			}
 		}
 

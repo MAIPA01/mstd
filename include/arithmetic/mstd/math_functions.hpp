@@ -86,8 +86,13 @@ namespace mstd {
 
 	static constexpr float Q_rsqrt(float number) noexcept
 	{
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
 		const auto y = std::bit_cast<float>(
 			0x5f3759df - (std::bit_cast<uint32_t>(number) >> 1));
+#else
+		const auto yi = 0x5f3759df - ((*reinterpret_cast<uint32_t*>(&number)) >> 1);
+		const auto y = *reinterpret_cast<float*>(&yi);
+#endif
 		return y * (1.5f - (number * 0.5f * y * y));
 	}
 }

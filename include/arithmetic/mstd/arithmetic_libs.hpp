@@ -14,10 +14,12 @@
 #include <math.h>
 #include <cmath>
 #include <algorithm>
-#include <bit>
 #include <iostream>
 #include <iomanip>
 #include <cstring>
 #include <string>
 #include <mstd/mstd_config.hpp>
 #include <mstd/types.hpp>
+#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+#include <bit>
+#endif
