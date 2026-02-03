@@ -11,7 +11,7 @@
 #pragma region VERSION
 #define MSTD_VERSION_MAJOR 1
 #define MSTD_VERSION_MINOR 2
-#define MSTD_VERSION_PATCH 5
+#define MSTD_VERSION_PATCH 7
 
 #define _MSTD_STRINGIFY_HELPER(x) #x
 
@@ -30,9 +30,9 @@
 #pragma endregion
 
 #pragma region LAST_UPDATE
-#define MSTD_LAST_UPDATE_DAY 06
-#define MSTD_LAST_UPDATE_MONTH 11
-#define MSTD_LAST_UPDATE_YEAR 2025
+#define MSTD_LAST_UPDATE_DAY 04
+#define MSTD_LAST_UPDATE_MONTH 02
+#define MSTD_LAST_UPDATE_YEAR 2026
 
 #define _MSTD_LAST_UPDATE_DATE_HELPER(day, month, year) _MSTD_STRINGIFY_HELPER(day)"."\
 															_MSTD_STRINGIFY_HELPER(month)"."\
@@ -42,23 +42,3 @@
 															MSTD_LAST_UPDATE_MONTH, \
 														    MSTD_LAST_UPDATE_YEAR)
 #pragma endregion
-
-#ifdef __cplusplus
-#if defined(_MSVC_LANG) && _MSVC_LANG > __cplusplus
-#define _STL_LANG _MSVC_LANG
-#else  // ^^^ language mode is _MSVC_LANG / language mode is __cplusplus vvv
-#define _STL_LANG __cplusplus
-#endif // ^^^ language mode is larger of _MSVC_LANG and __cplusplus ^^^
-#else  // ^^^ determine compiler's C++ mode / no C++ support vvv
-#define _STL_LANG 0L
-#endif // ^^^ no C++ support ^^^
-
-#ifndef _HAS_CXX20
-#if _HAS_CXX17 && _STL_LANG > 201703L
-#define _HAS_CXX20 1
-#else
-#define _HAS_CXX20 0
-#endif
-#endif // _HAS_CXX20
-
-#undef _STL_LANG

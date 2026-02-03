@@ -9,10 +9,10 @@ namespace mstd {
 #endif
 	static constexpr T signum(const T& x) noexcept {
 		if constexpr (std::is_signed_v<T>) {
-			return (T(0) < x) - (x < T(0));
+			return static_cast<T>((static_cast<T>(0) < x) - (x < static_cast<T>(0)));
 		}
 		else {
-			return T(0) != x;
+			return static_cast<T>(0) != x;
 		}
 	}
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(mstd VERSION 1.2.0 LANGUAGES CXX)
+project(mstd VERSION 1.2.7 LANGUAGES CXX)
 
 option(MSTD_ENABLE_CXX20 OFF)
 
@@ -44,13 +44,6 @@ target_include_directories(${PROJECT_NAME} INTERFACE ${HEADERS_PATHS}
 #	$<INSTALL_INTERFACE:${INSTALL_HEADERS_PATH}>
 )
 
-# Optional compiler flags
-if(MSVC)
-	target_compile_options(${PROJECT_NAME} INTERFACE /Zc:preprocessor)
-else()
-	#target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra -Wpendantic -Werror)
-endif()
-
 if (MSTD_ENABLE_CXX20)
 	target_compile_definitions(${PROJECT_NAME} INTERFACE _MSTD_ENABLE_CXX20=1)
 else()
@@ -69,36 +62,31 @@ target_compile_options(${PROJECT_NAME} INTERFACE
     $<$<OR:$<CXX_COMPILER_ID:MSVC>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>>>:
         $<$<CONFIG:Release>:/O2>
         $<$<CONFIG:Release>:/GL>
+        $<$<CONFIG:Release>:/fp:fast>
         $<$<CONFIG:Debug>:/RTC1>
+        $<$<CONFIG:Debug>:/Zi>
         /Zc:preprocessor
+        /Zc:__cplusplus
+        /W4
+        /WX
     >
     # GCC/clang with GNU frontend
     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>>>:
         $<$<CONFIG:Release>:-O3>
         $<$<CONFIG:Release>:-flto>
+        -Wall
+        -Wextra
+        -Werror
+        -fno-strict-aliasing
     >
     # disable noexcept type warning on GCC
     $<$<CXX_COMPILER_ID:GNU>:
         $<$<CONFIG:Release>:-O3>
         $<$<CONFIG:Release>:-flto>
-    >
-)
-
-target_link_options(${PROJECT_NAME} INTERFACE
-    # MSVC/clang with MSVC frontend
-    $<$<OR:$<CXX_COMPILER_ID:MSVC>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>>>:
-        $<$<CONFIG:Release>:/LTCG>
-    >
-    # GCC/clang with GNU frontend
-    $<$<OR:$<CXX_COMPILER_ID:GNU>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>>>:
-        $<$<CONFIG:Release>:-flto>
-        -static
-        $<$<CONFIG:Release>:-fuse-ld=lld>
-    >
-    # disable noexcept type warning on GCC
-    $<$<CXX_COMPILER_ID:GNU>:
-        $<$<CONFIG:Release>:-flto>
-        -static
+        -Wall
+        -Wextra
+        -Werror
+        -fno-strict-aliasing
     >
 )
 

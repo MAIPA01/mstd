@@ -5,7 +5,11 @@ TEST(ARITHMETIC_TESTS, BIT_OPERATIONS) {
 	uint32_t i = 0x0000000Fu;
 	uint32_t j = mstd::swap_endians(i);
 
-	ASSERT_TRUE((i & 0x0F) == ((j & 0x0F000000) >> 56));
+	i &= 0x0Fu;
+	j &= 0x0F000000u;
+	j >>= 56u;
+
+	ASSERT_EQ(i, j);
 }
 
 TEST(ARITHMETIC_TESTS, MATH_FUNCTIONS) {
@@ -100,7 +104,7 @@ TEST(ARITHMETIC_TESTS, QUAT) {
 	ASSERT_EQ(q.v, mstd::vec3());
 
 	// rotation quat
-	q = mstd::fquat::rotation(mstd::vec3(1.f, 0.f, 0.f), M_PI_2);
+	q = mstd::fquat::rotation(mstd::vec3(1.f, 0.f, 0.f), static_cast<float>(M_PI_2));
 	ASSERT_FLOAT_EQ(q.s, 0.70710683f);
 	ASSERT_EQ(q.v, mstd::vec3(0.70710683f, 0.f, 0.f));
 
@@ -134,7 +138,7 @@ TEST(ARITHMETIC_TESTS, QUAT) {
 
 	// get radians
 	mstd::vec3 v = q.to_radians();
-	ASSERT_FLOAT_EQ(v.x(), M_PI_2);
+	ASSERT_FLOAT_EQ(v.x(), static_cast<float>(M_PI_2));
 	ASSERT_FLOAT_EQ(v.y(), 4.3711388e-08f);
 	ASSERT_FLOAT_EQ(v.z(), 0.f);
 
@@ -392,7 +396,7 @@ TEST(ARITHMETIC_TESTS, VEC) {
 	ASSERT_FLOAT_EQ(v3.z(), 0.f);
 
 	// rotated
-	v3 = v3.rotated(mstd::vec3(1.f, 0.f, 0.f), M_PI_2);
+	v3 = v3.rotated(mstd::vec3(1.f, 0.f, 0.f), static_cast<float>(M_PI_2));
 	ASSERT_FLOAT_EQ(v3.x(), 1.0000001f);
 	ASSERT_FLOAT_EQ(v3.y(), 0.f);
 	ASSERT_FLOAT_EQ(v3.z(), 0.f);

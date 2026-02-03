@@ -30,7 +30,7 @@ namespace mstd {
 		constexpr void _update_removed_ids() {
 			if (_removedIds.empty()) return;
 
-			auto& last = --_removedIds.end();
+			auto last = --_removedIds.end();
 			while (*last == _nextId - 1) {
 				--_nextId;
 				_removedIds.erase(*last);
@@ -59,7 +59,7 @@ namespace mstd {
 			return _nextId;
 		}
 
-		[[nodiscard]] constexpr bool return_id(const id_type& id) {
+		constexpr bool return_id(const id_type& id) {
 			if (id == bad_id() || id >= _nextId || _removedIds.find(id) != _removedIds.end()) {
 				return false;
 			}
