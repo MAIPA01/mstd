@@ -11,7 +11,7 @@
 #include "arithmetic_libs.hpp"
 
 namespace mstd {
-#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+#if _MSTD_HAS_CXX20
 	template<size_t N, arithmetic T>
 	requires (N > 0)
 	class vec;

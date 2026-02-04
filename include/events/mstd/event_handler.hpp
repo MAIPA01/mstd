@@ -7,16 +7,16 @@ namespace mstd {
 	template<class... Args> using action = func<void, Args...>;
 	using method = action<>;
 
-#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+#if _MSTD_HAS_CXX20
 	template<class F, class AT>
 	concept event_action_func = mstd::is_same_function_v<F, AT>;
 #endif
 
-	template<typename... Args>
-	class event_handler {
+	template<template<class, class, class...> class EventsMap, class... Args>
+	class base_event_handler {
 		using id_type = size_t;
 		using event_action_type = action<Args...>;
-		using events_type = std::unordered_map<id_type, event_action_type>;
+		using events_type = EventsMap<id_type, event_action_type>;
 		using id_manager_type = id_manager<id_type>;
 
 	private:
@@ -24,15 +24,15 @@ namespace mstd {
 		id_manager_type _ids = {};
 
 	public:
-		event_handler() noexcept = default;
-		virtual ~event_handler() noexcept = default;
+		_MSTD_CONSTEXPR20 base_event_handler() noexcept = default;
+		_MSTD_CONSTEXPR20 ~base_event_handler() noexcept = default;
 
-#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+#if _MSTD_HAS_CXX20
 		template<event_action_func<event_action_type> F>
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
 #endif
-		[[nodiscard]] constexpr id_type add_callback(const F& callback) {
+		[[nodiscard]] _MSTD_CONSTEXPR20 id_type add_callback(const F& callback) {
 			id_type id = _ids.get_next_id();
 			if (id == id_manager_type::bad_id()) return id;
 
@@ -40,7 +40,7 @@ namespace mstd {
 			return id;
 		}
 
-		constexpr bool remove_callback(const id_type& callbackId) {
+		_MSTD_CONSTEXPR20 bool remove_callback(id_type callbackId) {
 			auto itr = _events.find(callbackId);
 			if (itr == _events.end()) {
 				return false;
@@ -49,33 +49,52 @@ namespace mstd {
 			_events.erase(callbackId);
 			return _ids.return_id(callbackId);
 		}
-		constexpr void remove_all_callbacks() {
+		_MSTD_CONSTEXPR20 void remove_all_callbacks() {
 			_events.clear();
 			_ids.reset();
 		}
 
-		void invoke(Args... args) const {
+		_MSTD_CONSTEXPR20 void invoke(const Args&... args) const {
+			if (_events.empty()) return;
+
+			std::vector<event_action_type> callbacks_to_run;
+			callbacks_to_run.reserve(_events.size());
+
 			for (const auto& [id, event] : _events) {
-				event(args...);
+				callbacks_to_run.push_back(event);
+			}
+
+			for (const auto& callback : callbacks_to_run) {
+				callback(args...);
 			}
 		}
 
-#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+#if _MSTD_HAS_CXX20
 		template<event_action_func<event_action_type> F>
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
 #endif
-		constexpr id_type operator+=(const F& callback) {
+		_MSTD_CONSTEXPR20 id_type operator+=(const F& callback) {
 			return add_callback(callback);
 		}
 
-		constexpr bool operator-=(id_type callbackId) {
+		_MSTD_CONSTEXPR20 bool operator-=(id_type callbackId) {
 			return remove_callback(callbackId);
 		}
 
-		constexpr void operator()(Args... args) const {
+		_MSTD_CONSTEXPR20 void operator()(const Args&... args) const {
 			invoke(args...);
 		}
 	};
+
+	template<template<class, class> class EventsMap>
+	using method_base_event_handler = base_event_handler<EventsMap>;
+
+	template<class... Args>
+	using unordered_event_handler = base_event_handler<std::unordered_map, Args...>;
+	using unordered_method_event_handler = unordered_event_handler<>;
+
+	template<class... Args>
+	using event_handler = base_event_handler<std::map, Args...>;
 	using method_event_handler = event_handler<>;
 }

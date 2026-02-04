@@ -20,6 +20,6 @@
 #include <string>
 #include <mstd/mstd_config.hpp>
 #include <mstd/types.hpp>
-#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+#if _MSTD_HAS_CXX20
 #include <bit>
 #endif

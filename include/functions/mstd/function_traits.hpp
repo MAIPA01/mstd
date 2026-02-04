@@ -17,8 +17,10 @@ namespace mstd {
 
 	template<class R, class... Args>
 	struct function_traits<std::function<R(Args...)>> {
-		using return_type = std::decay_t<R>;
-		using args_tuple = std::tuple<std::decay_t<Args>...>;
+		using return_type = R;
+		using decayed_return_type = std::decay_t<R>;
+		using args_tuple = std::tuple<Args...>;
+		using decayed_args_tuple = std::tuple<std::decay_t<Args>...>;
 		static constexpr size_t args_num = sizeof...(Args);
 	};
 
@@ -29,7 +31,19 @@ namespace mstd {
 	using function_args_t = function_traits<F>::args_tuple;
 
 	template<class F>
+	using function_decayed_args_t = function_traits<F>::decayed_args_tuple;
+
+	template<class F, size_t N>
+	using function_arg_t = std::tuple_element_t<N, function_args_t<F>>;
+
+	template<class F, size_t N>
+	using function_decayed_arg_t = std::tuple_element_t<N, function_decayed_args_t<F>>;
+
+	template<class F>
 	using function_return_t = function_traits<F>::return_type;
+
+	template<class F>
+	using function_decayed_return_t = function_traits<F>::decayed_return_type;
 
 	template<class F>
 	constexpr size_t function_args_num_v = function_traits<F>::args_num;

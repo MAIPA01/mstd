@@ -28,33 +28,32 @@ namespace mstd {
         _data_type _ordered_elements;
         std::unordered_map<Key, size_t> _elements_map;
 
-        void _update_indexes(const size_t& from) {
+        _MSTD_CONSTEXPR20 void _update_indexes(const size_t& from) {
             for (size_t i = from; i != _ordered_elements.size(); ++i) {
                 _elements_map[_ordered_elements[i].first] = i;
             }
         }
 
     public:
-        ordered_map() = default;
+        _MSTD_CONSTEXPR20 ordered_map() = default;
 
-        ordered_map(const std::initializer_list<std::pair<Key, T>>& init) {
+        _MSTD_CONSTEXPR20 ordered_map(const std::initializer_list<std::pair<Key, T>>& init) {
             insert(this->end(), init.begin(), init.end());
         }
 
-        ordered_map(const ordered_map<Key, T>& other) {
+        _MSTD_CONSTEXPR20 ordered_map(const ordered_map<Key, T>& other) {
             insert(this->end(), other.begin(), other.end());
         }
 
         template<class _Iter>
-        ordered_map(const _Iter& begin, const _Iter& end) {
+        _MSTD_CONSTEXPR20 ordered_map(const _Iter& begin, const _Iter& end) {
             insert(this->end(), begin, end);
         }
 
-        void insert(const const_iterator& where, const std::pair<Key, T>& value) {
+        _MSTD_CONSTEXPR20 void insert(const const_iterator& where, const std::pair<Key, T>& value) {
             if (_elements_map.contains(value.first)) {
                 // move key to where and change value (after update iterators in map)
-                
-                size_t where_offset = where - _ordered_elements.begin();
+                size_t where_offset = std::clamp<size_t>(where - _ordered_elements.begin(), 0, _ordered_elements.size() - 1);
                 const size_t& elem_offset = _elements_map[value.first];
 
                 // remove elem
@@ -78,14 +77,15 @@ namespace mstd {
         }
 
         template<class _Iter>
-        void insert(const const_iterator& where, const _Iter& begin, const _Iter& end) {
+        _MSTD_CONSTEXPR20 void insert(const const_iterator& where, const _Iter& begin, const _Iter& end) {
             size_t curr_where_offset = where - _ordered_elements.begin();
             for (_Iter iter = begin; iter != end; ++iter, ++curr_where_offset) {
+                curr_where_offset = std::clamp<size_t>(curr_where_offset, 0, _ordered_elements.size());
                 insert(_ordered_elements.begin() + curr_where_offset, *iter);
             }
         }
 
-        void erase(const Key& key) {
+        _MSTD_CONSTEXPR20 void erase(const Key& key) {
             if (_elements_map.contains(key)) {
                 size_t element_offset = _elements_map[key];
 
@@ -96,14 +96,14 @@ namespace mstd {
             }
         }
 
-        T& at(const Key& key) {
+        _MSTD_CONSTEXPR20 T& at(const Key& key) {
             if (!_elements_map.contains(key)) {
                 insert(this->end(), { key, T() });
             }
             return _ordered_elements[_elements_map[key]].second;
         }
 
-        const T& at(const Key& key) const {
+        _MSTD_CONSTEXPR20 const T& at(const Key& key) const {
             if (_elements_map.contains(key)) {
                 return _ordered_elements.at(_elements_map.at(key)).second;
             }
@@ -112,72 +112,60 @@ namespace mstd {
             }
         }
 
-        size_t size() const {
+        _MSTD_CONSTEXPR20 size_t size() const {
             return _elements_map.size();
         }
 
-        bool empty() const {
+        _MSTD_CONSTEXPR20 bool empty() const {
             return _elements_map.empty();
         }
 
-        bool contains(const Key& key) const {
+        _MSTD_CONSTEXPR20 bool contains(const Key& key) const {
             return _elements_map.contains(key);
         }
 
-        iterator find(const Key& key) {
+        _MSTD_CONSTEXPR20 iterator find(const Key& key) {
             auto it = _elements_map.find(key);
             return it != _elements_map.end() ? _ordered_elements.begin() + it->second : _ordered_elements.end();
         }
 
-        const_iterator find(const Key& key) const {
+        _MSTD_CONSTEXPR20 const_iterator find(const Key& key) const {
             auto it = _elements_map.find(key);
             return it != _elements_map.end() ? _ordered_elements.begin() + it->second : _ordered_elements.end();
         }
 
-        void clear() {
+        _MSTD_CONSTEXPR20 void clear() {
             _elements_map.clear();
             _ordered_elements.clear();
         }
 
-        iterator begin() { return _ordered_elements.begin(); }
-        iterator end() { return _ordered_elements.end(); }
-        const_iterator begin() const { return _ordered_elements.cbegin(); }
-        const_iterator end() const { return _ordered_elements.cend(); }
-        const_iterator cbegin() const { return _ordered_elements.cbegin(); }
-        const_iterator cend() const { return _ordered_elements.cend(); }
-        reverse_iterator rbegin() { return _ordered_elements.rbegin(); }
-        reverse_iterator rend() { return _ordered_elements.rend(); }
-        const_reverse_iterator rbegin() const { return _ordered_elements.crbegin(); }
-        const_reverse_iterator rend() const { return _ordered_elements.crend(); }
-        const_reverse_iterator crbegin() const { return _ordered_elements.crbegin(); }
-        const_reverse_iterator crend() const { return _ordered_elements.crend(); }
+        _MSTD_CONSTEXPR20 iterator begin() { return _ordered_elements.begin(); }
+        _MSTD_CONSTEXPR20 iterator end() { return _ordered_elements.end(); }
+        _MSTD_CONSTEXPR20 const_iterator begin() const { return _ordered_elements.cbegin(); }
+        _MSTD_CONSTEXPR20 const_iterator end() const { return _ordered_elements.cend(); }
+        _MSTD_CONSTEXPR20 const_iterator cbegin() const { return _ordered_elements.cbegin(); }
+        _MSTD_CONSTEXPR20 const_iterator cend() const { return _ordered_elements.cend(); }
+        _MSTD_CONSTEXPR20 reverse_iterator rbegin() { return _ordered_elements.rbegin(); }
+        _MSTD_CONSTEXPR20 reverse_iterator rend() { return _ordered_elements.rend(); }
+        _MSTD_CONSTEXPR20 const_reverse_iterator rbegin() const { return _ordered_elements.crbegin(); }
+        _MSTD_CONSTEXPR20 const_reverse_iterator rend() const { return _ordered_elements.crend(); }
+        _MSTD_CONSTEXPR20 const_reverse_iterator crbegin() const { return _ordered_elements.crbegin(); }
+        _MSTD_CONSTEXPR20 const_reverse_iterator crend() const { return _ordered_elements.crend(); }
 
-        T& operator[](const Key& key) {
+        _MSTD_CONSTEXPR20 T& operator[](const Key& key) {
             return at(key);
         }
 
-        const T& operator[](const Key& key) const {
+        _MSTD_CONSTEXPR20 const T& operator[](const Key& key) const {
             return at(key);
         }
 
-        bool operator==(const ordered_map<Key, T>& other) const {
-            /*if (this->size() != other.size()) {
-                return false;
-            }
-            for (const std::pair<Key, T>& element : *this) {
-                if (!other.contains(element.first)) {
-                    return false;
-                }
-                if (other[element.first] != element.second) {
-                    return false;
-                }
-            }
-            return true;*/
+        _MSTD_CONSTEXPR20 bool operator==(const ordered_map<Key, T>& other) const {
             return _ordered_elements == other._ordered_elements && _elements_map == other._elements_map;
         }
 
-        bool operator!=(const ordered_map<Key, T>& other) const {
-            return _ordered_elements != other._ordered_elements || _elements_map != other._elements_map;
+        _MSTD_CONSTEXPR20 bool operator!=(const ordered_map<Key, T>& other) const {
+            return !(*this == other);
         }
     };
 }

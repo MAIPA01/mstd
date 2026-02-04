@@ -13,7 +13,7 @@
 #include "strtonum.hpp"
 
 namespace mstd {	
-	static std::string trim(const std::string& str) {
+	static inline std::string trim(const std::string& str) {
 		const std::string::const_iterator & start = 
 			std::find_if_not(str.begin(), str.end(), [](unsigned char ch) {
 				return std::isspace(ch);

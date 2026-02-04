@@ -13,8 +13,12 @@
 
 namespace mstd {
 	// 0x0F...
+#if _MSTD_HAS_CXX20
+	template<mstd::integral _N>
+#else
 	template<class _N, std::enable_if_t<std::is_integral_v<_N>, bool> = true>
-	static constexpr bool strxtonum(const std::string& hex_str, _N& num) {
+#endif
+	static _MSTD_CONSTEXPR20 bool strxtonum(const std::string& hex_str, _N& num) {
 		if (hex_str.size() <= 2) return false;
 
 		if (hex_str[0] != '0' || hex_str[1] != 'x') {
@@ -62,8 +66,12 @@ namespace mstd {
 	}
 
 	// 0c07...
+#if _MSTD_HAS_CXX20
+	template<mstd::integral _N>
+#else
 	template<class _N, std::enable_if_t<std::is_integral_v<_N>, bool> = true>
-	static constexpr bool strctonum(const std::string& oct_str, _N& num) {
+#endif
+	static _MSTD_CONSTEXPR20 bool strctonum(const std::string& oct_str, _N& num) {
 		if (oct_str.size() <= 2) return false;
 
 		if (oct_str[0] != '0' || oct_str[1] != 'c') {
@@ -96,8 +104,12 @@ namespace mstd {
 	}
 
 	// 0b01...
+#if _MSTD_HAS_CXX20
+	template<mstd::integral _N>
+#else
 	template<class _N, std::enable_if_t<std::is_integral_v<_N>, bool> = true>
-	static constexpr bool strbtonum(const std::string& bin_str, _N& num) {
+#endif
+	static _MSTD_CONSTEXPR20 bool strbtonum(const std::string& bin_str, _N& num) {
 		if (bin_str.size() <= 2) return false;
 
 		if (bin_str[0] != '0' || bin_str[1] != 'b') {
@@ -130,8 +142,12 @@ namespace mstd {
 	}
 
 	// ((+|-)* 12) | (0b00...) | (0c00...) | (0x00...)
-	template<class _SN, std::enable_if_t<std::is_integral_v<_SN>, bool> = true>
-	static constexpr bool strtonum(const std::string& str, _SN& num) {
+#if _MSTD_HAS_CXX20
+	template<mstd::signed_integral _SN>
+#else
+	template<class _SN, std::enable_if_t<mstd::is_signed_integral_v<_SN>, bool> = true>
+#endif
+	static _MSTD_CONSTEXPR20 bool strtonum(const std::string& str, _SN& num) {
 		if (str.size() == 0) return false;
 
 		if (str.size() > 2) {
@@ -152,7 +168,7 @@ namespace mstd {
 
 		_SN sign = 1;
 		while (str[i] == '-' || str[i] == '+') {
-			if (str[i] == '-') sign *= -1;
+			if (str[i] == '-') sign *= static_cast<_SN>(-1);
 			
 			++i;
 			if (i == str.size()) return false;
@@ -177,8 +193,12 @@ namespace mstd {
 	}
 
 	// (+* 12) | (0b00...) | (0c00...) | (0x00...)
-	template<class _UN, std::enable_if_t<std::is_integral_v<_UN>, bool> = true>
-	static constexpr bool strtounum(const std::string& str, _UN& num) {
+#if _MSTD_HAS_CXX20
+	template<mstd::unsigned_integral _UN>
+#else
+	template<class _UN, std::enable_if_t<std::is_unsigned_integral_v<_UN>, bool> = true>
+#endif
+	static _MSTD_CONSTEXPR20 bool strtounum(const std::string& str, _UN& num) {
 		if (str.size() == 0) return false;
 
 		if (str.size() > 2) {
@@ -220,15 +240,19 @@ namespace mstd {
 	}
 
 	// ((+|-)* 12.22)
+#if _MSTD_HAS_CXX20
+	template<mstd::floating_point _FP>
+#else
 	template<class _FP, std::enable_if_t<std::is_floating_point_v<_FP>, bool> = true>
-	static constexpr bool strtofp(const std::string& str, _FP& num) {
+#endif
+	static _MSTD_CONSTEXPR20 bool strtofp(const std::string& str, _FP& num) {
 		if (str.size() == 0) return false;
 
 		size_t i = 0;
 
 		_FP sign = 1;
 		while (str[i] == '-' || str[i] == '+') {
-			if (str[i] == '-') sign *= -1;
+			if (str[i] == '-') sign *= static_cast<_FP>(-1);
 			
 			++i;
 			if (i == str.size()) return false;
@@ -241,20 +265,26 @@ namespace mstd {
 			num += str[i] - '0';
 
 			++i;
-			if (i == str.size()) return true;
+			if (i == str.size()) {
+				num *= sign;
+				return true;
+			}
 		}
 
 		if (str[i] == '.') {
 			++i;
 			if (i == str.size()) return false;
 
-			_FP decimal = 0.1;
+			_FP decimal = static_cast<_FP>(0.1);
 			while (str[i] >= '0' && str[i] <= '9') {
 				num += decimal * (str[i] - '0');
-				decimal *= 0.1;
+				decimal *= static_cast<_FP>(0.1);
 
 				++i;
-				if (i == str.size()) return true;
+				if (i == str.size()) {
+					num *= sign;
+					return true;
+				}
 			}
 		}
 

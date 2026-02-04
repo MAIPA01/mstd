@@ -10,8 +10,8 @@
 #pragma once
 #pragma region VERSION
 #define MSTD_VERSION_MAJOR 1
-#define MSTD_VERSION_MINOR 2
-#define MSTD_VERSION_PATCH 8
+#define MSTD_VERSION_MINOR 3
+#define MSTD_VERSION_PATCH 0
 
 #define _MSTD_STRINGIFY_HELPER(x) #x
 
@@ -30,7 +30,7 @@
 #pragma endregion
 
 #pragma region LAST_UPDATE
-#define MSTD_LAST_UPDATE_DAY 04
+#define MSTD_LAST_UPDATE_DAY 05
 #define MSTD_LAST_UPDATE_MONTH 02
 #define MSTD_LAST_UPDATE_YEAR 2026
 
@@ -42,3 +42,21 @@
 															MSTD_LAST_UPDATE_MONTH, \
 														    MSTD_LAST_UPDATE_YEAR)
 #pragma endregion
+
+#ifndef _HAS_CXX20
+	#define _MSTD_HAS_CXX20 __cplusplus >= 202002L && _MSTD_ENABLE_CXX20
+#else
+	#define _MSTD_HAS_CXX20 _HAS_CXX20 && _MSTD_ENABLE_CXX20
+#endif
+
+#define _MSTD_CONSTEXPR17 constexpr
+
+#if _MSTD_HAS_CXX20
+	#define _MSTD_CONSTEXPR20 constexpr
+	#define _MSTD_RETURN_VALUE_IF(condition, ...) __VA_ARGS__
+	#define _MSTD_REQUIRES(condition) requires (condition)
+#else
+	#define _MSTD_CONSTEXPR20
+	#define _MSTD_RETURN_VALUE_IF(condition, ...) typename std::enable_if_t<(condition), __VA_ARGS__>
+	#define _MSTD_REQUIRES(condition)
+#endif

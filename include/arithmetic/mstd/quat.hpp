@@ -14,7 +14,7 @@
 #include "vec.hpp"
 
 namespace mstd {
-#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+#if _MSTD_HAS_CXX20
 	template<arithmetic T>
 #else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool>>
@@ -28,28 +28,28 @@ namespace mstd {
 		vec_type v;
 
 #pragma region CONSTRUCTORS
-		quat() : s(0), v() {}
-		quat(const T& scalar, const vec_type& vector) : s(scalar), v(vector) {}
-		quat(const T& scalar, const T& x, const T& y, const T& z) : s(scalar), v(x, y, z) {}
-#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+		_MSTD_CONSTEXPR20 quat() : s(0), v() {}
+		_MSTD_CONSTEXPR20 quat(const T& scalar, const vec_type& vector) : s(scalar), v(vector) {}
+		_MSTD_CONSTEXPR20 quat(const T& scalar, const T& x, const T& y, const T& z) : s(scalar), v(x, y, z) {}
+#if _MSTD_HAS_CXX20
 		template<arithmetic OT>
 #else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
 #endif
-		quat(const quat<OT>& other) : s(other.s), v(other.v) {}
+		_MSTD_CONSTEXPR20 quat(const quat<OT>& other) : s(other.s), v(other.v) {}
 #pragma endregion // CONSTRUCTORS
 
 #pragma region DESTRUCTOR
-		virtual ~quat() = default;
+		_MSTD_CONSTEXPR20 ~quat() = default;
 #pragma endregion // DESTRUCTOR
 
 #pragma region ASSIGN
-#if _HAS_CXX20 && _MSTD_ENABLE_CXX20
+#if _MSTD_HAS_CXX20
 		template<arithmetic OT>
 #else
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
 #endif
-		quat<T>& operator=(const quat<OT>& other) {
+		_MSTD_CONSTEXPR20 quat<T>& operator=(const quat<OT>& other) {
 			s = (T)other.s;
 			v = other.v;
 			return *this;
@@ -57,7 +57,7 @@ namespace mstd {
 #pragma endregion // ASSIGN
 
 #pragma region PREDEFINED_QUATERNIONS
-		static quat<T> rotation(const vec_type& axis, const T& radians) {
+		static _MSTD_CONSTEXPR20 quat<T> rotation(const vec_type& axis, const T& radians) {
 			quat<T> q;
 			if (!axis.is_zero()) {
 				q = quat<T>((T)std::cos(radians * 0.5), axis.normalized() * (T)std::sin(radians * 0.5));
@@ -69,11 +69,11 @@ namespace mstd {
 			return q;
 		}
 
-		static quat<T> from_euler_angels(const vec_type& euler_angels) {
+		static _MSTD_CONSTEXPR20 quat<T> from_euler_angels(const vec_type& euler_angels) {
 			return from_radians({ deg_to_rad(euler_angels[0]), deg_to_rad(euler_angels[1]), deg_to_rad(euler_angels[2]) });
 		}
 
-		static quat<T> from_radians(const vec_type& radians) {
+		static _MSTD_CONSTEXPR20 quat<T> from_radians(const vec_type& radians) {
 			quat<T> qx = rotation(vec_type(T(1), T(0), T(0)), radians[0]);
 			quat<T> qy = rotation(vec_type(T(0), T(1), T(0)), radians[1]);
 			quat<T> qz = rotation(vec_type(T(0), T(0), T(1)), radians[2]);
@@ -86,30 +86,30 @@ namespace mstd {
 #pragma endregion // PREDEFINED_QUATERNIONS
 
 #pragma region QUATERNION_OPERATIONS
-		T magnitude() const {
+		_MSTD_CONSTEXPR20 T magnitude() const {
 			return std::sqrt(s * s + v.dot(v));
 		}
 
-		quat<T>& normalize() {
+		_MSTD_CONSTEXPR20 quat<T>& normalize() {
 			T m = magnitude();
 			*this /= m;
 			return *this;
 		}
-		quat<T> normalized() const {
+		_MSTD_CONSTEXPR20 quat<T> normalized() const {
 			quat<T> res = *this;
 			return res.normalize();
 		}
 
-		quat<T>& conjugate() {
+		_MSTD_CONSTEXPR20 quat<T>& conjugate() {
 			v *= -1;
 			return *this;
 		}
-		quat<T> conjugated() const {
+		_MSTD_CONSTEXPR20 quat<T> conjugated() const {
 			quat<T> res = *this;
 			return res.conjugate();
 		}
 
-		quat<T>& invert() {
+		_MSTD_CONSTEXPR20 quat<T>& invert() {
 			T magnitudes = magnitude();
 			magnitudes *= magnitudes;
 			magnitudes = (T)(1.0 / magnitudes);
@@ -121,12 +121,12 @@ namespace mstd {
 
 			return *this;
 		}
-		quat<T> inverted() const {
+		_MSTD_CONSTEXPR20 quat<T> inverted() const {
 			quat<T> res = *this;
 			return res.invert();
 		}
 
-		vec_type to_radians() const {
+		_MSTD_CONSTEXPR20 vec_type to_radians() const {
 			vec_type res;
 			quat<T> q = *this;
 
@@ -150,7 +150,7 @@ namespace mstd {
 			return res;
 		}
 
-		vec_type to_euler_angles() const {
+		_MSTD_CONSTEXPR20 vec_type to_euler_angles() const {
 			vec_type res = to_radians();
 			res[0] = rad_to_deg(res[0]);
 			res[1] = rad_to_deg(res[1]);
@@ -158,117 +158,117 @@ namespace mstd {
 			return res;
 		}
 
-		T scalar(const quat<T>& other) {
+		_MSTD_CONSTEXPR20 T scalar(const quat<T>& other) {
 			return s * other.s + v.dot(other.v);
 		}
 #pragma endregion // QUATERNION_OPERATIONS
 
 #pragma region OPERATORS
-		quat<T>& operator+=(const quat<T>& other) {
+		_MSTD_CONSTEXPR20 quat<T>& operator+=(const quat<T>& other) {
 			s += other.s;
 			v += other.v;
 			return *this;
 		}
-		quat<T>& operator-=(const quat<T>& other) {
+		_MSTD_CONSTEXPR20 quat<T>& operator-=(const quat<T>& other) {
 			s -= other.s;
 			v -= other.v;
 			return *this;
 		}
-		quat<T>& operator*=(const quat<T>& other) {
+		_MSTD_CONSTEXPR20 quat<T>& operator*=(const quat<T>& other) {
 			T t = s;
 			s = s * other.s - v.dot(other.v);
 			v = other.v * t + v * other.s + v.cross(other.v);
 			return *this;
 		}
-		quat<T>& operator*=(const vec_type& other) {
+		_MSTD_CONSTEXPR20 quat<T>& operator*=(const vec_type& other) {
 			quat<T> p(T(0), other);
 			*this = p;
 			return *this;
 		}
-		quat<T>& operator*=(const T& other) {
+		_MSTD_CONSTEXPR20 quat<T>& operator*=(const T& other) {
 			s *= other;
 			v *= other;
 			return *this;
 		}
-		quat<T>& operator/=(const quat<T>& other) {
+		_MSTD_CONSTEXPR20 quat<T>& operator/=(const quat<T>& other) {
 			*this *= other.inverted();
 			return *this;
 		}
-		quat<T>& operator/=(const T& other) {
-			if (other == T(0)) {
-				throw std::runtime_error("division by zero");
+		_MSTD_CONSTEXPR20 quat<T>& operator/=(const T& other) {
+			if (other == static_cast<T>(0)) {
+				return *this;
 			}
 			s /= other;
 			v /= other;
 			return *this;
 		}
 
-		quat<T> operator+(const quat<T>& other) const {
+		_MSTD_CONSTEXPR20 quat<T> operator+(const quat<T>& other) const {
 			quat<T> res = *this;
 			return res += other;
 		}
-		quat<T> operator-(const quat<T>& other) const {
+		_MSTD_CONSTEXPR20 quat<T> operator-(const quat<T>& other) const {
 			quat<T> res = *this;
 			return res -= other;
 		}
-		quat<T> operator*(const quat<T>& other) const {
+		_MSTD_CONSTEXPR20 quat<T> operator*(const quat<T>& other) const {
 			quat<T> res = *this;
 			return res *= other;
 		}
-		quat<T> operator*(const vec_type& other) const {
+		_MSTD_CONSTEXPR20 quat<T> operator*(const vec_type& other) const {
 			quat<T> res = *this;
 			return res *= other;
 		}
-		friend quat<T> operator*(const vec_type& other, const quat<T>& quaternion) {
+		friend _MSTD_CONSTEXPR20 quat<T> operator*(const vec_type& other, const quat<T>& quaternion) {
 			return quaternion * other;
 		}
-		quat<T> operator*(const T& other) const {
+		_MSTD_CONSTEXPR20 quat<T> operator*(const T& other) const {
 			quat<T> res = *this;
 			return res *= other;
 		}
-		friend quat<T> operator*(const T& other, const quat<T>& quaternion) {
+		friend _MSTD_CONSTEXPR20 quat<T> operator*(const T& other, const quat<T>& quaternion) {
 			return quaternion * other;
 		}
-		quat<T> operator/(const quat<T>& other) const {
+		_MSTD_CONSTEXPR20 quat<T> operator/(const quat<T>& other) const {
 			quat<T> res = *this;
 			return res /= other;
 		}
-		quat<T> operator/(const T& other) const {
+		_MSTD_CONSTEXPR20 quat<T> operator/(const T& other) const {
 			quat<T> res = *this;
 			return res /= other;
 		}
 
-		quat<T> operator-() const {
+		_MSTD_CONSTEXPR20 quat<T> operator-() const {
 			return *this * -1;
 		}
-		quat<T> operator+() const {
+		_MSTD_CONSTEXPR20 quat<T> operator+() const {
 			return quat<T>(*this);
 		}
-		quat<T>& operator--() {
+		_MSTD_CONSTEXPR20 quat<T>& operator--() {
 			s -= 1;
 			--v;
 			return *this;
 		}
-		quat<T> operator--(int) {
+		_MSTD_CONSTEXPR20 quat<T> operator--(int) {
 			quat<T> old = *this;
 			operator--();
 			return old;
 		}
-		quat<T>& operator++() {
+		_MSTD_CONSTEXPR20 quat<T>& operator++() {
 			s += 1;
 			++v;
 			return *this;
 		}
-		quat<T> operator++(int) {
+		_MSTD_CONSTEXPR20 quat<T> operator++(int) {
 			quat<T> old = *this;
 			operator++();
 			return old;
 		}
 
-		bool operator==(const quat<T>& other) const {
+		_MSTD_CONSTEXPR20 bool operator==(const quat<T>& other) const {
 			return s == other.s && v == other.v;
 		}
-		bool operator!=(const quat<T>& other) const {
+		_MSTD_CONSTEXPR20 bool operator!=(const quat<T>& other) const {
 			return s != other.s || v != other.v;
 		}
 

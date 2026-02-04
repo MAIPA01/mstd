@@ -15,7 +15,7 @@ namespace mstd {
 	void hash_append(size_t& hash_value, const T& value, const Ts&... values) {
 		hash_value ^= std::hash<T>()(value) + 0x9e3779b9 + (hash_value << 6) + (hash_value >> 2);
 
-		if constexpr (sizeof...(Ts) != 0) {
+		if _MSTD_CONSTEXPR17 (sizeof...(Ts) != 0) {
 			hash_append(hash_value, values...);
 		}
 	}

@@ -11,6 +11,7 @@
 #include <functional>
 #include <unordered_map>
 #include <queue>
+#include <map>
 #include <mstd/mstd_config.hpp>
 #include <mstd/is_same_function.hpp>
 #include <mstd/id_manager.hpp>

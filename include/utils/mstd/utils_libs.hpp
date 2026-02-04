@@ -8,7 +8,7 @@
  */
 
 #pragma once
-#include <unordered_set>
+#include <set>
 #include <limits>
 #include <type_traits>
 #include <functional>

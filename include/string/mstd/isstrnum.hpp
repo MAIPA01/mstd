@@ -11,7 +11,7 @@
 #include "string_types.hpp"
 
 namespace mstd {
-	static bool isstrhex(const std::string& str) {
+	static inline bool isstrhex(const std::string& str) {
 		if (str.size() <= 2) return false;
 		if (str[0] != '0' || str[1] != 'x') return false;
 
@@ -27,7 +27,7 @@ namespace mstd {
 		return true;
 	}
 
-	static bool isstroct(const std::string& str) {
+	static inline bool isstroct(const std::string& str) {
 		if (str.size() <= 2) return false;
 		if (str[0] != '0' || str[1] != 'c') return false;
 
@@ -41,7 +41,7 @@ namespace mstd {
 		return true;
 	}
 
-	static bool isstrbin(const std::string& str) {
+	static inline bool isstrbin(const std::string& str) {
 		if (str.size() <= 2) return false;
 		if (str[0] != '0' || str[1] != 'b') return false;
 
@@ -55,7 +55,7 @@ namespace mstd {
 		return true;
 	}
 
-	static bool isstrnum(const std::string& str) {
+	static inline bool isstrnum(const std::string& str) {
 		if (str.size() == 0) return false;
 
 		if (str.size() > 2) {
@@ -85,7 +85,7 @@ namespace mstd {
 		return true;
 	}
 
-	static bool isstrunum(const std::string& str) {
+	static inline bool isstrunum(const std::string& str) {
 		if (str.size() == 0) return false;
 
 		if (str.size() > 2) {
@@ -115,7 +115,7 @@ namespace mstd {
 		return true;
 	}
 
-	static bool isstrfp(const std::string& str) {
+	static inline bool isstrfp(const std::string& str) {
 		if (str.size() == 0) return false;
 
 		size_t i = 0;

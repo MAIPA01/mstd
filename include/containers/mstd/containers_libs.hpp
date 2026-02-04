@@ -14,4 +14,5 @@
 #include <map>
 #include <initializer_list>
 #include <stdexcept>
+#include <algorithm>
 #include <mstd/mstd_config.hpp>

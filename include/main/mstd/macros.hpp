@@ -7,13 +7,12 @@
  * Copyright (c) 2025, Patryk Antosik (MAIPA01)
  */
 
+#include <mstd/mstd_config.hpp>
+
  // define USE_FOR_EACH_MACROS or USE_ENUMS_MACROS or USE_CLONE_FUNC_MACROS to use macros in for each region
 #pragma region FOR_EACH
 
 #if defined(USE_FOR_EACH_MACROS) || defined(USE_ENUMS_MACROS) || defined(USE_CLONE_FUNC_MACROS)
-
-#define _PARENS ()
-#define _NEXT_ELEM ,
 
 #define _RESCAN(...) _RESCAN1(_RESCAN1(_RESCAN1(_RESCAN1(__VA_ARGS__))))
 #define _RESCAN1(...) _RESCAN2(_RESCAN2(_RESCAN2(_RESCAN2(__VA_ARGS__))))
@@ -21,75 +20,47 @@
 #define _RESCAN3(...) _RESCAN4(_RESCAN4(_RESCAN4(_RESCAN4(__VA_ARGS__))))
 #define _RESCAN4(...) __VA_ARGS__
 
-#pragma region SIGNLE_FOR_EACH
+#define _INVOKE(macro, args) macro args
 
-#define _SINGLE_FOR_EACH(func, helper, value, ...)\
+#pragma region TUPLES
+
+#define MAKE_TUPLE(...) (__VA_ARGS__)
+
+#define _BREAK_TUPLE_HELPER(...) __VA_ARGS__
+#define BREAK_TUPLE(tuple) _BREAK_TUPLE_HELPER tuple
+
+#define APPEND_TUPLE_FRONT(tuple, value) (value, BREAK_TUPLE(tuple))
+#define APPEND_TUPLE_BACK(tuple, value) (BREAK_TUPLE(tuple), value)
+
+#define _POP_TUPLE_FRONT_HELPER(value, ...) MAKE_TUPLE(__VA_ARGS__)
+#define POP_TUPLE_FRONT(tuple) _INVOKE(_POP_TUPLE_FRONT_HELPER, (BREAK_TUPLE(tuple)))
+
+#pragma endregion
+
+#pragma region FOR_EACH
+
+#define _PARENS ()
+#define _NEXT_ELEM ,
+
+#define _FOR_EACH(func, helper, value, ...)\
 	_RESCAN(helper(func, value __VA_OPT__(, __VA_ARGS__)))
-#define _SINGLE_FOR_EACH_HELPER(func, again, separator, value, ...)\
+#define _FOR_EACH_HELPER(func, again, separator, value, ...)\
 	func(value)\
 	__VA_OPT__(separator again _PARENS (func, __VA_ARGS__))
 
-#define DO_FOR_EACH(func, value, ...) _SINGLE_FOR_EACH(func, DO_FOR_EACH_HELPER, value __VA_OPT__(, __VA_ARGS__))
-#define DO_FOR_EACH_HELPER(func, value, ...) _SINGLE_FOR_EACH_HELPER(func, , DO_FOR_EACH_AGAIN, value __VA_OPT__(, __VA_ARGS__)
-#define DO_FOR_EACH_AGAIN() DO_FOR_EACH_HELPER
+#define DO_FOR_EACH(func, value, ...) _FOR_EACH(func, _DO_FOR_EACH_HELPER, value __VA_OPT__(, __VA_ARGS__))
+#define _DO_FOR_EACH_HELPER(func, value, ...) _FOR_EACH_HELPER(func, _DO_FOR_EACH_AGAIN, , value __VA_OPT__(, __VA_ARGS__))
+#define _DO_FOR_EACH_AGAIN() _DO_FOR_EACH_HELPER
 
-#define DO_FOR_EACH_WITH_CONST(func, const_value, value, ...) _SINGLE_FOR_EACH(func, DO_FOR_EACH_WITH_CONST_HELPER, const_value, value __VA_OPT__(, __VA_ARGS__))
-#define DO_FOR_EACH_WITH_CONST_HELPER(func, const_value, value, ...)\
+#define DO_FOR_EACH_WITH_CONST(func, const_value, value, ...) _FOR_EACH(func, _DO_FOR_EACH_WITH_CONST_HELPER, const_value, value __VA_OPT__(, __VA_ARGS__))
+#define _DO_FOR_EACH_WITH_CONST_HELPER(func, const_value, value, ...)\
 	func(const_value, value)\
-	__VA_OPT__(DO_FOR_EACH_WITH_CONST_AGAIN _PARENS (func, const_value, __VA_ARGS__))
-#define DO_FOR_EACH_WITH_CONST_AGAIN() DO_FOR_EACH_WITH_CONST_HELPER
+	__VA_OPT__(_DO_FOR_EACH_WITH_CONST_AGAIN _PARENS (func, const_value, __VA_ARGS__))
+#define _DO_FOR_EACH_WITH_CONST_AGAIN() _DO_FOR_EACH_WITH_CONST_HELPER
 
-#define LIST_DO_FOR_EACH(func, value, ...) _SINGLE_FOR_EACH(func, LIST_DO_FOR_EACH_HELPER, value __VA_OPT__(, __VA_ARGS__))
-#define LIST_DO_FOR_EACH_HELPER(func, value, ...) _SINGLE_FOR_EACH_HELPER(func, LIST_DO_FOR_EACH_AGAIN, _NEXT_ELEM, value __VA_OPT__(, __VA_ARGS__))
-#define LIST_DO_FOR_EACH_AGAIN() LIST_DO_FOR_EACH_HELPER
-
-#pragma endregion
-
-#pragma region PAIR_FOR_EACH
-
-#define _PAIR_FOR_EACH(func, helper, value0, value1, ...)\
-	_RESCAN(helper(func, value0, value1 __VA_OPT__(, __VA_ARGS__)))
-#define _PAIR_FOR_EACH_HELPER(func, again, separator, value0, value1, ...)\
-	func(value0, value1)\
-	__VA_OPT__(separator again _PARENS (func, __VA_ARGS__))
-
-#define DO_FOR_EACH_PAIR(func, value0, value1, ...) _PAIR_FOR_EACH(func, DO_FOR_EACH_PAIR_HELPER, value0, value1 __VA_OPT__(, __VA_ARGS__))
-#define DO_FOR_EACH_PAIR_HELPER(func, value0, value1, ...) _PAIR_FOR_EACH_HELPER(func, DO_FOR_EACH_PAIR_AGAIN, , value0, value1 __VA_OPT__(, __VA_ARGS__)) 
-#define DO_FOR_EACH_PAIR_AGAIN() DO_FOR_EACH_PAIR_HELPER
-
-#define DO_FOR_EACH_PAIR_WITH_CONST(func, const_value, value0, value1, ...) _PAIR_FOR_EACH(func, DO_FOR_EACH_PAIR_WITH_CONST_HELPER, const_value, value0, value1 __VA_OPT__(, __VA_ARGS__))
-#define DO_FOR_EACH_PAIR_WITH_CONST_HELPER(func, const_value, value0, value1, ...)\
-	func(const_value, value0, value1)\
-	__VA_OPT__(DO_FOR_EACH_PAIR_WITH_CONST_AGAIN _PARENS (func, const_value, __VA_ARGS__))
-#define DO_FOR_EACH_PAIR_WITH_CONST_AGAIN() DO_FOR_EACH_PAIR_WITH_CONST_HELPER
-
-#define LIST_DO_FOR_EACH_PAIR(func, value0, value1, ...) _PAIR_FOR_EACH(func, LIST_DO_FOR_EACH_PAIR_HELPER, value0, value1 __VA_OPT__(, __VA_ARGS__))
-#define LIST_DO_FOR_EACH_PAIR_HELPER(func, value0, value1, ...) _PAIR_FOR_EACH_HELPER(func, LIST_DO_FOR_EACH_PAIR_AGAIN, _NEXT_ELEM, value0, value1 __VA_OPT__(, __VA_ARGS__))
-#define LIST_DO_FOR_EACH_PAIR_AGAIN() LIST_DO_FOR_EACH_PAIR_HELPER
-
-#pragma endregion
-
-#pragma region THREE_FOR_EACH
-
-#define _THREE_FOR_EACH(func, helper, value0, value1, value2, ...)\
-	_RESCAN(helper(func, value0, value1, value2 __VA_OPT__(, __VA_ARGS__)))
-#define _THREE_FOR_EACH_HELPER(func, again, separator, value0, value1, value2, ...)\
-	func(value0, value1, value2)\
-	__VA_OPT__(separator again _PARENS (func, __VA_ARGS__))
-
-#define DO_FOR_EACH_THREE(func, value0, value1, value2, ...) _THREE_FOR_EACH(func, DO_FOR_EACH_THREE_HELPER, value0, value1, value2 __VA_OPT__(, __VA_ARGS__))
-#define DO_FOR_EACH_THREE_HELPER(func, value0, value1, value2, ...) _THREE_FOR_EACH_HELPER(func, DO_FOR_EACH_THREE_AGAIN, , value0, value1, value2 __VA_OPT__(, __VA_ARGS__))
-#define DO_FOR_EACH_THREE_AGAIN() DO_FOR_EACH_THREE_HELPER
-
-#define DO_FOR_EACH_THREE_WITH_CONST(func, const_value, value0, value1, value2, ...) _THREE_FOR_EACH(func, DO_FOR_EACH_THREE_WITH_CONST_HELPER, const_value, value0, value1, value2 __VA_OPT__(, __VA_ARGS__))
-#define DO_FOR_EACH_THREE_WITH_CONST_HELPER(func, const_value, value0, value1, value2, ...)\
-	func(const_value, value0, value1, value2)\
-	__VA_OPT__(DO_FOR_EACH_THREE_WITH_CONST_AGAIN _PARENS (func, const_value, __VA_ARGS__))
-#define DO_FOR_EACH_THREE_WITH_CONST_AGAIN() DO_FOR_EACH_THREE_WITH_CONST_HELPER
-
-#define LIST_DO_FOR_EACH_THREE(func, value0, value1, value2, ...) _THREE_FOR_EACH(func, LIST_DO_FOR_EACH_THREE_HELPER, value0, value1, value2 __VA_OPT__(, __VA_ARGS__))
-#define LIST_DO_FOR_EACH_THREE_HELPER(func, value0, value1, value2, ...) _THREE_FOR_EACH_HELPER(func, LIST_DO_FOR_EACH_THREE_AGAIN, _NEXT_ELEM, value0, value1, value2 __VA_OPT__(, __VA_ARGS__))
-#define LIST_DO_FOR_EACH_THREE_AGAIN() LIST_DO_FOR_EACH_THREE_HELPER
+#define LIST_DO_FOR_EACH(func, value, ...) _FOR_EACH(func, _LIST_DO_FOR_EACH_HELPER, value __VA_OPT__(, __VA_ARGS__))
+#define _LIST_DO_FOR_EACH_HELPER(func, value, ...) _FOR_EACH_HELPER(func, _LIST_DO_FOR_EACH_AGAIN, _NEXT_ELEM, value __VA_OPT__(, __VA_ARGS__))
+#define _LIST_DO_FOR_EACH_AGAIN() _LIST_DO_FOR_EACH_HELPER
 
 #pragma endregion
 
@@ -102,62 +73,83 @@
 
 #ifdef USE_ENUMS_MACROS
 
-#define _ENUM_ELEMENT_COUNT(...) + 1ull
-#define _ENUM_CASE(enum_name, name, ...) case enum_name::name: return #name;
+#define _ENUM_ELEMENT_COUNT(tuple) + 1ull
+#define _ENUM_TO_STRING_CASE_HELPER(enum_name, name, ...) case enum_name::name: return #name;
+#define _ENUM_TO_STRING_CASE(enum_name, tuple) _INVOKE(_ENUM_TO_STRING_CASE_HELPER, (enum_name, BREAK_TUPLE(tuple)))
+#define _ENUM_FROM_STRING_IF_HELPER(enum_name, name, ...) if (s == #name) return enum_name::name;
+#define _ENUM_FROM_STRING_IF(enum_name, tuple) _INVOKE(_ENUM_FROM_STRING_IF_HELPER, (enum_name, BREAK_TUPLE(tuple)))
 
-#define _ENUM_DECLARATION(type, name, base, list_for_each, elem_func, ...)\
-type name base { list_for_each(elem_func, __VA_ARGS__) };
+#define _ENUM_DECLARATION(type, name, base, elem_func, ...)\
+type name base { LIST_DO_FOR_EACH(elem_func, __VA_ARGS__) };
 
-#define _ENUM_SIZE_FUNC(name, for_each, ...)\
-template<class T> static size_t size();\
-template<> static constexpr size_t size<name>() {\
-	return for_each(_ENUM_ELEMENT_COUNT, __VA_ARGS__);\
+#define _ENUM_SIZE_FUNC(name, ...)\
+template<class T> _MSTD_CONSTEXPR20 size_t size() noexcept;\
+template<> _MSTD_CONSTEXPR20 size_t size<name>() noexcept {\
+	return DO_FOR_EACH(_ENUM_ELEMENT_COUNT, __VA_ARGS__);\
 }
 
-#define _ENUM_TO_STRING_FUNC(name, for_each, case_func, ...)\
-static const std::string to_string(const name& v) {\
+#define _ENUM_TO_STRING_FUNC(name, case_func, ...)\
+inline const ::std::string to_string(const name& v) {\
 	switch(v) {\
-	for_each(case_func, __VA_ARGS__)\
+	DO_FOR_EACH_WITH_CONST(case_func, name, __VA_ARGS__)\
 	default:\
 		return "UNKNOWN";\
 	}\
 }
 
-#define _ENUM_TEMPLATE(type, name, base, declaration_func, size_func, string_func, ...)\
+#define _ENUM_STREAM_OPERATOR(name)\
+inline ::std::ostream& operator<<(::std::ostream& os, const name& v) {\
+    return os << to_string(v);\
+}
+
+#define _ENUM_FROM_STRING_FUNC(name, case_func, ...)\
+template<class T> inline T from_string(const std::string&);\
+template<> inline name from_string<name>(const std::string& s) {\
+	DO_FOR_EACH_WITH_CONST(case_func, name, __VA_ARGS__)\
+	throw std::invalid_argument("Unknown enum string: " + s);\
+}
+
+#define _ENUM_TEMPLATE(type, name, base, declaration_func, size_func, to_string_func, from_string_func, ...)\
 	declaration_func(type, name, base, __VA_ARGS__)\
 	size_func(name, __VA_ARGS__)\
-	string_func(name, __VA_ARGS__)
+	to_string_func(name, __VA_ARGS__)\
+	_ENUM_STREAM_OPERATOR(name)\
+	from_string_func(name, __VA_ARGS__)
 
 #pragma region STANDARD_ENUMS
 
-#define _STANDARD_ENUM_ELEMENT(name, ...) name
-#define _STANDARD_ENUM_CASE_STRING(enum_name, name, string) case enum_name::name: return string;
+#define _STANDARD_ENUM_ELEMENT_HELPER(name, ...) name
+#define _STANDARD_ENUM_ELEMENT(tuple) _INVOKE(_STANDARD_ENUM_ELEMENT_HELPER, (BREAK_TUPLE(tuple)))
+#define _STANDARD_ENUM_STRING_TO_STRING_CASE_HELPER(enum_name, name, string) case enum_name::name: return string;
+#define _STANDARD_ENUM_STRING_TO_STRING_CASE(enum_name, tuple) _INVOKE(_STANDARD_ENUM_STRING_TO_STRING_CASE_HELPER, (enum_name, BREAK_TUPLE(tuple))) 
+#define _STANDARD_ENUM_STRING_FROM_STRING_IF_HELPER(enum_name, name, string) if (s == string) return enum_name::name;
+#define _STANDARD_ENUM_STRING_FROM_STRING_IF(enum_name, tuple) _INVOKE(_STANDARD_ENUM_STRING_FROM_STRING_IF_HELPER, (enum_name, BREAK_TUPLE(tuple))) 
 
 #define _STANDARD_ENUM_DECLARATION(type, name, base, ...)\
-_ENUM_DECLARATION(type, name, base, LIST_DO_FOR_EACH, _STANDARD_ENUM_ELEMENT, __VA_ARGS__)
-
-#define _STANDARD_ENUM_STRING_DECLARATION(type, name, base, ...)\
-_ENUM_DECLARATION(type, name, base, LIST_DO_FOR_EACH_PAIR, _STANDARD_ENUM_ELEMENT, __VA_ARGS__)
+_ENUM_DECLARATION(type, name, base, _STANDARD_ENUM_ELEMENT, __VA_ARGS__)
 
 #define _STANDARD_ENUM_SIZE_FUNC(name, ...)\
-_ENUM_SIZE_FUNC(name, DO_FOR_EACH, __VA_ARGS__)
-
-#define _STANDARD_ENUM_STRING_SIZE_FUNC(name, ...)\
-_ENUM_SIZE_FUNC(name, DO_FOR_EACH_PAIR, __VA_ARGS__)
+_ENUM_SIZE_FUNC(name, __VA_ARGS__)
 
 #define _STANDARD_ENUM_TO_STRING_FUNC(name, ...)\
-_ENUM_TO_STRING_FUNC(name, DO_FOR_EACH_WITH_CONST, _ENUM_CASE, name, __VA_ARGS__)
+_ENUM_TO_STRING_FUNC(name, _ENUM_TO_STRING_CASE, __VA_ARGS__)
 
 #define _STANDARD_ENUM_STRING_TO_STRING_FUNC(name, ...)\
-_ENUM_TO_STRING_FUNC(name, DO_FOR_EACH_PAIR_WITH_CONST, _STANDARD_ENUM_CASE_STRING, name, __VA_ARGS__)
+_ENUM_TO_STRING_FUNC(name, _STANDARD_ENUM_STRING_TO_STRING_CASE, __VA_ARGS__)
 
-#define _STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, declaration, string_func, size_func, ...)\
-_ENUM_TEMPLATE(type, name, base, declaration, size_func, string_func, __VA_ARGS__)
+#define _STANDARD_ENUM_FROM_STRING_FUNC(name, ...)\
+_ENUM_FROM_STRING_FUNC(name, _ENUM_FROM_STRING_IF, __VA_ARGS__)
+
+#define _STANDARD_ENUM_STRING_FROM_STRING_FUNC(name, ...)\
+_ENUM_FROM_STRING_FUNC(name, _STANDARD_ENUM_STRING_FROM_STRING_IF, __VA_ARGS__)
+
+#define _STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, declaration_func, size_func, to_string_func, from_string_func, ...)\
+_ENUM_TEMPLATE(type, name, base, declaration_func, size_func, to_string_func, from_string_func, __VA_ARGS__)
 
 #define _STANDARD_ENUM_TEMPLATE(type, name, base, ...)\
-_STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, _STANDARD_ENUM_DECLARATION, _STANDARD_ENUM_TO_STRING_FUNC, _STANDARD_ENUM_SIZE_FUNC, __VA_ARGS__)
+_STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, _STANDARD_ENUM_DECLARATION, _STANDARD_ENUM_SIZE_FUNC, _STANDARD_ENUM_TO_STRING_FUNC, _STANDARD_ENUM_FROM_STRING_FUNC, __VA_ARGS__)
 #define _STANDARD_ENUM_STRING_TEMPLATE(type, name, base, ...)\
-_STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, _STANDARD_ENUM_STRING_DECLARATION, _STANDARD_ENUM_STRING_TO_STRING_FUNC, _STANDARD_ENUM_STRING_SIZE_FUNC, __VA_ARGS__)
+_STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, _STANDARD_ENUM_DECLARATION, _STANDARD_ENUM_SIZE_FUNC, _STANDARD_ENUM_STRING_TO_STRING_FUNC, _STANDARD_ENUM_STRING_FROM_STRING_FUNC, __VA_ARGS__)
 
 #define _STANDARD_ENUM(name, base, ...) _STANDARD_ENUM_TEMPLATE(enum, name, base, __VA_ARGS__)
 #define _STANDARD_ENUM_CLASS(name, base, ...) _STANDARD_ENUM_TEMPLATE(enum class, name, base, __VA_ARGS__)
@@ -179,31 +171,36 @@ _STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, _STANDARD_ENUM_STRING_DECLARATION
 
 #pragma region ENUMS_WITH_VALUE
 
-#define _VALUE_ENUM_ELEMENT(name, value, ...) name = value
-#define _VALUE_ENUM_CASE_STRING(enum_name, name, value, string) case enum_name::name: return string;
+#define _VALUE_ENUM_ELEMENT_HELPER(name, value, ...) name = value
+#define _VALUE_ENUM_ELEMENT(tuple) _INVOKE(_VALUE_ENUM_ELEMENT_HELPER, (BREAK_TUPLE(tuple)))
+#define _VALUE_ENUM_STRING_TO_STRING_CASE_HELPER(enum_name, name, value, string) case enum_name::name: return string;
+#define _VALUE_ENUM_STRING_TO_STRING_CASE(enum_name, tuple) _INVOKE(_VALUE_ENUM_STRING_TO_STRING_CASE_HELPER, (enum_name, BREAK_TUPLE(tuple)))
+#define _VALUE_ENUM_STRING_FROM_STRING_IF_HELPER(enum_name, name, value, string) if (s == string) return enum_name::name;
+#define _VALUE_ENUM_STRING_FROM_STRING_IF(enum_name, tuple) _INVOKE(_VALUE_ENUM_STRING_FROM_STRING_IF_HELPER, (enum_name, BREAK_TUPLE(tuple))) 
 
 #define _VALUE_ENUM_DECLARATION(type, name, base, ...)\
-_ENUM_DECLARATION(type, name, base, LIST_DO_FOR_EACH_PAIR, _VALUE_ENUM_ELEMENT, __VA_ARGS__)
-#define _VALUE_ENUM_STRING_DECLARATION(type, name, base, ...)\
-_ENUM_DECLARATION(type, name, base, LIST_DO_FOR_EACH_THREE, _VALUE_ENUM_ELEMENT, __VA_ARGS__)
+_ENUM_DECLARATION(type, name, base, _VALUE_ENUM_ELEMENT, __VA_ARGS__)
 
 #define _VALUE_ENUM_SIZE_FUNC(name, ...)\
-_ENUM_SIZE_FUNC(name, DO_FOR_EACH_PAIR, __VA_ARGS__)
-#define _VALUE_ENUM_STRING_SIZE_FUNC(name, ...)\
-_ENUM_SIZE_FUNC(name, DO_FOR_EACH_THREE, __VA_ARGS__)
+_ENUM_SIZE_FUNC(name, __VA_ARGS__)
 
 #define _VALUE_ENUM_TO_STRING_FUNC(name, ...)\
-_ENUM_TO_STRING_FUNC(name, DO_FOR_EACH_PAIR_WITH_CONST, _ENUM_CASE, name, __VA_ARGS__)
+_ENUM_TO_STRING_FUNC(name, _ENUM_TO_STRING_CASE, __VA_ARGS__)
 #define _VALUE_ENUM_STRING_TO_STRING_FUNC(name, ...)\
-_ENUM_TO_STRING_FUNC(name, DO_FOR_EACH_THREE_WITH_CONST, _VALUE_ENUM_CASE_STRING, name, __VA_ARGS__)
+_ENUM_TO_STRING_FUNC(name, _VALUE_ENUM_STRING_TO_STRING_CASE, __VA_ARGS__)
 
-#define _VALUE_ENUM_FUNC_TEMPLATE(type, name, base, declaration, size_func, string_func, ...)\
-_ENUM_TEMPLATE(type, name, base, declaration, size_func, string_func, __VA_ARGS__)
+#define _VALUE_ENUM_FROM_STRING_FUNC(name, ...)\
+_ENUM_FROM_STRING_FUNC(name, _ENUM_FROM_STRING_IF, __VA_ARGS__)
+#define _VALUE_ENUM_STRING_FROM_STRING_FUNC(name, ...)\
+_ENUM_FROM_STRING_FUNC(name, _VALUE_ENUM_STRING_FROM_STRING_IF, __VA_ARGS__)
+
+#define _VALUE_ENUM_FUNC_TEMPLATE(type, name, base, declaration, size_func, to_string_func, from_string_func, ...)\
+_ENUM_TEMPLATE(type, name, base, declaration, size_func, to_string_func, from_string_func, __VA_ARGS__)
 
 #define _VALUE_ENUM_TEMPLATE(type, name, base, ...)\
-_VALUE_ENUM_FUNC_TEMPLATE(type, name, base, _VALUE_ENUM_DECLARATION, _VALUE_ENUM_SIZE_FUNC, _VALUE_ENUM_TO_STRING_FUNC, __VA_ARGS__)
+_VALUE_ENUM_FUNC_TEMPLATE(type, name, base, _VALUE_ENUM_DECLARATION, _VALUE_ENUM_SIZE_FUNC, _VALUE_ENUM_TO_STRING_FUNC, _VALUE_ENUM_FROM_STRING_FUNC, __VA_ARGS__)
 #define _VALUE_ENUM_STRING_TEMPLATE(type, name, base, ...)\
-_VALUE_ENUM_FUNC_TEMPLATE(type, name, base, _VALUE_ENUM_STRING_DECLARATION, _VALUE_ENUM_STRING_SIZE_FUNC, _VALUE_ENUM_STRING_TO_STRING_FUNC, __VA_ARGS__)
+_VALUE_ENUM_FUNC_TEMPLATE(type, name, base, _VALUE_ENUM_DECLARATION, _VALUE_ENUM_SIZE_FUNC, _VALUE_ENUM_STRING_TO_STRING_FUNC, _VALUE_ENUM_STRING_FROM_STRING_FUNC, __VA_ARGS__)
 
 #define _VALUE_ENUM(name, base, ...) _VALUE_ENUM_TEMPLATE(enum, name, base, __VA_ARGS__)
 #define _VALUE_ENUM_CLASS(name, base, ...) _VALUE_ENUM_TEMPLATE(enum class, name, base, __VA_ARGS__)
@@ -246,7 +243,8 @@ void CloneTo(class_name* cloned) const;
 
 #pragma region CLONE_FUNC_DECLARATION_WITH_DEFINITION
 
-#define FIELD_PAIR_CLONE(fieldName, value) cloned->fieldName = value;
+#define _FIELD_CLONE_HELPER(fieldName, value) cloned->fieldName = value;
+#define FIELD_CLONE(tuple) _INVOKE(_FIELD_CLONE_HELPER, (BREAK_TUPLE(tuple)))
 
 #define _DECLARE_CLONE_FUNC_WITH_DEFINITION_TEMPLATE(class_name, base_class_func, base_class_operator, ...)\
 virtual class_name* Clone() const base_class_operator\
@@ -258,11 +256,11 @@ virtual class_name* Clone() const base_class_operator\
 void CloneTo(class_name* cloned) const\
 {\
     base_class_func\
-    __VA_OPT__(DO_FOR_EACH_PAIR(FIELD_PAIR_CLONE, __VA_ARGS__))\
+    __VA_OPT__(DO_FOR_EACH(FIELD_CLONE, __VA_ARGS__))\
 }
 
-#define STANDARD_CLONE(fieldName) fieldName, fieldName
-#define POINTER_DEEP_CLONE(fieldName, valueType) fieldName, new valueType(*fieldName)
+#define STANDARD_CLONE(fieldName) MAKE_TUPLE(fieldName, fieldName)
+#define POINTER_DEEP_CLONE(fieldName, valueType) MAKE_TUPLE(fieldName, new valueType(*fieldName))
 
 #define DECLARE_CLONE_FUNC_WITH_DEFINITION_ADVANCED(class_name, ...)\
 _DECLARE_CLONE_FUNC_WITH_DEFINITION_TEMPLATE(class_name, , __VA_OPT__(, __VA_ARGS__))
@@ -288,7 +286,7 @@ class_name* class_name::Clone() const\
 void class_name::CloneTo(class_name* cloned) const\
 {\
 	base_class_func\
-	__VA_OPT__(DO_FOR_EACH_PAIR(FIELD_PAIR_CLONE, __VA_ARGS__))\
+	__VA_OPT__(DO_FOR_EACH(FIELD_CLONE, __VA_ARGS__))\
 }
 
 #define CLONE_FUNC_DEFINITION_ADVANCED(class_name, ...)\
