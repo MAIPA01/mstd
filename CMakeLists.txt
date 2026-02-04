@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(mstd VERSION 1.2.7 LANGUAGES CXX)
+project(mstd VERSION 1.2.8 LANGUAGES CXX)
 
 option(MSTD_ENABLE_CXX20 OFF)
 
@@ -55,40 +55,6 @@ message(STATUS "TESTS ${BUILD_MSTD_TESTS}")
 if(BUILD_MSTD_TESTS)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)
 endif()
-
-# Optimizations
-target_compile_options(${PROJECT_NAME} INTERFACE
-    # MSVC/clang with MSVC frontend
-    $<$<OR:$<CXX_COMPILER_ID:MSVC>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>>>:
-        $<$<CONFIG:Release>:/O2>
-        $<$<CONFIG:Release>:/GL>
-        $<$<CONFIG:Release>:/fp:fast>
-        $<$<CONFIG:Debug>:/RTC1>
-        $<$<CONFIG:Debug>:/Zi>
-        /Zc:preprocessor
-        /Zc:__cplusplus
-        /W4
-        /WX
-    >
-    # GCC/clang with GNU frontend
-    $<$<OR:$<CXX_COMPILER_ID:GNU>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>>>:
-        $<$<CONFIG:Release>:-O3>
-        $<$<CONFIG:Release>:-flto>
-        -Wall
-        -Wextra
-        -Werror
-        -fno-strict-aliasing
-    >
-    # disable noexcept type warning on GCC
-    $<$<CXX_COMPILER_ID:GNU>:
-        $<$<CONFIG:Release>:-O3>
-        $<$<CONFIG:Release>:-flto>
-        -Wall
-        -Wextra
-        -Werror
-        -fno-strict-aliasing
-    >
-)
 
 # TODO: install
 
