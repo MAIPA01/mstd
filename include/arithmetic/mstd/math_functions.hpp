@@ -55,7 +55,7 @@ namespace mstd {
 #if _MSTD_HAS_CXX20
 	template<floating_point AT, floating_point BT, floating_point EpsT>
 #else
-	template<class AT, class BT, class EpsT, std::enable_if_t<mstd::are_floating_point_v<AT, BT, EpsT>, bool> = true>
+	template<class AT, class BT, class EpsT, std::enable_if_t<mstd::are_floating_points_v<AT, BT, EpsT>, bool> = true>
 #endif
 	static _MSTD_CONSTEXPR20 bool epsilon_equal(const AT& a, const BT& b, const EpsT& epsilon) noexcept {
 		return std::abs(a - b) < epsilon;

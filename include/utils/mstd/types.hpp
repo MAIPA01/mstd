@@ -16,9 +16,24 @@ namespace mstd {
 
 #pragma region NUMERIC_TYPES
 
+	template<class T>
+	constexpr bool is_signed_integral_v = std::is_integral_v<T> && std::is_signed_v<T>;
+	template<class T> struct is_signed_integral : std::bool_constant<is_signed_integral_v<T>> {};
+	template<class T>
+	constexpr bool is_unsigned_integral_v = std::is_integral_v<T> && std::is_unsigned_v<T>;
+	template<class T> struct is_unsigned_integral : std::bool_constant<is_unsigned_integral_v<T>> {};
+
 	template<class... Ns>
 	struct are_arithmetic : all_check<std::is_arithmetic, Ns...> {};
 	template<class... Ns> constexpr bool are_arithmetic_v = are_arithmetic<Ns...>::value;
+
+	template<class... Ns>
+	struct are_signed : all_check<std::is_signed, Ns...> {};
+	template<class... Ns> constexpr bool are_signed_v = are_signed<Ns...>::value;
+
+	template<class... Ns>
+	struct are_unsigned : all_check<std::is_unsigned, Ns...> {};
+	template<class... Ns> constexpr bool are_unsigned_v = are_unsigned<Ns...>::value;
 
 	template<class... Ns>
 	struct are_floating_points : all_check<std::is_floating_point, Ns...> {};
@@ -29,17 +44,12 @@ namespace mstd {
 	template<class... Ns> constexpr bool are_integrals_v = are_integrals<Ns...>::value;
 
 	template<class... Ns>
-	struct are_signed : all_check<std::is_signed, Ns...> {};
-	template<class... Ns> constexpr bool are_signed_v = are_signed<Ns...>::value;
+	struct are_signed_integrals : all_check<mstd::is_signed_integral, Ns...> {};
+	template<class... Ns> constexpr bool are_signed_integrals_v = are_signed_integrals<Ns...>::value;
 
 	template<class... Ns>
-	struct are_unsigned : all_check<std::is_unsigned, Ns...> {};
-	template<class... Ns> constexpr bool are_unsigned_v = are_unsigned<Ns...>::value;
-
-	template<class T>
-	constexpr bool is_signed_integral_v = std::is_integral_v<T> && std::is_signed_v<T>;
-	template<class T>
-	constexpr bool is_unsigned_integral_v = std::is_integral_v<T> && std::is_unsigned_v<T>;
+	struct are_unsigned_integrals : all_check<mstd::is_unsigned_integral, Ns...> {};
+	template<class... Ns> constexpr bool are_unsigned_integrals_v = are_unsigned_integrals<Ns...>::value;
 
 #if _MSTD_HAS_CXX20
 	template<class T> concept arithmetic = std::is_arithmetic_v<T>;

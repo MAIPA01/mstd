@@ -196,7 +196,7 @@ namespace mstd {
 #if _MSTD_HAS_CXX20
 	template<mstd::unsigned_integral _UN>
 #else
-	template<class _UN, std::enable_if_t<std::is_unsigned_integral_v<_UN>, bool> = true>
+	template<class _UN, std::enable_if_t<mstd::is_unsigned_integral_v<_UN>, bool> = true>
 #endif
 	static _MSTD_CONSTEXPR20 bool strtounum(const std::string& str, _UN& num) {
 		if (str.size() == 0) return false;

@@ -15,7 +15,7 @@ namespace mstd {
 #if _MSTD_HAS_CXX20
 	template<unsigned_integral _idT = size_t>
 #else
-	template<class _idT = size_t, std::enable_if_t<std::is_unsigned_integral_v<_idT>, bool> = true>
+	template<class _idT = size_t, std::enable_if_t<mstd::is_unsigned_integral_v<_idT>, bool> = true>
 #endif
 	class id_manager {
 	public:
@@ -25,7 +25,7 @@ namespace mstd {
 		id_type _nextId = 0;
 		std::set<id_type> _removedIds = {};
 
-		static _MSTD_CONSTEXPR20 id_type _maxIds = std::numeric_limits<id_type>::max();
+		static _MSTD_CONSTEXPR17 id_type _maxIds = std::numeric_limits<id_type>::max();
 
 		_MSTD_CONSTEXPR20 void _update_removed_ids() {
 			if (_removedIds.empty()) return;

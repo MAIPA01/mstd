@@ -275,45 +275,57 @@ namespace mstd {
 			return _values[0];
 		}
 
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 1, T&) y() _MSTD_REQUIRES(N > 1) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 1)
+		_MSTD_CONSTEXPR20 T& y() _MSTD_REQUIRES(N > 1) {
 			return _values[1];
 		}
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 1, T) y() const _MSTD_REQUIRES(N > 1) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 1)
+		_MSTD_CONSTEXPR20 T y() const _MSTD_REQUIRES(N > 1) {
 			return _values[1];
 		}
 
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 1, T&) g() _MSTD_REQUIRES(N > 1) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 1)
+		_MSTD_CONSTEXPR20 T& g() _MSTD_REQUIRES(N > 1) {
 			return _values[1];
 		}
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 1, T) g() const _MSTD_REQUIRES(N > 1) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 1)
+		_MSTD_CONSTEXPR20 T g() const _MSTD_REQUIRES(N > 1) {
 			return _values[1];
 		}
-			
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 2, T&) z() _MSTD_REQUIRES(N > 2) {
+		
+		_MSTD_ENABLE_IF_TEMPLATE(N > 2)
+		_MSTD_CONSTEXPR20 T& z() _MSTD_REQUIRES(N > 2) {
 			return _values[2];
 		}
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 2, T) z() const _MSTD_REQUIRES(N > 2) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 2)
+		_MSTD_CONSTEXPR20 T z() const _MSTD_REQUIRES(N > 2) {
 			return _values[2];
 		}
 
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 2, T&) b() _MSTD_REQUIRES(N > 2) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 2)
+		_MSTD_CONSTEXPR20 T& b() _MSTD_REQUIRES(N > 2) {
 			return _values[2];
 		}
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 2, T) b() const _MSTD_REQUIRES(N > 2) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 2)
+		_MSTD_CONSTEXPR20 T b() const _MSTD_REQUIRES(N > 2) {
 			return _values[2];
 		}
 
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 3, T&) w() _MSTD_REQUIRES(N > 3) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 3)
+		_MSTD_CONSTEXPR20 T& w() _MSTD_REQUIRES(N > 3) {
 			return _values[3];
 		}
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 3, T) w() const _MSTD_REQUIRES(N > 3) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 3)
+		_MSTD_CONSTEXPR20 T w() const _MSTD_REQUIRES(N > 3) {
 			return _values[3];
 		}
 
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 3, T&) a() _MSTD_REQUIRES(N > 3) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 3)
+		_MSTD_CONSTEXPR20 T& a() _MSTD_REQUIRES(N > 3) {
 			return _values[3];
 		}
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N > 3, T) a() const _MSTD_REQUIRES(N > 3) {
+		_MSTD_ENABLE_IF_TEMPLATE(N > 3)
+		_MSTD_CONSTEXPR20 T a() const _MSTD_REQUIRES(N > 3) {
 			return _values[3];
 		}
 #pragma endregion // VECTOR_GETTERS
@@ -506,7 +518,8 @@ namespace mstd {
 		}
 
 #pragma region VECTOR_3_OPERATIONS
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N == 3, vec<N, T>) cross(const vec<N, T>& other) const _MSTD_REQUIRES(N == 3) {
+		_MSTD_ENABLE_IF_TEMPLATE(N == 3)
+		_MSTD_CONSTEXPR20 vec<N, T> cross(const vec<N, T>& other) const _MSTD_REQUIRES(N == 3) {
 			return vec<N, T>(
 				_values[1] * other[2] - _values[2] * other[1],
 				_values[2] * other[0] - _values[0] * other[2],
@@ -514,7 +527,8 @@ namespace mstd {
 			);
 		}
 
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N == 3, vec<N, T>&) rotate(const vec<N, T>& axis, const T& radians) _MSTD_REQUIRES(N == 3) {
+		_MSTD_ENABLE_IF_TEMPLATE(N == 3)
+		_MSTD_CONSTEXPR20 vec<N, T>& rotate(const vec<N, T>& axis, const T& radians) _MSTD_REQUIRES(N == 3) {
 			const quat<T> p(T(0), (*this));
 
 			vec<N, T> norm_axis = axis;
@@ -527,7 +541,8 @@ namespace mstd {
 			*this = (q * p * invers_q).v;
 			return *this;
 		}
-		_MSTD_CONSTEXPR20 _MSTD_RETURN_VALUE_IF(N == 3, vec<N, T>) rotated(const vec<N, T>& axis, const T& radians) _MSTD_REQUIRES(N == 3) {
+		_MSTD_ENABLE_IF_TEMPLATE(N == 3)
+		_MSTD_CONSTEXPR20 vec<N, T> rotated(const vec<N, T>& axis, const T& radians) _MSTD_REQUIRES(N == 3) {
 			vec<N, T> res = *this;
 			return res.rotate(axis, radians);
 		}
