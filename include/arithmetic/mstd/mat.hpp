@@ -806,7 +806,6 @@ namespace mstd {
 			lookAt(const vec<3ull, T>& eye_pos, const vec<3ull, T>& look_at_pos, 
 				const vec<3ull, T>& world_up) _MSTD_REQUIRES(C == R && C == 4) {
 			using vec3_type = vec<3ull, T>;
-			using vec4_type = vec<4ull, T>;
 
 			vec3_type forward = (look_at_pos - eye_pos).normalize();
 			vec3_type norm_world_up = world_up.normalized();

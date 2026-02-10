@@ -8,7 +8,7 @@ namespace mstd::test {
 
 		i &= 0x0Fu;
 		j &= 0x0F000000u;
-		j >>= 56u;
+		j >>= 24u;
 
 		ASSERT_EQ(i, j);
 	}

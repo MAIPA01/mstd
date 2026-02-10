@@ -15,6 +15,7 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <cstring>
 #include <string>

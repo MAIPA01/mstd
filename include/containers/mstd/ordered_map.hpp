@@ -37,18 +37,20 @@ namespace mstd {
     public:
         _MSTD_CONSTEXPR20 ordered_map() = default;
 
+        _MSTD_CONSTEXPR20 ordered_map(const ordered_map<Key, T>& other) = default;
+        _MSTD_CONSTEXPR20 ordered_map(const ordered_map<Key, T>&& other) noexcept = default;
+
         _MSTD_CONSTEXPR20 ordered_map(const std::initializer_list<std::pair<Key, T>>& init) {
             insert(this->end(), init.begin(), init.end());
-        }
-
-        _MSTD_CONSTEXPR20 ordered_map(const ordered_map<Key, T>& other) {
-            insert(this->end(), other.begin(), other.end());
         }
 
         template<class _Iter>
         _MSTD_CONSTEXPR20 ordered_map(const _Iter& begin, const _Iter& end) {
             insert(this->end(), begin, end);
         }
+
+        _MSTD_CONSTEXPR20 ordered_map& operator=(const ordered_map<Key, T>& other) = default;
+        _MSTD_CONSTEXPR20 ordered_map& operator=(ordered_map<Key, T>&& other) noexcept = default;
 
         _MSTD_CONSTEXPR20 void insert(const const_iterator& where, const std::pair<Key, T>& value) {
             if (_elements_map.contains(value.first)) {

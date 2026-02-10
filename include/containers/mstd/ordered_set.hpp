@@ -33,6 +33,9 @@ namespace mstd {
     public:
         _MSTD_CONSTEXPR20 ordered_set() = default;
 
+        _MSTD_CONSTEXPR20 ordered_set(const ordered_set& other) = default;
+        _MSTD_CONSTEXPR20 ordered_set(ordered_set&& other) noexcept = default;
+
         _MSTD_CONSTEXPR20 ordered_set(const std::initializer_list<T>& init) {
             insert(this->end(), init.begin(), init.end());
         }
@@ -42,9 +45,8 @@ namespace mstd {
             insert(this->end(), begin, end);
         }
 
-        _MSTD_CONSTEXPR20 ordered_set(const ordered_set& other) {
-            insert(this->end(), other.begin(), other.end());
-        }
+        _MSTD_CONSTEXPR20 ordered_set& operator=(const ordered_set& other) = default;
+        _MSTD_CONSTEXPR20 ordered_set& operator=(ordered_set&& other) noexcept = default;
 
         _MSTD_CONSTEXPR20 void insert(const const_iterator& where, const T& item) {
             if (_elements_map.contains(item)) {

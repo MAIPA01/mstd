@@ -79,7 +79,7 @@ namespace mstd::test {
     TEST(TraitsTest, UniqueTypesFinal) {
         using TestList = unique_types<int, float, int, char, float, int>;
 
-        static_assert(TestList::types_num == 3, "Powinny zostaæ 3 unikalne typy");
+        static_assert(TestList::types_num == 3, "Only 3 types should be left");
 
         bool is_valid = std::is_same_v<TestList, types_holder<int, float, char>>;
         EXPECT_TRUE(is_valid);
@@ -87,10 +87,10 @@ namespace mstd::test {
         EXPECT_TRUE(is_valid);
     }
 
-    static_assert(is_in_range_v<5, 0, 10>, "5 jest w [0, 10]");
-    static_assert(is_in_range_v<0, 0, 10>, "Granica dolna");
-    static_assert(is_in_range_v<10, 0, 10>, "Granica górna");
-    static_assert(!is_in_range_v<-1, 0, 10>, "Poza zakresem");
+    static_assert(is_in_range_v<5, 0, 10>, "5 is in [0, 10]");
+    static_assert(is_in_range_v<0, 0, 10>, "down border");
+    static_assert(is_in_range_v<10, 0, 10>, "up border");
+    static_assert(!is_in_range_v<-1, 0, 10>, "out of range");
 
 #if _MSTD_HAS_CXX20
     TEST(TraitsTest, Concepts) {
