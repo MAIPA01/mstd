@@ -70,13 +70,14 @@ namespace mstd {
 		}
 
 		static _MSTD_CONSTEXPR20 quat<T> from_euler_angels(const vec_type& euler_angels) {
-			return from_radians({ deg_to_rad(euler_angels[0]), deg_to_rad(euler_angels[1]), deg_to_rad(euler_angels[2]) });
+			return from_radians({ deg_to_rad(euler_angels[static_cast<size_t>(0u)]), 
+				deg_to_rad(euler_angels[static_cast<size_t>(1u)]), deg_to_rad(euler_angels[static_cast<size_t>(2u)]) });
 		}
 
 		static _MSTD_CONSTEXPR20 quat<T> from_radians(const vec_type& radians) {
-			quat<T> qx = rotation(vec_type(T(1), T(0), T(0)), radians[0]);
-			quat<T> qy = rotation(vec_type(T(0), T(1), T(0)), radians[1]);
-			quat<T> qz = rotation(vec_type(T(0), T(0), T(1)), radians[2]);
+			quat<T> qx = rotation(vec_type(T(1), T(0), T(0)), radians[static_cast<size_t>(0u)]);
+			quat<T> qy = rotation(vec_type(T(0), T(1), T(0)), radians[static_cast<size_t>(1u)]);
+			quat<T> qz = rotation(vec_type(T(0), T(0), T(1)), radians[static_cast<size_t>(2u)]);
 
 			// ZYX convention
 			quat<T> q = qz * qy * qx;
@@ -133,28 +134,34 @@ namespace mstd {
 			if (q.magnitude() != T(0)) q.normalize();
 
 			// roll (x-axis rotation)
-			T sinx_cosp = (T)(2.0 * (q.s * q.v[0] + q.v[1] * q.v[2]));
-			T cosx_cosp = (T)(1.0 - 2.0 * (q.v[0] * q.v[0] + q.v[1] * q.v[1]));
-			res[0] = (T)std::atan2(sinx_cosp, cosx_cosp);
+			T sinx_cosp = (T)(2.0 * (q.s * q.v[static_cast<size_t>(0u)] 
+				+ q.v[static_cast<size_t>(1u)] * q.v[static_cast<size_t>(2u)]));
+			T cosx_cosp = (T)(1.0 - 2.0 * (q.v[static_cast<size_t>(0u)] 
+				* q.v[static_cast<size_t>(0u)] + q.v[static_cast<size_t>(1u)] * q.v[static_cast<size_t>(1u)]));
+			res[static_cast<size_t>(0)] = (T)std::atan2(sinx_cosp, cosx_cosp);
 
 			// pitch (y-axis rotation)
-			T siny = (T)std::sqrt(1.0 + 2.0 * (q.s * q.v[1] - q.v[0] * q.v[2]));
-			T cosy = (T)std::sqrt(1.0 - 2.0 * (q.s * q.v[1] - q.v[0] * q.v[2]));
-			res[1] = (T)(2.0 * std::atan2(siny, cosy) - M_PI / 2.0);
+			T siny = (T)std::sqrt(1.0 + 2.0 * (q.s * q.v[static_cast<size_t>(1u)] 
+				- q.v[static_cast<size_t>(0u)] * q.v[static_cast<size_t>(2u)]));
+			T cosy = (T)std::sqrt(1.0 - 2.0 * (q.s * q.v[static_cast<size_t>(1u)] 
+				- q.v[static_cast<size_t>(0u)] * q.v[static_cast<size_t>(2u)]));
+			res[static_cast<size_t>(1)] = (T)(2.0 * std::atan2(siny, cosy) - M_PI / 2.0);
 
 			// yaw (z-axis rotation)
-			T sinz_cosp = (T)(2.0 * (q.s * q.v[2] + q.v[0] * q.v[1]));
-			T cosz_cosp = (T)(1.0 - 2.0 * (q.v[1] * q.v[1] + q.v[2] * q.v[2]));
-			res[2] = (T)std::atan2(sinz_cosp, cosz_cosp);
+			T sinz_cosp = (T)(2.0 * (q.s * q.v[static_cast<size_t>(2u)] 
+				+ q.v[static_cast<size_t>(0u)] * q.v[static_cast<size_t>(1u)]));
+			T cosz_cosp = (T)(1.0 - 2.0 * (q.v[static_cast<size_t>(1u)] * q.v[static_cast<size_t>(1u)] 
+				+ q.v[static_cast<size_t>(2u)] * q.v[static_cast<size_t>(2u)]));
+			res[static_cast<size_t>(2)] = (T)std::atan2(sinz_cosp, cosz_cosp);
 
 			return res;
 		}
 
 		_MSTD_CONSTEXPR20 vec_type to_euler_angles() const {
 			vec_type res = to_radians();
-			res[0] = rad_to_deg(res[0]);
-			res[1] = rad_to_deg(res[1]);
-			res[2] = rad_to_deg(res[2]);
+			res[static_cast<size_t>(0u)] = rad_to_deg(res[static_cast<size_t>(0u)]);
+			res[static_cast<size_t>(1u)] = rad_to_deg(res[static_cast<size_t>(1u)]);
+			res[static_cast<size_t>(2u)] = rad_to_deg(res[static_cast<size_t>(2u)]);
 			return res;
 		}
 

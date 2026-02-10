@@ -11,7 +11,7 @@
 #pragma region VERSION
 #define MSTD_VERSION_MAJOR 1
 #define MSTD_VERSION_MINOR 3
-#define MSTD_VERSION_PATCH 2
+#define MSTD_VERSION_PATCH 3
 
 #define _MSTD_STRINGIFY_HELPER(x) #x
 
@@ -55,10 +55,10 @@
 	#define _MSTD_CONSTEXPR20 constexpr
 	#define _MSTD_RETURN_VALUE_IF(condition, ...) __VA_ARGS__
 	#define _MSTD_REQUIRES(condition) requires (condition)
-	#define _MSTD_ENABLE_IF_TEMPLATE(condition)
+	#define _MSTD_ENABLE_IF_TEMPLATE(class_name, condition)
 #else
 	#define _MSTD_CONSTEXPR20
 	#define _MSTD_RETURN_VALUE_IF(condition, ...) typename std::enable_if_t<(condition), __VA_ARGS__>
 	#define _MSTD_REQUIRES(condition)
-	#define _MSTD_ENABLE_IF_TEMPLATE(condition) template<class = std::enable_if_t<(condition)>>
+	#define _MSTD_ENABLE_IF_TEMPLATE(class_name, condition) template<class class_name, std::enable_if_t<(condition), bool> = true>
 #endif

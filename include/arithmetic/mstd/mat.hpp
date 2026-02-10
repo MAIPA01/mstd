@@ -27,6 +27,7 @@ namespace mstd {
 		static _MSTD_CONSTEXPR17 const size_t size = R * C;
 		using column_type = vec<R, T>;
 		using row_type = vec<C, T>;
+		using value_type = T;
 
 #pragma region COLUMN_CLASS
 		class mat_column {
@@ -525,18 +526,18 @@ namespace mstd {
 		}
 
 #pragma region PREDEFINED_SQUARE_MATRIX
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T> identity() _MSTD_REQUIRES(C == R) {
 			return fill_identity(static_cast<T>(1));
 		}
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T> fill_identity(const T& value) _MSTD_REQUIRES(C == R) {
 			mat<C, R, T> res;
 			res._set_identity_values(value);
 			return res;
 		}
 		
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && R > 1)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && R > 1 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T> translation(const vec<R - 1, T>& trans_vec)
 			_MSTD_REQUIRES(C == R && R > 1) {
 			mat<C, R, T> res = mat<C, R, T>::identity();
@@ -546,7 +547,7 @@ namespace mstd {
 			return res;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && R > 1)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && R > 1 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T> scale(const vec<R - 1, T>& scale_vec)
 			_MSTD_REQUIRES(C == R && R > 1) {
 			mat<C, R, T> res;
@@ -557,13 +558,13 @@ namespace mstd {
 			return res;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T> scale(const T& scale_factor) _MSTD_REQUIRES(C == R) {
 			return mat<C, R, T>::fill_identity(scale_factor);
 		}
 
 #pragma region PREDEFINED_MATRIX_3x3
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 3)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 3 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			screen(const T& left, const T& right, const T& bottom, const T& top, 
 			const T& width, const T& height) _MSTD_REQUIRES(C == R && C == 3) {
@@ -578,7 +579,7 @@ namespace mstd {
 			return res;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 3)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 3 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			symetric_screen(const T& right, const T& top, const T& width, const T& height) 
 			_MSTD_REQUIRES(C == R && C == 3) {
@@ -588,7 +589,7 @@ namespace mstd {
 #pragma endregion // PREDEFINED_MATRIX_3x3
 
 #pragma region PREDEFINED_MATRIX_4x4
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			rot_x(const T& radians) _MSTD_REQUIRES(C == R && C == 4) {
 			T cosA = static_cast<T>(std::cos(radians));
@@ -603,7 +604,7 @@ namespace mstd {
 			return res;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T> rot_y(const T& radians) 
 			_MSTD_REQUIRES(C == R && C == 4) {
 			T cosA = static_cast<T>(std::cos(radians));
@@ -618,7 +619,7 @@ namespace mstd {
 			return res;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T> rot_z(const T& radians) 
 			_MSTD_REQUIRES(C == R && C == 4) {
 			T cosA = static_cast<T>(std::cos(radians));
@@ -626,14 +627,14 @@ namespace mstd {
 
 			// 4x4
 			mat<C, R, T> res = mat<C, R, T>::identity();
-			res[0][0] = cosA;
-			res[1][0] = -sinA;
-			res[0][1] = sinA;
-			res[1][1] = cosA;
+			res[static_cast<size_t>(0u)][static_cast<size_t>(0u)] = cosA;
+			res[static_cast<size_t>(1u)][static_cast<size_t>(0u)] = -sinA;
+			res[static_cast<size_t>(0u)][static_cast<size_t>(1u)] = sinA;
+			res[static_cast<size_t>(1u)][static_cast<size_t>(1u)] = cosA;
 			return res;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			rot(const vec<R - 1, T>& axis, const T& radians) _MSTD_REQUIRES(C == R && C == 4) {
 			const T& sinA = static_cast<T>(std::sin(radians));
@@ -659,7 +660,7 @@ namespace mstd {
 			return res;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T> rot(const quat<T>& quaternion) 
 			_MSTD_REQUIRES(C == R && C == 4) {
 			const T& x2 = quaternion.v[0] * quaternion.v[0];
@@ -688,7 +689,7 @@ namespace mstd {
 			return res;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			frustrum(const T& left, const T& right, const T& bottom, const T& top, const T& near, const T& far,
 			const T& res_left = static_cast<T>(-1), const T& res_right = static_cast<T>(1), 
@@ -718,7 +719,7 @@ namespace mstd {
 		}
 
 		// left = -right, bottom = -top
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			symetric_frustrum(const T& right, const T& top, const T& near, const T& far, const T& res_right = static_cast<T>(1),
 			const T& res_top = static_cast<T>(1), const T& res_near = static_cast<T>(-1), const T& res_far = static_cast<T>(1)) 
@@ -726,7 +727,7 @@ namespace mstd {
 			return frustrum(-right, right, -top, top, near, far, -res_right, res_right, -res_top, res_top, res_near, res_far);
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			perspective(const T& fov, const T& aspect, const T& near, const T& far, bool right_pos_x = true,
 			bool top_pos_y = true, bool horizontal_fov = true, const T& res_right = static_cast<T>(1), 
@@ -751,7 +752,7 @@ namespace mstd {
 				res_right, res_top, res_near, res_far);
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			ortographic(const T& left, const T& right, const T& bottom, const T& top, const T& near,
 			const T& far, const T& res_left = static_cast<T>(-1), const T& res_right = static_cast<T>(1), 
@@ -781,7 +782,7 @@ namespace mstd {
 			return res;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			symetric_ortographic(const T& right, const T& top, const T& near,
 			const T& far, const T& res_right = static_cast<T>(1), const T& res_top = static_cast<T>(1), 
@@ -789,7 +790,7 @@ namespace mstd {
 			return ortographic(-right, right, -top, top, near, far, -res_right, res_right, -res_top, res_top, res_near, res_far);
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			view(const vec<3ull, T>& pos, const vec<3ull, T>& right, const vec<3ull, T>& forward, 
 				const vec<3ull, T>& up) _MSTD_REQUIRES(C == R && C == 4) {
@@ -801,7 +802,7 @@ namespace mstd {
 			return res;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R && C == 4)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && C == 4 && std::is_same_v<type, value_type>))
 		static _MSTD_CONSTEXPR20 mat<C, R, T>
 			lookAt(const vec<3ull, T>& eye_pos, const vec<3ull, T>& look_at_pos, 
 				const vec<3ull, T>& world_up) _MSTD_REQUIRES(C == R && C == 4) {
@@ -839,12 +840,12 @@ namespace mstd {
 		}
 
 #pragma region PREDEFINED_SQUARE_MATRIX_CHECKS
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		_MSTD_CONSTEXPR20 bool is_identity() const _MSTD_REQUIRES(C == R) {
 			return is_identity_filled_with(1);
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		_MSTD_CONSTEXPR20 bool is_identity_filled_with(const T& value) const 
 			_MSTD_REQUIRES(C == R) {
 			for (size_t x = 0; x != C; ++x) {
@@ -954,7 +955,7 @@ namespace mstd {
 		}
 
 #pragma region SQUARE_MATRIX_OPERATIONS
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		_MSTD_CONSTEXPR20 mat<R, C, T>& transpose() _MSTD_REQUIRES(R == C) {
 			for (size_t y = 0; y != R; ++y) {
 				for (size_t x = 0; x != C; ++x) {
@@ -968,7 +969,7 @@ namespace mstd {
 			return *this;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		_MSTD_CONSTEXPR20 T determinant() const _MSTD_REQUIRES(R == C) {
 			if _MSTD_CONSTEXPR17 (R == 1) { 
 				return _values[0][0];
@@ -1039,13 +1040,13 @@ namespace mstd {
 			}
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		_MSTD_CONSTEXPR20 mat<C, R, T>& invert() _MSTD_REQUIRES(R == C) {
 			*this = inverted();
 			return *this;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		_MSTD_CONSTEXPR20 mat<C, R, T> inverted() const _MSTD_REQUIRES(R == C) {
 			if _MSTD_CONSTEXPR17 (R == 1) {
 				return mat<C, R, T>(_values[0][0] == static_cast<T>(0) ? 0.0 : (1.0 / _values[0][0]));
@@ -1058,21 +1059,61 @@ namespace mstd {
 
 				mat<C, R, T> res;
 				if _MSTD_CONSTEXPR17 (R == 2) {
-					res[0][0] = _values[1][1] * invD;
-					res[1][0] = -_values[1][0] * invD;
-					res[0][1] = -_values[0][1] * invD;
-					res[1][1] = _values[0][0] * invD;
+					res[static_cast<size_t>(0u)][static_cast<size_t>(0u)] = 
+						_values[static_cast<size_t>(1u)][static_cast<size_t>(1u)] * invD;
+					res[static_cast<size_t>(1u)][static_cast<size_t>(0u)] = 
+						-_values[static_cast<size_t>(1u)][static_cast<size_t>(0u)] * invD;
+					res[static_cast<size_t>(0u)][static_cast<size_t>(1u)] = 
+						-_values[static_cast<size_t>(0u)][static_cast<size_t>(1u)] * invD;
+					res[static_cast<size_t>(1u)][static_cast<size_t>(1u)] = 
+						_values[static_cast<size_t>(0u)][static_cast<size_t>(0u)] * invD;
 				}
 				else if _MSTD_CONSTEXPR17 (R == 3) {
-					res[0][0] = (_values[1][1] * _values[2][2] - _values[2][1] * _values[1][2]) * invD;
-					res[1][0] = (_values[2][0] * _values[1][2] - _values[1][0] * _values[2][2]) * invD;
-					res[2][0] = (_values[1][0] * _values[2][1] - _values[2][0] * _values[1][1]) * invD;
-					res[0][1] = (_values[0][2] * _values[2][1] - _values[0][1] * _values[2][2]) * invD;
-					res[1][1] = (_values[0][0] * _values[2][2] - _values[2][0] * _values[0][2]) * invD;
-					res[2][1] = (_values[2][0] * _values[0][1] - _values[0][0] * _values[2][1]) * invD;
-					res[0][2] = (_values[0][1] * _values[1][2] - _values[1][1] * _values[0][2]) * invD;
-					res[1][2] = (_values[1][0] * _values[0][2] - _values[0][0] * _values[1][2]) * invD;
-					res[2][2] = (_values[0][0] * _values[1][1] - _values[0][1] * _values[1][0]) * invD;
+					res[static_cast<size_t>(0u)][static_cast<size_t>(0u)] = 
+						(_values[static_cast<size_t>(1u)][static_cast<size_t>(1u)] 
+							* _values[static_cast<size_t>(2u)][static_cast<size_t>(2u)] 
+							- _values[static_cast<size_t>(2u)][static_cast<size_t>(1u)]
+							* _values[static_cast<size_t>(1u)][static_cast<size_t>(2u)]) * invD;
+					res[static_cast<size_t>(1u)][static_cast<size_t>(0u)] =
+						(_values[static_cast<size_t>(2u)][static_cast<size_t>(0u)] 
+							* _values[static_cast<size_t>(1u)][static_cast<size_t>(2u)]
+							- _values[static_cast<size_t>(1u)][static_cast<size_t>(0u)] 
+							* _values[static_cast<size_t>(2u)][static_cast<size_t>(2u)]) * invD;
+					res[static_cast<size_t>(2u)][static_cast<size_t>(0u)] =
+						(_values[static_cast<size_t>(1u)][static_cast<size_t>(0u)] 
+							* _values[static_cast<size_t>(2u)][static_cast<size_t>(1u)] 
+							- _values[static_cast<size_t>(2u)][static_cast<size_t>(0u)]
+							* _values[static_cast<size_t>(1u)][static_cast<size_t>(1u)]) * invD;
+					res[static_cast<size_t>(0u)][static_cast<size_t>(1u)] = 
+						(_values[static_cast<size_t>(0u)][static_cast<size_t>(2u)] 
+							* _values[static_cast<size_t>(2u)][static_cast<size_t>(1u)]
+							- _values[static_cast<size_t>(0u)][static_cast<size_t>(1u)] 
+							* _values[static_cast<size_t>(2u)][static_cast<size_t>(2u)]) * invD;
+					res[static_cast<size_t>(1u)][static_cast<size_t>(1u)] =
+						(_values[static_cast<size_t>(0u)][static_cast<size_t>(0u)] 
+							* _values[static_cast<size_t>(2u)][static_cast<size_t>(2u)] 
+							- _values[static_cast<size_t>(2u)][static_cast<size_t>(0u)] 
+							* _values[static_cast<size_t>(0u)][static_cast<size_t>(2u)]) * invD;
+					res[static_cast<size_t>(2u)][static_cast<size_t>(1u)] =
+						(_values[static_cast<size_t>(2u)][static_cast<size_t>(0u)] 
+							* _values[static_cast<size_t>(0u)][static_cast<size_t>(1u)]
+							- _values[static_cast<size_t>(0u)][static_cast<size_t>(0u)] 
+							* _values[static_cast<size_t>(2u)][static_cast<size_t>(1u)]) * invD;
+					res[static_cast<size_t>(0u)][static_cast<size_t>(2u)] = 
+						(_values[static_cast<size_t>(0u)][static_cast<size_t>(1u)]
+							* _values[static_cast<size_t>(1u)][static_cast<size_t>(2u)]
+							- _values[static_cast<size_t>(1u)][static_cast<size_t>(1u)]
+							* _values[static_cast<size_t>(0u)][static_cast<size_t>(2u)]) * invD;
+					res[static_cast<size_t>(1u)][static_cast<size_t>(2u)] =
+						(_values[static_cast<size_t>(1u)][static_cast<size_t>(0u)]
+							* _values[static_cast<size_t>(0u)][static_cast<size_t>(2u)] 
+							- _values[static_cast<size_t>(0u)][static_cast<size_t>(0u)] 
+							* _values[static_cast<size_t>(1u)][static_cast<size_t>(2u)]) * invD;
+					res[static_cast<size_t>(2u)][static_cast<size_t>(2u)] = 
+						(_values[static_cast<size_t>(0u)][static_cast<size_t>(0u)] 
+							* _values[static_cast<size_t>(1u)][static_cast<size_t>(1u)]
+							- _values[static_cast<size_t>(0u)][static_cast<size_t>(1u)]
+							* _values[static_cast<size_t>(1u)][static_cast<size_t>(0u)]) * invD;
 				}
 				else {
 					// transponowana (z niej tworzymy mniejsze macierze, usuwając kolumne (x) i wiersz (y), których obliczamy det
@@ -1303,19 +1344,19 @@ namespace mstd {
 		}
 
 #pragma region SQUARE_MATRIX_OPERATORS
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		_MSTD_CONSTEXPR20 mat<C, R, T>& operator*=(const mat<C, R, T>& other) _MSTD_REQUIRES(R == C) {
 			*this = *this * other;
 			return *this;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		_MSTD_CONSTEXPR20 mat<C, R, T>& operator/=(const mat<C, R, T>& other) _MSTD_REQUIRES(R == C) {
 			*this *= other.inverted();
 			return *this;
 		}
 
-		_MSTD_ENABLE_IF_TEMPLATE(C == R)
+		_MSTD_ENABLE_IF_TEMPLATE(type = value_type, (C == R && std::is_same_v<type, value_type>))
 		_MSTD_CONSTEXPR20 mat<C, R, T> operator/(const mat<C, R, T>& other) const _MSTD_REQUIRES(R == C) {
 			mat<C, R, T> res = *this;
 			res /= other;
