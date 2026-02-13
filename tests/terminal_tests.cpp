@@ -8,8 +8,8 @@ namespace mstd::test {
 
         get_terminal_size(w, h);
 
-        EXPECT_GE(w, 0);
-        EXPECT_GE(h, 0);
+        EXPECT_GE(static_cast<unsigned int>(w), 0);
+        EXPECT_GE(static_cast<unsigned int>(h), 0);
 
         std::cout << "[ INFO ] Detected Terminal Size: " << w << "x" << h << std::endl;
     }
