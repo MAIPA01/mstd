@@ -11,6 +11,8 @@
 #include "utils_libs.hpp"
 #include "types.hpp"
 
+// TODO: make base_id_manager and using id_manager = base_id_manager<size_t>;
+
 namespace mstd {
 #if _MSTD_HAS_CXX20
 	template<unsigned_integral _idT = size_t>
