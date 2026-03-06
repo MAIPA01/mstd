@@ -30,8 +30,9 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "BUILD_MSTD_TESTS": "ON",
+        "BUILD_MSTD_COVERAGE": "ON",
         "MSTD_ENABLE_CXX20": "ON",
-        "BUILD_MSTD_COVERAGE": "ON"
+        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
       }
     },
     {
@@ -42,8 +43,9 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "BUILD_MSTD_TESTS": "ON",
+        "BUILD_MSTD_COVERAGE": "ON",
         "MSTD_ENABLE_CXX20": "ON",
-        "BUILD_MSTD_COVERAGE": "ON"
+        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
       }
     },
     {
@@ -58,8 +60,9 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "BUILD_MSTD_TESTS": "ON",
+        "BUILD_MSTD_COVERAGE": "ON",
         "MSTD_ENABLE_CXX20": "ON",
-        "BUILD_MSTD_COVERAGE": "ON"
+        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
       }
     },
     {
@@ -70,8 +73,9 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "BUILD_MSTD_TESTS": "ON",
+        "BUILD_MSTD_COVERAGE": "ON",
         "MSTD_ENABLE_CXX20": "ON",
-        "BUILD_MSTD_COVERAGE": "ON"
+        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
       }
     }
   ]

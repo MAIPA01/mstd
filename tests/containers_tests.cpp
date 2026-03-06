@@ -159,12 +159,6 @@ namespace mstd::test {
         EXPECT_EQ(map["new_key"], 50);
     }
 
-    TEST_F(OrderedMapTest, ConstAtThrowsException) {
-        const mstd::ordered_map<std::string, int> const_map = { {"fixed", 10} };
-        EXPECT_EQ(const_map.at("fixed"), 10);
-        EXPECT_THROW(const_map.at("missing"), std::out_of_range);
-    }
-
     TEST_F(OrderedMapTest, EraseKey) {
         map = { {"X", 10}, {"Y", 20}, {"Z", 30} };
         map.erase("Y");

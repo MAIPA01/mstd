@@ -8,6 +8,12 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include "string_types.hpp"
 #include <mstd/overflow_operations.hpp>
 
@@ -18,7 +24,7 @@ namespace mstd {
 #else
 	template<class _N, std::enable_if_t<std::is_integral_v<_N>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 bool strxtonum(const std::string& hex_str, _N& num) {
+	static _MSTD_CONSTEXPR20 bool strxtonum(const std::string_view& hex_str, _N& num) {
 		if (hex_str.size() <= 2) return false;
 
 		if (hex_str[0] != '0' || hex_str[1] != 'x') {
@@ -71,7 +77,7 @@ namespace mstd {
 #else
 	template<class _N, std::enable_if_t<std::is_integral_v<_N>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 bool strctonum(const std::string& oct_str, _N& num) {
+	static _MSTD_CONSTEXPR20 bool strctonum(const std::string_view& oct_str, _N& num) {
 		if (oct_str.size() <= 2) return false;
 
 		if (oct_str[0] != '0' || oct_str[1] != 'c') {
@@ -109,7 +115,7 @@ namespace mstd {
 #else
 	template<class _N, std::enable_if_t<std::is_integral_v<_N>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 bool strbtonum(const std::string& bin_str, _N& num) {
+	static _MSTD_CONSTEXPR20 bool strbtonum(const std::string_view& bin_str, _N& num) {
 		if (bin_str.size() <= 2) return false;
 
 		if (bin_str[0] != '0' || bin_str[1] != 'b') {
@@ -147,7 +153,7 @@ namespace mstd {
 #else
 	template<class _SN, std::enable_if_t<mstd::is_signed_integral_v<_SN>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 bool strtonum(const std::string& str, _SN& num) {
+	static _MSTD_CONSTEXPR20 bool strtonum(const std::string_view& str, _SN& num) {
 		if (str.size() == 0) return false;
 
 		if (str.size() > 2) {
@@ -198,7 +204,7 @@ namespace mstd {
 #else
 	template<class _UN, std::enable_if_t<mstd::is_unsigned_integral_v<_UN>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 bool strtounum(const std::string& str, _UN& num) {
+	static _MSTD_CONSTEXPR20 bool strtounum(const std::string_view& str, _UN& num) {
 		if (str.size() == 0) return false;
 
 		if (str.size() > 2) {
@@ -245,7 +251,7 @@ namespace mstd {
 #else
 	template<class _FP, std::enable_if_t<std::is_floating_point_v<_FP>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 bool strtofp(const std::string& str, _FP& num) {
+	static _MSTD_CONSTEXPR20 bool strtofp(const std::string_view& str, _FP& num) {
 		if (str.size() == 0) return false;
 
 		size_t i = 0;
@@ -291,3 +297,5 @@ namespace mstd {
 		return false;
 	}
 }
+
+#endif

@@ -10,6 +10,15 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
+#undef far
+#undef near
+
 #include "vec.hpp"
 
 namespace mstd {
@@ -1398,3 +1407,4 @@ namespace mstd {
 	using dmat4 = mat_sqr<4ull, double>;
 #pragma endregion // PREDEFINED_TYPES
 }
+#endif

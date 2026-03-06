@@ -8,9 +8,17 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include <mstd/utils_libs.hpp>
 #include <mstd/functions_libs.hpp>
 #include <mstd/arithmetic_libs.hpp>
 #include <mstd/containers_libs.hpp>
 #include <mstd/terminal_libs.hpp>
 #include <mstd/string_libs.hpp>
+
+#endif

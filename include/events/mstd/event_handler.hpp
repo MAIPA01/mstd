@@ -1,4 +1,18 @@
+/*
+ * mstd - Maipa's Standard Library
+ *
+ * Licensed under the BSD 3-Clause License with Attribution Requirement.
+ * See the LICENSE file for details: https://github.com/MAIPA01/mstd/blob/main/LICENSE
+ *
+ * Copyright (c) 2025, Patryk Antosik (MAIPA01)
+ */
+
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
 
 #include "events_libs.hpp"
 
@@ -17,7 +31,7 @@ namespace mstd {
 		using id_type = size_t;
 		using event_action_type = action<Args...>;
 		using events_type = EventsMap<id_type, event_action_type>;
-		using id_manager_type = id_manager<id_type>;
+		using id_manager_type = base_id_manager<id_type>;
 
 	private:
 		events_type _events = {};
@@ -98,3 +112,4 @@ namespace mstd {
 	using event_handler = base_event_handler<std::map, Args...>;
 	using method_event_handler = event_handler<>;
 }
+#endif

@@ -10,6 +10,12 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include "arithmetic_types.hpp"
 #include "math_functions.hpp"
 
@@ -870,3 +876,4 @@ namespace mstd {
 }
 
 #include "quat.hpp"
+#endif

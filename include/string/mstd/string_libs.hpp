@@ -8,6 +8,15 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
+#include <mstd/assert.hpp>
 #include <string>
+#include <string_view>
 #include <algorithm>
-#include <mstd/mstd_config.hpp>
+
+#endif

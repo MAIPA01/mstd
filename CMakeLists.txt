@@ -1,7 +1,8 @@
-cmake_minimum_required(VERSION 3.16)
-project(mstd VERSION 1.3.1 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.30)
+project(mstd VERSION 1.4.0 LANGUAGES CXX)
 
 option(MSTD_ENABLE_CXX20 OFF)
+option(MSTD_DISABLE_ASSERT_ON_RELEASE OFF)
 
 if (MSTD_ENABLE_CXX20)
 	set(CMAKE_CXX_STANDARD 20)
@@ -46,13 +47,9 @@ target_include_directories(${PROJECT_NAME} INTERFACE ${HEADERS_PATHS}
 #	$<INSTALL_INTERFACE:${INSTALL_HEADERS_PATH}>
 )
 
-if (MSTD_ENABLE_CXX20)
-	target_compile_definitions(${PROJECT_NAME} INTERFACE _MSTD_ENABLE_CXX20=1)
-else()
-	target_compile_definitions(${PROJECT_NAME} INTERFACE _MSTD_ENABLE_CXX20=0)
-endif()
-
-message(STATUS "MSTD TESTS ${BUILD_MSTD_TESTS}")
+target_compile_definitions(${PROJECT_NAME} INTERFACE	_MSTD_ENABLE_CXX20=$<BOOL:${MSTD_ENABLE_CXX20}> 
+														_MSTD_DISABLE_ASSERT_ON_RELEASE=$<BOOL:${MSTD_DISABLE_ASSERT_ON_RELEASE}>
+)
 
 if(BUILD_MSTD_TESTS)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)

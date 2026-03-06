@@ -8,7 +8,16 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include "utils_libs.hpp"
 #include "id_manager.hpp"
 #include "types.hpp"
 #include "hash.hpp"
+#include "assert.hpp"
+
+#endif

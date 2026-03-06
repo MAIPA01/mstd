@@ -7,7 +7,12 @@
  * Copyright (c) 2025, Patryk Antosik (MAIPA01)
  */
 
-#include "mstd_config.hpp"
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include "macros.hpp"
 #include <mstd/functions.hpp>
 #include <mstd/arithmetic.hpp>
@@ -16,3 +21,5 @@
 #include <mstd/string.hpp>
 #include <mstd/events.hpp>
 #include <mstd/utils.hpp>
+
+#endif

@@ -10,8 +10,8 @@
 #pragma once
 #pragma region VERSION
 #define MSTD_VERSION_MAJOR 1
-#define MSTD_VERSION_MINOR 3
-#define MSTD_VERSION_PATCH 3
+#define MSTD_VERSION_MINOR 4
+#define MSTD_VERSION_PATCH 0
 
 #define _MSTD_STRINGIFY_HELPER(x) #x
 
@@ -30,8 +30,8 @@
 #pragma endregion
 
 #pragma region LAST_UPDATE
-#define MSTD_LAST_UPDATE_DAY 10
-#define MSTD_LAST_UPDATE_MONTH 02
+#define MSTD_LAST_UPDATE_DAY 06
+#define MSTD_LAST_UPDATE_MONTH 03
 #define MSTD_LAST_UPDATE_YEAR 2026
 
 #define _MSTD_LAST_UPDATE_DATE_HELPER(day, month, year) _MSTD_STRINGIFY_HELPER(day)"."\
@@ -43,13 +43,37 @@
 														    MSTD_LAST_UPDATE_YEAR)
 #pragma endregion
 
+#pragma region VERSION_CHECKS
 #ifndef _HAS_CXX20
 	#define _MSTD_HAS_CXX20 __cplusplus >= 202002L && _MSTD_ENABLE_CXX20
 #else
 	#define _MSTD_HAS_CXX20 _HAS_CXX20 && _MSTD_ENABLE_CXX20
 #endif
 
-#define _MSTD_CONSTEXPR17 constexpr
+#ifndef _HAS_CXX17
+	#define _MSTD_HAS_CXX17 __cplusplus >= 201703L
+#else
+	#define _MSTD_HAS_CXX17 _HAS_CXX17
+#endif
+
+#if _MSTD_HAS_CXX17
+	#define _MSTD_CONSTEXPR17 constexpr
+#else
+	#define _MSTD_CONSTEXPR17
+#endif
+#pragma endregion
+
+#pragma region PRAGMA_MESSAGES
+#define _MSTD_STRINGIZE_(S) #S
+#define _MSTD_STRINGIZE(S)  _STL_STRINGIZE_(S)
+
+#define _MSTD_PRAGMA(PRAGMA)          _Pragma(#PRAGMA)
+#define _MSTD_PRAGMA_MESSAGE(MESSAGE) _MSTD_PRAGMA(message(MESSAGE))
+#define _MSTD_MESSAGE(MESSAGE)   _MSTD_PRAGMA_MESSAGE(__FILE__ "(" _MSTD_STRINGIZE(__LINE__) "): " MESSAGE)
+
+#define _MSTD_WARNING(MESSAGE) _MSTD_MESSAGE("warning: " MESSAGE)
+#define _MSTD_ERROR(MESSAGE)   static_assert(false, "error: " MESSAGE)
+#pragma endregion
 
 #if _MSTD_HAS_CXX20
 	#define _MSTD_CONSTEXPR20 constexpr

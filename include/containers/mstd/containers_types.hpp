@@ -8,6 +8,12 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include "containers_libs.hpp"
 
 namespace mstd {
@@ -26,3 +32,4 @@ namespace mstd {
 	template<class Key, class T>
 	using ordered_bimap = bimap<Key, T, ordered_map>;
 }
+#endif

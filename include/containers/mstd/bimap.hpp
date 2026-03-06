@@ -8,6 +8,12 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include "containers_types.hpp"
 
 namespace mstd {
@@ -135,18 +141,12 @@ namespace mstd {
         }
 
         _MSTD_CONSTEXPR20 const T& at(const Key& key) const {
-            if (!_map.contains(key)) {
-                throw std::out_of_range("Key not found.");
-            }
-
+            mstd_assert(_map.contains(key), "Key not found");
             return _data.at(_map.at(key)).second;
         }
 
         _MSTD_CONSTEXPR20 const Key& at_value(const T& value) const {
-            if (!_inverted_map.contains(value)) {
-                throw std::out_of_range("Key not found.");
-            }
-
+            mstd_assert(_inverted_map.contains(value), "Key not found");
             return _data.at(_inverted_map.at(value)).first;
         }
 
@@ -237,3 +237,5 @@ namespace mstd {
         }
     };
 }
+
+#endif

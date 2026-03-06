@@ -8,7 +8,15 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include "containers_types.hpp"
 #include "ordered_map.hpp"
 #include "ordered_set.hpp"
 #include "bimap.hpp"
+
+#endif

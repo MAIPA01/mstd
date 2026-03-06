@@ -8,18 +8,22 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include "utils_libs.hpp"
 #include "types.hpp"
 
-// TODO: make base_id_manager and using id_manager = base_id_manager<size_t>;
-
 namespace mstd {
 #if _MSTD_HAS_CXX20
-	template<unsigned_integral _idT = size_t>
+	template<unsigned_integral _idT>
 #else
-	template<class _idT = size_t, std::enable_if_t<mstd::is_unsigned_integral_v<_idT>, bool> = true>
+	template<class _idT, std::enable_if_t<mstd::is_unsigned_integral_v<_idT>, bool> = true>
 #endif
-	class id_manager {
+	class base_id_manager {
 	public:
 		using id_type = _idT;
 
@@ -32,20 +36,25 @@ namespace mstd {
 		_MSTD_CONSTEXPR20 void _update_removed_ids() {
 			if (_removedIds.empty()) return;
 
-			auto last = --_removedIds.end();
+			auto last = std::prev(_removedIds.end());
 			while (*last == _nextId - 1) {
 				--_nextId;
 				_removedIds.erase(*last);
 
 				if (_removedIds.empty()) return;
 
-				last = --_removedIds.end();
+				last = std::prev(_removedIds.end());
 			}
 		}
 
 	public:
-		_MSTD_CONSTEXPR20 id_manager() noexcept = default;
-		_MSTD_CONSTEXPR20 ~id_manager() noexcept = default;
+		_MSTD_CONSTEXPR20 base_id_manager() noexcept = default;
+		_MSTD_CONSTEXPR20 base_id_manager(const base_id_manager& other) noexcept = default;
+		_MSTD_CONSTEXPR20 base_id_manager(base_id_manager&& other) noexcept = default;
+		_MSTD_CONSTEXPR20 ~base_id_manager() noexcept = default;
+
+		_MSTD_CONSTEXPR20 base_id_manager& operator=(const base_id_manager& other) noexcept = default;
+		_MSTD_CONSTEXPR20 base_id_manager& operator=(base_id_manager&& other) noexcept = default;
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 id_type get_next_id() {
 			if (!_removedIds.empty()) {
@@ -76,21 +85,23 @@ namespace mstd {
 			_removedIds.clear();
 		}
 
-		static _MSTD_CONSTEXPR20 id_type bad_id() noexcept {
-			return static_cast<id_type>(~0);
+		[[nodiscard]] static _MSTD_CONSTEXPR20 id_type bad_id() noexcept {
+			return ~static_cast<id_type>(0);
 		}
 
-		static _MSTD_CONSTEXPR20 id_type max_ids() noexcept {
+		[[nodiscard]] static _MSTD_CONSTEXPR20 id_type max_ids() noexcept {
 			return _maxIds;
 		}
 
-		static _MSTD_CONSTEXPR20 id_type last_id() noexcept {
+		[[nodiscard]] static _MSTD_CONSTEXPR20 id_type last_id() noexcept {
 			return _maxIds - 1;
 		}
 	};
 
-	using id8_manager = id_manager<uint8_t>;
-	using id16_manager = id_manager<uint16_t>;
-	using id32_manager = id_manager<uint32_t>;
-	using id64_manager = id_manager<uint64_t>;
+	using id_manager = base_id_manager<size_t>;
+	using id8_manager = base_id_manager<uint8_t>;
+	using id16_manager = base_id_manager<uint16_t>;
+	using id32_manager = base_id_manager<uint32_t>;
+	using id64_manager = base_id_manager<uint64_t>;
 }
+#endif

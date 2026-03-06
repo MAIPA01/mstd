@@ -8,10 +8,16 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
+#include <mstd/assert.hpp>
 #include <cstdlib>
 #include <algorithm>
 #include <iostream>
-#include <mstd/mstd_config.hpp>
 
 #if defined(_WIN32)
 	#define VC_EXTRALEAN
@@ -26,3 +32,5 @@
 #elif defined(__linux__) || defined(__APPLE__)
 	#include <sys/ioctl.h>
 #endif // Windows/Linux
+
+#endif

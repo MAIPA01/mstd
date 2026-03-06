@@ -8,6 +8,13 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
+#include <mstd/assert.hpp>
 #include <limits>
 #include <type_traits>
 #define _USE_MATH_DEFINES
@@ -19,8 +26,8 @@
 #include <iomanip>
 #include <cstring>
 #include <string>
-#include <mstd/mstd_config.hpp>
 #include <mstd/types.hpp>
 #if _MSTD_HAS_CXX20
 #include <bit>
+#endif
 #endif

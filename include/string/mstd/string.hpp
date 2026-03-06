@@ -8,18 +8,24 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include "string_types.hpp"
 #include "isstrnum.hpp"
 #include "strtonum.hpp"
 
 namespace mstd {	
-	static inline std::string trim(const std::string& str) {
-		const std::string::const_iterator & start = 
+	static inline std::string trim(const std::string_view& str) {
+		const std::string_view::const_iterator & start = 
 			std::find_if_not(str.begin(), str.end(), [](unsigned char ch) {
 				return std::isspace(ch);
 			});
 		
-		const std::string::const_iterator& end = 
+		const std::string_view::const_iterator& end = 
 			std::find_if_not(str.rbegin(), str.rend(), [](unsigned char ch) {
 				return std::isspace(ch);
 			}).base();
@@ -40,3 +46,5 @@ namespace mstd {
 		return concat_to(str, strs...);
 	}
 }
+
+#endif

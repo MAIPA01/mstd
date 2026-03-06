@@ -8,6 +8,12 @@
  */
 
 #pragma once
+#include <mstd/config.hpp>
+
+#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+#else
+
 #include "functions_libs.hpp"
 #include "as_function.hpp"
 
@@ -32,3 +38,4 @@ namespace mstd {
 	template<class F> concept callable = mstd::is_callable_v<F>;
 #endif
 }
+#endif
