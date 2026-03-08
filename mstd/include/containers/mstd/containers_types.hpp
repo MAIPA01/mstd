@@ -31,5 +31,8 @@ namespace mstd {
 
 	template<class Key, class T>
 	using ordered_bimap = bimap<Key, T, ordered_map>;
+
+	template<class T>
+	class magic_container;
 }
 #endif

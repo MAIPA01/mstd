@@ -61,14 +61,18 @@ namespace mstd {
             insert(init.begin(), init.end());
         }
 
-        _MSTD_CONSTEXPR20 bimap(const bimap<Key, T, Map>& other) {
-            insert(other.begin(), other.end());
-        }
+        _MSTD_CONSTEXPR20 bimap(const bimap<Key, T, Map>& other) = default;
+        _MSTD_CONSTEXPR20 bimap(bimap<Key, T, Map>&& other) noexcept = default;
 
-        template<class _Iter>
+        template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
         _MSTD_CONSTEXPR20 bimap(const _Iter& begin, const _Iter& end) {
             insert(begin, end);
         }
+
+        _MSTD_CONSTEXPR20 ~bimap() = default;
+
+        _MSTD_CONSTEXPR20 bimap& operator=(const bimap& other) = default;
+        _MSTD_CONSTEXPR20 bimap& operator=(bimap&& other) noexcept = default;
 
         _MSTD_CONSTEXPR20 T& emplace(const Key& key, const T& value) {
             return insert(std::make_pair(key, value));
@@ -120,7 +124,7 @@ namespace mstd {
             return _data[_map.at(value.first)].second;
         }
 
-        template<class _Iter>
+        template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
         _MSTD_CONSTEXPR20 void insert(const _Iter& begin, const _Iter& end) {
             for (_Iter iter = begin; iter != end; ++iter) {
                 insert(*iter);

@@ -60,10 +60,12 @@ namespace mstd {
             insert_back(init.begin(), init.end());
         }
 
-        template<class _Iter>
+        template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
         _MSTD_CONSTEXPR20 ordered_map(const _Iter& begin, const _Iter& end) {
             insert_back(begin, end);
         }
+
+        _MSTD_CONSTEXPR20 ~ordered_map() = default;
 
         _MSTD_CONSTEXPR20 ordered_map& operator=(const ordered_map<Key, T>& other) = default;
         _MSTD_CONSTEXPR20 ordered_map& operator=(ordered_map<Key, T>&& other) noexcept = default;
@@ -105,7 +107,7 @@ namespace mstd {
             return _ordered_elements.at(_elements_map.at(value.first)).second;
         }
 
-        template<class _Iter>
+        template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
         _MSTD_CONSTEXPR20 void insert(const const_iterator& where, const _Iter& begin, const _Iter& end) {
             size_t curr_where_offset = std::distance(_ordered_elements.cbegin(), where);
             for (_Iter iter = begin; iter != end; ++iter, ++curr_where_offset) {
@@ -118,7 +120,7 @@ namespace mstd {
             return insert(cend(), value);
         }
 
-        template<class _Iter>
+        template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
         _MSTD_CONSTEXPR20 void insert_back(const _Iter& begin, const _Iter& end) {
             insert(cend(), begin, end);
         }
