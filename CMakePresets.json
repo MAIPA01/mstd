@@ -6,11 +6,16 @@
       "description": "System Windows ze środowiskiem programistycznym programu Visual Studio jako element docelowy.",
       "hidden": true,
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "installDir": "${sourceDir}/install/${presetName}",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "clang.exe",
-        "CMAKE_CXX_COMPILER": "clang++.exe"
+        "CMAKE_CXX_COMPILER": "clang++.exe",
+        "CMAKE_CXX_STANDARD_REQUIRED": "ON",
+        "CMAKE_CXX_EXTENSIONS": "OFF",
+        "BUILD_MSTD_TESTS": "ON",
+        "BUILD_MSTD_COVERAGE": "ON",
+        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
       },
       "condition": {
         "type": "equals",
@@ -19,64 +24,98 @@
       }
     },
     {
-      "name": "x64-debug",
-      "displayName": "x64 Debug",
-      "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (Debug)",
-      "inherits": "windows-base",
+      "name": "c++20",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "20",
+        "MSTD_ENABLE_CXX20": "ON"
+      }
+    },
+    {
+      "name": "c++17",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "17",
+        "MSTD_ENABLE_CXX20": "OFF"
+      }
+    },
+    {
+      "name": "x64",
+      "hidden": true,
       "architecture": {
         "value": "x64",
         "strategy": "external"
-      },
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "BUILD_MSTD_TESTS": "ON",
-        "BUILD_MSTD_COVERAGE": "ON",
-        "MSTD_ENABLE_CXX20": "ON",
-        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
       }
     },
     {
-      "name": "x64-release",
-      "displayName": "x64 Release",
-      "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
-      "inherits": "x64-debug",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "BUILD_MSTD_TESTS": "ON",
-        "BUILD_MSTD_COVERAGE": "ON",
-        "MSTD_ENABLE_CXX20": "ON",
-        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
-      }
-    },
-    {
-      "name": "x86-debug",
-      "displayName": "x86 Debug",
-      "description": "Docelowy system Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (Debug)",
-      "inherits": "windows-base",
+      "name": "x86",
+      "hidden": true,
       "architecture": {
         "value": "x86",
         "strategy": "external"
-      },
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "BUILD_MSTD_TESTS": "ON",
-        "BUILD_MSTD_COVERAGE": "ON",
-        "MSTD_ENABLE_CXX20": "ON",
-        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
       }
     },
     {
-      "name": "x86-release",
-      "displayName": "x86 Release",
-      "description": "Docelowy systemu Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
-      "inherits": "x86-debug",
+      "name": "debug",
+      "hidden": true,
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "BUILD_MSTD_TESTS": "ON",
-        "BUILD_MSTD_COVERAGE": "ON",
-        "MSTD_ENABLE_CXX20": "ON",
-        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
+        "CMAKE_BUILD_TYPE": "Debug"
       }
+    },
+    {
+      "name": "release",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "x64-debug-c++20",
+      "displayName": "x64 Debug c++20",
+      "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (Debug)",
+      "inherits": ["windows-base", "c++20", "x64", "debug"]
+    },
+    {
+      "name": "x64-debug-c++17",
+      "displayName": "x64 Debug c++17",
+      "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (Debug)",
+      "inherits": ["windows-base", "c++17", "x64", "debug"]
+    },
+    {
+      "name": "x64-release-c++20",
+      "displayName": "x64 Release c++20",
+      "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
+      "inherits": ["windows-base", "c++20", "x64", "release"]
+    },
+    {
+      "name": "x64-release-c++17",
+      "displayName": "x64 Release c++17",
+      "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
+      "inherits": ["windows-base", "c++17", "x64", "release"]
+    },
+    {
+      "name": "x86-debug-c++20",
+      "displayName": "x86 Debug c++20",
+      "description": "Docelowy system Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (Debug)",
+      "inherits": ["windows-base", "c++20", "x86", "debug"]
+    },
+    {
+      "name": "x86-debug-c++17",
+      "displayName": "x86 Debug c++17",
+      "description": "Docelowy system Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (Debug)",
+      "inherits": ["windows-base", "c++17", "x86", "debug"]
+    },
+    {
+      "name": "x86-release-c++20",
+      "displayName": "x86 Release c++20",
+      "description": "Docelowy systemu Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
+      "inherits": ["windows-base", "c++20", "x86", "release"]
+    },
+    {
+      "name": "x86-release-c++17",
+      "displayName": "x86 Release c++17",
+      "description": "Docelowy systemu Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
+      "inherits": ["windows-base", "c++17", "x86", "release"]
     }
   ]
 }

@@ -23,7 +23,7 @@ message(STATUS "Include CPM.cmake from ${CPM_DOWNLOAD_LOCATION}")
 include(${CPM_DOWNLOAD_LOCATION})
 
 if(BUILD_MSTD_TESTS)
-    CPMAddPackage("gh:google/googletest#release-1.11.0")
+    CPMAddPackage(URI "gh:google/googletest#v1.17.0")
     if(googletest_ADDED)
         message(STATUS "Cmake added local googletest: ${googletest_SOURCE_DIR}")
     endif()

@@ -19,7 +19,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 // TODO: dodaæ kolorowanie
 
 namespace mstd {
-    static void get_terminal_size(int& width, int& height) {
+    inline void get_terminal_size(int& width, int& height) {
 #if defined(_WIN32)
         width = 0;
         height = 0;
@@ -36,7 +36,7 @@ namespace mstd {
 #endif
     }
     
-    static void clear_terminal() {
+    inline void clear_terminal() {
 #ifdef _WIN32
         system("cls");  // Windows: czyœci ekran i historiê
 #else

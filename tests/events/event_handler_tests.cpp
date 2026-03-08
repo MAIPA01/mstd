@@ -1,4 +1,4 @@
-#include <mstd/events.hpp>
+#include <mstd/event_handler.hpp>
 #include <gtest/gtest.h>
 
 namespace mstd::test {

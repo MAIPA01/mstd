@@ -15,6 +15,8 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
 #include "events_libs.hpp"
+#include <mstd/id_manager.hpp>
+#include <mstd/is_same_function.hpp>
 
 namespace mstd {
 	template<class Ret, class... Args> using func = std::function<Ret(Args...)>;

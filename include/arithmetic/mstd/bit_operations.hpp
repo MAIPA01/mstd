@@ -17,7 +17,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include "arithmetic_types.hpp"
 
 namespace mstd {
-	static _MSTD_CONSTEXPR20 uint32_t swap_endians(uint32_t value) noexcept {
+	inline _MSTD_CONSTEXPR20 uint32_t swap_endians(uint32_t value) noexcept {
 		return  ((value >> 24) & 0x000000FF) |
 				((value >>  8) & 0x0000FF00) |
 				((value <<  8) & 0x00FF0000) |

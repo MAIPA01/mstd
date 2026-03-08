@@ -51,9 +51,14 @@ namespace mstd {
 	struct string_type_info<T, std::enable_if_t<std::is_same_v<std::remove_cv_t<T>, std::string>>> {
 		static _MSTD_CONSTEXPR17 size_t size(const std::string& s) { return s.size(); }
 	};
+
+	template<typename T>
+	struct string_type_info<T, std::enable_if_t<std::is_same_v<std::remove_cv_t<T>, std::string_view>>> {
+		static _MSTD_CONSTEXPR17 size_t size(const std::string_view& s) { return s.size(); }
+	};
 	
 	template<class _String>
-	static _MSTD_CONSTEXPR17 size_t string_size(_String&& s) {
+	inline _MSTD_CONSTEXPR17 size_t string_size(_String&& s) {
 		using string_t = std::remove_reference_t<_String>;
 		return string_type_info<string_t>::size(s);
 	}

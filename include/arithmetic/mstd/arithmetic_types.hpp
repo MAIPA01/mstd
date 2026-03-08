@@ -15,6 +15,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
 #include "arithmetic_libs.hpp"
+#include <mstd/types.hpp>
 
 namespace mstd {
 #if _MSTD_HAS_CXX20

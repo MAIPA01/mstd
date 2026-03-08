@@ -1381,7 +1381,7 @@ namespace mstd {
 #else
 	template<size_t C, size_t R, class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 mat<C, R, T> clamp(const mat<C, R, T>& a, const T& min_val, const T& max_val) {
+	inline _MSTD_CONSTEXPR20 mat<C, R, T> clamp(const mat<C, R, T>& a, const T& min_val, const T& max_val) {
 		return a.clampped(min_val, max_val);
 	}
 
@@ -1390,7 +1390,7 @@ namespace mstd {
 #else
 	template<size_t C, size_t R, class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 mat<C, R, T> clamp(const mat<C, R, T>& a, const mat<C, R, T>& min_val, const mat<C, R, T>& max_val) {
+	inline _MSTD_CONSTEXPR20 mat<C, R, T> clamp(const mat<C, R, T>& a, const mat<C, R, T>& min_val, const mat<C, R, T>& max_val) {
 		return a.clampped(min_val, max_val);
 	}
 #pragma endregion // EXTRA_OPERATIONS

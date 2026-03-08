@@ -14,7 +14,6 @@
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include <mstd/assert.hpp>
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>

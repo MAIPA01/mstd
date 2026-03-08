@@ -32,7 +32,7 @@ namespace mstd {
 
 	// helper alias
 	template<class F>
-	constexpr bool is_callable_v = is_callable<F>::value;
+	_MSTD_CONSTEXPR17 bool is_callable_v = is_callable<F>::value;
 
 #if _MSTD_HAS_CXX20
 	template<class F> concept callable = mstd::is_callable_v<F>;

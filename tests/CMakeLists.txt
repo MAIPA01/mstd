@@ -1,7 +1,5 @@
 project(mstd-tests VERSION 1.4.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
-
 # source files
 set(PROJECT_TEST_SOURCES ${PROJECT_NAME}_TEST_SOURCES)
 file(GLOB_RECURSE ${PROJECT_TEST_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
@@ -74,7 +72,7 @@ target_link_options(${PROJECT_NAME} PRIVATE
     # GCC/clang with GNU frontend
     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>>>:
         $<$<CONFIG:Release>:-flto>
-        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang>>:-fuse-ld=lld>
+#        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang>>:-fuse-ld=lld>
         -static
         $<$<BOOL:${BUILD_MSTD_COVERAGE}>:-fprofile-instr-generate>
     >

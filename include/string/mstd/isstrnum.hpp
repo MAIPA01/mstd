@@ -17,7 +17,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include "string_types.hpp"
 
 namespace mstd {
-	static inline bool isstrhex(const std::string_view& str) {
+	inline bool isstrhex(const std::string_view& str) {
 		if (str.size() <= 2) return false;
 		if (str[0] != '0' || str[1] != 'x') return false;
 
@@ -33,7 +33,7 @@ namespace mstd {
 		return true;
 	}
 
-	static inline bool isstroct(const std::string_view& str) {
+	inline bool isstroct(const std::string_view& str) {
 		if (str.size() <= 2) return false;
 		if (str[0] != '0' || str[1] != 'c') return false;
 
@@ -47,7 +47,7 @@ namespace mstd {
 		return true;
 	}
 
-	static inline bool isstrbin(const std::string_view& str) {
+	inline bool isstrbin(const std::string_view& str) {
 		if (str.size() <= 2) return false;
 		if (str[0] != '0' || str[1] != 'b') return false;
 
@@ -61,7 +61,7 @@ namespace mstd {
 		return true;
 	}
 
-	static inline bool isstrnum(const std::string_view& str) {
+	inline bool isstrnum(const std::string_view& str) {
 		if (str.size() == 0) return false;
 
 		if (str.size() > 2) {
@@ -91,7 +91,7 @@ namespace mstd {
 		return true;
 	}
 
-	static inline bool isstrunum(const std::string_view& str) {
+	inline bool isstrunum(const std::string_view& str) {
 		if (str.size() == 0) return false;
 
 		if (str.size() > 2) {
@@ -121,7 +121,7 @@ namespace mstd {
 		return true;
 	}
 
-	static inline bool isstrfp(const std::string_view& str) {
+	inline bool isstrfp(const std::string_view& str) {
 		if (str.size() == 0) return false;
 
 		size_t i = 0;

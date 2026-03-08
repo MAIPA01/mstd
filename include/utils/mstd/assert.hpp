@@ -22,7 +22,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include <format>
 #include <source_location>
 #else
-#include <mstd/string.hpp>
+#include <mstd/strconcat.hpp>
 #endif
 
 #if _DEBUG
@@ -31,49 +31,51 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 		#define NOMINMAX
 		#include <Windows.h>
 		#include <crtdbg.h>
-		#define mstd_debugbreak() __debugbreak()
+		#define _mstd_debugbreak() __debugbreak()
 	#elif defined(__linux__) || defined(__APPLE__)
 		#include <csignal>
-		#define mstd_debugbreak() __builtin_trap()
+		#define _mstd_debugbreak() __builtin_trap()
 	#else
 		#include <cstdlib>
-		#define mstd_debugbreak() std::abort()
+		#define _mstd_debugbreak() std::abort()
 	#endif
+#else
+	#define _mstd_debugbreak() ((void)0)
 #endif
 
 #pragma region ASSERT_DEFINES
 
 #if _MSTD_HAS_CXX20
-#define _mstd_assert_source_location_arg const std::source_location& location
-#define _mstd_assert_get_file_name location.file_name()
-#define _mstd_assert_get_func_name location.function_name()
-#define _mstd_assert_get_line location.line()
-#define _mstd_assert_get_column location.column()
-#define _mstd_assert_pass_source_location location
-#define _mstd_assert_get_location ::std::source_location::current()
+#define _MSTD_SOURCE_LOCATION_ARG const std::source_location& location
+#define _MSTD_GET_SOURCE_FILE_NAME location.file_name()
+#define _MSTD_GET_SOURCE_FUNC_NAME location.function_name()
+#define _MSTD_GET_SOURCE_LINE location.line()
+#define _MSTD_GET_SOURCE_COLUMN location.column()
+#define _MSTD_PASS_SOURCE_LOCATION location
+#define _MSTD_GET_CURRENT_SOURCE_LOCATION ::std::source_location::current()
 #else
-#define _mstd_assert_source_location_arg const std::string_view& file_name, size_t line, const std::string_view& func_name
-#define _mstd_assert_get_file_name file_name
-#define _mstd_assert_get_func_name func_name
-#define _mstd_assert_get_line line
-#define _mstd_assert_get_column 0
-#define _mstd_assert_pass_source_location file_name, line, func_name
-#define _mstd_assert_get_location __FILE__, __LINE__, __FUNCTION__
+#define _MSTD_SOURCE_LOCATION_ARG const std::string_view& file_name, size_t line, const std::string_view& func_name
+#define _MSTD_GET_SOURCE_FILE_NAME file_name.data()
+#define _MSTD_GET_SOURCE_FUNC_NAME func_name.data()
+#define _MSTD_GET_SOURCE_LINE line
+#define _MSTD_GET_SOURCE_COLUMN 0
+#define _MSTD_PASS_SOURCE_LOCATION file_name, line, func_name
+#define _MSTD_GET_CURRENT_SOURCE_LOCATION __FILE__, __LINE__, __FUNCTION__
 #endif
 
 #pragma endregion // ASSERT_DEFINES
 
 namespace mstd {
 #pragma region FORMAT_LOG
-	static inline std::string format_log(const std::string_view& expression, _mstd_assert_source_location_arg, 
+	inline std::string format_log(const std::string_view& expression, _MSTD_SOURCE_LOCATION_ARG,
 		const std::string_view& message = "") noexcept {
-		const std::string shortFile = std::filesystem::path(_mstd_assert_get_file_name).filename().string();
+		const std::string shortFile = std::filesystem::path(_MSTD_GET_SOURCE_FILE_NAME).filename().string();
 #if _MSTD_HAS_CXX20
-		std::string fullMessage = std::format("Assertion failed [{}:{}:{},{}]: {}", shortFile, _mstd_assert_get_func_name,
-			_mstd_assert_get_line, _mstd_assert_get_column, expression);
+		std::string fullMessage = std::format("Assertion failed [{}:{}:{},{}]: {}", shortFile, _MSTD_GET_SOURCE_FUNC_NAME,
+			_MSTD_GET_SOURCE_LINE, _MSTD_GET_SOURCE_COLUMN, expression);
 #else
-		std::string fullMessage = mstd::concat("Assertion failed [", shortFile, ":", _mstd_assert_get_func_name, ":", 
-			std::to_string(_mstd_assert_get_line), ", ", std::to_string(_mstd_assert_get_column), "]: ", expression);
+		std::string fullMessage = mstd::concat("Assertion failed [", shortFile, ":", _MSTD_GET_SOURCE_FUNC_NAME, ":",
+			std::to_string(_MSTD_GET_SOURCE_LINE), ", ", std::to_string(_MSTD_GET_SOURCE_COLUMN), "]: ", expression);
 #endif
 
 		if (!message.empty()) {
@@ -88,96 +90,94 @@ namespace mstd {
 #pragma endregion // FORMAT_LOG
 
 #pragma region REPORT_TO_SYSTEM
-	static constexpr bool report_to_system(_mstd_assert_source_location_arg, const std::string_view& message) noexcept {
+#if _DEBUG
+	inline constexpr bool report_to_system(_MSTD_SOURCE_LOCATION_ARG, const std::string_view& message) noexcept {
 #ifdef _WIN32
-		return (_CrtDbgReport(_CRT_ASSERT, _mstd_assert_get_file_name,
-			_mstd_assert_get_line, _mstd_assert_get_func_name, "%s", message.data()) == 1);
+		return (_CrtDbgReport(_CRT_ASSERT, _MSTD_GET_SOURCE_FILE_NAME,
+			_MSTD_GET_SOURCE_LINE, _MSTD_GET_SOURCE_FUNC_NAME, "%s", message.data()) == 1);
 #else
 		return true;
 #endif // _WIN32
 	}
+#endif
 #pragma endregion // REPORT_TO_SYSTEM
 
 #pragma region ASSERT_HANDLER_NO_MSG
-	static constexpr void log_assert_handler(const std::string_view& expression, 
-		const std::function<void(const std::string_view&)>& error_logger, _mstd_assert_source_location_arg) noexcept {
-		const std::string msg = format_log(expression, _mstd_assert_pass_source_location);
+	inline void log_assert_handler(const std::string_view& expression,
+		const std::function<void(const std::string_view&)>& error_logger, _MSTD_SOURCE_LOCATION_ARG) noexcept {
+		const std::string msg = format_log(expression, _MSTD_PASS_SOURCE_LOCATION);
 		error_logger(msg);
 	}
 
-	static constexpr bool stop_assert_handler(const std::string_view& expression,
-		const std::function<void(const std::string_view&)>& error_logger, _mstd_assert_source_location_arg) noexcept {
-		const std::string msg = format_log(expression, _mstd_assert_pass_source_location);
+	inline bool stop_assert_handler(const std::string_view& expression,
+		const std::function<void(const std::string_view&)>& error_logger, _MSTD_SOURCE_LOCATION_ARG) noexcept {
+		const std::string msg = format_log(expression, _MSTD_PASS_SOURCE_LOCATION);
 		error_logger(msg);
-		return report_to_system(_mstd_assert_pass_source_location, msg);
+#if _DEBUG
+		return report_to_system(_MSTD_PASS_SOURCE_LOCATION, msg);
+#else
+		return true;
+#endif
 	}
 #pragma endregion // ASSERT_HANDLER_NO_MSG
 
 #pragma region ASSERT_HANDLER_MSG
-#if _MSTD_HAS_CXX20
 	template<class... Args>
-#endif
-	static constexpr void log_assert_handler(const std::string_view& expression,
-		const std::function<void(const std::string_view&)>& error_logger, _mstd_assert_source_location_arg,
+	inline void log_assert_handler(const std::string_view& expression,
+		const std::function<void(const std::string_view&)>& error_logger, _MSTD_SOURCE_LOCATION_ARG,
 #if _MSTD_HAS_CXX20
 		std::format_string<Args...> fmt, Args&&... args) noexcept {
 		const std::string formattedMsg = std::format(fmt, std::forward<Args>(args)...);
 #else
-		const std::string& formattedMsg = "") noexcept {
+		Args&&... args) noexcept {
+		const std::string formattedMsg = mstd::concat(args...);
 #endif
-		const std::string fullMsg = format_log(expression, _mstd_assert_pass_source_location, formattedMsg);
+		const std::string fullMsg = format_log(expression, _MSTD_PASS_SOURCE_LOCATION, formattedMsg);
 		error_logger(fullMsg);
 	}
 
-#if _MSTD_HAS_CXX20
 	template<class... Args>
-#endif
-	static constexpr bool stop_assert_handler(const std::string_view& expression,
-		const std::function<void(const std::string_view&)>& error_logger, _mstd_assert_source_location_arg,
+	inline bool stop_assert_handler(const std::string_view& expression,
+		const std::function<void(const std::string_view&)>& error_logger, _MSTD_SOURCE_LOCATION_ARG,
 #if _MSTD_HAS_CXX20
 		std::format_string<Args...> fmt, Args&&... args) noexcept {
 		const std::string formattedMsg = std::format(fmt, std::forward<Args>(args)...);
 #else
-		const std::string& formattedMsg) noexcept {
+		Args&&... args) noexcept {
+		const std::string formattedMsg = mstd::concat(args...);
 #endif
-		const std::string fullMsg = format_log(expression, _mstd_assert_pass_source_location, formattedMsg);
+		const std::string fullMsg = format_log(expression, _MSTD_PASS_SOURCE_LOCATION, formattedMsg);
 		error_logger(fullMsg);
-		return report_to_system(_mstd_assert_pass_source_location, fullMsg);
+#if _DEBUG
+		return report_to_system(_MSTD_PASS_SOURCE_LOCATION, fullMsg);
+#else
+		return true;
+#endif
 	}
 #pragma endregion // ASSERT_HANDLER_MSG
 }
 
-#if _MSTD_HAS_CXX20
-#define _mstd_assert_va_args_pass(...) __VA_ARGS__
-#elif defined(__GNUC__) || defined(__clang__)
-#define _mstd_assert_va_args_pass(...) ##__VA_ARGS__
-#elif defined(_MSC_VER) && !defined(_MSVC_LANG)
-#define _mstd_assert_va_args_pass(...) __VA_ARGS__
-#else
-#define _mstd_assert_va_args_pass(...) __VA_ARGS__
-#endif
-
 #define mstd_stop_assert_base(expression, log_error_func, ...)\
 		do {\
 			if (!(expression)) {\
-				if (::mstd::stop_assert_handler(#expression, log_error_func, _mstd_assert_get_location __VA_OPT__(, ) _mstd_assert_va_args_pass(__VA_ARGS__))) {\
-					mstd_debugbreak();\
+				if (::mstd::stop_assert_handler(#expression, log_error_func, _MSTD_GET_CURRENT_SOURCE_LOCATION __VA_OPT__(, ) __VA_ARGS__)) {\
+					_mstd_debugbreak();\
 				}\
 			}\
 		} while (0)
 
 #define mstd_log_assert_base(expression, log_error_func, ...)\
 		if (!(expression))\
-			::mstd::log_assert_handler(#expression, log_error_func, _mstd_assert_get_location __VA_OPT__(, ) _mstd_assert_va_args_pass(__VA_ARGS__))
+			::mstd::log_assert_handler(#expression, log_error_func, _MSTD_GET_CURRENT_SOURCE_LOCATION __VA_OPT__(, ) __VA_ARGS__)
 
-#define mstd_empty_assert_base(expression, log_error_func, ...)
+#define mstd_empty_assert_base(expression, log_error_func, ...) ((void)0)
 
 #if _DEBUG
-#define mstd_assert(expression, ...) mstd_stop_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) _mstd_assert_va_args_pass(__VA_ARGS__))
+#define mstd_assert(expression, ...) mstd_stop_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__)
 #elif !_MSTD_DISABLE_ASSERT_ON_RELEASE
-#define mstd_assert(expression, ...) mstd_stop_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) _mstd_assert_va_args_pass(__VA_ARGS__))
+#define mstd_assert(expression, ...) mstd_stop_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__)
 #else
-#define mstd_assert(expression, ...) mstd_empty_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) _mstd_assert_va_args_pass(__VA_ARGS__))
+#define mstd_assert(expression, ...) mstd_empty_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__)
 #endif
 
 #endif

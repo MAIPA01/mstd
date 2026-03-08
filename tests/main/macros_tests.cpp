@@ -31,13 +31,13 @@ namespace mstd::test {
 
     ENUM_CLASS(TaskStatus, (Pending), (Running), (Completed))
 
-    ENUM_CLASS_BASE_VALUE_STRING(HttpCode, int,
-        (Ok, 200, "OK"),
-        (NotFound, 404, "Not Found"),
-        (InternalError, 500, "Server Error")
-    )
+        ENUM_CLASS_BASE_VALUE_STRING(HttpCode, int,
+            (Ok, 200, "OK"),
+            (NotFound, 404, "Not Found"),
+            (InternalError, 500, "Server Error")
+        )
 
-    TEST(MacroEnumTest, SizeAndValues) {
+        TEST(MacroEnumTest, SizeAndValues) {
         EXPECT_EQ(size<TaskStatus>(), 3);
         EXPECT_EQ(size<HttpCode>(), 3);
         EXPECT_EQ(static_cast<int>(HttpCode::NotFound), 404);

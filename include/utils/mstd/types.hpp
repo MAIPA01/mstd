@@ -87,21 +87,23 @@ namespace mstd {
 
 #if _MSTD_HAS_CXX20
 	template<auto A, auto B, auto Eps, arithmetic AT = decltype(A), arithmetic BT = decltype(B), floating_point EpsT = decltype(Eps)>
-#else
-	template<auto A, auto B, auto Eps, class AT = decltype(A), class BT = decltype(B), class EpsT = decltype(Eps),
-	std::enable_if_t<(std::is_arithmetic_v<AT> && std::is_arithmetic_v<BT> && std::is_floating_point_v<EpsT>), bool> = true>
-#endif
 	constexpr bool is_eq_arithmetic_v = (std::is_floating_point_v<AT> || std::is_floating_point_v<BT>) ?
 		(abs_v<A - B> < Eps) :
 		(A == B);
+#else
+	template<auto A, auto B, class AT = decltype(A), class BT = decltype(B),
+	std::enable_if_t<(std::is_arithmetic_v<AT> && std::is_arithmetic_v<BT>), bool> = true>
+	constexpr bool is_eq_arithmetic_v = (A == B);
+#endif
 
 #if _MSTD_HAS_CXX20
 	template<auto A, auto B, auto Eps, arithmetic AT = decltype(A), arithmetic BT = decltype(B), floating_point EpsT = decltype(Eps)>
-#else
-	template<auto A, auto B, auto Eps, class AT = decltype(A), class BT = decltype(B), class EpsT = decltype(Eps),
-		std::enable_if_t<(std::is_arithmetic_v<AT>&& std::is_arithmetic_v<BT>&& std::is_floating_point_v<EpsT>), bool> = true>
-#endif
 	constexpr bool is_neq_arithmetic_v = !is_eq_arithmetic_v<A, B, Eps>;
+#else
+	template<auto A, auto B, class AT = decltype(A), class BT = decltype(B),
+		std::enable_if_t<(std::is_arithmetic_v<AT> && std::is_arithmetic_v<BT>), bool> = true>
+	constexpr bool is_neq_arithmetic_v = !is_eq_arithmetic_v<A, B>;
+#endif
 
 #pragma endregion
 
@@ -171,7 +173,7 @@ namespace mstd {
 		using type = types_holder<Ts...>;
 	};
 
-	template<class... Ts> using unique_types = _unique_impl<types_holder<>, types_holder<Ts...>>::type;
+	template<class... Ts> using unique_types = typename _unique_impl<types_holder<>, types_holder<Ts...>>::type;
 #pragma endregion
 }
 

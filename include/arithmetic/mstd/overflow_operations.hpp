@@ -15,6 +15,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
 #include "arithmetic_types.hpp"
+#include <mstd/types.hpp>
 
 namespace mstd {
 #if _MSTD_HAS_CXX20
@@ -22,7 +23,7 @@ namespace mstd {
 #else
 	template<class _N, class _Na, class _Nb, std::enable_if_t<are_arithmetic_v<_N, _Na, _Nb>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 bool add_overflow(const _Na& a, const _Nb& b, _N& out) {
+	inline _MSTD_CONSTEXPR20 bool add_overflow(const _Na& a, const _Nb& b, _N& out) {
 		if _MSTD_CONSTEXPR17 (are_unsigned_v<_N, _Na, _Nb>) {
 			if (a > std::numeric_limits<_N>::max() - b) {
 				return true;
@@ -47,7 +48,7 @@ namespace mstd {
 #else
 	template<class _N, class _Na, class _Nb, std::enable_if_t<are_arithmetic_v<_N, _Na, _Nb>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 bool sub_overflow(const _Na& a, const _Nb& b, _N& out) {
+	inline _MSTD_CONSTEXPR20 bool sub_overflow(const _Na& a, const _Nb& b, _N& out) {
 		if _MSTD_CONSTEXPR17(are_unsigned_v<_N, _Na, _Nb>) {
 			if (a < std::numeric_limits<_N>::min() + b) {
 				return true;
@@ -72,7 +73,7 @@ namespace mstd {
 #else
 	template<class _N, class _Na, class _Nb, std::enable_if_t<are_arithmetic_v<_N, _Na, _Nb>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 bool mul_overflow(const _Na& a, const _Nb& b, _N& out) {
+	inline _MSTD_CONSTEXPR20 bool mul_overflow(const _Na& a, const _Nb& b, _N& out) {
 		if _MSTD_CONSTEXPR17 (are_unsigned_v<_N, _Na, _Nb>) {
 			if (a != 0 && b != 0 && a > std::numeric_limits<_N>::max() / b) {
 				return true;
@@ -107,7 +108,7 @@ namespace mstd {
 #else
 	template<class _N, class _Na, class _Nb, std::enable_if_t<are_arithmetic_v<_N, _Na, _Nb>, bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 bool div_overflow(const _Na& a, const _Nb& b, _N& out) {
+	inline _MSTD_CONSTEXPR20 bool div_overflow(const _Na& a, const _Nb& b, _N& out) {
 		if _MSTD_CONSTEXPR17(are_unsigned_v<_N, _Na, _Nb>) {
 			out = static_cast<_N>(b == 0 ? std::numeric_limits<_N>::max() : a / b);
 		}

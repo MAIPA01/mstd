@@ -34,10 +34,10 @@ namespace mstd {
 	struct function_traits<F, std::void_t<as_function_t<F>>> : function_traits<as_function_t<F>> {};
 
 	template<class F>
-	using function_args_t = function_traits<F>::args_tuple;
+	using function_args_t = typename function_traits<F>::args_tuple;
 
 	template<class F>
-	using function_decayed_args_t = function_traits<F>::decayed_args_tuple;
+	using function_decayed_args_t = typename function_traits<F>::decayed_args_tuple;
 
 	template<class F, size_t N>
 	using function_arg_t = std::tuple_element_t<N, function_args_t<F>>;
@@ -46,12 +46,12 @@ namespace mstd {
 	using function_decayed_arg_t = std::tuple_element_t<N, function_decayed_args_t<F>>;
 
 	template<class F>
-	using function_return_t = function_traits<F>::return_type;
+	using function_return_t = typename function_traits<F>::return_type;
 
 	template<class F>
-	using function_decayed_return_t = function_traits<F>::decayed_return_type;
+	using function_decayed_return_t = typename function_traits<F>::decayed_return_type;
 
 	template<class F>
-	constexpr size_t function_args_num_v = function_traits<F>::args_num;
+	_MSTD_CONSTEXPR17 size_t function_args_num_v = function_traits<F>::args_num;
 }
 #endif

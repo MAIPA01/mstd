@@ -31,6 +31,6 @@ namespace mstd {
 	};
 
 	template<class Fa, class Fb>
-	constexpr bool is_same_function_v = is_same_function<Fa, Fb>::value;
+	_MSTD_CONSTEXPR17 bool is_same_function_v = is_same_function<Fa, Fb>::value;
 }
 #endif

@@ -3,15 +3,6 @@ project(mstd VERSION 1.4.0 LANGUAGES CXX)
 
 option(MSTD_ENABLE_CXX20 OFF)
 option(MSTD_DISABLE_ASSERT_ON_RELEASE OFF)
-
-if (MSTD_ENABLE_CXX20)
-	set(CMAKE_CXX_STANDARD 20)
-else()
-	set(CMAKE_CXX_STANDARD 17)
-endif()
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
 option(BUILD_MSTD_TESTS "Build mstd tests" OFF)
 option(BUILD_MSTD_COVERAGE "Enable coverage reporting" OFF)
 
@@ -34,6 +25,8 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${${PROJECT_HEADERS}})
 
 # make library
 add_library(${PROJECT_NAME} INTERFACE ${${PROJECT_HEADERS}})
+
+target_compile_features(${PROJECT_NAME} INTERFACE $<IF:$<BOOL:${MSTD_ENABLE_CXX20}>, cxx_std_20, cxx_std_17>)
 
 # set library alias
 set(PROJECT_NAMESPACE ${PROJECT_NAME}::)

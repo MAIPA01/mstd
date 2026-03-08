@@ -14,7 +14,6 @@
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include <mstd/assert.hpp>
 #include <limits>
 #include <type_traits>
 #define _USE_MATH_DEFINES
@@ -26,7 +25,6 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include <iomanip>
 #include <cstring>
 #include <string>
-#include <mstd/types.hpp>
 #if _MSTD_HAS_CXX20
 #include <bit>
 #endif

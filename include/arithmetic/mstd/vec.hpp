@@ -722,17 +722,17 @@ namespace mstd {
 
 #pragma region EXTRA_OPERATORS
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 T length(const vec<N, T>& a) noexcept {
+	inline _MSTD_CONSTEXPR20 T length(const vec<N, T>& a) noexcept {
 		return a.length();
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> normalize(const vec<N, T>& a) noexcept {
+	inline _MSTD_CONSTEXPR20 vec<N, T> normalize(const vec<N, T>& a) noexcept {
 		return a.normalized();
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> max(const vec<N, T>& a, const vec<N, T>& b) noexcept {
+	inline _MSTD_CONSTEXPR20 vec<N, T> max(const vec<N, T>& a, const vec<N, T>& b) noexcept {
 		vec<N, T> res;
 		for (size_t i = 0; i != N; ++i) {
 			res[i] = std::max(a[i], b[i]);
@@ -741,7 +741,7 @@ namespace mstd {
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> min(const vec<N, T>& a, const vec<N, T>& b) noexcept {
+	inline _MSTD_CONSTEXPR20 vec<N, T> min(const vec<N, T>& a, const vec<N, T>& b) noexcept {
 		vec<N, T> res;
 		for (size_t i = 0; i != N; ++i) {
 			res[i] = std::min(a[i], b[i]);
@@ -750,7 +750,7 @@ namespace mstd {
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 T dot(const vec<N, T>& a, const vec<N, T>& b) {
+	inline _MSTD_CONSTEXPR20 T dot(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.dot(b);
 	}
 
@@ -760,72 +760,72 @@ namespace mstd {
 #else
 	template<class T, size_t N, std::enable_if_t<(N == 3), bool> = true>
 #endif
-	static _MSTD_CONSTEXPR20 vec<N, T> cross(const vec<N, T>& a, const vec<N, T>& b) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> cross(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.cross(b);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 T angle_between(const vec<N, T>& a, const vec<N, T>& b) {
+	inline _MSTD_CONSTEXPR20 T angle_between(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.angle_between(b);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> reflect(const vec<N, T>& dir, const vec<N, T>& normal) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> reflect(const vec<N, T>& dir, const vec<N, T>& normal) {
 		return dir.reflected(normal);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> refract(const vec<N, T>& dir, const vec<N, T>& normal, const T& eta) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> refract(const vec<N, T>& dir, const vec<N, T>& normal, const T& eta) {
 		return dir.refracted(normal, eta);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> saturate(const vec<N, T>& a) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> saturate(const vec<N, T>& a) {
 		return a.saturated();
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> fract(const vec<N, T>& a) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> fract(const vec<N, T>& a) {
 		return a.fracted();
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> mod(const vec<N, T>& a, const T& y) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> mod(const vec<N, T>& a, const T& y) {
 		return a.modded(y);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> mod(const vec<N, T>& a, const vec<N, T>& b) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> mod(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.modded(b);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> pow(const vec<N, T>& a, const T& y) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> pow(const vec<N, T>& a, const T& y) {
 		return a.powed(y);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> pow(const vec<N, T>& a, const vec<N, T>& b) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> pow(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.powed(b);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> clamp(const vec<N, T>& a, const T& min_val, const T& max_val) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> clamp(const vec<N, T>& a, const T& min_val, const T& max_val) {
 		return a.clampped(min_val, max_val);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> clamp(const vec<N, T>& a, const vec<N, T>& min_val, const vec<N, T>& max_val) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> clamp(const vec<N, T>& a, const vec<N, T>& min_val, const vec<N, T>& max_val) {
 		return a.clampped(min_val, max_val);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> step(const T& edge, const vec<N, T>& a) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> step(const T& edge, const vec<N, T>& a) {
 		return a.stepped(edge);
 	}
 
 	template<class T, size_t N>
-	static _MSTD_CONSTEXPR20 vec<N, T> step(const vec<N, T>& edge, const vec<N, T>& a) {
+	inline _MSTD_CONSTEXPR20 vec<N, T> step(const vec<N, T>& edge, const vec<N, T>& a) {
 		return a.stepped(edge);
 	}
 #pragma endregion // EXTRA_OPERATORS

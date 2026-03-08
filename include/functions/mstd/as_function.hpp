@@ -112,7 +112,7 @@ namespace mstd {
 
 	// Helper alias
 	template<class F>
-	using as_function_t = as_function<F>::type;
+	using as_function_t = typename as_function<F>::type;
 }
 
 #endif
