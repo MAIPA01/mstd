@@ -12,6 +12,9 @@
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
+	
+// #define MSTD_ENABLE_CXX20 1 -> enables c++20 features
+// #define MSTD_DIABLE_ASSERT_ON_RELEASE 1 -> makes every assert in this library (void)0 on release builds 
 
 #include "macros.hpp"
 #include <mstd/functions.hpp>

@@ -174,7 +174,7 @@ namespace mstd {
 
 #if _DEBUG
 #define mstd_assert(expression, ...) mstd_stop_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__)
-#elif !_MSTD_DISABLE_ASSERT_ON_RELEASE
+#elif !MSTD_DISABLE_ASSERT_ON_RELEASE
 #define mstd_assert(expression, ...) mstd_stop_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__)
 #else
 #define mstd_assert(expression, ...) mstd_empty_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__)
