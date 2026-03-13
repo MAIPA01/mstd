@@ -18,19 +18,16 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include "function_traits.hpp"
 
 namespace mstd {
-	// main template - default false
 	template<class F, class = void>
-	struct is_callable : std::false_type {};
+	struct as_std_function;
 
 	template<class F>
-	struct is_callable<F, std::void_t<typename function_traits<F>::std_function_type>> : std::true_type {};
+	struct as_std_function<F, std::void_t<typename function_traits<F>::std_function_type>> {
+		using type = typename function_traits<F>::std_function_type;
+	};
 
-	// helper alias
 	template<class F>
-	_MSTD_CONSTEXPR17 bool is_callable_v = is_callable<F>::value;
-
-#if _MSTD_HAS_CXX20
-	template<class F> concept callable = mstd::is_callable_v<F>;
-#endif
+	using as_std_function_t = typename as_std_function<F>::type;
 }
+
 #endif

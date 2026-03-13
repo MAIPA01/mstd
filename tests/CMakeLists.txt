@@ -1,4 +1,4 @@
-project(mstd-tests VERSION 1.4.0 LANGUAGES CXX)
+project(mstd-tests VERSION 1.4.2 LANGUAGES CXX)
 
 # source files
 set(PROJECT_TEST_SOURCES ${PROJECT_NAME}_TEST_SOURCES)
