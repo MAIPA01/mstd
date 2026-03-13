@@ -6,6 +6,8 @@ option(BUILD_MSTD_COVERAGE "Enable coverage reporting" OFF)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/third_party.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/coverage_report.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/clang_tidy.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/doxygen.cmake)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/mstd)
 

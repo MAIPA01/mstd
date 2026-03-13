@@ -18,5 +18,6 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include "function_traits.hpp"
 #include "is_callable.hpp"
 #include "is_same_function.hpp"
+#include "function_types.hpp"
 
 #endif

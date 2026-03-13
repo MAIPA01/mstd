@@ -65,7 +65,9 @@ namespace mstd {
 
 #pragma region FUNCTION_TRAITS
 	template<class F, class C = void>
-	struct function_traits;
+	struct function_traits : _function_default_type_traits<false> {
+		static _MSTD_CONSTEXPR17 const bool is_free = false;
+	};
 
 #pragma region STATIC
 	// global/static

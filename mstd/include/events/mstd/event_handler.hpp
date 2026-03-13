@@ -16,18 +16,13 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 #include "events_libs.hpp"
 #include <mstd/id_manager.hpp>
-#include <mstd/is_same_function.hpp>
+#include <mstd/functions.hpp>
 
 namespace mstd {
-#if _MSTD_HAS_CXX20
-	template<class F, class AT>
-	concept event_action_func = mstd::is_same_function_v<F, AT>;
-#endif
-
 	template<template<class, class, class...> class EventsMap, class... Args>
 	class base_event_handler {
 		using id_type = size_t;
-		using event_action_type = action<Args...>;
+		using event_action_type = action_t<Args...>;
 		using events_type = EventsMap<id_type, event_action_type>;
 		using id_manager_type = base_id_manager<id_type>;
 
@@ -40,7 +35,7 @@ namespace mstd {
 		_MSTD_CONSTEXPR20 ~base_event_handler() noexcept = default;
 
 #if _MSTD_HAS_CXX20
-		template<event_action_func<event_action_type> F>
+		template<same_function_as<event_action_type> F>
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
 #endif
@@ -82,7 +77,7 @@ namespace mstd {
 		}
 
 #if _MSTD_HAS_CXX20
-		template<event_action_func<event_action_type> F>
+		template<same_function_as<event_action_type> F>
 #else
 		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
 #endif

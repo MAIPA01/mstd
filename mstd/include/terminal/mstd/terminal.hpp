@@ -16,7 +16,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 #include "terminal_libs.hpp"
 
-// TODO: dodaæ kolorowanie
+// TODO: dodac kolorowanie
 
 namespace mstd {
     inline void get_terminal_size(int& width, int& height) {
@@ -38,9 +38,9 @@ namespace mstd {
     
     inline void clear_terminal() {
 #ifdef _WIN32
-        system("cls");  // Windows: czyœci ekran i historiê
+        system("cls");  // Windows: czysci ekran i historie
 #else
-        system("clear && printf '\\e[3J'");  // Linux/macOS: czyœci ekran i usuwa historiê
+        system("clear && printf '\\e[3J'");  // Linux/macOS: czysci ekran i usuwa historie
 #endif
     }
 }

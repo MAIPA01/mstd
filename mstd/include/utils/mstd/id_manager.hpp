@@ -11,7 +11,7 @@
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
-_MSTD_WARNING("this is only available for c++17 and greater!");
+_MSTD_WARNING ("this is only available for c++17 and greater!");
 #else
 
 #include "utils_libs.hpp"
@@ -19,11 +19,12 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 namespace mstd {
 #if _MSTD_HAS_CXX20
-	template<unsigned_integral _idT>
+	template <unsigned_integral _idT>
 #else
-	template<class _idT, std::enable_if_t<mstd::is_unsigned_integral_v<_idT>, bool> = true>
+	template <class _idT, std::enable_if_t<mstd::is_unsigned_integral_v<_idT>, bool> = true>
 #endif
-	class base_id_manager {
+	class base_id_manager
+	{
 	public:
 		using id_type = _idT;
 
@@ -71,7 +72,11 @@ namespace mstd {
 		}
 
 		_MSTD_CONSTEXPR20 bool return_id(id_type id) {
+#if _MSTD_HAS_CXX20
+			if (id == bad_id() || id >= _nextId || _removedIds.contains(id)) {
+#else
 			if (id == bad_id() || id >= _nextId || _removedIds.find(id) != _removedIds.end()) {
+#endif
 				return false;
 			}
 
