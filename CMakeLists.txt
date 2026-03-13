@@ -3,11 +3,14 @@ project(mstd VERSION 1.4.2 LANGUAGES CXX)
 
 option(BUILD_MSTD_TESTS "Build mstd tests" OFF)
 option(BUILD_MSTD_COVERAGE "Enable coverage reporting" OFF)
+option(BUILD_MSTD_DOCUMENTATION "Build documentation" OFF)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/third_party.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/coverage_report.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/clang_tidy.cmake)
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/doxygen.cmake)
+if (${BUILD_MSTD_DOCUMENTATION})
+	include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/doxygen.cmake)
+endif()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/mstd)
 

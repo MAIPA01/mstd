@@ -15,6 +15,7 @@
         "CMAKE_CXX_EXTENSIONS": "OFF",
         "BUILD_MSTD_TESTS": "ON",
         "BUILD_MSTD_COVERAGE": "ON",
+        "BUILD_MSTD_DOCUMENTATION": "ON",
         "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
       },
       "condition": {
