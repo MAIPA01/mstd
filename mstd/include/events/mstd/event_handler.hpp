@@ -19,10 +19,6 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include <mstd/is_same_function.hpp>
 
 namespace mstd {
-	template<class Ret, class... Args> using func = std::function<Ret(Args...)>;
-	template<class... Args> using action = func<void, Args...>;
-	using method = action<>;
-
 #if _MSTD_HAS_CXX20
 	template<class F, class AT>
 	concept event_action_func = mstd::is_same_function_v<F, AT>;
