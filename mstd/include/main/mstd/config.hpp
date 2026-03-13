@@ -54,28 +54,22 @@
 #pragma endregion
 
 #pragma region VERSION_CHECKS
-#ifndef _HAS_CXX20
-	#define _MSTD_HAS_CXX20 __cplusplus >= 202002L && MSTD_ENABLE_CXX20
-#else
-	#define _MSTD_HAS_CXX20 _HAS_CXX20 && _MSTD_ENABLE_CXX20
-#endif
-
 #ifndef _HAS_CXX17
 	#define _MSTD_HAS_CXX17 __cplusplus >= 201703L
 #else
 	#define _MSTD_HAS_CXX17 _HAS_CXX17
 #endif
 
-#if _MSTD_HAS_CXX17
-	#define _MSTD_CONSTEXPR17 constexpr
+#ifndef _HAS_CXX20
+	#define _MSTD_HAS_CXX20 __cplusplus >= 202002L && MSTD_ENABLE_CXX20
 #else
-	#define _MSTD_CONSTEXPR17
+	#define _MSTD_HAS_CXX20 _HAS_CXX20 && MSTD_ENABLE_CXX20
 #endif
 #pragma endregion
 
 #pragma region PRAGMA_MESSAGES
 #define _MSTD_STRINGIZE_(S) #S
-#define _MSTD_STRINGIZE(S)  _STL_STRINGIZE_(S)
+#define _MSTD_STRINGIZE(S)  _MSTD_STRINGIZE_(S)
 
 #define _MSTD_PRAGMA(PRAGMA)          _Pragma(#PRAGMA)
 #define _MSTD_PRAGMA_MESSAGE(MESSAGE) _MSTD_PRAGMA(message(MESSAGE))
@@ -84,6 +78,13 @@
 #define _MSTD_WARNING(MESSAGE) _MSTD_MESSAGE("warning: " MESSAGE)
 #define _MSTD_ERROR(MESSAGE)   static_assert(false, "error: " MESSAGE)
 #pragma endregion
+
+#pragma region VERSION_DEPENDENT
+#if _MSTD_HAS_CXX17
+	#define _MSTD_CONSTEXPR17 constexpr
+#else
+	#define _MSTD_CONSTEXPR17
+#endif
 
 #if _MSTD_HAS_CXX20
 	#define _MSTD_CONSTEXPR20 constexpr
@@ -96,3 +97,4 @@
 	#define _MSTD_REQUIRES(condition)
 	#define _MSTD_ENABLE_IF_TEMPLATE(class_name, condition) template<class class_name, std::enable_if_t<(condition), bool> = true>
 #endif
+#pragma endregion
