@@ -88,8 +88,8 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 type name base { LIST_DO_FOR_EACH(elem_func, __VA_ARGS__) };
 
 #define _ENUM_SIZE_FUNC(name, ...)\
-template<class T> _MSTD_CONSTEXPR20 size_t size() noexcept;\
-template<> _MSTD_CONSTEXPR20 size_t size<name>() noexcept {\
+template<class T> inline _MSTD_CONSTEXPR20 size_t size() noexcept;\
+template<> inline _MSTD_CONSTEXPR20 size_t size<name>() noexcept {\
 	return DO_FOR_EACH(_ENUM_ELEMENT_COUNT, __VA_ARGS__);\
 }
 
