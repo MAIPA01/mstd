@@ -72,11 +72,15 @@ namespace mstd {
 #pragma region STATIC
 	// global/static
 	template<class R, class... Args>
-	struct function_traits<R(Args...)> : _function_core_traits<R(Args...)>, _function_default_type_traits<false> {};
+	struct function_traits<R(Args...)> : _function_core_traits<R(Args...)>, _function_default_type_traits<false> {
+		using function_type = R(Args...);
+	};
 
 	// global/static (noexcept)
 	template<class R, class... Args>
 	struct function_traits<R(Args...) noexcept> : _function_core_traits<R(Args...)> {
+		using function_type = R(Args...) noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -84,35 +88,47 @@ namespace mstd {
 #pragma region MEMBER
 	// member
 	template<class R, class... Args, class C>
-	struct function_traits<R(Args...), C> : _function_core_traits<R(Args...), C>, _function_default_type_traits<true> {};
+	struct function_traits<R(Args...), C> : _function_core_traits<R(Args...), C>, _function_default_type_traits<true> {
+		using function_type = R(Args...);
+	};
 
 	// member (const)
 	template<class R, class... Args, class C>
 	struct function_traits<R(Args...) const, C> : function_traits<R(Args...), C> {
+		using function_type = R(Args...) const;
+
 		static _MSTD_CONSTEXPR17 const bool is_const = true;
 	};
 
 	// member (volatile)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) volatile, C> : function_traits<R(Args...), C> {
+		using function_type = R(Args...) volatile;
+
 		static _MSTD_CONSTEXPR17 const bool is_volatile = true;
 	};
 
 	// member (&)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) &, C> : function_traits<R(Args...), C> {
+		using function_type = R(Args...) &;
+
 		static _MSTD_CONSTEXPR17 const bool is_parent_ref = true;
 	};
 
 	// member (&&)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) &&, C> : function_traits<R(Args...), C> {
+		using function_type = R(Args...) &&;
+
 		static _MSTD_CONSTEXPR17 const bool is_parent_moved = true;
 	};
 
 	// member (noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) noexcept, C> : function_traits<R(Args...), C> {
+		using function_type = R(Args...) noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 
@@ -120,24 +136,32 @@ namespace mstd {
 	// member (const volatile)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const volatile, C> : function_traits<R(Args...) const, C> {
+		using function_type = R(Args...) const volatile;
+
 		static _MSTD_CONSTEXPR17 const bool is_volatile = true;
 	};
 
 	// member (const &)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const &, C> : function_traits<R(Args...) const, C> {
+		using function_type = R(Args...) const &;
+
 		static _MSTD_CONSTEXPR17 const bool is_parent_ref = true;
 	};
 
 	// member (const &&)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const &&, C> : function_traits<R(Args...) const, C> {
+		using function_type = R(Args...) const &&;
+
 		static _MSTD_CONSTEXPR17 const bool is_parent_moved = true;
 	};
 
 	// member (const noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const noexcept, C> : function_traits<R(Args...) const, C> {
+		using function_type = R(Args...) const noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -146,18 +170,24 @@ namespace mstd {
 	// member (const volatile &)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const volatile &, C> : function_traits<R(Args...) const volatile, C> {
+		using function_type = R(Args...) const volatile &;
+
 		static _MSTD_CONSTEXPR17 const bool is_parent_ref = true;
 	};
 
 	// member (const volatile &&)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const volatile &&, C> : function_traits<R(Args...) const volatile, C> {
+		using function_type = R(Args...) const volatile &&;
+
 		static _MSTD_CONSTEXPR17 const bool is_parent_moved = true;
 	};
 
 	// member (const volatile noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const volatile noexcept, C> : function_traits<R(Args...) const volatile, C> {
+		using function_type = R(Args...) const volatile noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -166,6 +196,8 @@ namespace mstd {
 	// member (const volatile & noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const volatile & noexcept, C> : function_traits<R(Args...) const volatile &, C> {
+		using function_type = R(Args...) const volatile & noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -174,6 +206,8 @@ namespace mstd {
 	// member (const volatile && noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const volatile && noexcept, C> : function_traits<R(Args...) const volatile &&, C> {
+		using function_type = R(Args...) const volatile && noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -182,6 +216,8 @@ namespace mstd {
 	// member (const & noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const & noexcept, C> : function_traits<R(Args...) const &, C> {
+		using function_type = R(Args...) const & noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -190,6 +226,8 @@ namespace mstd {
 	// member (const && noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) const && noexcept, C> : function_traits<R(Args...) const &&, C> {
+		using function_type = R(Args...) const && noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -198,18 +236,24 @@ namespace mstd {
 	// member (volatile &)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) volatile &, C> : function_traits<R(Args...) volatile, C> {
+		using function_type = R(Args...) volatile &;
+
 		static _MSTD_CONSTEXPR17 const bool is_parent_ref = true;
 	};
 
 	// member (volatile &&)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) volatile &&, C> : function_traits<R(Args...) volatile, C> {
+		using function_type = R(Args...) volatile &&;
+
 		static _MSTD_CONSTEXPR17 const bool is_parent_moved = true;
 	};
 
 	// member (volatile noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) volatile noexcept, C> : function_traits<R(Args...) volatile, C> {
+		using function_type = R(Args...) volatile noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -218,6 +262,8 @@ namespace mstd {
 	// member (volatile & noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) volatile & noexcept, C> : function_traits<R(Args...) volatile &, C> {
+		using function_type = R(Args...) volatile & noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -226,6 +272,8 @@ namespace mstd {
 	// member (volatile && noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) volatile && noexcept, C> : function_traits<R(Args...) volatile &&, C> {
+		using function_type = R(Args...) volatile && noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -234,6 +282,8 @@ namespace mstd {
 	// member (& noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) & noexcept, C> : function_traits<R(Args...) &, C> {
+		using function_type = R(Args...) & noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -242,6 +292,8 @@ namespace mstd {
 	// member (&& noexcept)
 	template<class C, class R, class... Args>
 	struct function_traits<R(Args...) && noexcept, C> : function_traits<R(Args...) &&, C> {
+		using function_type = R(Args...) && noexcept;
+
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
 	};
 #pragma endregion
@@ -251,6 +303,8 @@ namespace mstd {
 	// for std::function
 	template<class R, class... Args>
 	struct function_traits<std::function<R(Args...)>> : function_traits<R(Args...)> {
+		using function_type = R(Args...);
+
 		static _MSTD_CONSTEXPR17 const bool is_std_function = true;
 		static _MSTD_CONSTEXPR17 const bool is_functor = true;
 		static _MSTD_CONSTEXPR17 const bool is_free = false;
@@ -472,6 +526,9 @@ namespace mstd {
 #pragma endregion
 
 #pragma region CORE_TRAITS
+	template<class F>
+	using function_type_t = typename function_traits<F>::function_type;
+
 	template<class F>
 	using function_return_t = typename function_traits<F>::return_type;
 	template<class F>
