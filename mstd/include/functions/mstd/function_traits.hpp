@@ -78,7 +78,7 @@ namespace mstd {
 
 	// global/static (noexcept)
 	template<class R, class... Args>
-	struct function_traits<R(Args...) noexcept> : _function_core_traits<R(Args...)> {
+	struct function_traits<R(Args...) noexcept> : function_traits<R(Args...)> {
 		using function_type = R(Args...) noexcept;
 
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
