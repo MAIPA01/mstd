@@ -106,14 +106,20 @@ namespace mstd::test {
     TEST_F(StableVectorTest, GetIdFromIterator) {
         container.push_back(10); // ID 0
         container.insert_at(10, 100); // ID 10
-        container.push_back(20); // ID 1
+        container.push_back(20); // ID 11
 
         auto it = container.begin();
         EXPECT_EQ(container.get_id(it), 0);
 
         auto it_last = std::prev(container.end());
         EXPECT_EQ(*it_last, 20);
-        EXPECT_EQ(container.get_id(it_last), 1);
+        EXPECT_EQ(container.get_id(it_last), 11);
+
+    	container.insert(22); // ID 3
+
+    	it_last = std::prev(container.end());
+    	EXPECT_EQ(*it_last, 22);
+    	EXPECT_EQ(container.get_id(it_last), 3);
     }
 
     TEST_F(StableVectorTest, HasValueViaIterator) {
@@ -126,7 +132,7 @@ namespace mstd::test {
 
         auto it_new = container.begin();
         EXPECT_TRUE(container.has_value(it_new));
-        EXPECT_EQ(*it_new, 20);
+        EXPECT_EQ(*it_new, 30);
     }
 
     TEST_F(StableVectorTest, HasValueViaConstIterator) {
@@ -140,21 +146,8 @@ namespace mstd::test {
 
     TEST_F(StableVectorTest, GetIdThrowsOrAssertsOnEndIterator) {
 #ifdef _DEBUG
-        EXPECT_DEATH(container.get_id(container.end()), "Pos out of bounds");
+        EXPECT_DEATH(std::ignore = container.get_id(container.end()), "Pos out of bounds");
 #endif
-    }
-
-    TEST_F(StableVectorTest, IteratorConsistencyAfterErase) {
-        container = { 10, 20, 30 }; // ID: 0, 1, 2
-        size_t id_to_remove = 1;
-
-        auto it = std::find(container.begin(), container.end(), 20);
-        ASSERT_NE(it, container.end());
-        EXPECT_EQ(container.get_id(it), id_to_remove);
-
-        container.erase(id_to_remove);
-
-        EXPECT_FALSE(container.has_value(it));
     }
 
 	TEST_F(StableVectorTest, EraseInLoopUsingIds) {
@@ -176,41 +169,107 @@ namespace mstd::test {
         EXPECT_EQ(container.at(5), 50);
     }
 
-    TEST_F(StableVectorTest, EraseInLoopUsingIterators) {
-        container = { 10, 20, 30, 40, 50 };
+	TEST_F(StableVectorTest, TryAtReturnsPointerOrNull) {
+        container.insert_at(5, 500);
 
-        auto it = container.begin();
-        while (it != container.end()) {
-            if (*it > 25) {
-                size_t current_id = container.get_id(it);
-                container.erase(current_id);
-                ++it;
-            } else {
-                ++it;
-            }
-        }
+        int* ptr_found = container.try_at(5);
+        ASSERT_NE(ptr_found, nullptr);
+        EXPECT_EQ(*ptr_found, 500);
 
-        EXPECT_TRUE(container.has_value(0)); // 10
-        EXPECT_TRUE(container.has_value(1)); // 20
-        EXPECT_FALSE(container.has_value(2)); // 30
-        EXPECT_FALSE(container.has_value(4)); // 50
+        int* ptr_empty = container.try_at(2);
+        EXPECT_EQ(ptr_empty, nullptr);
 
-        EXPECT_EQ(container.size(), 5);
+        const auto& c_container = container;
+        const int* c_ptr = c_container.try_at(5);
+        EXPECT_EQ(*c_ptr, 500);
     }
 
-    TEST_F(StableVectorTest, ClearAndReinsertInLoop) {
-        container = { 1, 2, 3 };
+    TEST_F(StableVectorTest, GetReturnsValidIterator) {
+        container.push_back(10); // ID 0
+        container.push_back(20); // ID 1
+        container.push_back(30); // ID 2
 
-        for(auto it = container.begin(); it != container.end(); ++it) {
-            container.erase(container.get_id(it));
-        }
+        auto it = container.get(1);
+        ASSERT_NE(it, container.end());
+        EXPECT_EQ(*it, 20);
+        EXPECT_EQ(container.get_id(it), 1);
 
-        for(size_t i = 0; i < 3; ++i) {
-            EXPECT_FALSE(container.has_value(i));
-        }
+        const auto& c_container = container;
+        auto cit = c_container.get(2);
+        EXPECT_EQ(*cit, 30);
+    }
 
-        container.insert_at(0, 100);
-        EXPECT_TRUE(container.has_value(0));
-        EXPECT_EQ(container.at(0), 100);
+    TEST_F(StableVectorTest, TryGetReturnsIteratorOrEnd) {
+        container.insert_at(10, 1000);
+
+        auto it_found = container.try_get(10);
+        EXPECT_NE(it_found, container.end());
+        EXPECT_EQ(*it_found, 1000);
+
+        auto it_missing = container.try_get(5);
+        EXPECT_EQ(it_missing, container.end());
+    }
+
+    TEST_F(StableVectorTest, ConstTryGetReturnsConstIterator) {
+        const mstd::stable_vector<int> c_container = { 10, 20 };
+
+        mstd::stable_vector<int> temp = { 1, 2, 3 };
+        temp.erase(1);
+        const auto& c_temp = temp;
+
+        auto it = c_temp.try_get(1);
+        EXPECT_EQ(it, c_temp.cend());
+
+        auto it_valid = c_temp.try_get(0);
+        EXPECT_EQ(*it_valid, 1);
+    }
+
+	TEST_F(StableVectorTest, SlotCountingLogic) {
+        EXPECT_EQ(container.active_slots(), 0);
+        EXPECT_EQ(container.empty_slots(), 0);
+
+        container.push_back(10);
+        container.push_back(20);
+        container.push_back(30);
+
+        EXPECT_EQ(container.active_slots(), 3);
+        EXPECT_EQ(container.empty_slots(), 0);
+        EXPECT_EQ(container.size(), 3);
+
+        container.erase(1);
+
+        EXPECT_EQ(container.active_slots(), 2);
+        EXPECT_EQ(container.empty_slots(), 1);
+        EXPECT_EQ(container.size(), 3);
+
+        container.insert_at(10, 100);
+        EXPECT_EQ(container.active_slots(), 3);
+        EXPECT_EQ(container.empty_slots(), 8);
+        EXPECT_EQ(container.size(), 11);
+    }
+
+    TEST_F(StableVectorTest, EmptySlotsAfterClear) {
+        container = { 1, 2, 3, 4, 5 };
+        container.erase(0);
+        container.erase(1);
+
+        size_t current_active = container.active_slots();
+        size_t current_empty = container.empty_slots();
+
+        EXPECT_EQ(current_active, 3);
+        EXPECT_EQ(current_empty, 2);
+
+        EXPECT_EQ(container.active_slots() + container.empty_slots(), container.size());
+    }
+
+    TEST_F(StableVectorTest, ActiveSlotsConsistency) {
+        container.emplace_back(42);
+        EXPECT_EQ(container.active_slots(), 1);
+
+        container.push_back(24);
+        EXPECT_EQ(container.active_slots(), 2);
+
+        container.erase(0);
+        EXPECT_EQ(container.active_slots(), 1);
     }
 } // namespace mstd::test

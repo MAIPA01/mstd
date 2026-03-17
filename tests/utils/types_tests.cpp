@@ -65,7 +65,11 @@ TEST(IfVTest, BooleanConditionLogic) {
 
 	TEST(IfVTest, DifferentAutoTypes) {
     	static_assert(mstd::if_v<true, 'a', 'b'> == 'a');
+    	#if _MSTD_HAS_CXX20
     	static_assert(mstd::if_v<false, 3.14, 2.71> == 2.71);
+    	#else
+    	static_assert(mstd::if_v<false, 3, 2> == 2);
+    	#endif
 
     	enum class Status { Ok, Error };
     	static_assert(mstd::if_v<true, Status::Ok, Status::Error> == Status::Ok);

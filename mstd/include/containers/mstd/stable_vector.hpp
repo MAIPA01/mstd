@@ -347,6 +347,36 @@ namespace mstd {
 			return _data[_data_index.back()];
 		}
 
+		[[nodiscard]] _MSTD_CONSTEXPR20 iterator get(size_type id) {
+			mstd_assert(id < size(), "Index out of bounds");
+			mstd_assert(has_value(id), "Index is a pointer to empty element");
+
+			return std::next(begin(), _data_index[id]);
+		}
+
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator get(size_type id) const {
+			mstd_assert(id < size(), "Index out of bounds");
+			mstd_assert(has_value(id), "Index is a pointer to empty element");
+
+			return std::next(cbegin(), _data_index[id]);
+		}
+
+		[[nodiscard]] _MSTD_CONSTEXPR20 iterator try_get(size_type id) {
+			mstd_assert(id < size(), "Index out of bounds");
+			if (has_value(id)) {
+				return get(id);
+			}
+			return end();
+		}
+
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator try_get(size_type id) const {
+			mstd_assert(id < size(), "Index out of bounds");
+			if (has_value(id)) {
+				return get(id);
+			}
+			return cend();
+		}
+
 		[[nodiscard]] _MSTD_CONSTEXPR20 T& at(size_type id) {
 			mstd_assert(id < size(), "Index out of bounds");
 			mstd_assert(has_value(id), "Index is a pointer to empty element");
@@ -361,6 +391,22 @@ namespace mstd {
 			return _data[_data_index[id]];
 		}
 
+		[[nodiscard]] _MSTD_CONSTEXPR20 T* try_at(size_type id) {
+			mstd_assert(id < size(), "Index out of bounds");
+			if (has_value(id)) {
+				return &at(id);
+			}
+			return nullptr;
+		}
+
+		[[nodiscard]] _MSTD_CONSTEXPR20 const T* try_at(size_type id) const {
+			mstd_assert(id < size(), "Index out of bounds");
+			if (has_value(id)) {
+				return &at(id);
+			}
+			return nullptr;
+		}
+
 		[[nodiscard]] _MSTD_CONSTEXPR20 size_type get_id(iterator pos) {
 			mstd_assert(pos != _data.end(), "Pos out of bounds");
 			return _id[std::distance(_data.begin(), pos)];
@@ -369,6 +415,14 @@ namespace mstd {
 		[[nodiscard]] _MSTD_CONSTEXPR20 size_type get_id(const_iterator pos) const {
 			mstd_assert(pos != _data.cend(), "Pos out of bounds");
 			return _id[std::distance(_data.cbegin(), pos)];
+		}
+
+		[[nodiscard]] _MSTD_CONSTEXPR20 size_type active_slots() const {
+			return _data.size();
+		}
+
+		[[nodiscard]] _MSTD_CONSTEXPR17 size_type empty_slots() const {
+			return size() - active_slots();
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 size_type size() const {
