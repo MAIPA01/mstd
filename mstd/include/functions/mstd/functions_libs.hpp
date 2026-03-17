@@ -19,6 +19,8 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 #include <functional>
 #include <type_traits>
+#include <variant>
+#include <optional>
 
 #endif
 #endif
