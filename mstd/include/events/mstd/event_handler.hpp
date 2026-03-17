@@ -25,8 +25,9 @@ namespace mstd {
 	template<template<class, class, class...> class EventsMap, class... Args>
 	class base_event_handler {
 		using id_type = size_t;
-		using event_action_type = action_t<Args...>;
-		using events_type = EventsMap<id_type, event_action_type>;
+		using event_action_type = c_action_t<Args...>;
+		using event_action_handler = function_view<event_action_type>;
+		using events_type = EventsMap<id_type, event_action_handler>;
 		using id_manager_type = base_id_manager<id_type>;
 
 	private:
@@ -37,12 +38,7 @@ namespace mstd {
 		_MSTD_CONSTEXPR20 base_event_handler() noexcept = default;
 		_MSTD_CONSTEXPR20 ~base_event_handler() noexcept = default;
 
-#if _MSTD_HAS_CXX20
-		template<same_function_as<event_action_type> F>
-#else
-		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
-#endif
-		[[nodiscard]] _MSTD_CONSTEXPR20 id_type add_callback(const F& callback) {
+		[[nodiscard]] _MSTD_CONSTEXPR20 id_type add_callback(const event_action_handler& callback) {
 			id_type id = _ids.get_next_id();
 			if (id == id_manager_type::bad_id()) return id;
 
@@ -64,10 +60,11 @@ namespace mstd {
 			_ids.reset();
 		}
 
-		_MSTD_CONSTEXPR20 void invoke(const Args&... args) const {
+		_MSTD_CONSTEXPR20 void invoke(Args&&... args) const {
 			if (_events.empty()) return;
 
-			std::vector<event_action_type> callbacks_to_run;
+			// SAFETY WHEN CALLBACK DELETES ITSELF
+			std::vector<event_action_handler> callbacks_to_run;
 			callbacks_to_run.reserve(_events.size());
 
 			for (const auto& [id, event] : _events) {
@@ -75,7 +72,7 @@ namespace mstd {
 			}
 
 			for (const auto& callback : callbacks_to_run) {
-				callback(args...);
+				callback(std::forward<Args>(args)...);
 			}
 		}
 
@@ -92,8 +89,8 @@ namespace mstd {
 			return remove_callback(callbackId);
 		}
 
-		_MSTD_CONSTEXPR20 void operator()(const Args&... args) const {
-			invoke(args...);
+		_MSTD_CONSTEXPR20 void operator()(Args&&... args) const {
+			invoke(std::forward<Args>(args)...);
 		}
 	};
 }

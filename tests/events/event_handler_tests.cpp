@@ -35,9 +35,10 @@ namespace mstd::test {
         int first_call_count = 0;
 
         id1 = handler.add_callback([&]() {
-            first_call_count++;
-            handler.remove_callback(id1);
-            });
+				first_call_count++;
+				handler.remove_callback(id1);
+            }
+        );
 
         std::ignore = handler.add_callback([&]() {
             second_called = true;

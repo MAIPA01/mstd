@@ -20,6 +20,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include <mstd/function_traits.hpp>
 #include <mstd/functions_types.hpp>
 #include <mstd/is_same_function.hpp>
+#include <mstd/function_view.hpp>
 
 #endif
 #endif
