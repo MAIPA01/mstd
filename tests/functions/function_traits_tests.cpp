@@ -12,6 +12,8 @@ namespace mstd::test {
         void const_method() const {}
         const int& get_val(float) const { static int i = 0; return i; }
         void volatile_method() volatile {}
+    	void ref_method() & {}
+    	void rvalue_method() && {}
     };
 
     TEST(FUNCTIONS_FunctionTraitsRevisedTest, ReturnTypes) {
@@ -90,4 +92,48 @@ namespace mstd::test {
         static_assert(functor<decltype([](){})>);
     }
 #endif
+
+	TEST(FunctionTraitsTest, FreeFunctions) {
+        using Sig = void(int) noexcept;
+
+        static_assert(std::is_same_v<function_type_t<Sig>, void(int) noexcept>);
+
+        static_assert(std::is_same_v<core_function_type_t<Sig>, void(int)>);
+    }
+
+    TEST(FunctionTraitsTest, MemberFunctionsQualifiers) {
+        using ConstMem = decltype(&Member::get_val);
+        static_assert(std::is_same_v<function_type_t<ConstMem>, const int&(float) const>);
+
+        static_assert(std::is_same_v<core_function_type_t<ConstMem>, const int&(float)>);
+    }
+
+    TEST(FunctionTraitsTest, VolatileAndRefQualifiers) {
+        using VolatileMem = decltype(&Member::volatile_method);
+        static_assert(std::is_same_v<function_type_t<VolatileMem>, void() volatile>);
+        static_assert(std::is_same_v<core_function_type_t<VolatileMem>, void()>);
+
+        using RefMem = decltype(&Member::ref_method);
+        static_assert(std::is_same_v<function_type_t<RefMem>, void() &>);
+        static_assert(std::is_same_v<core_function_type_t<RefMem>, void()>);
+
+    	using RvalueMem = decltype(&Member::rvalue_method);
+    	static_assert(std::is_same_v<function_type_t<RvalueMem>, void() &&>);
+    	static_assert(std::is_same_v<core_function_type_t<RvalueMem>, void()>);
+    }
+
+    TEST(FunctionTraitsTest, ComplexCombinedQualifiers) {
+        using ComplexMem = void (Member::*)(int) const volatile noexcept;
+
+        static_assert(std::is_same_v<function_type_t<ComplexMem>, void(int) const volatile noexcept>);
+        static_assert(std::is_same_v<core_function_type_t<ComplexMem>, void(int)>);
+    }
+
+    TEST(FunctionTraitsTest, FunctorsAndLambdas) {
+        auto lambda = [](int x) mutable noexcept -> double { return x * 2.0; };
+        using LambdaType = decltype(lambda);
+
+        static_assert(std::is_same_v<function_type_t<LambdaType>, double(int) noexcept>);
+        static_assert(std::is_same_v<core_function_type_t<LambdaType>, double(int)>);
+    }
 }

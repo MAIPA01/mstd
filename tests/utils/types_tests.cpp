@@ -50,4 +50,40 @@ namespace mstd::test {
         EXPECT_TRUE(floating_point<long double>);
     }
 #endif
+
+TEST(IfVTest, BooleanConditionLogic) {
+    	EXPECT_EQ((mstd::if_v<true, 1, 0>), 1);
+    	EXPECT_EQ((mstd::if_v<false, 1, 0>), 0);
+    }
+
+	TEST(IfVTest, CompileTimeValidation) {
+    	static_assert(mstd::if_v<true, 100, 200> == 100, "Should be 100 on true");
+    	static_assert(mstd::if_v<false, 100, 200> == 200, "Should be 200 on false");
+
+    	SUCCEED();
+    }
+
+	TEST(IfVTest, DifferentAutoTypes) {
+    	static_assert(mstd::if_v<true, 'a', 'b'> == 'a');
+    	static_assert(mstd::if_v<false, 3.14, 2.71> == 2.71);
+
+    	enum class Status { Ok, Error };
+    	static_assert(mstd::if_v<true, Status::Ok, Status::Error> == Status::Ok);
+    }
+
+	TEST(IfVTest, ConstantExpressionsAsCondition) {
+    	constexpr int x = 10;
+    	constexpr int y = 20;
+
+    	static_assert(mstd::if_v<(x < y), 1, 0> == 1);
+    	static_assert(!mstd::if_v<(sizeof(int) > 100), true, false>);
+    }
+
+	TEST(IfVTest, PointerValues) {
+    	static int a = 5;
+    	static float b = 10;
+
+    	const auto result = mstd::if_v<true, &a, &b>;
+    	EXPECT_EQ(result, &a);
+    }
 }

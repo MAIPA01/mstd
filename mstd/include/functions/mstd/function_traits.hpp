@@ -42,6 +42,7 @@ namespace mstd {
 
 	template<class R, class... Args>
 	struct _function_core_traits<R(Args...), void> {
+		using core_function_type = R(Args...);
 		using std_function_type = std::function<R(Args...)>;
 
 		using return_type = R;
@@ -528,6 +529,8 @@ namespace mstd {
 #pragma region CORE_TRAITS
 	template<class F>
 	using function_type_t = typename function_traits<F>::function_type;
+	template<class F>
+	using core_function_type_t = typename function_traits<F>::core_function_type;
 
 	template<class F>
 	using function_return_t = typename function_traits<F>::return_type;

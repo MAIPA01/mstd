@@ -49,23 +49,20 @@ namespace mstd::test {
         using LambdaType = decltype(lambda);
         using StdFuncType = std::function<void()>;
 
-        // is_function_v: true dla wskaźników (wolne/metody), false dla obiektów wywoływalnych (funktory/std::function)
         EXPECT_TRUE(is_function_v<GlobalFuncPtr>);
         EXPECT_TRUE(is_function_v<MemberFuncPtr>);
 
-        EXPECT_FALSE(is_function_v<LambdaType>);  // Bo to funktor
-        EXPECT_FALSE(is_function_v<StdFuncType>); // Bo to std::function
-        EXPECT_FALSE(is_function_v<int>);         // Bo nie jest wywoływalne
+        EXPECT_FALSE(is_function_v<LambdaType>);
+        EXPECT_FALSE(is_function_v<StdFuncType>);
+        EXPECT_FALSE(is_function_v<int>);
 
-        // is_action_v: funkcja (wskaźnik) zwracająca void
         EXPECT_TRUE(is_action_v<decltype(&global_action)>);
         EXPECT_TRUE(is_action_v<decltype(&TestClass::void_method)>);
-        EXPECT_FALSE(is_action_v<GlobalFuncPtr>); // Bo zwraca int
+        EXPECT_FALSE(is_action_v<GlobalFuncPtr>);
 
-        // is_method_v: akcja (void) bez argumentów
         EXPECT_TRUE(is_method_v<decltype(&TestClass::void_method)>);
         EXPECT_TRUE(is_method_v<decltype(&TestClass::static_method)>);
-        EXPECT_FALSE(is_method_v<decltype(&global_action)>); // Bo ma argument int
+        EXPECT_FALSE(is_method_v<decltype(&global_action)>);
     }
 
 	TEST(FUNCTIONS_UpdateTest, MemberFunctionPointers) {
@@ -74,21 +71,17 @@ namespace mstd::test {
     		void move(int, int) {}
     	};
 
-    	// Test c_method_t z klasą
     	using JumpPtr = c_member_method_t<Player>;
     	static_assert(std::is_same_v<JumpPtr, void(Player::*)()>);
 
-    	// Test c_action_t z klasą i argumentami
     	using MovePtr = c_member_action_t<Player, int, int>;
     	static_assert(std::is_same_v<MovePtr, void(Player::*)(int, int)>);
 
-    	// Weryfikacja predykatów dla wskaźników na składowe
     	EXPECT_TRUE(is_method_v<JumpPtr>);
     	EXPECT_TRUE(is_action_v<MovePtr>);
     }
 
 	TEST(FUNCTIONS_UpdateTest, DefaultBehavior) {
-    	// Sprawdzenie czy bez podania klasy nadal tworzy zwykłe wskaźniki (kompatybilność wsteczna)
     	static_assert(std::is_same_v<c_method_t, void(*)()>);
     	static_assert(std::is_same_v<c_action_t<float>, void(*)(float)>);
     }
@@ -101,7 +94,6 @@ namespace mstd::test {
         static_assert(action<void(*)(int)>);
         static_assert(method<void(*)()>);
 
-        // Negatywne
         static_assert(!func<std::function<void()>>);
         static_assert(!method<void(*)(int)>);
     }

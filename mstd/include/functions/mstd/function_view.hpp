@@ -8,39 +8,38 @@
  */
 
 #pragma once
-#include "function_types.hpp"
-#include "is_same_function.hpp"
-
-
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
+#include "function_types.hpp"
+#include "is_same_function.hpp"
+#include <mstd/types.hpp>
 #include <mstd/assert.hpp>
 
 namespace mstd {
 	template<class Ret, class... Args>
 	struct _base_function_container {
-		_base_function_container() = default;
-		virtual ~_base_function_container() = default;
+		_base_function_container() noexcept = default;
+		virtual ~_base_function_container() noexcept = default;
 
-		virtual Ret invoke(Args&&... args) const = 0;
+		virtual Ret invoke(Args&&... args) const noexcept = 0;
 	};
 
 	template<class F, class Ret, class... Args>
 	struct _free_function_container : _base_function_container<Ret, Args...> {
 	public:
-		using function_type = Ret(Args...);
+		using function_type = function_type_t<F>;
 		using function_ptr = c_func_t<function_type>;
 
 	private:
 		function_ptr _func = nullptr;
 
 	public:
-		_free_function_container(function_ptr function) : _func(function) {}
-		~_free_function_container() override = default;
+		_free_function_container(function_ptr function) noexcept : _func(function) {}
+		~_free_function_container() noexcept override = default;
 
 		Ret invoke(Args&&... args) const noexcept(is_noexcept_function_v<F>) override {
 			return std::invoke(_func, std::forward<Args>(args)...);
@@ -53,7 +52,7 @@ namespace mstd {
 		using parent_type = C;
 		using parent_ptr = parent_type*;
 
-		using function_type = Ret(Args...);
+		using function_type = function_type_t<F>;
 		using function_ptr = c_member_func_t<parent_type, function_type>;
 
 	private:
@@ -61,9 +60,9 @@ namespace mstd {
 		function_ptr _func = nullptr;
 
 	public:
-		_member_function_container(parent_ptr parent, function_ptr function)
+		_member_function_container(parent_ptr parent, function_ptr function) noexcept
 			: _parent(parent), _func(function) {}
-		~_member_function_container() override = default;
+		~_member_function_container() noexcept override = default;
 
 		Ret invoke(Args&&... args) const noexcept(is_noexcept_function_v<F>) override {
 			return std::invoke(_func, _parent, std::forward<Args>(args)...);
@@ -83,8 +82,8 @@ namespace mstd {
 		functor_ptr _func = nullptr;
 
 	public:
-		_functor_container(F& functor) : _func(&functor) {}
-		~_functor_container() override = default;
+		_functor_container(F& functor) noexcept : _func(&functor) {}
+		~_functor_container() noexcept override = default;
 
 		Ret invoke(Args&&... args) const noexcept(is_noexcept_function_v<F>) override {
 			return std::invoke(*_func, std::forward<Args>(args)...);
@@ -94,16 +93,37 @@ namespace mstd {
 	template<class F>
 	using _functor_container_t = _functor_container<F, function_return_t<F>, function_args_t<F>>;
 
-	template<class Ret, class ArgsTuple>
-	struct _get_base_container_type {};
+	template<class F, class FreeFunc>
+	static _MSTD_CONSTEXPR17 const bool _is_valid_free_function_v = is_same_function_v<F, FreeFunc> &&
+																	is_free_function_v<FreeFunc> &&
+																	(!is_noexcept_function_v<F> ||
+																		(is_noexcept_function_v<F> &&
+																		is_noexcept_function_v<FreeFunc>));
 
-	template<class Ret, class... Args>
-	struct _get_base_container_type<Ret, std::tuple<Args...>> {
-		using type = _base_function_container<Ret, Args...>;
-	};
+	template<class F, class MemberFunc>
+	static _MSTD_CONSTEXPR17 const bool _is_valid_member_function_v = is_same_function_v<F, MemberFunc> &&
+																		is_member_function_v<MemberFunc> &&
+																		(!is_noexcept_function_v<F> ||
+																			(is_noexcept_function_v<F> &&
+																			is_noexcept_function_v<MemberFunc>));
 
-	template<class F>
-	using _get_base_container_type_t = typename _get_base_container_type<function_return_t<F>, function_args_t<F>>::type;
+	template<class F, class Functor>
+	static _MSTD_CONSTEXPR17 const bool _is_valid_functor_v = is_same_function_v<F, Functor> &&
+																is_functor_v<Functor> &&
+																(!is_noexcept_function_v<F> ||
+																	(is_noexcept_function_v<F> &&
+																	is_noexcept_function_v<Functor>));
+
+	#if _MSTD_HAS_CXX20
+	template<class FreeFunc, class F>
+	concept _valid_free_function = _is_valid_free_function_v<F, FreeFunc>;
+
+	template<class MemberFunc, class F>
+	concept _valid_member_function = _is_valid_member_function_v<F, MemberFunc>;
+
+	template<class Functor, class F>
+	concept _valid_functor = _is_valid_functor_v<F, Functor>;
+	#endif
 
 	template<class F, class Ret, class ArgsTuple>
 	struct _base_function_view {};
@@ -111,13 +131,22 @@ namespace mstd {
 	template<class F, class Ret, class... Args>
 	struct _base_function_view<F, Ret, std::tuple<Args...>> {
 	private:
-		using _base_container_type = _get_base_container_type_t<F>;
+		using _base_container_type = _base_function_container<Ret, Args...>;
 		_base_container_type* _container = nullptr;
 
 	public:
 		_base_function_view() noexcept = default;
-		template<class FreeFunc, std::enable_if_t<(is_same_function_v<FreeFunc, F> && is_free_function_v<FreeFunc>), bool> = true>
-		_base_function_view(const FreeFunc& free_func) {
+		_base_function_view(const _base_function_view&) noexcept = default;
+		_base_function_view(_base_function_view&& other) noexcept
+			: _container(std::exchange(other._container, nullptr)) {}
+		virtual ~_base_function_view() noexcept = default;
+
+		#if _MSTD_HAS_CXX20
+		template<_valid_free_function<F> FreeFunc>
+		#else
+		template<class FreeFunc, std::enable_if_t<_is_valid_free_function_v<F, FreeFunc>, bool> = true>
+		#endif
+		_base_function_view(const FreeFunc& free_func) noexcept {
 			if _MSTD_CONSTEXPR17 (is_function_ptr_v<FreeFunc>) {
 				_container = new _free_function_container<FreeFunc, Ret, Args...>(free_func);
 			}
@@ -125,14 +154,24 @@ namespace mstd {
 				_container = new _free_function_container<FreeFunc, Ret, Args...>(&free_func);
 			}
 		}
-		template<class MemberFunc, std::enable_if_t<(is_same_function_v<MemberFunc, F> && is_member_function_v<MemberFunc> && !is_functor_v<MemberFunc>), bool> = true>
-		_base_function_view(function_parent_t<MemberFunc>* parent_ptr, const MemberFunc& member_func) {
-			_container = new _member_function_container<MemberFunc, function_parent_t<MemberFunc>, Ret, Args...>(parent_ptr, member_func);
-		}
+
+		#if _MSTD_HAS_CXX20
+		template<_valid_member_function<F> MemberFunc, class ParentPtr = function_parent_t<MemberFunc>*>
+		#else
+		template<class MemberFunc, class ParentPtr = function_parent_t<MemberFunc>*,
+			std::enable_if_t<_is_valid_member_function_v<F, MemberFunc>, bool> = true>
+		#endif
+		_base_function_view(const ParentPtr& parent_ptr, const MemberFunc& member_func) noexcept
+			: _container(
+				new _member_function_container<MemberFunc, function_parent_t<MemberFunc>, Ret, Args...>(parent_ptr, member_func)
+				) {}
+
+		#if _MSTD_HAS_CXX20
+		template<_valid_functor<F> Functor>
+		#else
 		template<class Functor, std::enable_if_t<(is_same_function_v<Functor, F> && is_functor_v<Functor>), bool> = true>
-		_base_function_view(Functor& functor) {
-			_container = new _functor_container_t<Functor>(functor);
-		}
+		#endif
+		_base_function_view(Functor& functor) noexcept : _container(new _functor_container_t<Functor>(functor)) {}
 
 		Ret invoke(Args&&... args) const noexcept(is_noexcept_function_v<F>) {
 			mstd_assert(_container != nullptr);
@@ -147,19 +186,49 @@ namespace mstd {
 	template<class F>
 	using _base_function_view_t = _base_function_view<F, function_return_t<F>, function_args_t<F>>;
 
-	template<class F, std::enable_if_t<is_function_v<F>, bool> = true>
+	template<class F>
+	static _MSTD_CONSTEXPR17 const bool _is_valid_function_view_function = mstd::is_function_v<F> &&
+																			!is_const_function_v<F> &&
+																			!is_volatile_function_v<F> &&
+																			!is_parent_ref_function_v<F> &&
+																			!is_parent_moved_function_v<F>;
+
+	template<class F, std::enable_if_t<_is_valid_function_view_function<F>, bool> = true>
 	class function_view : public _base_function_view_t<F> {
 	private:
 		using _base = _base_function_view_t<F>;
 
 	public:
 		function_view() noexcept = default;
-		template<class StaticFunc, std::enable_if_t<(is_same_function_v<StaticFunc, F> && is_free_function_v<StaticFunc>), bool> = true>
-		function_view(const StaticFunc& static_func) : _base(static_func) {}
-		template<class MemberFunc, std::enable_if_t<(is_same_function_v<MemberFunc, F> && is_member_function_v<MemberFunc> && !is_functor_v<MemberFunc>), bool> = true>
-		function_view(function_parent_t<MemberFunc>* parent_ptr, const MemberFunc& member_func) : _base(parent_ptr, member_func) {}
-		template<class Functor, std::enable_if_t<(is_same_function_v<Functor, F> && is_functor_v<Functor>), bool> = true>
-		function_view(const Functor& functor) : _base(functor) {}
+		function_view(const function_view&) noexcept = default;
+		function_view(function_view&&) noexcept = default;
+		~function_view() noexcept override = default;
+
+		#if _MSTD_HAS_CXX20
+		template<_valid_free_function<F> FreeFunc>
+		#else
+		template<class FreeFunc, std::enable_if_t<_is_valid_free_function_v<F, FreeFunc>, bool> = true>
+		#endif
+		function_view(const FreeFunc& static_func) noexcept : _base(static_func) {}
+
+		#if _MSTD_HAS_CXX20
+		template<_valid_member_function<F> MemberFunc, class ParentPtr = function_parent_t<MemberFunc>*>
+		#else
+		template<class MemberFunc, class ParentPtr = function_parent_t<MemberFunc>*,
+			std::enable_if_t<_is_valid_member_function_v<F, MemberFunc>, bool> = true>
+		#endif
+		function_view(const ParentPtr& parent_ptr, const MemberFunc& member_func) noexcept : _base(parent_ptr, member_func) {}
+
+		#if _MSTD_HAS_CXX20
+		template<_valid_functor<F> Functor>
+		#else
+		template<class Functor, std::enable_if_t<_is_valid_functor_v<F, Functor>, bool> = true>
+		#endif
+		function_view(const Functor& functor) noexcept : _base(functor) {}
+
+		// Add operator= and add std::pair<ParentPtr, MemberFunc>
+
+		// Add more tests
 	};
 }
 

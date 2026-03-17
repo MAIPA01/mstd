@@ -175,6 +175,21 @@ namespace mstd {
 
 	template<class... Ts> using unique_types = typename _unique_impl<types_holder<>, types_holder<Ts...>>::type;
 #pragma endregion
+
+	#pragma region IF
+	template<bool condition, auto true_value, auto false_value>
+	struct _if_impl {
+		static _MSTD_CONSTEXPR17 const auto value = false_value;
+	};
+
+	template<auto true_value, auto false_value>
+	struct _if_impl<true, true_value, false_value> {
+		static _MSTD_CONSTEXPR17 const auto value = true_value;
+	};
+
+	template<bool condition, auto true_value, auto false_value>
+	static _MSTD_CONSTEXPR17 const auto if_v = _if_impl<condition, true_value, false_value>::value;
+	#pragma endregion
 }
 
 #endif

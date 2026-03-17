@@ -19,7 +19,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 namespace mstd {
 	template<class T>
-	class magic_container {
+	class stable_vector {
 	public:
 		using value_type = T;
 		using reference = T&;
@@ -57,31 +57,31 @@ namespace mstd {
 		}
 
 	public:
-		_MSTD_CONSTEXPR20 magic_container() = default;
+		_MSTD_CONSTEXPR20 stable_vector() = default;
 
-		_MSTD_CONSTEXPR20 magic_container(const magic_container&) = default;
-		_MSTD_CONSTEXPR20 magic_container(magic_container&&) noexcept = default;
+		_MSTD_CONSTEXPR20 stable_vector(const stable_vector&) = default;
+		_MSTD_CONSTEXPR20 stable_vector(stable_vector&&) noexcept = default;
 
-		_MSTD_CONSTEXPR20 magic_container(size_type count) {
+		_MSTD_CONSTEXPR20 stable_vector(size_type count) {
 			resize(count);
 		}
-		_MSTD_CONSTEXPR20 magic_container(size_type count, const T& value) {
+		_MSTD_CONSTEXPR20 stable_vector(size_type count, const T& value) {
 			resize(count, value);
 		}
 
-		_MSTD_CONSTEXPR20 magic_container(const std::initializer_list<T>& init) : _data(init) {
+		_MSTD_CONSTEXPR20 stable_vector(const std::initializer_list<T>& init) : _data(init) {
 			_append_indexes(_data.size());
 		}
 
 		template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
-		_MSTD_CONSTEXPR20 magic_container(const _Iter& begin, const _Iter& end) : _data(begin, end) {
+		_MSTD_CONSTEXPR20 stable_vector(const _Iter& begin, const _Iter& end) : _data(begin, end) {
 			_append_indexes(_data.size());
 		}
 
-		_MSTD_CONSTEXPR20 ~magic_container() = default;
+		_MSTD_CONSTEXPR20 ~stable_vector() = default;
 
-		_MSTD_CONSTEXPR20 magic_container& operator=(const magic_container&) = default;
-		_MSTD_CONSTEXPR20 magic_container& operator=(magic_container&&) noexcept = default;
+		_MSTD_CONSTEXPR20 stable_vector& operator=(const stable_vector&) = default;
+		_MSTD_CONSTEXPR20 stable_vector& operator=(stable_vector&&) noexcept = default;
 
 #pragma region INSERT_ON_FREE_SPOT
 		_MSTD_CONSTEXPR20 iterator insert(const T& value) {
@@ -315,7 +315,7 @@ namespace mstd {
 			_data.resize(count, value);
 		}
 
-		_MSTD_CONSTEXPR20 void swap(magic_container& other) noexcept {
+		_MSTD_CONSTEXPR20 void swap(stable_vector& other) noexcept {
 			_data.swap(other._data);
 			_id.swap(other._id);
 			_data_index.swap(other._data_index);
@@ -361,6 +361,11 @@ namespace mstd {
 			return _data[_data_index[id]];
 		}
 
+		[[nodiscard]] _MSTD_CONSTEXPR20 size_type get_id(iterator pos) {
+			mstd_assert(pos != _data.end(), "Pos out of bounds");
+			return _id[std::distance(_data.begin(), pos)];
+		}
+
 		[[nodiscard]] _MSTD_CONSTEXPR20 size_type get_id(const_iterator pos) const {
 			mstd_assert(pos != _data.cend(), "Pos out of bounds");
 			return _id[std::distance(_data.cbegin(), pos)];
@@ -384,6 +389,14 @@ namespace mstd {
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool has_value(size_type id) const {
 			return id < size() && _data_index[id] < _data.size();
+		}
+
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool has_value(iterator pos) const {
+			return has_value(get_id(pos));
+		}
+
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool has_value(const_iterator pos) const {
+			return has_value(get_id(pos));
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 iterator begin() { return _data.begin(); }
@@ -415,31 +428,31 @@ namespace mstd {
 			return _data.data();
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(const magic_container& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(const stable_vector& other) const {
 			return _data == other._data && _id == other._id && _data_index == other._data_index;
 		}
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(const magic_container& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(const stable_vector& other) const {
 			return !(*this == other);
 		}
 
 #if _MSTD_HAS_CXX20
-		[[nodiscard]] _MSTD_CONSTEXPR20 auto operator<=>(const magic_container& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 auto operator<=>(const stable_vector& other) const {
 			return _data <=> other._data && _id <=> other._id && _data_index <=> other._data_index;
 		}
 #else
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<(const magic_container& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<(const stable_vector& other) const {
 			return _data < other._data && _id < other._id && _data_index < other._data_index;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<=(const magic_container& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<=(const stable_vector& other) const {
 			return _data <= other._data && _id <= other._id && _data_index <= other._data_index;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>(const magic_container& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>(const stable_vector& other) const {
 			return _data > other._data && _id > other._id && _data_index > other._data_index;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>=(const magic_container& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>=(const stable_vector& other) const {
 			return _data >= other._data && _id >= other._id && _data_index >= other._data_index;
 		}
 #endif

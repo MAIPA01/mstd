@@ -18,6 +18,6 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include "ordered_map.hpp"
 #include "ordered_set.hpp"
 #include "bimap.hpp"
-#include "magic_container.hpp"
+#include "stable_vector.hpp"
 
 #endif
