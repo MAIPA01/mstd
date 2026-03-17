@@ -8,15 +8,39 @@
  */
 
 #pragma once
+#ifndef _MSTD_MANAGEMENT_TYPES_HPP_
+#define _MSTD_MANAGEMENT_TYPES_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "utils_libs.hpp"
+#include <mstd/management_utils.hpp>
 
 namespace mstd {
+	#pragma region ARE_ALL
+	template<template<class> class Test, class... Ts>
+	static _MSTD_CONSTEXPR20 const bool are_all_v = (Test<Ts>::value && ...);
+	#pragma endregion
+
+	#pragma region INDEX_SEQUENCE_FROM_TO
+	template<size_t Start, size_t... Indices>
+	_MSTD_CONSTEXPR20 std::index_sequence<(Start + Indices)...> shift_index_sequence(std::index_sequence<Indices...>) {
+		return {};
+	}
+
+	template<size_t Start, size_t End>
+	using make_index_sequence_from_to = decltype(shift_index_sequence<Start>(std::make_index_sequence<End - Start>()));
+
+	template<size_t Start, size_t Size>
+	using make_index_sequence_from = decltype(shift_index_sequence<Start>(std::make_index_sequence<Size>()));
+
+	template<size_t Start, class... Ts>
+	using make_index_sequence_for_from = decltype(shift_index_sequence<Start>(std::index_sequence_for<Ts...>()));
+	#pragma endregion
+
 #pragma region UNIVERSAL_CHECKS
 	template<template<class> class Check, class... Ts>
 	struct all_check : std::bool_constant<(Check<Ts>::value && ...)> {};
@@ -190,6 +214,22 @@ namespace mstd {
 	template<bool condition, auto true_value, auto false_value>
 	static _MSTD_CONSTEXPR17 const auto if_v = _if_impl<condition, true_value, false_value>::value;
 	#pragma endregion
+
+	#pragma region ID_MANAGER
+	#if _MSTD_HAS_CXX20
+	template <unsigned_integral _idT>
+	#else
+	template <class _idT, std::enable_if_t<mstd::is_unsigned_integral_v<_idT>, bool> = true>
+	#endif
+	class base_id_manager;
+
+	using id_manager = base_id_manager<size_t>;
+	using id8_manager = base_id_manager<uint8_t>;
+	using id16_manager = base_id_manager<uint16_t>;
+	using id32_manager = base_id_manager<uint32_t>;
+	using id64_manager = base_id_manager<uint64_t>;
+	#pragma endregion
 }
 
+#endif
 #endif

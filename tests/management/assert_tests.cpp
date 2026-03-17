@@ -39,7 +39,6 @@ namespace mstd::test {
         EXPECT_NE(captured_msg.find("AssertTest"), std::string::npos);
     }
 
-#if _MSTD_HAS_CXX20
     TEST_F(AssertTest, FormatWithArguments) {
         std::string captured_msg;
         auto logger = [&](const std::string_view msg) { captured_msg = msg; };
@@ -49,7 +48,6 @@ namespace mstd::test {
 
         EXPECT_NE(captured_msg.find("Value should be 0, but is 42"), std::string::npos);
     }
-#endif
 
     TEST_F(AssertTest, DoNotLogOnSuccess) {
         bool logger_called = false;

@@ -8,23 +8,24 @@
  */
 
 #pragma once
+#ifndef _MSTD_ID_MANAGER_HPP_
+#define _MSTD_ID_MANAGER_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING ("this is only available for c++17 and greater!");
 #else
 
-#include "utils_libs.hpp"
-#include "types.hpp"
+#include <mstd/types.hpp>
 
 namespace mstd {
 #if _MSTD_HAS_CXX20
 	template <unsigned_integral _idT>
 #else
-	template <class _idT, std::enable_if_t<mstd::is_unsigned_integral_v<_idT>, bool> = true>
+	template <class _idT, std::enable_if_t<mstd::is_unsigned_integral_v<_idT>, bool>>
 #endif
-	class base_id_manager
-	{
+	class base_id_manager {
 	public:
 		using id_type = _idT;
 
@@ -102,11 +103,6 @@ namespace mstd {
 			return _maxIds - 1;
 		}
 	};
-
-	using id_manager = base_id_manager<size_t>;
-	using id8_manager = base_id_manager<uint8_t>;
-	using id16_manager = base_id_manager<uint16_t>;
-	using id32_manager = base_id_manager<uint32_t>;
-	using id64_manager = base_id_manager<uint64_t>;
 }
+#endif
 #endif

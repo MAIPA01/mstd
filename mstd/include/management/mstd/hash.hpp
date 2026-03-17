@@ -8,13 +8,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_HASH_HPP_
+#define _MSTD_HASH_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "utils_libs.hpp"
+#include <mstd/types.hpp>
 
 namespace mstd {
 	template<class T, class... Ts>
@@ -41,4 +44,5 @@ namespace mstd {
 	}
 }
 
+#endif
 #endif

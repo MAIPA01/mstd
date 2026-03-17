@@ -8,8 +8,8 @@
  */
 
 #pragma once
-#ifndef _MSTD_CONTAINERS_LIBS_HPP_
-#define _MSTD_CONTAINERS_LIBS_HPP_
+#ifndef _MSTD_TERMINAL_TYPES_HPP_
+#define _MSTD_TERMINAL_TYPES_HPP_
 
 #include <mstd/config.hpp>
 
@@ -17,12 +17,7 @@
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include <vector>
-#include <unordered_set>
-#include <unordered_map>
-#include <map>
-#include <initializer_list>
-#include <algorithm>
+#include <mstd/terminal_utils.hpp>
 
 #endif
 #endif

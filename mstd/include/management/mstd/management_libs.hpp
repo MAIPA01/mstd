@@ -8,6 +8,9 @@
  */
 
 #pragma once
+#ifndef _MSTD_MANAGEMENT_LIBS_HPP_
+#define _MSTD_MANAGEMENT_LIBS_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
@@ -19,4 +22,5 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include <type_traits>
 #include <functional>
 
+#endif
 #endif

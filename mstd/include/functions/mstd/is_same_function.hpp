@@ -8,14 +8,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_IS_SAME_FUNCTION_HPP_
+#define _MSTD_IS_SAME_FUNCTION_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "functions_libs.hpp"
-#include "as_std_function.hpp"
+#include <mstd/functions_types.hpp>
 
 namespace mstd {
 	// Checking If functions are same
@@ -23,7 +25,7 @@ namespace mstd {
 	struct is_same_function : std::false_type {};
 
 	template<class F>
-	struct is_same_function<F, F> : std::true_type {};
+	struct is_same_function<F, F, std::void_t<std::enable_if_t<is_function_v<F>>>> : std::true_type {};
 
 	template<class Fa, class Fb>
 	struct is_same_function<Fa, Fb, std::void_t<as_std_function_t<Fa>, as_std_function_t<Fb>>>
@@ -37,4 +39,5 @@ namespace mstd {
 	concept same_function_as = is_same_function_v<Fa, Fb>;
 #endif
 }
+#endif
 #endif

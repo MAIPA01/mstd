@@ -8,6 +8,9 @@
  */
 
 #pragma once
+#ifndef _MSTD_STRCONCAT_HPP_
+#define _MSTD_STRCONCAT_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
@@ -19,7 +22,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 namespace mstd {
 	template<class... _Strings>
 	inline std::string& concat_to(std::string& out, _Strings&&... strs) {
-		out.reserve(out.size() + (string_size(strs) + ...));
+		out.reserve(out.size() + (utils::string_size(strs) + ...));
 		(out += ... += strs);
 		return out;
 	}
@@ -31,4 +34,5 @@ namespace mstd {
 	}
 }
 
+#endif
 #endif

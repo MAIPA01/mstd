@@ -45,8 +45,8 @@ namespace mstd::tests {
 		static_assert(!std::is_constructible_v<fv_noexcept, decltype(free_func)>,
 			"Should not allow non-noexcept function in noexcept view");
 
-		static_assert(_is_valid_free_function_v<int(int) noexcept, decltype(free_func_noexcept)>);
-		static_assert(!_is_valid_free_function_v<int(int) noexcept, decltype(free_func)>);
+		static_assert(_is_valid_free_function_v<decltype(free_func_noexcept), int(int) noexcept, int, int>);
+		static_assert(!_is_valid_free_function_v<decltype(free_func), int(int) noexcept, int, int>);
 	}
 
 	TEST(FunctionViewTest, ConstMemberFunction) {
@@ -104,8 +104,8 @@ namespace mstd::tests {
 	TEST(FunctionViewTest, MemberFunctionNoexceptValidation) {
 		using SigNoexcept = int(int) noexcept;
 
-		static_assert(_is_valid_member_function_v<SigNoexcept, decltype(&Mock::mem_noexcept)>);
+		static_assert(_is_valid_member_function_v<decltype(&Mock::mem_noexcept), SigNoexcept, int, int>);
 
-		static_assert(!_is_valid_member_function_v<SigNoexcept, decltype(&Mock::mem_const)>);
+		static_assert(!_is_valid_member_function_v<decltype(&Mock::mem_const), SigNoexcept, int, int>);
 	}
 }

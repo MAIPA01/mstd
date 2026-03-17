@@ -8,13 +8,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_BIT_OPERATIONS_HPP_
+#define _MSTD_BIT_OPERATIONS_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "arithmetic_types.hpp"
+#include <mstd/arithmetic_types.hpp>
 
 namespace mstd {
 	inline _MSTD_CONSTEXPR20 uint32_t swap_endians(uint32_t value) noexcept {
@@ -24,4 +27,5 @@ namespace mstd {
 				((value << 24) & 0xFF000000);
 	}
 }
+#endif
 #endif

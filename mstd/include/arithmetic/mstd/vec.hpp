@@ -10,35 +10,19 @@
  */
 
 #pragma once
+#ifndef _MSTD_VEC_HPP_
+#define _MSTD_VEC_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "arithmetic_types.hpp"
-#include "math_functions.hpp"
+#include <mstd/arithmetic_types.hpp>
+#include <mstd/math_functions.hpp>
 
 namespace mstd {
-#pragma region CONSTEXPR
-	template<template<class> class Test, class... Ts>
-	static _MSTD_CONSTEXPR20 const bool are_all_v = (Test<Ts>::value && ...);
-
-	template<size_t Start, size_t... Indices>
-	_MSTD_CONSTEXPR20 std::index_sequence<(Start + Indices)...> shift_index_sequence(std::index_sequence<Indices...>) {
-		return {};
-	}
-
-	template<size_t Start, size_t End>
-	using make_index_sequence_from_to = decltype(shift_index_sequence<Start>(std::make_index_sequence<End - Start>()));
-
-	template<size_t Start, size_t Size>
-	using make_index_sequence_from = decltype(shift_index_sequence<Start>(std::make_index_sequence<Size>()));
-
-	template<size_t Start, class... Ts>
-	using make_index_sequence_for_from = decltype(shift_index_sequence<Start>(std::index_sequence_for<Ts...>()));
-#pragma endregion // CONSTEXPR
-
 #if _MSTD_HAS_CXX20
 	template<size_t N, arithmetic T>
 	requires (N > 0)
@@ -829,51 +813,8 @@ namespace mstd {
 		return a.stepped(edge);
 	}
 #pragma endregion // EXTRA_OPERATORS
-
-#pragma region PREDEFINED_TYPES
-	using vec2 = vec<2ull, float>;
-	using dvec2 = vec<2ull, double>;
-	using ldvec2 = vec<2ull, long double>;
-	using ivec2 = vec<2ull, int>;
-	using uvec2 = vec<2ull, unsigned int>;
-	using bvec2 = vec<2ull, bool>;
-	using cvec2 = vec<2ull, char>;
-	using ucvec2 = vec<2ull, unsigned char>;
-	using scvec2 = vec<2ull, signed char>;
-	using lvec2 = vec<2ull, long>;
-	using ulvec2 = vec<2ull, unsigned long>;
-	using llvec2 = vec<2ull, long long>;
-	using ullvec2 = vec<2ull, unsigned long long>;
-
-	using vec3 = vec<3ull, float>;
-	using dvec3 = vec<3ull, double>;
-	using ldvec3 = vec<3ull, long double>;
-	using ivec3 = vec<3ull, int>;
-	using uvec3 = vec<3ull, unsigned int>;
-	using bvec3 = vec<3ull, bool>;
-	using cvec3 = vec<3ull, char>;
-	using ucvec3 = vec<3ull, unsigned char>;
-	using scvec3 = vec<3ull, signed char>;
-	using lvec3 = vec<3ull, long>;
-	using ulvec3 = vec<3ull, unsigned long>;
-	using llvec3 = vec<3ull, long long>;
-	using ullvec3 = vec<3ull, unsigned long long>;
-
-	using vec4 = vec<4ull, float>;
-	using dvec4 = vec<4ull, double>;
-	using ldvec4 = vec<4ull, long double>;
-	using ivec4 = vec<4ull, int>;
-	using uvec4 = vec<4ull, unsigned int>;
-	using bvec4 = vec<4ull, bool>;
-	using cvec4 = vec<4ull, char>;
-	using ucvec4 = vec<4ull, unsigned char>;
-	using scvec4 = vec<4ull, signed char>;
-	using lvec4 = vec<4ull, long>;
-	using ulvec4 = vec<4ull, unsigned long>;
-	using llvec4 = vec<4ull, long long>;
-	using ullvec4 = vec<4ull, unsigned long long>;
-#pragma endregion // PREDEFINED_TYPES
 }
 
-#include "quat.hpp"
+#include <mstd/quat.hpp>
+#endif
 #endif

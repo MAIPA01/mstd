@@ -8,13 +8,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_CONTAINERS_TYPES_HPP_
+#define _MSTD_CONTAINERS_TYPES_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "containers_libs.hpp"
+#include <mstd/containers_utils.hpp>
 
 namespace mstd {
 	template<class T>
@@ -33,6 +36,7 @@ namespace mstd {
 	using ordered_bimap = bimap<Key, T, ordered_map>;
 
 	template<class T>
-	class magic_container;
+	class stable_vector;
 }
+#endif
 #endif

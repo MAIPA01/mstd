@@ -8,13 +8,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_STRTONUM_HPP
+#define _MSTD_STRTONUM_HPP
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "string_types.hpp"
+#include <mstd/string_types.hpp>
 #include <mstd/overflow_operations.hpp>
 
 namespace mstd {
@@ -298,4 +301,5 @@ namespace mstd {
 	}
 }
 
+#endif
 #endif

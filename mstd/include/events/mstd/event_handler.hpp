@@ -8,13 +8,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_EVENT_HANDLER_HPP_
+#define _MSTD_EVENT_HANDLER_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "events_libs.hpp"
+#include <mstd/events_types.hpp>
 #include <mstd/id_manager.hpp>
 #include <mstd/functions.hpp>
 
@@ -93,16 +96,6 @@ namespace mstd {
 			invoke(args...);
 		}
 	};
-
-	template<template<class, class> class EventsMap>
-	using method_base_event_handler = base_event_handler<EventsMap>;
-
-	template<class... Args>
-	using unordered_event_handler = base_event_handler<std::unordered_map, Args...>;
-	using unordered_method_event_handler = unordered_event_handler<>;
-
-	template<class... Args>
-	using event_handler = base_event_handler<std::map, Args...>;
-	using method_event_handler = event_handler<>;
 }
+#endif
 #endif

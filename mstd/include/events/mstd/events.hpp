@@ -8,13 +8,18 @@
  */
 
 #pragma once
+#ifndef _MSTD_EVENTS_HPP_
+#define _MSTD_EVENTS_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "events_libs.hpp"
-#include "event_handler.hpp"
+#include <mstd/events_libs.hpp>
+#include <mstd/events_types.hpp>
+#include <mstd/event_handler.hpp>
 
+#endif
 #endif

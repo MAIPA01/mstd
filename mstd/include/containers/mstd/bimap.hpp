@@ -8,13 +8,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_BIMAP_HPP_
+#define _MSTD_BIMAP_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "containers_types.hpp"
+#include <mstd/containers_types.hpp>
 #include <mstd/assert.hpp>
 
 namespace mstd {
@@ -279,4 +282,5 @@ namespace mstd {
     };
 }
 
+#endif
 #endif

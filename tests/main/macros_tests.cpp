@@ -1,7 +1,3 @@
-#define USE_FOR_EACH_MACROS
-#define USE_ENUMS_MACROS
-#define USE_CLONE_FUNC_MACROS
-#define USE_EXTRA_MACROS
 #include <mstd/macros.hpp>
 #include <gtest/gtest.h>
 

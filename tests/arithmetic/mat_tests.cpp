@@ -126,7 +126,7 @@ namespace mstd::test {
 
 	TEST(ARITHMETIC_TESTS_MAT, DETERMINANT_4x4) {
 		mat<4, 4, float> m = mat<4, 4, float>::identity();
-		m[0u][0u] = 2.0f; // Zmiana elementu na przek¹tnej
+		m[0u][0u] = 2.0f;
 		EXPECT_FLOAT_EQ(m.determinant(), 2.0f);
 	}
 

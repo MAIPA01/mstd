@@ -7,17 +7,20 @@
  * Copyright (c) 2025, Patryk Antosik (MAIPA01)
  */
 
+#pragma once
+#ifndef _MSTD_MACROS_HPP_
+#define _MSTD_MACROS_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-
- // define USE_FOR_EACH_MACROS or USE_ENUMS_MACROS or USE_CLONE_FUNC_MACROS to use macros in for each region
+ // define MSTD_ENABLE_FOR_EACH_MACROS or MSTD_ENABLE_ENUMS_MACROS or MSTD_ENABLE_CLONE_FUNC_MACROS to use macros in for each region
 #pragma region FOR_EACH
 
-#if defined(USE_FOR_EACH_MACROS) || defined(USE_ENUMS_MACROS) || defined(USE_CLONE_FUNC_MACROS)
+#if defined(MSTD_ENABLE_FOR_EACH_MACROS) || defined(MSTD_ENABLE_ENUMS_MACROS) || defined(MSTD_ENABLE_CLONE_FUNC_MACROS)
 
 #define _RESCAN(...) _RESCAN1(_RESCAN1(_RESCAN1(_RESCAN1(__VA_ARGS__))))
 #define _RESCAN1(...) _RESCAN2(_RESCAN2(_RESCAN2(_RESCAN2(__VA_ARGS__))))
@@ -73,10 +76,10 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 #pragma endregion
 
-// define USE_ENUMS_MACROS to use macros in enums region
+// define MSTD_ENABLE_ENUMS_MACROS to use macros in enums region
 #pragma region ENUMS
 
-#ifdef USE_ENUMS_MACROS
+#ifdef MSTD_ENABLE_ENUMS_MACROS
 
 #define _ENUM_ELEMENT_COUNT(tuple) + 1ull
 #define _ENUM_TO_STRING_CASE_HELPER(enum_name, name, ...) case enum_name::name: return #name;
@@ -232,7 +235,7 @@ _VALUE_ENUM_FUNC_TEMPLATE(type, name, base, _VALUE_ENUM_DECLARATION, _VALUE_ENUM
 // define USE_CLONE_FUNC_MACROS to use macros in clone func region
 #pragma region CLONE_FUNC
 
-#ifdef USE_CLONE_FUNC_MACROS
+#ifdef MSTD_ENABLE_CLONE_FUNC_MACROS
 
 #pragma region CLONE_FUNC_DECLARATION
 
@@ -310,10 +313,10 @@ CLONE_BASE_FUNC_DEFINITION_ADVANCED(class_name, base_class_name __VA_OPT__(, LIS
 
 #pragma endregion
 
-// define USE_EXTRA_MACROS to use macros in extra region
+// define MSTD_USE_EXTRA_MACROS to use macros in extra region
 #pragma region EXTRA
 
-#ifdef USE_EXTRA_MACROS
+#ifdef MSTD_ENABLE_EXTRA_MACROS
 
 #define VAR_TO_STRING(var) #var
 
@@ -321,4 +324,5 @@ CLONE_BASE_FUNC_DEFINITION_ADVANCED(class_name, base_class_name __VA_OPT__(, LIS
 
 #pragma endregion
 
+#endif
 #endif

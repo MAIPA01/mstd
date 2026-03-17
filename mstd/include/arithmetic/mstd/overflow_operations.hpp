@@ -8,13 +8,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_OVERFLOW_OPERATIONS_HPP_
+#define _MSTD_OVERFLOW_OPERATIONS_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "arithmetic_types.hpp"
+#include <mstd/arithmetic_types.hpp>
 #include <mstd/types.hpp>
 
 namespace mstd {
@@ -109,7 +112,7 @@ namespace mstd {
 	template<class _N, class _Na, class _Nb, std::enable_if_t<are_arithmetic_v<_N, _Na, _Nb>, bool> = true>
 #endif
 	inline _MSTD_CONSTEXPR20 bool div_overflow(const _Na& a, const _Nb& b, _N& out) {
-		if _MSTD_CONSTEXPR17(are_unsigned_v<_N, _Na, _Nb>) {
+		if _MSTD_CONSTEXPR17 (are_unsigned_v<_N, _Na, _Nb>) {
 			out = static_cast<_N>(b == 0 ? std::numeric_limits<_N>::max() : a / b);
 		}
 		else {
@@ -122,4 +125,5 @@ namespace mstd {
 		return false;
 	}
 }
+#endif
 #endif

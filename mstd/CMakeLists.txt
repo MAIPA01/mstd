@@ -1,6 +1,3 @@
-option(MSTD_ENABLE_CXX20 OFF)
-option(MSTD_DISABLE_ASSERT_ON_RELEASE OFF)
-
 # header files
 set(PROJECT_HEADERS ${PROJECT_NAME}_HEADERS)
 set(BUILD_HEADERS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -27,6 +24,8 @@ set(PROJECT_NAMESPACE ${PROJECT_NAME}::)
 set(PROJECT_ALIAS ${PROJECT_NAMESPACE}${PROJECT_NAME})
 add_library(${PROJECT_ALIAS} ALIAS ${PROJECT_NAME})
 
+target_link_libraries(${PROJECT_NAME} INTERFACE fmt::fmt)
+
 # set headers folder
 set(INSTALL_HEADERS_PATH include)
 target_include_directories(${PROJECT_NAME} INTERFACE ${HEADERS_PATHS}
@@ -34,8 +33,12 @@ target_include_directories(${PROJECT_NAME} INTERFACE ${HEADERS_PATHS}
 #	$<INSTALL_INTERFACE:${INSTALL_HEADERS_PATH}>
 )
 
-target_compile_definitions(${PROJECT_NAME} INTERFACE	MSTD_ENABLE_CXX20=$<BOOL:${MSTD_ENABLE_CXX20}> 
-														MSTD_DISABLE_ASSERT_ON_RELEASE=$<BOOL:${MSTD_DISABLE_ASSERT_ON_RELEASE}>
+target_compile_definitions(${PROJECT_NAME} INTERFACE	$<IF:$<BOOL:${MSTD_ENABLE_CXX20}>,              MSTD_ENABLE_CXX20, >
+														$<IF:$<BOOL:${MSTD_DISABLE_ASSERT_ON_RELEASE}>, MSTD_DISABLE_ASSERT_ON_RELEASE, >
+                                                        $<IF:$<BOOL:${MSTD_ENABLE_FOR_EACH_MACROS}>,    MSTD_ENABLE_FOR_EACH_MACROS, >
+                                                        $<IF:$<BOOL:${MSTD_ENABLE_ENUMS_MACROS}>,       MSTD_ENABLE_ENUMS_MACROS, >
+                                                        $<IF:$<BOOL:${MSTD_ENABLE_CLONE_FUNC_MACROS}>,  MSTD_ENABLE_CLONE_FUNC_MACROS, >
+                                                        $<IF:$<BOOL:${MSTD_ENABLE_EXTRA_MACROS}>,       MSTD_ENABLE_EXTRA_MACROS, >
 )
 
 # TODO: install

@@ -7,7 +7,9 @@ file(GLOB_RECURSE ${PROJECT_TEST_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 # make exec
 add_executable(${PROJECT_NAME} ${${PROJECT_TEST_SOURCES}})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE mstd gtest_main)
+target_link_libraries(${PROJECT_NAME} PRIVATE   mstd::mstd
+                                                gtest_main
+)
 
 # Optimizations
 target_compile_options(${PROJECT_NAME} PRIVATE

@@ -11,13 +11,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_QUAT_HPP_
+#define _MSTD_QUAT_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "vec.hpp"
+#include <mstd/vec.hpp>
 
 namespace mstd {
 #if _MSTD_HAS_CXX20
@@ -28,7 +31,7 @@ namespace mstd {
 	class quat {
 	public:
 		using value_type = T;
-		using vec_type = vec<3ull, T>;
+		using vec_type = vec<3, T>;
 
 		T s;
 		vec_type v;
@@ -290,21 +293,6 @@ namespace mstd {
 		}
 #pragma endregion // OPERATORS
 	};
-
-#pragma region PREDEFINED_TYPES
-	using fquat = quat<float>;
-	using dquat = quat<double>;
-	using ldquat = quat<long double>;
-	using iquat = quat<int>;
-	using uquat = quat<unsigned int>;
-	using bquat = quat<bool>;
-	using cquat = quat<char>;
-	using ucquat = quat<unsigned char>;
-	using scquat = quat<signed char>;
-	using lquat = quat<long>;
-	using ulquat = quat<unsigned long>;
-	using llquat = quat<long long>;
-	using ullquat = quat<unsigned long long>;
-#pragma endregion // PREDEFINED_TYPES
 }
+#endif
 #endif

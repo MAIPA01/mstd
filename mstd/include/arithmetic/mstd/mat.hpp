@@ -10,16 +10,19 @@
  */
 
 #pragma once
+#ifndef _MSTD_MAT_HPP_
+#define _MSTD_MAT_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
+#include <mstd/vec.hpp>
+
 #undef far
 #undef near
-
-#include "vec.hpp"
 
 namespace mstd {
 #if _MSTD_HAS_CXX20
@@ -1394,17 +1397,6 @@ namespace mstd {
 		return a.clampped(min_val, max_val);
 	}
 #pragma endregion // EXTRA_OPERATIONS
-
-#pragma region PREDEFINED_TYPES
-	using mat3x2 = mat<3, 2, float>;
-	using mat2x3 = mat<2, 3, float>;
-
-	template<size_t N, class T>
-	using mat_sqr = mat<N, N, T>;
-	using mat3 = mat_sqr<3ull, float>;
-	using dmat3 = mat_sqr<3ull, double>;
-	using mat4 = mat_sqr<4ull, float>;
-	using dmat4 = mat_sqr<4ull, double>;
-#pragma endregion // PREDEFINED_TYPES
 }
+#endif
 #endif

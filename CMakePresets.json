@@ -16,7 +16,11 @@
         "BUILD_MSTD_TESTS": "ON",
         "BUILD_MSTD_COVERAGE": "ON",
         "BUILD_MSTD_DOCUMENTATION": "ON",
-        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF"
+        "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF",
+        "MSTD_ENABLE_FOR_EACH_MACROS": "ON",
+        "MSTD_ENABLE_ENUMS_MACROS": "ON",
+        "MSTD_ENABLE_CLONE_FUNC_MACROS": "ON",
+        "MSTD_ENABLE_EXTRA_MACROS": "ON"
       },
       "condition": {
         "type": "equals",

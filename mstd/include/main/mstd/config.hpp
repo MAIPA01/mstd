@@ -8,6 +8,9 @@
  */
 
 #pragma once
+#ifndef _MSTD_CONFIG_HPP
+#define _MSTD_CONFIG_HPP
+
 #pragma region VERSION
 #define MSTD_VERSION_MAJOR 1
 #define MSTD_VERSION_MINOR 4
@@ -43,16 +46,6 @@
 														    MSTD_LAST_UPDATE_YEAR)
 #pragma endregion
 
-#pragma region DEFAULT_MACRO_VALUES
-#ifndef MSTD_ENABLE_CXX20
-	#define MSTD_ENABLE_CXX20 0
-#endif
-
-#ifndef MSTD_DISABLE_ASSERT_ON_RELEASE
-	#define MSTD_DISABLE_ASSERT_ON_RELEASE 0
-#endif
-#pragma endregion
-
 #pragma region VERSION_CHECKS
 #ifndef _HAS_CXX17
 	#define _MSTD_HAS_CXX17 __cplusplus >= 201703L
@@ -60,10 +53,12 @@
 	#define _MSTD_HAS_CXX17 _HAS_CXX17
 #endif
 
-#ifndef _HAS_CXX20
-	#define _MSTD_HAS_CXX20 __cplusplus >= 202002L && MSTD_ENABLE_CXX20
+#ifndef MSTD_ENABLE_CXX20
+	#define _MSTD_HAS_CXX20 0
+#elif !defined(_HAS_CXX20)
+	#define _MSTD_HAS_CXX20 (__cplusplus >= 202002L)
 #else
-	#define _MSTD_HAS_CXX20 _HAS_CXX20 && MSTD_ENABLE_CXX20
+	#define _MSTD_HAS_CXX20 _HAS_CXX20
 #endif
 #pragma endregion
 
@@ -98,3 +93,5 @@
 	#define _MSTD_ENABLE_IF_TEMPLATE(class_name, condition) template<class class_name, std::enable_if_t<(condition), bool> = true>
 #endif
 #pragma endregion
+
+#endif

@@ -8,8 +8,8 @@
  */
 
 #pragma once
-#include "is_callable.hpp"
-
+#ifndef _MSTD_FUNCTIONS_TYPES_HPP_
+#define _MSTD_FUNCTIONS_TYPES_HPP_
 
 #include <mstd/config.hpp>
 
@@ -17,12 +17,13 @@
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "as_std_function.hpp"
+#include <mstd/functions_utils.hpp>
 
 namespace mstd {
 	#pragma region FUNCTIONS_CHECKS
 	template<class F>
-	static _MSTD_CONSTEXPR17 const bool is_function_v = is_callable_v<F> && (is_free_function_v<F> || is_member_function_v<F>) && !is_functor_v<F> && !is_std_function_v<F>;
+	static _MSTD_CONSTEXPR17 const bool is_function_v = is_callable_v<F> &&
+			(is_free_function_v<F> || is_member_function_v<F>) && !is_functor_v<F> && !is_std_function_v<F>;
 
 	template<class F>
 	static _MSTD_CONSTEXPR17 const bool is_action_v = is_function_v<F> && std::is_void_v<function_return_t<F>>;
@@ -80,4 +81,5 @@ namespace mstd {
 	#pragma endregion
 
 }
+#endif
 #endif

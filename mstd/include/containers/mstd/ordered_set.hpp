@@ -8,13 +8,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_ORDERED_SET_HPP_
+#define _MSTD_ORDERED_SET_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "containers_types.hpp"
+#include <mstd/containers_types.hpp>
 
 namespace mstd {
     template <class T>
@@ -182,4 +185,5 @@ namespace mstd {
         }
     };
 }
+#endif
 #endif

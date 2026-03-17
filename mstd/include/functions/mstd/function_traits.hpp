@@ -8,13 +8,16 @@
  */
 
 #pragma once
+#ifndef _MSTD_FUNCTION_TRAITS_HPP_
+#define _MSTD_FUNCTION_TRAITS_HPP_
+
 #include <mstd/config.hpp>
 
 #if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
 #else
 
-#include "functions_libs.hpp"
+#include <mstd/functions_libs.hpp>
 
 namespace mstd {
 #pragma region DEFAULT_TYPE_TRAITS
@@ -533,6 +536,9 @@ namespace mstd {
 	using core_function_type_t = typename function_traits<F>::core_function_type;
 
 	template<class F>
+	using as_std_function_t = typename function_traits<F>::std_function_type;
+
+	template<class F>
 	using function_return_t = typename function_traits<F>::return_type;
 	template<class F>
 	using function_decayed_return_t = typename function_traits<F>::decayed_return_type;
@@ -553,5 +559,23 @@ namespace mstd {
 	template<class F>
 	using function_parent_t = typename function_traits<F>::parent_type;
 #pragma endregion
+
+	#pragma region IS_CALLABLE
+	// main template - default false
+	template<class F, class = void>
+	struct is_callable : std::false_type {};
+
+	template<class F>
+	struct is_callable<F, std::void_t<typename function_traits<F>::std_function_type>> : std::true_type {};
+
+	// helper alias
+	template<class F>
+	_MSTD_CONSTEXPR17 bool is_callable_v = is_callable<F>::value;
+
+	#if _MSTD_HAS_CXX20
+	template<class F> concept callable = mstd::is_callable_v<F>;
+	#endif
+	#pragma endregion
 }
+#endif
 #endif
