@@ -18,7 +18,7 @@ namespace mstd::test {
         int received_int = 0;
         std::string received_str = "";
 
-        std::ignore = handler.add_callback([&](int i, std::string s) {
+        handler.add_callback([&](int i, std::string s) {
             received_int = i;
             received_str = s;
             });

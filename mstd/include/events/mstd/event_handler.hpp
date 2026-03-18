@@ -24,21 +24,24 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 namespace mstd {
 	template<template<class, class, class...> class EventsMap, class... Args>
 	class base_event_handler {
+	public:
 		using id_type = size_t;
-		using event_action_type = c_action_t<Args...>;
-		using event_action_handler = function_view<event_action_type>;
-		using events_type = EventsMap<id_type, event_action_handler>;
 		using id_manager_type = base_id_manager<id_type>;
+
+		using event_type = void(Args&&...);
+		using event_handler = action_t<Args&&...>;
+
+		using events_type = EventsMap<id_type, event_handler>;
 
 	private:
 		events_type _events = {};
-		id_manager_type _ids = {};
+		id_manager_type _ids;
 
 	public:
 		_MSTD_CONSTEXPR20 base_event_handler() noexcept = default;
 		_MSTD_CONSTEXPR20 ~base_event_handler() noexcept = default;
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 id_type add_callback(const event_action_handler& callback) {
+		_MSTD_CONSTEXPR20 id_type add_callback(const event_handler& callback) {
 			id_type id = _ids.get_next_id();
 			if (id == id_manager_type::bad_id()) return id;
 
@@ -64,7 +67,7 @@ namespace mstd {
 			if (_events.empty()) return;
 
 			// SAFETY WHEN CALLBACK DELETES ITSELF
-			std::vector<event_action_handler> callbacks_to_run;
+			std::vector<event_handler> callbacks_to_run;
 			callbacks_to_run.reserve(_events.size());
 
 			for (const auto& [id, event] : _events) {
@@ -76,12 +79,7 @@ namespace mstd {
 			}
 		}
 
-#if _MSTD_HAS_CXX20
-		template<same_function_as<event_action_type> F>
-#else
-		template<class F, std::enable_if_t<mstd::is_same_function_v<F, event_action_type>, bool> = true>
-#endif
-		_MSTD_CONSTEXPR20 id_type operator+=(const F& callback) {
+		_MSTD_CONSTEXPR20 id_type operator+=(const event_handler& callback) {
 			return add_callback(callback);
 		}
 

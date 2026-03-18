@@ -26,8 +26,9 @@ namespace mstd::tests {
 		function_view<int(int)> fv(lambda);
 		EXPECT_EQ(fv(10), 11);
 
-		fv = [](int x) { return x + 1; };
-		EXPECT_EQ(fv(10), 11);
+		auto other_lambda = [](int x) { return x + 2; };
+		fv = other_lambda;
+		EXPECT_EQ(fv(10), 12);
 
 		int offset = 100;
 		auto stateful = [offset](int x) { return x + offset; };
@@ -85,7 +86,9 @@ namespace mstd::tests {
 		function_view<int(int)> fv = free_func;
 		EXPECT_EQ(fv(5), 10);
 
-		fv = [](int x) { return x * x; };
+		auto lambda = [](int x) { return x * x; };
+
+		fv = lambda;
 		EXPECT_EQ(fv(5), 25);
 	}
 
