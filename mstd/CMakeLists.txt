@@ -33,12 +33,12 @@ target_include_directories(${PROJECT_NAME} INTERFACE ${HEADERS_PATHS}
 #	$<INSTALL_INTERFACE:${INSTALL_HEADERS_PATH}>
 )
 
-target_compile_definitions(${PROJECT_NAME} INTERFACE	$<IF:$<BOOL:${MSTD_ENABLE_CXX20}>,              MSTD_ENABLE_CXX20, >
-														$<IF:$<BOOL:${MSTD_DISABLE_ASSERT_ON_RELEASE}>, MSTD_DISABLE_ASSERT_ON_RELEASE, >
-                                                        $<IF:$<BOOL:${MSTD_ENABLE_FOR_EACH_MACROS}>,    MSTD_ENABLE_FOR_EACH_MACROS, >
-                                                        $<IF:$<BOOL:${MSTD_ENABLE_ENUMS_MACROS}>,       MSTD_ENABLE_ENUMS_MACROS, >
-                                                        $<IF:$<BOOL:${MSTD_ENABLE_CLONE_FUNC_MACROS}>,  MSTD_ENABLE_CLONE_FUNC_MACROS, >
-                                                        $<IF:$<BOOL:${MSTD_ENABLE_EXTRA_MACROS}>,       MSTD_ENABLE_EXTRA_MACROS, >
+target_compile_definitions(${PROJECT_NAME} INTERFACE	$<$<BOOL:${MSTD_ENABLE_CXX20}>:MSTD_ENABLE_CXX20>
+														$<$<BOOL:${MSTD_DISABLE_ASSERT_ON_RELEASE}>:MSTD_DISABLE_ASSERT_ON_RELEASE>
+                                                        $<$<BOOL:${MSTD_ENABLE_FOR_EACH_MACROS}>:MSTD_ENABLE_FOR_EACH_MACROS>
+                                                        $<$<BOOL:${MSTD_ENABLE_ENUMS_MACROS}>:MSTD_ENABLE_ENUMS_MACROS>
+                                                        $<$<BOOL:${MSTD_ENABLE_CLONE_FUNC_MACROS}>:MSTD_ENABLE_CLONE_FUNC_MACROS>
+                                                        $<$<BOOL:${MSTD_ENABLE_EXTRA_MACROS}>:MSTD_ENABLE_EXTRA_MACROS>
 )
 
 # TODO: install

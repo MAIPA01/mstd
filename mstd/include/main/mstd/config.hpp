@@ -14,7 +14,7 @@
 #pragma region VERSION
 #define MSTD_VERSION_MAJOR 1
 #define MSTD_VERSION_MINOR 4
-#define MSTD_VERSION_PATCH 6
+#define MSTD_VERSION_PATCH 7
 
 #define _MSTD_STRINGIFY_HELPER(x) #x
 
