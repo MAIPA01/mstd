@@ -191,46 +191,52 @@ namespace mstd {
 #pragma endregion INSERT_AT_IDX
 
 #pragma region INSERT_AT_ITER
-		_MSTD_CONSTEXPR20 iterator insert(const_iterator pos, const T& value) {
+		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, const T& value) {
 			return insert(_id[std::distance(_data.begin(), pos)], value);
 		}
 
-		_MSTD_CONSTEXPR20 iterator insert(const_iterator pos, T&& value) {
+		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, T&& value) {
 			return insert(_id[std::distance(_data.begin(), pos)], value);
 		}
 
-		_MSTD_CONSTEXPR20 iterator insert(const_iterator pos, const T& value, size_type count) {
+		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, const T& value, size_type count) {
 			return insert(_id[std::distance(_data.begin(), pos)], count, value);
 		}
 
 		template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
-		_MSTD_CONSTEXPR20 iterator insert(const_iterator pos, _Iter first, _Iter last) {
+		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, _Iter first, _Iter last) {
 			return insert(_id[std::distance(_data.begin(), pos)], first, last);
 		}
 
-		_MSTD_CONSTEXPR20 iterator insert(const_iterator pos, std::initializer_list<T> init) {
+		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, std::initializer_list<T> init) {
 			return insert(pos, init.begin(), init.end());
 		}
 #pragma endregion INSERT_AT_ITER
 
+		#pragma region EMPLACE_ON_FREE_SPOT
 		template<class... Args>
 		_MSTD_CONSTEXPR20 iterator emplace(Args&&... args) {
 			return insert(T(std::forward<Args>(args)...));
 		}
+		#pragma endregion
 
+		#pragma region EMPLACE_AT_IDX
 		template<class... Args>
-		_MSTD_CONSTEXPR20 iterator emplace(size_type id, Args&&... args) {
+		_MSTD_CONSTEXPR20 iterator emplace_at(size_type id, Args&&... args) {
 			return insert_at(id, T(std::forward<Args>(args)...));
 		}
+		#pragma endregion
 
+		#pragma region EMPLACE_AT_ITER
 		template<class... Args>
-		_MSTD_CONSTEXPR20 iterator emplace(const_iterator pos, Args&&... args) {
-			return insert(pos, T(std::forward<Args>(args)...));
+		_MSTD_CONSTEXPR20 iterator emplace_at(const_iterator pos, Args&&... args) {
+			return insert_at(pos, T(std::forward<Args>(args)...));
 		}
+		#pragma endregion
 
 		template<class... Args>
 		_MSTD_CONSTEXPR20 T& emplace_back(Args&&... args) {
-			return *emplace(size(), std::forward<Args>(args)...);
+			return *emplace_at(size(), std::forward<Args>(args)...);
 		}
 
 		_MSTD_CONSTEXPR20 void push_back(const T& value) {
@@ -457,15 +463,15 @@ namespace mstd {
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 iterator begin() { return _data.begin(); }
-		[[nodiscard]] _MSTD_CONSTEXPR20 iterator begin() const { return _data.begin(); }
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator begin() const { return _data.begin(); }
 		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator cbegin() const { return _data.cbegin(); }
 		[[nodiscard]] _MSTD_CONSTEXPR20 iterator end() { return _data.end(); }
-		[[nodiscard]] _MSTD_CONSTEXPR20 iterator end() const { return _data.end(); }
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator end() const { return _data.end(); }
 		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator cend() const { return _data.cend(); }
 		[[nodiscard]] _MSTD_CONSTEXPR20 reverse_iterator rbegin() { return _data.rbegin(); }
-		[[nodiscard]] _MSTD_CONSTEXPR20 reverse_iterator rbegin() const { return _data.rbegin(); }
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator rbegin() const { return _data.rbegin(); }
 		[[nodiscard]] _MSTD_CONSTEXPR20 reverse_iterator rend() { return _data.rend(); }
-		[[nodiscard]] _MSTD_CONSTEXPR20 reverse_iterator rend() const { return _data.rend(); }
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator rend() const { return _data.rend(); }
 		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator crbegin() const { return _data.crbegin(); }
 		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator crend() const { return _data.crend(); }
 
