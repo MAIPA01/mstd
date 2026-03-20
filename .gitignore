@@ -415,3 +415,4 @@ CMakeUserPresets.json
 /.idea
 /out
 /package
+/coverage_report
