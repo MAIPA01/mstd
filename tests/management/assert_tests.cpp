@@ -23,7 +23,7 @@ namespace mstd::test {
             EXPECT_TRUE(msg.find("1 == 2") != std::string::npos);
             };
 
-        mstd_log_assert_base(1 == 2, my_logger);
+        MSTD_LOG_ASSERT_BASE(1 == 2, my_logger);
 
         EXPECT_TRUE(failed);
     }
@@ -32,7 +32,7 @@ namespace mstd::test {
         std::string captured_msg;
         auto logger = [&](const std::string_view msg) { captured_msg = msg; };
 
-        mstd_log_assert_base(2 + 2 == 5, logger);
+        MSTD_LOG_ASSERT_BASE(2 + 2 == 5, logger);
 
         EXPECT_NE(captured_msg.find("Assertion failed"), std::string::npos);
         EXPECT_NE(captured_msg.find("2 + 2 == 5"), std::string::npos);
@@ -44,7 +44,7 @@ namespace mstd::test {
         auto logger = [&](const std::string_view msg) { captured_msg = msg; };
 
         int value = 42;
-        mstd_log_assert_base(value == 0, logger, "Value should be 0, but is {}", value);
+        MSTD_LOG_ASSERT_BASE(value == 0, logger, "Value should be 0, but is {}", value);
 
         EXPECT_NE(captured_msg.find("Value should be 0, but is 42"), std::string::npos);
     }
@@ -53,7 +53,7 @@ namespace mstd::test {
         bool logger_called = false;
         auto logger = [&](const std::string_view) { logger_called = true; };
 
-        mstd_log_assert_base(true, logger);
+        MSTD_LOG_ASSERT_BASE(true, logger);
 
         EXPECT_FALSE(logger_called);
     }
@@ -64,8 +64,8 @@ namespace mstd::test {
         int call_count = 0;
         auto logger = [&](const std::string_view) { call_count++; };
 
-        mstd_log_assert_base(!s.empty(), logger);
-        mstd_log_assert_base(i == 42, logger);
+        MSTD_LOG_ASSERT_BASE(!s.empty(), logger);
+        MSTD_LOG_ASSERT_BASE(i == 42, logger);
 
         EXPECT_EQ(call_count, 0);
     }

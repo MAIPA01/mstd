@@ -20,17 +20,17 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include <mstd/string_types.hpp>
 
 namespace mstd {
-	template<class... _Strings>
-	inline std::string& concat_to(std::string& out, _Strings&&... strs) {
+	template<class... Strings>
+	inline std::string& concat_to(std::string& out, Strings&&... strs) {
 		out.reserve(out.size() + (utils::string_size(strs) + ...));
 		(out += ... += strs);
 		return out;
 	}
 
-	template<class... _Strings>
-	inline std::string concat(_Strings&&... strs) {
+	template<class... Strings>
+	inline std::string concat(Strings&&... strs) {
 		std::string str;
-		return concat_to(str, std::forward<_Strings>(strs)...);
+		return concat_to(str, std::forward<Strings>(strs)...);
 	}
 }
 

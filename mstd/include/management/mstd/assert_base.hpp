@@ -34,16 +34,16 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #define NOMINMAX
 #include <Windows.h>
 #include <crtdbg.h>
-#define _mstd_debugbreak() __debugbreak()
+#define _MSTD_DEBUGBREAK() __debugbreak()
 #elif defined(__linux__) || defined(__APPLE__)
 #include <csignal>
-#define _mstd_debugbreak() __builtin_trap()
+#define _MSTD_DEBUGBREAK() __builtin_trap()
 #else
 #include <cstdlib>
-#define _mstd_debugbreak() std::abort()
+#define _MSTD_DEBUGBREAK() std::abort()
 #endif
 #else
-#define _mstd_debugbreak() ((void)0)
+#define _MSTD_DEBUGBREAK() ((void)0)
 #endif
 #pragma endregion
 
@@ -68,20 +68,20 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #pragma endregion // ASSERT_DEFINES
 
 #pragma region ASSERT_BASE
-#define mstd_stop_assert_base(expression, log_error_func, ...)\
+#define MSTD_STOP_ASSERT_BASE(expression, log_error_func, ...)\
 	do {\
 		if (!(expression)) {\
 			if (::mstd::stop_assert_handler(#expression, log_error_func, _MSTD_GET_CURRENT_SOURCE_LOCATION __VA_OPT__(, ) __VA_ARGS__)) {\
-				_mstd_debugbreak();\
+				_MSTD_DEBUGBREAK();\
 			}\
 		}\
 	} while (0)
 
-#define mstd_log_assert_base(expression, log_error_func, ...)\
+#define MSTD_LOG_ASSERT_BASE(expression, log_error_func, ...)\
 	if (!(expression))\
 		::mstd::log_assert_handler(#expression, log_error_func, _MSTD_GET_CURRENT_SOURCE_LOCATION __VA_OPT__(, ) __VA_ARGS__)
 
-#define mstd_empty_assert_base(expression, log_error_func, ...) ((void)0)
+#define MSTD_EMPTY_ASSERT_BASE(expression, log_error_func, ...) ((void)0)
 #pragma endregion
 
 #pragma region FUNCTIONS_DEFINES
@@ -102,7 +102,7 @@ namespace mstd {
 
 #pragma region REPORT_TO_SYSTEM
 #if _DEBUG
-	inline constexpr bool report_to_system(_MSTD_SOURCE_LOCATION_ARG, const std::string_view& message) noexcept {
+	_MSTD_CONSTEXPR17 bool report_to_system(_MSTD_SOURCE_LOCATION_ARG, const std::string_view& message) noexcept {
 #ifdef _WIN32
 		return (_CrtDbgReport(_CRT_ASSERT, _MSTD_GET_SOURCE_FILE_NAME,
 			_MSTD_GET_SOURCE_LINE, _MSTD_GET_SOURCE_FUNC_NAME, "%s", message.data()) == 1);
@@ -115,15 +115,15 @@ namespace mstd {
 
 #pragma region ASSERT_HANDLER_NO_MSG
 	inline void log_assert_handler(const std::string_view& expression,
-		const mstd::function_view<void(const std::string_view&)>& error_logger, _MSTD_SOURCE_LOCATION_ARG) noexcept {
+		const mstd::function_view<void(const std::string_view&)>& errorLogger, _MSTD_SOURCE_LOCATION_ARG) noexcept {
 		const std::string msg = format_log(expression, _MSTD_PASS_SOURCE_LOCATION);
-		error_logger(msg);
+		errorLogger(msg);
 	}
 
 	inline bool stop_assert_handler(const std::string_view& expression,
-		const mstd::function_view<void(const std::string_view&)>& error_logger, _MSTD_SOURCE_LOCATION_ARG) noexcept {
+		const mstd::function_view<void(const std::string_view&)>& errorLogger, _MSTD_SOURCE_LOCATION_ARG) noexcept {
 		const std::string msg = format_log(expression, _MSTD_PASS_SOURCE_LOCATION);
-		error_logger(msg);
+		errorLogger(msg);
 #if _DEBUG
 		return report_to_system(_MSTD_PASS_SOURCE_LOCATION, msg);
 #else
@@ -135,20 +135,20 @@ namespace mstd {
 #pragma region ASSERT_HANDLER_MSG
 	template<class... Args>
 	inline void log_assert_handler(const std::string_view& expression,
-		const mstd::function_view<void(const std::string_view&)>& error_logger, _MSTD_SOURCE_LOCATION_ARG,
-		fmt::format_string<Args...> fmt_str, Args&&... args) noexcept {
-		const std::string formattedMsg = fmt::format(fmt_str, std::forward<Args>(args)...);
+		const mstd::function_view<void(const std::string_view&)>& errorLogger, _MSTD_SOURCE_LOCATION_ARG,
+		fmt::format_string<Args...> fmtFormat, Args&&... args) noexcept {
+		const std::string formattedMsg = fmt::format(fmtFormat, std::forward<Args>(args)...);
 		const std::string fullMsg = format_log(expression, _MSTD_PASS_SOURCE_LOCATION, formattedMsg);
-		error_logger(fullMsg);
+		errorLogger(fullMsg);
 	}
 
 	template<class... Args>
 	inline bool stop_assert_handler(const std::string_view& expression,
-		const mstd::function_view<void(const std::string_view&)>& error_logger, _MSTD_SOURCE_LOCATION_ARG,
-		fmt::format_string<Args...> fmt_format, Args&&... args) noexcept {
-		const std::string formattedMsg = fmt::format(fmt_format, std::forward<Args>(args)...);
+		const mstd::function_view<void(const std::string_view&)>& errorLogger, _MSTD_SOURCE_LOCATION_ARG,
+		fmt::format_string<Args...> fmtFormat, Args&&... args) noexcept {
+		const std::string formattedMsg = fmt::format(fmtFormat, std::forward<Args>(args)...);
 		const std::string fullMsg = format_log(expression, _MSTD_PASS_SOURCE_LOCATION, formattedMsg);
-		error_logger(fullMsg);
+		errorLogger(fullMsg);
 #if _DEBUG
 		return report_to_system(_MSTD_PASS_SOURCE_LOCATION, fullMsg);
 #else

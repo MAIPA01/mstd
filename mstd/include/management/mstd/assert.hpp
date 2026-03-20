@@ -21,11 +21,11 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 #pragma region MSTD_ASSERT
 #if _DEBUG
-#define mstd_assert(expression, ...) mstd_stop_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__)
+#define mstd_assert(expression, ...) MSTD_STOP_ASSERT_BASE(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__) // NOLINT
 #elif !defined(MSTD_DISABLE_ASSERT_ON_RELEASE)
-#define mstd_assert(expression, ...) mstd_stop_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__)
+#define mstd_assert(expression, ...) MSTD_STOP_ASSERT_BASE(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__) // NOLINT
 #else
-#define mstd_assert(expression, ...) mstd_empty_assert_base(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__)
+#define mstd_assert(expression, ...) MSTD_EMPTY_ASSERT_BASE(expression, [](const std::string_view&) -> void {} __VA_OPT__(, ) __VA_ARGS__) // NOLINT
 #endif
 #pragma endregion
 

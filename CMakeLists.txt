@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.30)
-project(mstd VERSION 1.4.7 LANGUAGES CXX)
+project(mstd VERSION 1.4.8 LANGUAGES CXX)
 
 option(BUILD_MSTD_TESTS 				"Build mstd tests" 				OFF)
 option(BUILD_MSTD_COVERAGE 				"Enable coverage reporting" 	OFF)
 option(BUILD_MSTD_DOCUMENTATION 		"Build documentation" 			OFF)
+option(CHECK_MSTD_CLANG_TIDY 			"Enables clang-tidy check"		OFF)
 
 option(MSTD_USE_EXTERNAL_FMT_FORMAT 	"Enable if you want to use own fmt library (tested and compatible fmt version: 12.1.0)"	OFF)
 option(MSTD_ENABLE_CXX20 				"enables c++20 features" 																OFF)
@@ -14,9 +15,10 @@ option(MSTD_ENABLE_CLONE_FUNC_MACROS 	"enables CLONE_FUNC macros" 														
 option(MSTD_ENABLE_EXTRA_MACROS 		"enables external macros" 																OFF)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/third_party.cmake)
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/coverage_report.cmake)
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/clang_tidy.cmake)
-if (${BUILD_MSTD_DOCUMENTATION})
+if(CHECK_MSTD_CLANG_TIDY)
+	include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/clang_tidy.cmake)
+endif()
+if (BUILD_MSTD_DOCUMENTATION)
 	include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/doxygen.cmake)
 endif()
 
@@ -27,8 +29,10 @@ if(BUILD_MSTD_TESTS)
 endif()
 
 if (BUILD_MSTD_COVERAGE)
+	include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/coverage_report.cmake)
+
     setup_coverage_report(
-		TEST_PROJECT mstd-tests
+		TEST_TARGET mstd-tests
 		FORMAT html
 		OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/coverage_report
 		CLEAN_TEMP

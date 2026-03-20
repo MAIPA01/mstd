@@ -22,12 +22,12 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 namespace mstd {
 	#pragma region ARE_ALL
 	template<template<class> class Test, class... Ts>
-	static _MSTD_CONSTEXPR20 const bool are_all_v = (Test<Ts>::value && ...);
+	static _MSTD_CONSTEXPR17 const bool are_all_v = (Test<Ts>::value && ...);
 	#pragma endregion
 
 	#pragma region INDEX_SEQUENCE_FROM_TO
 	template<size_t Start, size_t... Indices>
-	_MSTD_CONSTEXPR20 std::index_sequence<(Start + Indices)...> shift_index_sequence(std::index_sequence<Indices...>) {
+	_MSTD_CONSTEXPR20 std::index_sequence<(Start + Indices)...> shift_index_sequence(const std::index_sequence<Indices...>&) {
 		return {};
 	}
 
@@ -102,31 +102,36 @@ namespace mstd {
 #pragma endregion
 
 #pragma region COMPARE_ARITHMETIC
-#if _MSTD_HAS_CXX20
-	template<auto A, arithmetic AT = decltype(A)>
-#else
-	template<auto A, class AT = decltype(A), std::enable_if_t<std::is_arithmetic_v<AT>, bool> = true>
-#endif
-	constexpr AT abs_v = std::is_unsigned_v<AT> ? A : (A > 0 ? A : -A);
+	namespace utils {
+		template<auto A>
+		struct abs_impl : std::conditional_t<
+			std::is_unsigned_v<decltype(A)>,
+			std::integral_constant<decltype(A), A>,
+			std::integral_constant<decltype(A), (A > 0 ? A : -A)>
+		> {};
+	}
+
+	template<auto A>
+	static _MSTD_CONSTEXPR17 const auto abs_v = utils::abs_impl<A>::value;
 
 #if _MSTD_HAS_CXX20
 	template<auto A, auto B, auto Eps, arithmetic AT = decltype(A), arithmetic BT = decltype(B), floating_point EpsT = decltype(Eps)>
-	constexpr bool is_eq_arithmetic_v = (std::is_floating_point_v<AT> || std::is_floating_point_v<BT>) ?
+	_MSTD_CONSTEXPR17 const bool is_eq_arithmetic_v = (std::is_floating_point_v<AT> || std::is_floating_point_v<BT>) ?
 		(abs_v<A - B> < Eps) :
 		(A == B);
 #else
 	template<auto A, auto B, class AT = decltype(A), class BT = decltype(B),
 	std::enable_if_t<(std::is_arithmetic_v<AT> && std::is_arithmetic_v<BT>), bool> = true>
-	constexpr bool is_eq_arithmetic_v = (A == B);
+	_MSTD_CONSTEXPR17 const bool is_eq_arithmetic_v = (A == B);
 #endif
 
 #if _MSTD_HAS_CXX20
 	template<auto A, auto B, auto Eps, arithmetic AT = decltype(A), arithmetic BT = decltype(B), floating_point EpsT = decltype(Eps)>
-	constexpr bool is_neq_arithmetic_v = !is_eq_arithmetic_v<A, B, Eps>;
+	_MSTD_CONSTEXPR17 const bool is_neq_arithmetic_v = !is_eq_arithmetic_v<A, B, Eps>;
 #else
 	template<auto A, auto B, class AT = decltype(A), class BT = decltype(B),
 		std::enable_if_t<(std::is_arithmetic_v<AT> && std::is_arithmetic_v<BT>), bool> = true>
-	constexpr bool is_neq_arithmetic_v = !is_eq_arithmetic_v<A, B>;
+	_MSTD_CONSTEXPR17 const bool is_neq_arithmetic_v = !is_eq_arithmetic_v<A, B>;
 #endif
 
 #pragma endregion
@@ -134,92 +139,101 @@ namespace mstd {
 #pragma region LOGIC_EXPRESIONS
 	template<auto A, auto B>
 	struct is_eq : std::bool_constant<(A == B)> {};
-	template<auto A, auto B> constexpr bool is_eq_v = is_eq<A, B>::value;
+	template<auto A, auto B> _MSTD_CONSTEXPR17 const bool is_eq_v = is_eq<A, B>::value;
 
 	template<auto A, auto B>
 	struct is_neq : std::bool_constant<(A != B)> {};
-	template<auto A, auto B> constexpr bool is_neq_v = is_neq<A, B>::value;
+	template<auto A, auto B> _MSTD_CONSTEXPR17 const bool is_neq_v = is_neq<A, B>::value;
 
 	template<auto A, auto B>
 	struct is_gt : std::bool_constant<(A > B)> {};
-	template<auto A, auto B> constexpr bool is_gt_v = is_gt<A, B>::value;
+	template<auto A, auto B> _MSTD_CONSTEXPR17 const bool is_gt_v = is_gt<A, B>::value;
 
 	template<auto A, auto B>
 	struct is_gteq : std::bool_constant<(A >= B)> {};
-	template<auto A, auto B> constexpr bool is_gteq_v = is_gteq<A, B>::value;
+	template<auto A, auto B> _MSTD_CONSTEXPR17 const bool is_gteq_v = is_gteq<A, B>::value;
 
 	template<auto A, auto B>
 	struct is_lt : std::bool_constant<(A < B)> {};
-	template<auto A, auto B> constexpr bool is_lt_v = is_lt<A, B>::value;
+	template<auto A, auto B> _MSTD_CONSTEXPR17 const bool is_lt_v = is_lt<A, B>::value;
 
 	template<auto A, auto B>
 	struct is_lteq : std::bool_constant<(A <= B)> {};
-	template<auto A, auto B> constexpr bool is_lteq_v = is_lteq<A, B>::value;
+	template<auto A, auto B> _MSTD_CONSTEXPR17 const bool is_lteq_v = is_lteq<A, B>::value;
 #pragma endregion
 
 #pragma region IS_IN
-	template<template<class, class> class Cmp, class T, class U, class... Us> constexpr bool is_type_in_v = (Cmp<T, U>::value || (sizeof...(Us) > 0 ? (Cmp<T, Us>::value || ...) : false));
-	template<template<auto, auto> class Cmp, auto A, auto B, auto... Cs> constexpr bool is_value_in_v = (Cmp<A, B>::value || (sizeof...(Cs) > 0 ? (Cmp<A, Cs>::value || ...) : false));
+	template<template<class, class> class Cmp, class T, class U, class... Us> 
+	_MSTD_CONSTEXPR17 const bool is_type_in_v = (Cmp<T, U>::value || (sizeof...(Us) > 0 ? (Cmp<T, Us>::value || ...) : false));
 
-	template<class T, class U, class... Us> constexpr bool is_same_type_in_v = is_type_in_v<std::is_same, T, U, Us...>;
-	template<auto A, auto B, auto... Cs> constexpr bool is_eq_value_in_v = is_value_in_v<is_eq, A, B, Cs...>;
+	template<template<auto, auto> class Cmp, auto A, auto B, auto... Cs> 
+	_MSTD_CONSTEXPR17 const bool is_value_in_v = (Cmp<A, B>::value || (sizeof...(Cs) > 0 ? (Cmp<A, Cs>::value || ...) : false));
+
+	template<class T, class U, class... Us> _MSTD_CONSTEXPR17 const bool is_same_type_in_v = is_type_in_v<std::is_same, T, U, Us...>;
+	template<auto A, auto B, auto... Cs> _MSTD_CONSTEXPR17 const bool is_eq_value_in_v = is_value_in_v<is_eq, A, B, Cs...>;
 #pragma endregion
 
 #pragma region IN_RANGE
-	template<auto A, auto Min, auto Max> constexpr bool is_in_range_v = (is_gteq_v<A, Min> && is_lteq_v<A, Max>);
+	template<auto A, auto Min, auto Max> _MSTD_CONSTEXPR17 const bool is_in_range_v = (is_gteq_v<A, Min> && is_lteq_v<A, Max>);
 #pragma endregion
 
 #pragma region IS_BASED_ON
-	template<class T, template<class...> class U> constexpr bool is_based_on_v = false;
-	template<template<class...> class U, class... Vs> constexpr bool is_based_on_v<U<Vs...>, U> = true;
+	template<class T, template<class...> class U> _MSTD_CONSTEXPR17 const bool is_based_on_v = false;
+	template<template<class...> class U, class... Vs> _MSTD_CONSTEXPR17 const bool is_based_on_v<U<Vs...>, U> = true;
 #pragma endregion
 
 #pragma region UNIQUE_TYPES
 	template<class... Ts> struct types_holder {
 		using as_tuple = std::tuple<Ts...>;
-		static constexpr size_t types_num = sizeof...(Ts);
+		static _MSTD_CONSTEXPR17 const size_t types_num = sizeof...(Ts);
 	};
 
-	template<class T, class U> 
-	struct _unique_impl {};
+	namespace utils {
+		template<class T, class U>
+		struct unique_impl {};
 
-	template<class T, class... Us> 
-	struct _unique_impl<types_holder<>, types_holder<T, Us...>> 
-		: _unique_impl<types_holder<T>, types_holder<Us...>> {};
+		template<class T, class... Us>
+		struct unique_impl<types_holder<>, types_holder<T, Us...>>
+			: unique_impl<types_holder<T>, types_holder<Us...>> {
+		};
 
-	template<class... Ts, class T, class... Us> 
-	struct _unique_impl<types_holder<Ts...>, types_holder<T, Us...>> 
-		: std::conditional_t<is_same_type_in_v<T, Ts...>,
-		_unique_impl<types_holder<Ts...>, types_holder<Us...>>,
-		_unique_impl<types_holder<Ts..., T>, types_holder<Us...>>> {};
+		template<class... Ts, class T, class... Us>
+		struct unique_impl<types_holder<Ts...>, types_holder<T, Us...>>
+			: std::conditional_t<is_same_type_in_v<T, Ts...>,
+			unique_impl<types_holder<Ts...>, types_holder<Us...>>,
+			unique_impl<types_holder<Ts..., T>, types_holder<Us...>>> {
+		};
 
-	template<class... Ts> struct _unique_impl<types_holder<Ts...>, types_holder<>> {
-		using type = types_holder<Ts...>;
-	};
+		template<class... Ts> struct unique_impl<types_holder<Ts...>, types_holder<>> {
+			using type = types_holder<Ts...>;
+		};
+	}
 
-	template<class... Ts> using unique_types = typename _unique_impl<types_holder<>, types_holder<Ts...>>::type;
+	template<class... Ts> using unique_types = _MSTD_TYPENAME17 utils::unique_impl<types_holder<>, types_holder<Ts...>>::type;
 #pragma endregion
 
 	#pragma region IF
-	template<bool condition, auto true_value, auto false_value>
-	struct _if_impl {
-		static _MSTD_CONSTEXPR17 const auto value = false_value;
-	};
+	namespace utils {
+		template<bool Condition, auto TrueValue, auto FalseValue>
+		struct if_impl {
+			static _MSTD_CONSTEXPR17 const auto value = FalseValue;
+		};
 
-	template<auto true_value, auto false_value>
-	struct _if_impl<true, true_value, false_value> {
-		static _MSTD_CONSTEXPR17 const auto value = true_value;
-	};
+		template<auto TrueValue, auto FalseValue>
+		struct if_impl<true, TrueValue, FalseValue> {
+			static _MSTD_CONSTEXPR17 const auto value = TrueValue;
+		};
+	}
 
-	template<bool condition, auto true_value, auto false_value>
-	static _MSTD_CONSTEXPR17 const auto if_v = _if_impl<condition, true_value, false_value>::value;
+	template<bool Condition, auto TrueValue, auto FalseValue>
+	static _MSTD_CONSTEXPR17 const auto if_v = utils::if_impl<Condition, TrueValue, FalseValue>::value;
 	#pragma endregion
 
 	#pragma region ID_MANAGER
 	#if _MSTD_HAS_CXX20
-	template <unsigned_integral _idT>
+	template <unsigned_integral IdT>
 	#else
-	template <class _idT, std::enable_if_t<mstd::is_unsigned_integral_v<_idT>, bool> = true>
+	template <class IdT, std::enable_if_t<mstd::is_unsigned_integral_v<IdT>, bool> = true>
 	#endif
 	class base_id_manager;
 

@@ -60,9 +60,9 @@ namespace mstd::utils {
 		static _MSTD_CONSTEXPR17 size_t size(const std::string_view& s) { return s.size(); }
 	};
 
-    template<class _String>
-	inline _MSTD_CONSTEXPR17 size_t string_size(_String&& s) {
-		using string_t = std::remove_reference_t<_String>;
+    template<class String>
+	_MSTD_CONSTEXPR17 size_t string_size(String&& s) {
+		using string_t = std::remove_reference_t<String>;
 		return string_type_info<string_t>::size(s);
 	}
 }

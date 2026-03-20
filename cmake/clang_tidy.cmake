@@ -3,25 +3,33 @@ if(DEFINED _CLANG_TIDY_HELPER_INCLUDED)
 endif()
 set(_CLANG_TIDY_HELPER_INCLUDED TRUE)
 
-find_program(CLANG_TIDY_EXE NAMES clang-tidy)
+set(CLANG_TIDY_RUNNER ${CMAKE_CURRENT_LIST_DIR}/run_clang_tidy.cmake)
 
-function(enable_clang_tidy TARGET)
-    if(NOT PROJECT_IS_TOP_LEVEL)
-        return()
+function(enable_clang_tidy)
+    find_program(CLANG_TIDY_EXE clang-tidy REQUIRED)
+
+    set(options "")
+    set(oneValueArgs TARGET CONFIG HEADER_FILTER EXCLUDE_HEADER_FILTER CXX_STANDARD)
+    set(multiValueArgs "")
+
+    cmake_parse_arguments(PARSE_ARGV 0 CLANG_TIDY "${options}" "${oneValueArgs}" "${multiValueArgs}")
+
+    if(NOT DEFINED CLANG_TIDY_TARGET)
+        message(FATAL_ERROR "Please provide explicitly TARGET.")
     endif()
 
-    if(NOT CLANG_TIDY_EXE)
-        message(STATUS "clang-tidy not found – skipping for target ${TARGET}")
-        return()
+    if(NOT TARGET ${CLANG_TIDY_TARGET})
+        message(FATAL_ERROR "Target '${CLANG_TIDY_TARGET}' does not exist.")
     endif()
 
-    if(NOT TARGET ${TARGET})
-        message(FATAL_ERROR "enable_clang_tidy: target '${TARGET}' does not exist")
+    if(NOT DEFINED CLANG_TIDY_CONFIG)
+        set(CLANG_TIDY_CONFIG ${CMAKE_SOURCE_DIR}/.clang-tidy)
+        message(NOTICE "No .clang-tidy config file provided using default path ${CLANG_TIDY_CONFIG}")
     endif()
 
-    get_target_property(TARGET_SOURCES ${TARGET} SOURCES)
+    get_target_property(TARGET_SOURCES ${CLANG_TIDY_TARGET} SOURCES)
     if(NOT TARGET_SOURCES)
-        message(STATUS "Target ${TARGET} has no sources - skipping clang-tidy")
+        message(NOTICE "Target ${CLANG_TIDY_TARGET} has no sources - skipping clang-tidy...")
         return()
     endif()
 
@@ -35,34 +43,40 @@ function(enable_clang_tidy TARGET)
     endforeach()
     string(JOIN ";" TIDY_SOURCES_STR ${TIDY_SOURCES})
 
-    set(CLANG_TIDY_CONFIG ${CMAKE_SOURCE_DIR}/.clang-tidy)
-    get_target_property(TARGET_SOURCE_DIR ${TARGET} SOURCE_DIR)
-
-    file(RELATIVE_PATH TARGET_SOURCE_DIR_REL ${CMAKE_SOURCE_DIR} ${TARGET_SOURCE_DIR})
-    get_filename_component(PROJECT_FOLDER_NAME "${CMAKE_SOURCE_DIR}" NAME)
+    get_target_property(TARGET_SOURCE_DIR ${CLANG_TIDY_TARGET} SOURCE_DIR)
+    file(RELATIVE_PATH TARGET_SOURCE_DIR_REL ${CMAKE_CURRENT_SOURCE_DIR} ${TARGET_SOURCE_DIR})
 
     set(CLANG_TIDY_ARGS
         "--quiet"
         "--system-headers=false"
         "--extra-arg=-Wno-macro-redefined"
-        "--extra-arg=-std=gnu++20"
-        "--header-filter=^.*[\\\\\/\\\\]${PROJECT_FOLDER_NAME}[\\\\\/\\\\]${TARGET_SOURCE_DIR_REL}[\\\\\/\\\\].*"
-        "--exclude-header-filter=^.*[\\\\\/\\\\]${PROJECT_FOLDER_NAME}[\\\\\/\\\\]ThirdParty[\\\\\/\\\\].*"
     )
+
+    if(DEFINED CLANG_TIDY_CXX_STANDARD)
+        set(CLANG_TIDY_ARGS ${CLANG_TIDY_ARGS} "--extra-arg=-std=${CLANG_TIDY_CXX_STANDARD}")
+    endif()
+
+    if(DEFINED CLANG_TIDY_HEADER_FILTER)
+        set(CLANG_TIDY_ARGS ${CLANG_TIDY_ARGS} "--header-filter=${CLANG_TIDY_HEADER_FILTER}")
+    endif()
+
+    if(DEFINED CLANG_TIDY_EXCLUDE_HEADER_FILTER)
+        set(CLANG_TIDY_ARGS ${CLANG_TIDY_ARGS} "--exclude-header-filter=${CLANG_TIDY_EXCLUDE_HEADER_FILTER}")
+    endif()
 
     string(JOIN ";" CLANG_TIDY_ARGS_STR ${CLANG_TIDY_ARGS})
 
-    set(CACHE_DIR ${CMAKE_BINARY_DIR}/clang-tidy-cache)
+    get_target_property(BINARY_DIR ${CLANG_TIDY_TARGET} BINARY_DIR)
+    set(CACHE_DIR ${BINARY_DIR}/clang-tidy-cache)
     file(MAKE_DIRECTORY ${CACHE_DIR})
 
-    set(CACHE_FILE ${CACHE_DIR}/${TARGET}.tidy)
+    set(CACHE_FILE ${CACHE_DIR}/${CLANG_TIDY_TARGET}.tidy)
 
-    set_target_properties(${TARGET} PROPERTIES CXX_CLANG_TIDY 
+    set_target_properties(${CLANG_TIDY_TARGET} PROPERTIES CXX_CLANG_TIDY
                           "${CLANG_TIDY_EXE};--config-file=${CLANG_TIDY_CONFIG};-p=${CMAKE_BINARY_DIR};${CLANG_TIDY_ARGS_STR}"
     )
 
-    set(TIDY_TARGET clang-tidy-${TARGET})
-    set(TIDY_RUNNER ${CMAKE_SOURCE_DIR}/cmake/run_clang_tidy.cmake)
+    set(TIDY_TARGET clang_tidy_${CLANG_TIDY_TARGET})
 
     add_custom_target(
         ${TIDY_TARGET}
@@ -74,14 +88,14 @@ function(enable_clang_tidy TARGET)
             -DCLANG_TIDY_CONFIG="${CLANG_TIDY_CONFIG}"
             -DSOURCES="${TIDY_SOURCES_STR}"
             -DCACHE_FILE="${CACHE_FILE}"
-            -P "${TIDY_RUNNER}"
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            -P "${CLANG_TIDY_RUNNER}"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         USES_TERMINAL
-        COMMENT "Running clang-tidy for target ${TARGET}"
+        COMMENT "Running clang-tidy for target ${CLANG_TIDY_TARGET}"
     )
 
     add_custom_target(
-        ${TIDY_TARGET}-full
+        ${TIDY_TARGET}_full
         COMMAND ${CMAKE_COMMAND}
             -DFORCE_TIDY=ON
             -DCLANG_TIDY_EXE="${CLANG_TIDY_EXE}"
@@ -90,10 +104,10 @@ function(enable_clang_tidy TARGET)
             -DCLANG_TIDY_CONFIG="${CLANG_TIDY_CONFIG}"
             -DSOURCES="${TIDY_SOURCES_STR}"
             -DCACHE_FILE="${CACHE_FILE}"
-            -P "${TIDY_RUNNER}"
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            -P "${CLANG_TIDY_RUNNER}"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         USES_TERMINAL
-        COMMENT "Running full clang-tidy for target ${TARGET}"
+        COMMENT "Running full clang-tidy for target ${CLANG_TIDY_TARGET}"
     )
 
     message(STATUS "clang-tidy target added: ${TIDY_TARGET}")

@@ -21,19 +21,23 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 namespace mstd {
 	template<class T, class... Ts>
-	inline void hash_append(size_t& hash_value, const T& value, const Ts&... values) {
-		hash_value ^= std::hash<T>()(value) + 0x9e3779b9 + (hash_value << 6) + (hash_value >> 2);
+	inline void hash_append(size_t& hashValue, const T& value, const Ts&... values) {
+		static _MSTD_CONSTEXPR17 const size_t left_shift = 6;
+		static _MSTD_CONSTEXPR17 const size_t right_shift = 2;
+		static _MSTD_CONSTEXPR17 const size_t magic_number = 0x9e3779b9;
+
+		hashValue ^= std::hash<T>()(value) + magic_number + (hashValue << left_shift) + (hashValue >> right_shift);
 
 		if _MSTD_CONSTEXPR17 (sizeof...(Ts) != 0) {
-			hash_append(hash_value, values...);
+			hash_append(hashValue, values...);
 		}
 	}
 
 	template<class T0, class T1, class... Ts>
 	inline size_t hash_combine(const T0& value0, const T1& value1, const Ts&... values) {
-		size_t hash_value = 0;
-		hash_append(hash_value, value0, value1, values...);
-		return hash_value;
+		size_t hashValue = 0;
+		hash_append(hashValue, value0, value1, values...);
+		return hashValue;
 	}
 
 	template<class Iter>

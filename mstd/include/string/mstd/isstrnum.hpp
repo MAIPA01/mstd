@@ -65,19 +65,19 @@ namespace mstd {
 	}
 
 	inline bool isstrnum(const std::string_view& str) {
-		if (str.size() == 0) return false;
+		if (str.empty()) return false;
 
-		if (str.size() > 2) {
-			if (str[0] == '0') {
-				if (str[1] == 'b') {
-					return isstrbin(str);
-				}
-				else if (str[1] == 'c') {
-					return isstroct(str);
-				}
-				else if (str[1] == 'x') {
-					return isstrhex(str);
-				}
+		if (str.size() > 2 && str[0] == '0') {
+			if (str[1] == 'b') {
+				return isstrbin(str);
+			}
+
+			if (str[1] == 'c') {
+				return isstroct(str);
+			}
+
+			if (str[1] == 'x') {
+				return isstrhex(str);
 			}
 		}
 
@@ -95,19 +95,19 @@ namespace mstd {
 	}
 
 	inline bool isstrunum(const std::string_view& str) {
-		if (str.size() == 0) return false;
+		if (str.empty()) return false;
 
-		if (str.size() > 2) {
-			if (str[0] == '0') {
-				if (str[1] == 'b') {
-					return isstrbin(str);
-				}
-				else if (str[1] == 'c') {
-					return isstroct(str);
-				}
-				else if (str[1] == 'x') {
-					return isstrhex(str);
-				}
+		if (str.size() > 2 && str[0] == '0') {
+			if (str[1] == 'b') {
+				return isstrbin(str);
+			}
+			
+			if (str[1] == 'c') {
+				return isstroct(str);
+			}
+
+			if (str[1] == 'x') {
+				return isstrhex(str);
 			}
 		}
 
@@ -125,7 +125,7 @@ namespace mstd {
 	}
 
 	inline bool isstrfp(const std::string_view& str) {
-		if (str.size() == 0) return false;
+		if (str.empty()) return false;
 
 		size_t i = 0;
 		while (str[i] == '+' || str[i] == '-') {

@@ -49,24 +49,26 @@ namespace mstd {
 	#pragma endregion
 
 	#pragma region C_FUNCTIONS
-	template<class F, class C, class = void>
-	struct _c_func_impl {};
+	namespace utils {
+		template<class F, class C, class = void>
+		struct c_func_impl {};
 
-	template<class F, class C>
-	struct _c_func_impl<F, C, std::void_t<std::enable_if_t<mstd::is_function_v<F>, bool>>> {
-		using type = F C::*;
-	};
+		template<class F, class C>
+		struct c_func_impl<F, C, std::void_t<std::enable_if_t<mstd::is_function_v<F>, bool>>> {
+			using type = F C::*;
+		};
+
+		template<class F>
+		struct c_func_impl<F, void, std::void_t<std::enable_if_t<mstd::is_function_v<F>, bool>>> {
+			using type = F*;
+		};
+	}
 
 	template<class F>
-	struct _c_func_impl<F, void, std::void_t<std::enable_if_t<mstd::is_function_v<F>, bool>>> {
-		using type = F*;
-	};
-
-	template<class F>
-	using c_func_t = typename _c_func_impl<F, void>::type;
+	using c_func_t = _MSTD_TYPENAME17 utils::c_func_impl<F, void>::type;
 
 	template<class C, class F>
-	using c_member_func_t = typename _c_func_impl<F, C>::type;
+	using c_member_func_t = _MSTD_TYPENAME17 utils::c_func_impl<F, C>::type;
 
 	template<class... Args>
 	using c_action_t = c_func_t<void(Args...)>;

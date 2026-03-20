@@ -20,63 +20,64 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include <mstd/functions_libs.hpp>
 
 namespace mstd {
+	namespace utils {
 #pragma region DEFAULT_TYPE_TRAITS
-	template<bool member>
-	struct _function_default_type_traits {
-		static _MSTD_CONSTEXPR17 const bool is_std_function = false;
-		static _MSTD_CONSTEXPR17 const bool is_ptr = member;
-		static _MSTD_CONSTEXPR17 const bool is_ref = false;
-		static _MSTD_CONSTEXPR17 const bool is_moved = false;
-		static _MSTD_CONSTEXPR17 const bool is_functor = false;
-		static _MSTD_CONSTEXPR17 const bool is_member = member;
-		static _MSTD_CONSTEXPR17 const bool is_free = !member;
+		template<bool IsMember>
+		struct function_default_type_traits {
+			static _MSTD_CONSTEXPR17 const bool is_std_function = false;
+			static _MSTD_CONSTEXPR17 const bool is_ptr = IsMember;
+			static _MSTD_CONSTEXPR17 const bool is_ref = false;
+			static _MSTD_CONSTEXPR17 const bool is_moved = false;
+			static _MSTD_CONSTEXPR17 const bool is_functor = false;
+			static _MSTD_CONSTEXPR17 const bool is_member = IsMember;
+			static _MSTD_CONSTEXPR17 const bool is_free = !IsMember;
 
-		static _MSTD_CONSTEXPR17 const bool is_parent_ref = false;
-		static _MSTD_CONSTEXPR17 const bool is_parent_moved = false;
-		static _MSTD_CONSTEXPR17 const bool is_const = false;
-		static _MSTD_CONSTEXPR17 const bool is_noexcept = false;
-		static _MSTD_CONSTEXPR17 const bool is_volatile = false;
-	};
+			static _MSTD_CONSTEXPR17 const bool is_parent_ref = false;
+			static _MSTD_CONSTEXPR17 const bool is_parent_moved = false;
+			static _MSTD_CONSTEXPR17 const bool is_const = false;
+			static _MSTD_CONSTEXPR17 const bool is_noexcept = false;
+			static _MSTD_CONSTEXPR17 const bool is_volatile = false;
+		};
 #pragma endregion
 
 #pragma region CORE_TRAITS
-	template<class F, class C = void>
-	struct _function_core_traits;
+		template<class F, class C = void>
+		struct function_core_traits;
 
-	template<class R, class... Args>
-	struct _function_core_traits<R(Args...), void> {
-		using core_function_type = R(Args...);
-		using std_function_type = std::function<R(Args...)>;
+		template<class R, class... Args>
+		struct function_core_traits<R(Args...), void> {
+			using core_function_type = R(Args...);
+			using std_function_type = std::function<R(Args...)>;
 
-		using return_type = R;
-		using decayed_return_type = std::decay_t<R>;
+			using return_type = R;
+			using decayed_return_type = std::decay_t<R>;
 
-		using args_tuple = std::tuple<Args...>;
-		using decayed_args_tuple = std::tuple<std::decay_t<Args>...>;
-		static _MSTD_CONSTEXPR17 const size_t args_num = sizeof...(Args);
+			using args_tuple = std::tuple<Args...>;
+			using decayed_args_tuple = std::tuple<std::decay_t<Args>...>;
+			static _MSTD_CONSTEXPR17 const size_t args_num = sizeof...(Args);
 
-		template<size_t N>
-		using arg_type = typename std::tuple_element_t<N, args_tuple>;
-		template<size_t N>
-		using decayed_arg_type = typename std::tuple_element_t<N, decayed_args_tuple>;
-	};
+			template<size_t N>
+			using arg_type = _MSTD_TYPENAME17 std::tuple_element_t<N, args_tuple>;
+			template<size_t N>
+			using decayed_arg_type = _MSTD_TYPENAME17 std::tuple_element_t<N, decayed_args_tuple>;
+		};
 
-	template<class R, class... Args, class C>
-	struct _function_core_traits<R(Args...), C> : _function_core_traits<R(Args...)> {
-		using parent_type = C;
-	};
+		template<class R, class... Args, class C>
+		struct function_core_traits<R(Args...), C> : utils::function_core_traits<R(Args...)> {
+			using parent_type = C;
+		};
 #pragma endregion
-
+	}
 #pragma region FUNCTION_TRAITS
 	template<class F, class C = void>
-	struct function_traits : _function_default_type_traits<false> {
+	struct function_traits : utils::function_default_type_traits<false> {
 		static _MSTD_CONSTEXPR17 const bool is_free = false;
 	};
 
 #pragma region STATIC
 	// global/static
 	template<class R, class... Args>
-	struct function_traits<R(Args...)> : _function_core_traits<R(Args...)>, _function_default_type_traits<false> {
+	struct function_traits<R(Args...)> : utils::function_core_traits<R(Args...)>, utils::function_default_type_traits<false> {
 		using function_type = R(Args...);
 	};
 
@@ -92,7 +93,7 @@ namespace mstd {
 #pragma region MEMBER
 	// member
 	template<class R, class... Args, class C>
-	struct function_traits<R(Args...), C> : _function_core_traits<R(Args...), C>, _function_default_type_traits<true> {
+	struct function_traits<R(Args...), C> : utils::function_core_traits<R(Args...), C>, utils::function_default_type_traits<true> {
 		using function_type = R(Args...);
 	};
 
@@ -531,33 +532,33 @@ namespace mstd {
 
 #pragma region CORE_TRAITS
 	template<class F>
-	using function_type_t = typename function_traits<F>::function_type;
+	using function_type_t = _MSTD_TYPENAME17 function_traits<F>::function_type;
 	template<class F>
-	using core_function_type_t = typename function_traits<F>::core_function_type;
+	using core_function_type_t = _MSTD_TYPENAME17 function_traits<F>::core_function_type;
 
 	template<class F>
-	using as_std_function_t = typename function_traits<F>::std_function_type;
+	using as_std_function_t = _MSTD_TYPENAME17 function_traits<F>::std_function_type;
 
 	template<class F>
-	using function_return_t = typename function_traits<F>::return_type;
+	using function_return_t = _MSTD_TYPENAME17 function_traits<F>::return_type;
 	template<class F>
-	using function_decayed_return_t = typename function_traits<F>::decayed_return_type;
+	using function_decayed_return_t = _MSTD_TYPENAME17 function_traits<F>::decayed_return_type;
 
 	template<class F>
-	using function_args_t = typename function_traits<F>::args_tuple;
+	using function_args_t = _MSTD_TYPENAME17 function_traits<F>::args_tuple;
 	template<class F>
-	using function_decayed_args_t = typename function_traits<F>::decayed_args_tuple;
+	using function_decayed_args_t = _MSTD_TYPENAME17 function_traits<F>::decayed_args_tuple;
 
 	template<class F>
 	static _MSTD_CONSTEXPR17 const size_t function_args_num_v = function_traits<F>::args_num;
 
 	template<class F, size_t N>
-	using function_arg_t = typename function_traits<F>::template arg_type<N>;
+	using function_arg_t = _MSTD_TYPENAME17 function_traits<F>::template arg_type<N>;
 	template<class F, size_t N>
-	using function_decayed_arg_t = typename function_traits<F>::template decayed_arg_type<N>;
+	using function_decayed_arg_t = _MSTD_TYPENAME17 function_traits<F>::template decayed_arg_type<N>;
 
 	template<class F>
-	using function_parent_t = typename function_traits<F>::parent_type;
+	using function_parent_t = _MSTD_TYPENAME17 function_traits<F>::parent_type;
 #pragma endregion
 
 	#pragma region IS_CALLABLE

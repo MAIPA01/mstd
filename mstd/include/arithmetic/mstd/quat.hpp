@@ -59,7 +59,7 @@ namespace mstd {
 		template<class OT, std::enable_if_t<std::is_arithmetic_v<OT>, bool> = true>
 #endif
 		_MSTD_CONSTEXPR20 quat<T>& operator=(const quat<OT>& other) {
-			s = (T)other.s;
+			s = static_cast<T>(other.s);
 			v = other.v;
 			return *this;
 		}
@@ -67,37 +67,39 @@ namespace mstd {
 
 #pragma region PREDEFINED_QUATERNIONS
 		static _MSTD_CONSTEXPR20 quat<T> rotation(const vec_type& axis, const T& radians) {
+			_MSTD_CONSTEXPR17 const double half = 0.5;
+
 			quat<T> q;
 			if (!axis.is_zero()) {
-				q = quat<T>((T)std::cos(radians * 0.5), axis.normalized() * (T)std::sin(radians * 0.5));
+				q = quat<T>(static_cast<T>(std::cos(radians * half)), axis.normalized() * static_cast<T>(std::sin(radians * half)));
 			}
 			else {
-				q = quat<T>((T)std::cos(radians * 0.5), axis);
+				q = quat<T>(static_cast<T>(std::cos(radians * half)), axis);
 			}
-			if (q.magnitude() != T(0)) q.normalize();
+			if (q.magnitude() != static_cast<T>(0)) q.normalize();
 			return q;
 		}
 
-		static _MSTD_CONSTEXPR20 quat<T> from_euler_angels(const vec_type& euler_angels) {
-			return from_radians({ deg_to_rad(euler_angels[static_cast<size_t>(0u)]), 
-				deg_to_rad(euler_angels[static_cast<size_t>(1u)]), deg_to_rad(euler_angels[static_cast<size_t>(2u)]) });
+		static _MSTD_CONSTEXPR20 quat<T> from_euler_angels(const vec_type& eulerAngels) {
+			return from_radians({ deg_to_rad(eulerAngels[0]),
+				deg_to_rad(eulerAngels[1]), deg_to_rad(eulerAngels[2]) });
 		}
 
 		static _MSTD_CONSTEXPR20 quat<T> from_radians(const vec_type& radians) {
-			quat<T> qx = rotation(vec_type(T(1), T(0), T(0)), radians[static_cast<size_t>(0u)]);
-			quat<T> qy = rotation(vec_type(T(0), T(1), T(0)), radians[static_cast<size_t>(1u)]);
-			quat<T> qz = rotation(vec_type(T(0), T(0), T(1)), radians[static_cast<size_t>(2u)]);
+			quat<T> qx = rotation(vec_type(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0)), radians[0]);
+			quat<T> qy = rotation(vec_type(static_cast<T>(0), static_cast<T>(1), static_cast<T>(0)), radians[1]);
+			quat<T> qz = rotation(vec_type(static_cast<T>(0), static_cast<T>(0), static_cast<T>(1)), radians[2]);
 
 			// ZYX convention
 			quat<T> q = qz * qy * qx;
-			if (q.magnitude() != T(0)) q.normalize();
+			if (q.magnitude() != static_cast<T>(0)) q.normalize();
 			return q;
 		}
 #pragma endregion // PREDEFINED_QUATERNIONS
 
 #pragma region QUATERNION_OPERATIONS
 		_MSTD_CONSTEXPR20 T magnitude() const {
-			return std::sqrt(s * s + v.dot(v));
+			return std::sqrt((s * s) + v.dot(v));
 		}
 
 		_MSTD_CONSTEXPR20 quat<T>& normalize() {
@@ -122,7 +124,7 @@ namespace mstd {
 		_MSTD_CONSTEXPR20 quat<T>& invert() {
 			T magnitudes = magnitude();
 			magnitudes *= magnitudes;
-			magnitudes = (T)(1.0 / magnitudes);
+			magnitudes = static_cast<T>(1.0 / magnitudes);
 
 			conjugate();
 
@@ -137,45 +139,42 @@ namespace mstd {
 		}
 
 		_MSTD_CONSTEXPR20 vec_type to_radians() const {
+			_MSTD_CONSTEXPR17 const double two = 2.0;
+			_MSTD_CONSTEXPR17 const double half = 0.5;
+
 			vec_type res;
 			quat<T> q = *this;
 
-			if (q.magnitude() != T(0)) q.normalize();
+			if (q.magnitude() != static_cast<T>(0)) q.normalize();
 
 			// roll (x-axis rotation)
-			T sinx_cosp = (T)(2.0 * (q.s * q.v[static_cast<size_t>(0u)] 
-				+ q.v[static_cast<size_t>(1u)] * q.v[static_cast<size_t>(2u)]));
-			T cosx_cosp = (T)(1.0 - 2.0 * (q.v[static_cast<size_t>(0u)] 
-				* q.v[static_cast<size_t>(0u)] + q.v[static_cast<size_t>(1u)] * q.v[static_cast<size_t>(1u)]));
-			res[static_cast<size_t>(0)] = (T)std::atan2(sinx_cosp, cosx_cosp);
+			T sinxCosp = static_cast<T>(two * ((q.s * q.v[0]) + (q.v[1] * q.v[2])));
+			T cosxCosp = static_cast<T>(1.0 - (two * ((q.v[0] * q.v[0]) + (q.v[1] * q.v[1]))));
+			res[0] = static_cast<T>(std::atan2(sinxCosp, cosxCosp));
 
 			// pitch (y-axis rotation)
-			T siny = (T)std::sqrt(1.0 + 2.0 * (q.s * q.v[static_cast<size_t>(1u)] 
-				- q.v[static_cast<size_t>(0u)] * q.v[static_cast<size_t>(2u)]));
-			T cosy = (T)std::sqrt(1.0 - 2.0 * (q.s * q.v[static_cast<size_t>(1u)] 
-				- q.v[static_cast<size_t>(0u)] * q.v[static_cast<size_t>(2u)]));
-			res[static_cast<size_t>(1)] = (T)(2.0 * std::atan2(siny, cosy) - M_PI / 2.0);
+			T siny = static_cast<T>(std::sqrt(1.0 + (two * ((q.s * q.v[1]) - (q.v[0] * q.v[2])))));
+			T cosy = static_cast<T>(std::sqrt(1.0 - (two * ((q.s * q.v[1]) - (q.v[0] * q.v[2])))));
+			res[1] = static_cast<T>((two * std::atan2(siny, cosy)) - (M_PI * half));
 
 			// yaw (z-axis rotation)
-			T sinz_cosp = (T)(2.0 * (q.s * q.v[static_cast<size_t>(2u)] 
-				+ q.v[static_cast<size_t>(0u)] * q.v[static_cast<size_t>(1u)]));
-			T cosz_cosp = (T)(1.0 - 2.0 * (q.v[static_cast<size_t>(1u)] * q.v[static_cast<size_t>(1u)] 
-				+ q.v[static_cast<size_t>(2u)] * q.v[static_cast<size_t>(2u)]));
-			res[static_cast<size_t>(2)] = (T)std::atan2(sinz_cosp, cosz_cosp);
+			T sinzCosp = static_cast<T>(two * ((q.s * q.v[2]) + (q.v[0] * q.v[1])));
+			T coszCosp = static_cast<T>(1.0 - (two * ((q.v[1] * q.v[1]) + (q.v[2] * q.v[2]))));
+			res[2] = static_cast<T>(std::atan2(sinzCosp, coszCosp));
 
 			return res;
 		}
 
 		_MSTD_CONSTEXPR20 vec_type to_euler_angles() const {
 			vec_type res = to_radians();
-			res[static_cast<size_t>(0u)] = rad_to_deg(res[static_cast<size_t>(0u)]);
-			res[static_cast<size_t>(1u)] = rad_to_deg(res[static_cast<size_t>(1u)]);
-			res[static_cast<size_t>(2u)] = rad_to_deg(res[static_cast<size_t>(2u)]);
+			res[0] = rad_to_deg(res[0]);
+			res[1] = rad_to_deg(res[1]);
+			res[2] = rad_to_deg(res[2]);
 			return res;
 		}
 
 		_MSTD_CONSTEXPR20 T scalar(const quat<T>& other) {
-			return s * other.s + v.dot(other.v);
+			return (s * other.s) + v.dot(other.v);
 		}
 #pragma endregion // QUATERNION_OPERATIONS
 
@@ -192,12 +191,12 @@ namespace mstd {
 		}
 		_MSTD_CONSTEXPR20 quat<T>& operator*=(const quat<T>& other) {
 			T t = s;
-			s = s * other.s - v.dot(other.v);
-			v = other.v * t + v * other.s + v.cross(other.v);
+			s = (s * other.s) - v.dot(other.v);
+			v = (other.v * t) + (v * other.s) + v.cross(other.v);
 			return *this;
 		}
 		_MSTD_CONSTEXPR20 quat<T>& operator*=(const vec_type& other) {
-			quat<T> p(T(0), other);
+			quat<T> p(static_cast<T>(0), other);
 			*this = p;
 			return *this;
 		}

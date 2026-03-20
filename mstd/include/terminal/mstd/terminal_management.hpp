@@ -23,14 +23,14 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 namespace mstd {
     inline void get_terminal_size(int& width, int& height) {
-#if defined(_WIN32)
+#ifdef _WIN32
         width = 0;
         height = 0;
 
         CONSOLE_SCREEN_BUFFER_INFO csbi;
         GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-        width = static_cast<int>(csbi.srWindow.Right - csbi.srWindow.Left + 1);
-        height = static_cast<int>(csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
+        width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+        height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 #elif defined(__linux__) || defined(__APPLE__)
         struct winsize w;
         ioctl(fileno(stdout), TIOCGWINSZ, &w);

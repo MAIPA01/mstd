@@ -39,6 +39,6 @@ namespace mstd::test {
 		ASSERT_FLOAT_EQ(mstd::fract(1.2f), 0.2f);
 
 		// Q_rstqr
-		ASSERT_FLOAT_EQ(mstd::Q_rsqrt(2.f), 0.70693f);
+		ASSERT_FLOAT_EQ(mstd::q_rsqrt(2.f), 0.70693f);
 	}
 }

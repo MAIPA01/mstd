@@ -31,7 +31,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include <mstd/terminal.hpp>
 #include <mstd/string.hpp>
 #include <mstd/events.hpp>
-#include <mstd/utils.hpp>
+#include <mstd/management.hpp>
 
 #endif
 #endif

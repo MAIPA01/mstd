@@ -32,29 +32,29 @@ namespace mstd {
 		using _data_type = std::vector<T>;
 
 	public:
-		using size_type = typename _data_type::size_type;
-		using difference_type = typename _data_type::difference_type;
-		using iterator = typename _data_type::iterator;
-		using const_iterator = typename _data_type::const_iterator;
-		using reverse_iterator = typename _data_type::reverse_iterator;
-		using const_reverse_iterator = typename _data_type::const_reverse_iterator;
+		using size_type = _MSTD_TYPENAME17 _data_type::size_type;
+		using difference_type = _MSTD_TYPENAME17 _data_type::difference_type;
+		using iterator = _MSTD_TYPENAME17 _data_type::iterator;
+		using const_iterator = _MSTD_TYPENAME17 _data_type::const_iterator;
+		using reverse_iterator = _MSTD_TYPENAME17 _data_type::reverse_iterator;
+		using const_reverse_iterator = _MSTD_TYPENAME17 _data_type::const_reverse_iterator;
 
 	private:
 		using _data_index_type = std::vector<size_type>;
 		using _id_type = std::vector<size_type>;
 
-		_data_index_type _data_index;
+		_data_index_type _dataIndex;
 		_id_type _id;
 		_data_type _data;
 
 		_MSTD_CONSTEXPR20 void _append_indexes(size_type count) {
-			size_type new_size = _data_index.size() + count;
+			size_type newSize = _dataIndex.size() + count;
 
-			_id.reserve(new_size);
-			_data_index.reserve(new_size);
+			_id.reserve(newSize);
+			_dataIndex.reserve(newSize);
 
-			for (size_type i = _data_index.size(); i < new_size; ++i) {
-				_data_index.push_back(i);
+			for (size_type i = _dataIndex.size(); i < newSize; ++i) {
+				_dataIndex.push_back(i);
 				_id.push_back(i);
 			}
 		}
@@ -76,8 +76,12 @@ namespace mstd {
 			_append_indexes(_data.size());
 		}
 
-		template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
-		_MSTD_CONSTEXPR20 stable_vector(const _Iter& begin, const _Iter& end) : _data(begin, end) {
+#if _MSTD_HAS_CXX20
+		template<mstd::iterator Iter>
+#else
+		template<class Iter, std::enable_if_t<is_iterator_v<Iter>, bool> = true>
+#endif
+		_MSTD_CONSTEXPR20 stable_vector(const Iter& begin, const Iter& end) : _data(begin, end) {
 			_append_indexes(_data.size());
 		}
 
@@ -106,8 +110,12 @@ namespace mstd {
 			return _data.insert(_data.cend(), count, value);
 		}
 
-		template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
-		_MSTD_CONSTEXPR20 iterator insert(_Iter first, _Iter last) {
+#if _MSTD_HAS_CXX20
+		template<mstd::iterator Iter>
+#else
+		template<class Iter, std::enable_if_t<is_iterator_v<Iter>, bool> = true>
+#endif
+		_MSTD_CONSTEXPR20 iterator insert(Iter first, Iter last) {
 			size_type count = std::distance(first, last);
 			_append_indexes(count - (size() - _data.size()));
 			return _data.insert(_data.cend(), first, last);
@@ -121,8 +129,8 @@ namespace mstd {
 #pragma region INSERT_AT_IDX
 		_MSTD_CONSTEXPR20 iterator insert_at(size_type id, const T& value) {
 			if (has_value(id)) {
-				_data[_data_index[id]] = value;
-				return std::next(_data.begin() + _data_index[id]);
+				_data[_dataIndex[id]] = value;
+				return std::next(_data.begin() + _dataIndex[id]);
 			}
 
 			_append_indexes(id + 1 - size());
@@ -131,13 +139,13 @@ namespace mstd {
 			auto iter = _data.insert(_data.cend(), value);
 
 			if (_data.size() != size()) {
-				size_type to_swap_id = _id[_data.size() - 1];
+				size_type toSwapId = _id[_data.size() - 1];
 
 				// swap ids
 				std::swap(_id[_data.size() - 1], _id[id]);
 
 				// swap indexes
-				std::swap(_data_index[to_swap_id], _data_index[id]);
+				std::swap(_dataIndex[toSwapId], _dataIndex[id]);
 			}
 
 			return iter;
@@ -145,8 +153,8 @@ namespace mstd {
 
 		_MSTD_CONSTEXPR20 iterator insert_at(size_type id, T&& value) {
 			if (has_value(id)) {
-				_data[_data_index[id]] = value;
-				return std::next(_data.begin() + _data_index[id]);
+				_data[_dataIndex[id]] = value;
+				return std::next(_data.begin() + _dataIndex[id]);
 			}
 
 			_append_indexes(id + 1 - size());
@@ -155,13 +163,13 @@ namespace mstd {
 			auto iter = _data.insert(_data.cend(), value);
 
 			if (_data.size() != size()) {
-				size_type to_swap_id = _id[_data.size() - 1];
+				size_type toSwapId = _id[_data.size() - 1];
 
 				// swap ids
 				std::swap(_id[_data.size() - 1], _id[id]);
 
 				// swap indexes
-				std::swap(_data_index[to_swap_id], _data_index[id]);
+				std::swap(_dataIndex[toSwapId], _dataIndex[id]);
 			}
 
 			return iter;
@@ -175,11 +183,15 @@ namespace mstd {
 			return iter;
 		}
 
-		template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
-		_MSTD_CONSTEXPR20 iterator insert_at(size_type id, _Iter first, _Iter last) {
+#if _MSTD_HAS_CXX20
+		template<mstd::iterator Iter>
+#else
+		template<class Iter, std::enable_if_t<is_iterator_v<Iter>, bool> = true>
+#endif
+		_MSTD_CONSTEXPR20 iterator insert_at(size_type id, Iter first, Iter last) {
 			iterator iter = insert(id, *first);
 			++id;
-			for (_Iter it = std::next(first); it != last; ++it, ++id) {
+			for (Iter it = std::next(first); it != last; ++it, ++id) {
 				insert(id, *it);
 			}
 			return iter;
@@ -203,8 +215,12 @@ namespace mstd {
 			return insert(_id[std::distance(_data.begin(), pos)], count, value);
 		}
 
-		template<class _Iter, std::enable_if_t<std::_Is_iterator_v<_Iter>, bool> = true>
-		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, _Iter first, _Iter last) {
+#if _MSTD_HAS_CXX20
+		template<mstd::iterator Iter>
+#else
+		template<class Iter, std::enable_if_t<is_iterator_v<Iter>, bool> = true>
+#endif
+		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, Iter first, Iter last) {
 			return insert(_id[std::distance(_data.begin(), pos)], first, last);
 		}
 
@@ -254,24 +270,24 @@ namespace mstd {
 			}
 
 			// get data index
-			size_t index = _data_index[id];
-			size_t last_index = _data.size() - 1;
+			size_t index = _dataIndex[id];
+			size_t lastIndex = _data.size() - 1;
 
 			// swap data
-			std::swap(_data[index], _data[last_index]);
+			std::swap(_data[index], _data[lastIndex]);
 
 			// swap ids
-			std::swap(_id[index], _id[last_index]);
+			std::swap(_id[index], _id[lastIndex]);
 
 			// erase last item
 			auto itr = _data.erase(std::prev(_data.cend()));
 
 			// update indexes
-			std::swap(_data_index[_id[index]], _data_index[id]);
+			std::swap(_dataIndex[_id[index]], _dataIndex[id]);
 
 			// change size if it is possible
-			if (_data_index[last_index] == last_index) {
-				_data_index.erase(std::prev(_data_index.cend()));
+			if (_dataIndex[lastIndex] == lastIndex) {
+				_dataIndex.erase(std::prev(_dataIndex.cend()));
 				_id.erase(std::prev(_id.cend()));
 			}
 
@@ -309,7 +325,7 @@ namespace mstd {
 		}
 
 		_MSTD_CONSTEXPR20 void reserve(size_type capacity) {
-			_data_index.reserve(capacity);
+			_dataIndex.reserve(capacity);
 			_id.reserve(capacity);
 			_data.reserve(capacity);
 		}
@@ -327,47 +343,47 @@ namespace mstd {
 		_MSTD_CONSTEXPR20 void swap(stable_vector& other) noexcept {
 			_data.swap(other._data);
 			_id.swap(other._id);
-			_data_index.swap(other._data_index);
+			_dataIndex.swap(other._dataIndex);
 		}
 
 		_MSTD_CONSTEXPR20 void clear() {
-			_data_index.clear();
+			_dataIndex.clear();
 			_id.clear();
 			_data.clear();
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 T& front() {
 			mstd_assert(has_value(0), "Index is a pointer to empty element");
-			return _data[_data_index.front()];
+			return _data[_dataIndex.front()];
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 const T& front() const {
 			mstd_assert(has_value(0), "Index is a pointer to empty element");
-			return _data[_data_index.front()];
+			return _data[_dataIndex.front()];
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 T& back() {
 			mstd_assert(has_value(size() - 1), "Index is a pointer to empty element");
-			return _data[_data_index.back()];
+			return _data[_dataIndex.back()];
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 const T& back() const {
 			mstd_assert(has_value(size() - 1), "Index is a pointer to empty element");
-			return _data[_data_index.back()];
+			return _data[_dataIndex.back()];
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 iterator get(size_type id) {
 			mstd_assert(id < size(), "Index out of bounds");
 			mstd_assert(has_value(id), "Index is a pointer to empty element");
 
-			return std::next(begin(), _data_index[id]);
+			return std::next(begin(), _dataIndex[id]);
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator get(size_type id) const {
 			mstd_assert(id < size(), "Index out of bounds");
 			mstd_assert(has_value(id), "Index is a pointer to empty element");
 
-			return std::next(cbegin(), _data_index[id]);
+			return std::next(cbegin(), _dataIndex[id]);
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 iterator try_get(size_type id) {
@@ -390,14 +406,14 @@ namespace mstd {
 			mstd_assert(id < size(), "Index out of bounds");
 			mstd_assert(has_value(id), "Index is a pointer to empty element");
 
-			return _data[_data_index[id]];
+			return _data[_dataIndex[id]];
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 const T& at(size_type id) const {
 			mstd_assert(id < size(), "Index out of bounds");
 			mstd_assert(has_value(id), "Index is a pointer to empty element");
 
-			return _data[_data_index[id]];
+			return _data[_dataIndex[id]];
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 T* try_at(size_type id) {
@@ -435,11 +451,11 @@ namespace mstd {
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 size_type size() const {
-			return _data_index.size();
+			return _dataIndex.size();
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 size_type capacity() const {
-			return _data_index.capacity();
+			return _dataIndex.capacity();
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 size_type max_size() const {
@@ -451,7 +467,7 @@ namespace mstd {
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool has_value(size_type id) const {
-			return id < size() && _data_index[id] < _data.size();
+			return id < size() && _dataIndex[id] < _data.size();
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool has_value(iterator pos) const {
@@ -492,7 +508,7 @@ namespace mstd {
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(const stable_vector& other) const {
-			return _data == other._data && _id == other._id && _data_index == other._data_index;
+			return _data == other._data && _id == other._id && _dataIndex == other._dataIndex;
 		}
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(const stable_vector& other) const {
 			return !(*this == other);
@@ -500,23 +516,23 @@ namespace mstd {
 
 #if _MSTD_HAS_CXX20
 		[[nodiscard]] _MSTD_CONSTEXPR20 auto operator<=>(const stable_vector& other) const {
-			return _data <=> other._data && _id <=> other._id && _data_index <=> other._data_index;
+			return _data <=> other._data && _id <=> other._id && _dataIndex <=> other._dataIndex;
 		}
 #else
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<(const stable_vector& other) const {
-			return _data < other._data && _id < other._id && _data_index < other._data_index;
+			return _data < other._data && _id < other._id && _dataIndex < other._dataIndex;
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<=(const stable_vector& other) const {
-			return _data <= other._data && _id <= other._id && _data_index <= other._data_index;
+			return _data <= other._data && _id <= other._id && _dataIndex <= other._dataIndex;
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>(const stable_vector& other) const {
-			return _data > other._data && _id > other._id && _data_index > other._data_index;
+			return _data > other._data && _id > other._id && _dataIndex > other._dataIndex;
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>=(const stable_vector& other) const {
-			return _data >= other._data && _id >= other._id && _data_index >= other._data_index;
+			return _data >= other._data && _id >= other._id && _dataIndex >= other._dataIndex;
 		}
 #endif
 	};

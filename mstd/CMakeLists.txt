@@ -2,7 +2,7 @@
 set(PROJECT_HEADERS ${PROJECT_NAME}_HEADERS)
 set(BUILD_HEADERS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-file(GLOB HEADERS_PATHS LIST_DIRECTORIES true LIST_FILES false ${BUILD_HEADERS_PATH}/*)
+file(GLOB HEADERS_PATHS CONFIGURE_DEPENDS LIST_DIRECTORIES true LIST_FILES false ${BUILD_HEADERS_PATH}/*)
 
 set(${PROJECT_HEADERS} "")
 foreach(DIR ${HEADERS_PATHS})
@@ -15,7 +15,21 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${${PROJECT_HEADERS}})
 # make library
 add_library(${PROJECT_NAME} INTERFACE ${${PROJECT_HEADERS}})
 
-enable_clang_tidy(${PROJECT_NAME})
+if(CHECK_MSTD_CLANG_TIDY)
+    if(MSTD_ENABLE_CXX20)
+        set(CLANG_TIDY_CXX_STANDARD c++20)
+    else()
+        set(CLANG_TIDY_CXX_STANDARD c++17)
+    endif()
+
+    enable_clang_tidy(
+            TARGET ${PROJECT_NAME}
+            CONFIG "${CMAKE_SOURCE_DIR}/.clang-tidy"
+            CXX_STANDARD ${CLANG_TIDY_CXX_STANDARD}
+            HEADER_FILTER "^${CMAKE_SOURCE_DIR}[\\\\\/\\\\]mstd[\\\\\/\\\\].*"
+            EXCLUDE_HEADER_FILTER "^${CMAKE_SOURCE_DIR}[\\\\\/\\\\]third_party[\\\\\/\\\\].*"
+    )
+endif()
 
 target_compile_features(${PROJECT_NAME} INTERFACE $<IF:$<BOOL:${MSTD_ENABLE_CXX20}>, cxx_std_20, cxx_std_17>)
 

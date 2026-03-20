@@ -22,105 +22,114 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 namespace mstd {
 #if _MSTD_HAS_CXX20
-	template<arithmetic _N, arithmetic _Na, arithmetic _Nb>
+	template<arithmetic N, arithmetic Na, arithmetic Nb>
 #else
-	template<class _N, class _Na, class _Nb, std::enable_if_t<are_arithmetic_v<_N, _Na, _Nb>, bool> = true>
+	template<class N, class Na, class Nb, std::enable_if_t<are_arithmetic_v<N, Na, Nb>, bool> = true>
 #endif
-	inline _MSTD_CONSTEXPR20 bool add_overflow(const _Na& a, const _Nb& b, _N& out) {
-		if _MSTD_CONSTEXPR17 (are_unsigned_v<_N, _Na, _Nb>) {
-			if (a > std::numeric_limits<_N>::max() - b) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool add_overflow(const Na& a, const Nb& b, N& out) {
+		using limits = std::numeric_limits<N>;
+
+		if _MSTD_CONSTEXPR17 (are_unsigned_v<N, Na, Nb>) {
+			if (a > limits::max() - b) {
 				return true;
 			}
 		}
 		else {
-			if (b >= 0 && a > std::numeric_limits<_N>::max() - b) {
+			if (b >= 0 && a > limits::max() - b) {
 				return true;
 			}
 
-			if (b <= 0 && a < std::numeric_limits<_N>::min() - b) {
+			if (b <= 0 && a < limits::min() - b) {
 				return true;
 			}
 		}
 
-		out = static_cast<_N>(a + b);
+		out = static_cast<N>(a + b);
 		return false;
 	}
 
 #if _MSTD_HAS_CXX20
-	template<arithmetic _N, arithmetic _Na, arithmetic _Nb>
+	template<arithmetic N, arithmetic Na, arithmetic Nb>
 #else
-	template<class _N, class _Na, class _Nb, std::enable_if_t<are_arithmetic_v<_N, _Na, _Nb>, bool> = true>
+	template<class N, class Na, class Nb, std::enable_if_t<are_arithmetic_v<N, Na, Nb>, bool> = true>
 #endif
-	inline _MSTD_CONSTEXPR20 bool sub_overflow(const _Na& a, const _Nb& b, _N& out) {
-		if _MSTD_CONSTEXPR17(are_unsigned_v<_N, _Na, _Nb>) {
-			if (a < std::numeric_limits<_N>::min() + b) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool sub_overflow(const Na& a, const Nb& b, N& out) {
+		using limits = std::numeric_limits<N>;
+
+		if _MSTD_CONSTEXPR17(are_unsigned_v<N, Na, Nb>) {
+			if (a < limits::min() + b) {
 				return true;
 			}
 		}
 		else {
-			if (b <= 0 && a > std::numeric_limits<_N>::max() + b) {
+			if (b <= 0 && a > limits::max() + b) {
 				return true;
 			}
 
-			if (b >= 0 && a < std::numeric_limits<_N>::min() + b) {
+			if (b >= 0 && a < limits::min() + b) {
 				return true;
 			}
 		}
 
-		out = static_cast<_N>(a - b);
+		out = static_cast<N>(a - b);
 		return false;
 	}
 
 #if _MSTD_HAS_CXX20
-	template<arithmetic _N, arithmetic _Na, arithmetic _Nb>
+	template<arithmetic N, arithmetic Na, arithmetic Nb>
 #else
-	template<class _N, class _Na, class _Nb, std::enable_if_t<are_arithmetic_v<_N, _Na, _Nb>, bool> = true>
+	template<class N, class Na, class Nb, std::enable_if_t<are_arithmetic_v<N, Na, Nb>, bool> = true>
 #endif
-	inline _MSTD_CONSTEXPR20 bool mul_overflow(const _Na& a, const _Nb& b, _N& out) {
-		if _MSTD_CONSTEXPR17 (are_unsigned_v<_N, _Na, _Nb>) {
-			if (a != 0 && b != 0 && a > std::numeric_limits<_N>::max() / b) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool mul_overflow(const Na& a, const Nb& b, N& out) {
+		using limits = std::numeric_limits<N>;
+
+		if _MSTD_CONSTEXPR17 (are_unsigned_v<N, Na, Nb>) {
+			if (a != 0 && b != 0 && a > limits::max() / b) {
 				return true;
 			}
 		}
 		else {
 			if (a != 0 && b != 0) {
-				if (a == -1 && b == std::numeric_limits<_N>::min()) {
+				if (a == -1 && b == static_cast<Nb>(limits::min())) {
 					return true;
 				}
 
-				if (a == std::numeric_limits<_N>::min() && b == -1) {
+				if (a == limits::min() && b == static_cast<Nb>(-1)) {
 					return true;
 				}
 
-				if (a > std::numeric_limits<_N>::max() / b) {
+				if (a > static_cast<Na>(limits::max() / b)) {
 					return true;
 				}
 
-				if (a < std::numeric_limits<_N>::min() / b) {
+				if (a < static_cast<Na>(limits::min() / b)) {
 					return true;
 				}
 			}
 		}
 
-		out = static_cast<_N>(a * b);
+		out = static_cast<N>(a * b);
 		return false;
 	}
 
 #if _MSTD_HAS_CXX20
-	template<arithmetic _N, arithmetic _Na, arithmetic _Nb>
+	template<arithmetic N, arithmetic Na, arithmetic Nb>
 #else
-	template<class _N, class _Na, class _Nb, std::enable_if_t<are_arithmetic_v<_N, _Na, _Nb>, bool> = true>
+	template<class N, class Na, class Nb, std::enable_if_t<are_arithmetic_v<N, Na, Nb>, bool> = true>
 #endif
-	inline _MSTD_CONSTEXPR20 bool div_overflow(const _Na& a, const _Nb& b, _N& out) {
-		if _MSTD_CONSTEXPR17 (are_unsigned_v<_N, _Na, _Nb>) {
-			out = static_cast<_N>(b == 0 ? std::numeric_limits<_N>::max() : a / b);
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool div_overflow(const Na& a, const Nb& b, N& out) {
+		using limits = std::numeric_limits<N>;
+
+		if _MSTD_CONSTEXPR17 (are_unsigned_v<N, Na, Nb>) {
+			out = static_cast<N>(b == 0 ? limits::max() : a / b);
 		}
 		else {
-			if (a == std::numeric_limits<_N>::min() && b == -1) {
+			if (a == limits::min() && b == -1) {
 				return true;
 			}
 
-			out = static_cast<_N>(b == 0 ? (a < 0 ? std::numeric_limits<_N>::min() : std::numeric_limits<_N>::max()) : a / b);
+			N badValue = a < 0 ? limits::min() : limits::max();
+			out = static_cast<N>(b == 0 ? badValue : a / b);
 		}
 		return false;
 	}

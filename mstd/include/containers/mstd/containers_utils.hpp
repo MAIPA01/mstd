@@ -19,5 +19,23 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 #include <mstd/containers_libs.hpp>
 
+namespace mstd {
+	template <class T, class = void>
+	struct is_iterator : std::false_type {};
+
+	template <class T>
+	struct is_iterator<T, std::void_t<typename std::iterator_traits<T>::iterator_category>>
+		: std::true_type {
+	};
+
+	template <class T>
+	inline _MSTD_CONSTEXPR17 bool is_iterator_v = is_iterator<T>::value;
+
+#if _MSTD_HAS_CXX20
+	template<class T>
+	concept iterator = is_iterator_v<T>;
+#endif
+}
+
 #endif
 #endif

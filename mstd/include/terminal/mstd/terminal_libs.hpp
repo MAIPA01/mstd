@@ -21,7 +21,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 #include <algorithm>
 #include <iostream>
 
-#if defined(_WIN32)
+#ifdef _WIN32
 	#define VC_EXTRALEAN
 	#define NOMINMAX
 	#define WIN32_LEAN_AND_MEAN

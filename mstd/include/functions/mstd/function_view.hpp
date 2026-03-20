@@ -39,15 +39,15 @@ namespace mstd {
 																				(is_noexcept_function_v<F> &&
 																				is_noexcept_function_v<MemberFunc>));
 
-		template<class Functor, bool is_const, class F, class Ret, class... Args>
+		template<class Functor, bool IsConst, class F, class Ret, class... Args>
 		static _MSTD_CONSTEXPR17 const bool is_valid_functor_v = (is_same_function_v<F, Functor> ||
 																		std::is_invocable_r_v<Ret, Functor, Args...>) &&
 																	is_functor_v<Functor> &&
 																	(!is_noexcept_function_v<F> ||
 																		(is_noexcept_function_v<F> &&
 																		is_noexcept_function_v<Functor>)) &&
-																	(!is_const ||
-																		(is_const &&
+																	(!IsConst ||
+																		(IsConst &&
 																		is_const_function_v<Functor>));
 
 		#if _MSTD_HAS_CXX20
@@ -57,8 +57,8 @@ namespace mstd {
 		template<class MemberFunc, class F, class Ret, class... Args>
 		concept valid_member_function = is_valid_member_function_v<MemberFunc, F, Ret, Args...>;
 
-		template<class Functor, bool is_const, class F, class Ret, class... Args>
-		concept valid_functor = is_valid_functor_v<Functor, is_const, F, Ret, Args...>;
+		template<class Functor, bool IsConst, class F, class Ret, class... Args>
+		concept valid_functor = is_valid_functor_v<Functor, IsConst, F, Ret, Args...>;
 		#endif
 		#pragma endregion
 
@@ -69,20 +69,20 @@ namespace mstd {
 		struct base_function_view<F, Ret, std::tuple<Args...>> {
 		private:
 			template<class FreeFunc>
-			static _MSTD_CONSTEXPR17 const bool _is_valid_free_function_v = utils::is_valid_free_function_v<FreeFunc, F, Ret, Args...>;
+			static _MSTD_CONSTEXPR17 const bool is_valid_free_function_v = utils::is_valid_free_function_v<FreeFunc, F, Ret, Args...>;
 
 			template<class MemberFunc>
-			static _MSTD_CONSTEXPR17 const bool _is_valid_member_function_v = utils::is_valid_member_function_v<MemberFunc, F, Ret, Args...>;
+			static _MSTD_CONSTEXPR17 const bool is_valid_member_function_v = utils::is_valid_member_function_v<MemberFunc, F, Ret, Args...>;
 
-			template<class Functor, bool is_const>
-			static _MSTD_CONSTEXPR17 const bool _is_valid_functor_v = utils::is_valid_functor_v<Functor, is_const, F, Ret, Args...>;
+			template<class Functor, bool IsConst>
+			static _MSTD_CONSTEXPR17 const bool is_valid_functor_v = utils::is_valid_functor_v<Functor, IsConst, F, Ret, Args...>;
 
 			template<class FreeFunc>
 			static Ret _free_func_invoker(void* func, void*, Args&&... args) noexcept(is_noexcept_function_v<FreeFunc>) {
 				using func_ptr = c_func_t<function_type_t<FreeFunc>>;
 
-				func_ptr free_func = reinterpret_cast<func_ptr>(func);
-				return std::invoke(free_func, std::forward<Args>(args)...);
+				func_ptr freeFunc = reinterpret_cast<func_ptr>(func);
+				return std::invoke(freeFunc, std::forward<Args>(args)...);
 			}
 
 			template<class MemberFunc>
@@ -91,9 +91,9 @@ namespace mstd {
 				using parent_ptr = parent_type*;
 				using func_ptr = c_member_func_t<parent_type, function_type_t<MemberFunc>>;
 
-				parent_ptr parent_obj = static_cast<parent_type*>(parent);
-				func_ptr member_func = *reinterpret_cast<const func_ptr*>(func);
-				return std::invoke(member_func, parent_obj, std::forward<Args>(args)...);
+				parent_ptr parentObj = static_cast<parent_type*>(parent);
+				func_ptr memberFunc = *reinterpret_cast<const func_ptr*>(func);
+				return std::invoke(memberFunc, parentObj, std::forward<Args>(args)...);
 			}
 
 			template<class Functor>
@@ -126,32 +126,32 @@ namespace mstd {
 			#pragma region FREE_FUNCTIONS
 			#if _MSTD_HAS_CXX20
 			template<class FreeFunc>
-			requires(_is_valid_free_function_v<FreeFunc>)
+			requires(is_valid_free_function_v<FreeFunc>)
 			#else
-			template<class FreeFunc, std::enable_if_t<_is_valid_free_function_v<FreeFunc>, bool> = true>
+			template<class FreeFunc, std::enable_if_t<is_valid_free_function_v<FreeFunc>, bool> = true>
 			#endif
-			base_function_view(const FreeFunc& free_func) noexcept : _invoker(&_free_func_invoker<FreeFunc>) {
+			base_function_view(const FreeFunc& freeFunc) noexcept : _invoker(&_free_func_invoker<FreeFunc>) {
 				if _MSTD_CONSTEXPR17 (is_function_ptr_v<FreeFunc>) {
-					_func = reinterpret_cast<void*>(free_func);
+					_func = reinterpret_cast<void*>(freeFunc);
 				}
 				else {
-					_func = reinterpret_cast<void*>(&free_func);
+					_func = reinterpret_cast<void*>(&freeFunc);
 				}
 			}
 
 			#if _MSTD_HAS_CXX20
 			template<class FreeFunc>
-			requires(_is_valid_free_function_v<FreeFunc>)
+			requires(is_valid_free_function_v<FreeFunc>)
 			#else
-			template<class FreeFunc, std::enable_if_t<_is_valid_free_function_v<FreeFunc>, bool> = true>
+			template<class FreeFunc, std::enable_if_t<is_valid_free_function_v<FreeFunc>, bool> = true>
 			#endif
-			base_function_view& operator=(const FreeFunc& free_func) noexcept {
+			base_function_view& operator=(const FreeFunc& freeFunc) noexcept {
 				_invoker = &_free_func_invoker<FreeFunc>;
 				if _MSTD_CONSTEXPR17 (is_function_ptr_v<FreeFunc>) {
-					_func = reinterpret_cast<void*>(free_func);
+					_func = reinterpret_cast<void*>(freeFunc);
 				}
 				else {
-					_func = reinterpret_cast<void*>(&free_func);
+					_func = reinterpret_cast<void*>(&freeFunc);
 				}
 				return *this;
 			}
@@ -160,18 +160,18 @@ namespace mstd {
 			#pragma region MEMBER_FUNCTIONS
 			#if _MSTD_HAS_CXX20
 			template<class MemberFunc>
-			requires(_is_valid_member_function_v<MemberFunc>)
+			requires(is_valid_member_function_v<MemberFunc>)
 			#else
-			template<class MemberFunc, std::enable_if_t<_is_valid_member_function_v<MemberFunc>, bool> = true>
+			template<class MemberFunc, std::enable_if_t<is_valid_member_function_v<MemberFunc>, bool> = true>
 			#endif
-			base_function_view(const function_parent_t<MemberFunc>*& parent_ptr, const MemberFunc& member_func) noexcept
-				: _func(member_func), _parent(parent_ptr), _invoker(&_member_func_invoker<MemberFunc>) {}
+			base_function_view(const function_parent_t<MemberFunc>*& parentPtr, const MemberFunc& memberFunc) noexcept
+				: _func(memberFunc), _parent(parentPtr), _invoker(&_member_func_invoker<MemberFunc>) {}
 
 			#if _MSTD_HAS_CXX20
 			template<class MemberFunc>
-			requires(_is_valid_member_function_v<MemberFunc>)
+			requires(is_valid_member_function_v<MemberFunc>)
 			#else
-			template<class MemberFunc, std::enable_if_t<_is_valid_member_function_v<MemberFunc>, bool> = true>
+			template<class MemberFunc, std::enable_if_t<is_valid_member_function_v<MemberFunc>, bool> = true>
 			#endif
 			base_function_view(const std::pair<function_parent_t<MemberFunc>*, MemberFunc>& pair) noexcept
 				: _func(const_cast<void*>(reinterpret_cast<const void*>(&pair.second))),
@@ -179,9 +179,9 @@ namespace mstd {
 
 			#if _MSTD_HAS_CXX20
 			template<class MemberFunc>
-			requires(_is_valid_member_function_v<MemberFunc>)
+			requires(is_valid_member_function_v<MemberFunc>)
 			#else
-			template<class MemberFunc, std::enable_if_t<_is_valid_member_function_v<MemberFunc>, bool> = true>
+			template<class MemberFunc, std::enable_if_t<is_valid_member_function_v<MemberFunc>, bool> = true>
 			#endif
 			base_function_view& operator=(const std::pair<function_parent_t<MemberFunc>*, MemberFunc>& pair) noexcept {
 				_func = const_cast<void*>(reinterpret_cast<const void*>(&pair.second));
@@ -194,34 +194,34 @@ namespace mstd {
 			#pragma region FUNCTORS
 			#if _MSTD_HAS_CXX20
 			template<class Functor>
-			requires(_is_valid_functor_v<Functor, false>)
+			requires(is_valid_functor_v<Functor, false>)
 			#else
-			template<class Functor, std::enable_if_t<_is_valid_functor_v<Functor, false>, bool> = true>
+			template<class Functor, std::enable_if_t<is_valid_functor_v<Functor, false>, bool> = true>
 			#endif
 			base_function_view(Functor& functor) noexcept : _func(&functor), _invoker(&_functor_invoker<Functor>) {}
 
 			#if _MSTD_HAS_CXX20
 			template<class Functor>
-			requires(_is_valid_functor_v<Functor, true>)
+			requires(is_valid_functor_v<Functor, true>)
 			#else
-			template<class Functor, std::enable_if_t<_is_valid_functor_v<Functor, true>, bool> = true>
+			template<class Functor, std::enable_if_t<is_valid_functor_v<Functor, true>, bool> = true>
 			#endif
 			base_function_view(const Functor& functor) noexcept : _func(const_cast<void*>(static_cast<const void*>(&functor))),
 				_invoker(&_functor_invoker<const Functor>) {}
 
 			#if _MSTD_HAS_CXX20
 			template<class Functor>
-			requires(_is_valid_functor_v<Functor, true>)
+			requires(is_valid_functor_v<Functor, true>)
 			#else
-			template<class Functor, std::enable_if_t<_is_valid_functor_v<Functor, true>, bool> = true>
+			template<class Functor, std::enable_if_t<is_valid_functor_v<Functor, true>, bool> = true>
 			#endif
 			base_function_view(Functor&& functor) noexcept = delete;
 
 			#if _MSTD_HAS_CXX20
 			template<class Functor>
-			requires(_is_valid_functor_v<Functor, false>)
+			requires(is_valid_functor_v<Functor, false>)
 			#else
-			template<class Functor, std::enable_if_t<_is_valid_functor_v<Functor, false>, bool> = true>
+			template<class Functor, std::enable_if_t<is_valid_functor_v<Functor, false>, bool> = true>
 			#endif
 			base_function_view& operator=(Functor& functor) noexcept {
 				_func = &functor;
@@ -231,9 +231,9 @@ namespace mstd {
 
 			#if _MSTD_HAS_CXX20
 			template<class Functor>
-			requires(_is_valid_functor_v<Functor, true>)
+			requires(is_valid_functor_v<Functor, true>)
 			#else
-			template<class Functor, std::enable_if_t<_is_valid_functor_v<Functor, true>, bool> = true>
+			template<class Functor, std::enable_if_t<is_valid_functor_v<Functor, true>, bool> = true>
 			#endif
 			base_function_view& operator=(const Functor& functor) noexcept {
 				_func = static_cast<void*>(const_cast<Functor*>(&functor));
@@ -243,9 +243,9 @@ namespace mstd {
 
 			#if _MSTD_HAS_CXX20
 			template<class Functor>
-			requires(_is_valid_functor_v<Functor, true>)
+			requires(is_valid_functor_v<Functor, true>)
 			#else
-			template<class Functor, std::enable_if_t<_is_valid_functor_v<Functor, true>, bool> = true>
+			template<class Functor, std::enable_if_t<is_valid_functor_v<Functor, true>, bool> = true>
 			#endif
 			base_function_view& operator=(Functor&& functor) noexcept = delete;
 			#pragma endregion
@@ -291,7 +291,7 @@ namespace mstd {
 		using _base = utils::base_function_view_t<F>;
 
 		template<class Func>
-		static _MSTD_CONSTEXPR17 const bool _can_be_noexcept_v = !is_noexcept_function_v<F> ||
+		static _MSTD_CONSTEXPR17 const bool can_be_noexcept_v = !is_noexcept_function_v<F> ||
 																	(is_noexcept_function_v<F> && is_noexcept_function_v<Func>);
 
 	public:
@@ -300,38 +300,78 @@ namespace mstd {
 		function_view(function_view&&) noexcept = default;
 		~function_view() noexcept override = default;
 
-		template<class Func, std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && _can_be_noexcept_v<Func>, bool> = true>
+#if _MSTD_HAS_CXX20
+		template<class Func>
+		requires (!std::is_same_v<std::decay_t<Func>, function_view>&& can_be_noexcept_v<Func>)
+#else
+		template<class Func, std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && can_be_noexcept_v<Func>, bool> = true>
+#endif
 		function_view(Func& func) noexcept : _base(func) {}
 
-		template<class Func, std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && _can_be_noexcept_v<Func>, bool> = true>
+#if _MSTD_HAS_CXX20
+		template<class Func>
+		requires (!std::is_same_v<std::decay_t<Func>, function_view>&& can_be_noexcept_v<Func>)
+#else
+		template<class Func, std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && can_be_noexcept_v<Func>, bool> = true>
+#endif
 		function_view(const Func& func) noexcept : _base(func) {}
 
-		template<class MemberFunc, std::enable_if_t<_can_be_noexcept_v<MemberFunc>, bool> = true>
-		function_view(const function_parent_t<MemberFunc>*& parent_ptr, const MemberFunc& member_func) noexcept
-			: _base(parent_ptr, member_func) {}
+#if _MSTD_HAS_CXX20
+		template<class MemberFunc>
+		requires (can_be_noexcept_v<MemberFunc>)
+#else
+		template<class MemberFunc, std::enable_if_t<can_be_noexcept_v<MemberFunc>, bool> = true>
+#endif
+		function_view(const function_parent_t<MemberFunc>*& parentPtr, const MemberFunc& memberFunc) noexcept
+			: _base(parentPtr, memberFunc) {}
 
-		template<class MemberFunc, std::enable_if_t<_can_be_noexcept_v<MemberFunc>, bool> = true>
+#if _MSTD_HAS_CXX20
+		template<class MemberFunc>
+		requires (can_be_noexcept_v<MemberFunc>)
+#else
+		template<class MemberFunc, std::enable_if_t<can_be_noexcept_v<MemberFunc>, bool> = true>
+#endif
 		function_view(const std::pair<function_parent_t<MemberFunc>*, MemberFunc>& pair) noexcept : _base(pair) {}
 
 		function_view& operator=(const function_view&) noexcept = default;
 		function_view& operator=(function_view&&) noexcept = default;
 
-		template<class Func, std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && _can_be_noexcept_v<Func>, bool> = true>
+#if _MSTD_HAS_CXX20
+		template<class Func>
+		requires (!std::is_same_v<std::decay_t<Func>, function_view>&& can_be_noexcept_v<Func>)
+#else
+		template<class Func, std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && can_be_noexcept_v<Func>, bool> = true>
+#endif
 		function_view& operator=(Func& func) noexcept {
 			_base::operator=(func);
 			return *this;
 		}
 
-		template<class Func, std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && _can_be_noexcept_v<Func>, bool> = true>
+#if _MSTD_HAS_CXX20
+		template<class Func>
+		requires (!std::is_same_v<std::decay_t<Func>, function_view>&& can_be_noexcept_v<Func>)
+#else
+		template<class Func, std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && can_be_noexcept_v<Func>, bool> = true>
+#endif
 		function_view& operator=(const Func& func) noexcept {
 			_base::operator=(func);
 			return *this;
 		}
 
-		template<class Func, std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && _can_be_noexcept_v<Func>, bool> = true>
+#if _MSTD_HAS_CXX20
+		template<class Func>
+		requires (!std::is_same_v<std::decay_t<Func>, function_view>&& can_be_noexcept_v<Func>)
+#else
+		template<class Func, std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && can_be_noexcept_v<Func>, bool> = true>
+#endif
 		function_view& operator=(Func&& func) noexcept = delete;
 
-		template<class MemberFunc, std::enable_if_t<_can_be_noexcept_v<MemberFunc>, bool> = true>
+#if _MSTD_HAS_CXX20
+		template<class MemberFunc>
+		requires (can_be_noexcept_v<MemberFunc>)
+#else
+		template<class MemberFunc, std::enable_if_t<can_be_noexcept_v<MemberFunc>, bool> = true>
+#endif
 		function_view& operator=(const std::pair<function_parent_t<MemberFunc>*, MemberFunc>& pair) noexcept {
 			_base::operator=(pair);
 			return *this;

@@ -1,3 +1,7 @@
+if(DEFINED _COVERAGE_REPORT_HELPER_INCLUDED)
+    return()
+endif()
+set(_COVERAGE_REPORT_HELPER_INCLUDED TRUE)
 
 function(setup_coverage_report)
     # CHECK COMPILER VERSION
@@ -8,14 +12,23 @@ function(setup_coverage_report)
     find_program(LLVM_COV llvm-cov REQUIRED)
 
     set(options CLEAN_TEMP)
-    set(oneValueArgs TEST_PROJECT FORMAT OUTPUT_DIR)
-    set(multiValueArgs EXE_PROJECTS)
+    set(oneValueArgs TEST_TARGET FORMAT OUTPUT_DIR)
+    set(multiValueArgs EXE_TARGETS)
 
     cmake_parse_arguments(PARSE_ARGV 0 COVERAGE "${options}" "${oneValueArgs}" "${multiValueArgs}")
 
-    # CHECK IF TEST PROJECT WAS PROVIEDED
-    if(NOT DEFINED COVERAGE_TEST_PROJECT)
-        message(FATAL_ERROR "Please provide explicitly TEST_PROJECT.")
+    # CHECK IF TEST TARGET WAS PROVIEDED
+    if(NOT DEFINED COVERAGE_TEST_TARGET)
+        message(FATAL_ERROR "Please provide explicitly TEST_TARGET.")
+    # CHECK IF TEST TARGET IS TARGET
+    elseif(NOT TARGET ${COVERAGE_TEST_TARGET})
+        message(FATAL_ERROR "TEST_TARGET must be a TARGET.")
+    endif()
+
+    # CHECK IF TEST TARGET IS EXECUTABLE
+    get_target_property(TEST_TARGET_TYPE ${COVERAGE_TEST_TARGET} TYPE)
+    if(NOT TEST_TARGET_TYPE STREQUAL "EXECUTABLE")
+        message(FATAL_ERROR "TEST_TARGET must be an EXECUTABLE Target")
     endif()
 
     # DEFAULT FORMAT
@@ -36,49 +49,63 @@ function(setup_coverage_report)
     set(PROFDATA_FILE "${COVERAGE_OUTPUT_DIR}/coverage.profdata")
     file(TO_NATIVE_PATH ${PROFDATA_FILE} PROFDATA_FILE)
 
-    # SETUP PROJECTS LIST
-    set(EXE_PROJECTS "${COVERAGE_TEST_PROJECT};${COVERAGE_EXE_PROJECTS};${COVERAGE_UNPARSED_ARGUMENTS}")
+    # SETUP TARGETS LIST
+    set(EXE_TARGETS "${COVERAGE_EXE_TARGETS};${COVERAGE_UNPARSED_ARGUMENTS}")
+    foreach(EXE_TARGET ${EXE_TARGETS})
+        if(NOT TARGET ${EXE_TARGET})
+            message(FATAL_ERROR "EXE_TARGET must be a TARGET.")
+        endif()
+
+        get_target_property(TARGET_TYPE ${EXE_TARGET} TYPE)
+        if(NOT TARGET_TYPE STREQUAL "EXECUTABLE")
+            message(FATAL_ERROR "EXE_TARGET must be an EXECUTABLE Target")
+        endif()
+    endforeach()
+
+    set(EXE_TARGETS "${COVERAGE_TEST_TARGET};${EXE_TARGETS}")
+
+    set(COVERAGE_TARGET_NAME coverage_report_${COVERAGE_TEST_TARGET})
 
     # CREATE TARGET
-    add_custom_target(generate_coverage_report
+    add_custom_target(${COVERAGE_TARGET_NAME}
         COMMAND rm -rf "${COVERAGE_OUTPUT_DIR}/*"
         COMMENT "Generating coverage report (format: ${COVERAGE_FORMAT}) in ${COVERAGE_OUTPUT_DIR}"
         WORKING_DIRECTORY ${COVERAGE_OUTPUT_DIR}
-        DEPENDS ${EXE_PROJECTS}
+        DEPENDS ${EXE_TARGETS}
         VERBATIM
     )
 
-    # LIST OF PROFRAWS FOR EACH PROJECT
-    set(PROJECTS_PROFRAWS "")
-    set(PROJECTS_EXECS "")
-    foreach(PROJECT_NAME ${EXE_PROJECTS})
-        # GET BINARY_DIR OF PROJECT
-        set(BINARY_DIR ${${PROJECT_NAME}_BINARY_DIR})
+    # LIST OF PROFRAWS FOR EACH TARGET
+    set(TARGETS_PROFRAWS "")
+    set(TARGETS_EXECS "")
+    foreach(TARGET_NAME ${EXE_TARGETS})
+        # GET BINARY_DIR OF TARGET
+        get_target_property(TARGET_BINARY_DIR ${TARGET_NAME} BINARY_DIR)
         # GET EXE FILE
-        set(EXE_FILE "${BINARY_DIR}/${PROJECT_NAME}.exe")
+        set(EXE_FILE "${TARGET_BINARY_DIR}/${TARGET_NAME}.exe")
 
-        list(APPEND PROJECTS_EXECS ${EXE_FILE})
+        list(APPEND TARGETS_EXECS ${EXE_FILE})
 
-        # SET PROJECT_PROFRAW PATH
-        set(PROJECT_PROFRAW "${BINARY_DIR}/${PROJECT_NAME}.profraw")
-        file(TO_NATIVE_PATH ${PROJECT_PROFRAW} PROJECT_PROFRAW)
+        # SET TARGET_PROFRAW PATH
+        set(TARGET_PROFRAW "${TARGET_BINARY_DIR}/${TARGET_NAME}.profraw")
+        file(TO_NATIVE_PATH ${TARGET_PROFRAW} TARGET_PROFRAW)
 
         # APPEND TO LIST
-        list(APPEND PROJECTS_PROFRAWS ${PROJECT_PROFRAW})
+        list(APPEND TARGETS_PROFRAWS ${TARGET_PROFRAW})
 
         # ADD COMMAND
-        add_custom_command(TARGET generate_coverage_report POST_BUILD
-            COMMAND set LLVM_PROFILE_FILE=${PROJECT_PROFRAW}
+        add_custom_command(TARGET ${COVERAGE_TARGET_NAME} POST_BUILD
+            COMMAND set LLVM_PROFILE_FILE=${TARGET_PROFRAW}
             COMMAND ${EXE_FILE}
             COMMENT "Running program to generate ${PROFRAW_TESTS}"
-            WORKING_DIRECTORY ${BINARY_DIR}
+            WORKING_DIRECTORY ${TARGET_BINARY_DIR}
             VERBATIM
         )
     endforeach()
 
     # ADD MERGE COMMAND
-    list(JOIN PROJECTS_PROFRAWS " " PROFRAWS_TO_MERGE)
-    add_custom_command(TARGET generate_coverage_report POST_BUILD
+    list(JOIN TARGETS_PROFRAWS " " PROFRAWS_TO_MERGE)
+    add_custom_command(TARGET ${COVERAGE_TARGET_NAME} POST_BUILD
         COMMAND ${LLVM_PROFDATA} merge -sparse -instr -output=${PROFDATA_FILE} ${PROFRAWS_TO_MERGE}
         COMMENT "Merging coverage data into ${PROFDATA_FILE}"
         WORKING_DIRECTORY ${COVERAGE_OUTPUT_DIR}
@@ -86,13 +113,13 @@ function(setup_coverage_report)
     )
 
     # ADD GENERATE REPORT COMMAND
-    set(TEST_PROJECT_SOURCE_DIR ${${COVERAGE_TEST_PROJECT}_SOURCE_DIR})
-    file(RELATIVE_PATH TEST_PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} ${TEST_PROJECT_SOURCE_DIR})
-    file(TO_NATIVE_PATH ${TEST_PROJECT_SOURCE_DIR} TEST_PROJECT_SOURCE_DIR)
-    set(TEST_FILES_REGEX ".*[\\\\|\\\/]${TEST_PROJECT_SOURCE_DIR}[\\\\|\\\/].*")
+    get_target_property(TEST_TARGET_SOURCE_DIR ${COVERAGE_TEST_TARGET} SOURCE_DIR)
+    file(RELATIVE_PATH TEST_TARGET_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} ${TEST_TARGET_SOURCE_DIR})
+    file(TO_NATIVE_PATH ${TEST_TARGET_SOURCE_DIR} TEST_TARGET_SOURCE_DIR)
+    set(TEST_FILES_REGEX ".*[\\\\|\\\/]${TEST_TARGET_SOURCE_DIR}[\\\\|\\\/].*")
     
-    list(GET PROJECTS_EXECS 0 TEST_EXE)
-    add_custom_command(TARGET generate_coverage_report POST_BUILD
+    list(GET TARGETS_EXECS 0 TEST_EXE)
+    add_custom_command(TARGET ${COVERAGE_TARGET_NAME} POST_BUILD
         COMMAND ${LLVM_COV} show ${TEST_EXE} -instr-profile=${PROFDATA_FILE} 
         -format=${COVERAGE_FORMAT} -output-dir=${COVERAGE_OUTPUT_DIR} -ignore-filename-regex=${TEST_FILES_REGEX} -show-mcdc -show-line-counts 
         -show-expansions -show-instantiations -show-regions -show-line-counts-or-regions -show-directory-coverage -use-color --show-branches percent
@@ -103,10 +130,10 @@ function(setup_coverage_report)
 
     # CLEAN TEMP
     if(${COVERAGE_CLEAN_TEMP})
-        foreach(PROFRAW ${PROJECTS_PROFRAWS})
+        foreach(PROFRAW ${TARGETS_PROFRAWS})
             get_filename_component(PROFRAWS_DIR ${PROFRAW} DIRECTORY)
 
-            add_custom_command(TARGET generate_coverage_report POST_BUILD
+            add_custom_command(TARGET ${COVERAGE_TARGET_NAME} POST_BUILD
                 COMMAND rm ${PROFRAW}
                 COMMENT "Cleaning profraw file (${PROFRAW})..."
                 WORKING_DIRECTORY ${PROFRAWS_DIR}
@@ -114,7 +141,7 @@ function(setup_coverage_report)
             )
         endforeach()
 
-        add_custom_command(TARGET generate_coverage_report POST_BUILD
+        add_custom_command(TARGET ${COVERAGE_TARGET_NAME} POST_BUILD
             COMMAND rm ${PROFDATA_FILE}
             COMMENT "Cleaning profdata file (${PROFDATA_FILE})..."
             WORKING_DIRECTORY ${COVERAGE_OUTPUT_DIR}

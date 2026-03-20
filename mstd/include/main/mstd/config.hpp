@@ -14,7 +14,7 @@
 #pragma region VERSION
 #define MSTD_VERSION_MAJOR 1
 #define MSTD_VERSION_MINOR 4
-#define MSTD_VERSION_PATCH 7
+#define MSTD_VERSION_PATCH 8
 
 #define _MSTD_STRINGIFY_HELPER(x) #x
 
@@ -82,11 +82,15 @@
 #endif
 
 #if _MSTD_HAS_CXX20
+	#define _MSTD_TYPENAME17
+	#define _MSTD_INLINE17
 	#define _MSTD_CONSTEXPR20 constexpr
 	#define _MSTD_RETURN_VALUE_IF(condition, ...) __VA_ARGS__
 	#define _MSTD_REQUIRES(condition) requires (condition)
 	#define _MSTD_ENABLE_IF_TEMPLATE(class_name, condition)
 #else
+	#define _MSTD_TYPENAME17 typename
+	#define _MSTD_INLINE17 inline
 	#define _MSTD_CONSTEXPR20
 	#define _MSTD_RETURN_VALUE_IF(condition, ...) typename std::enable_if_t<(condition), __VA_ARGS__>
 	#define _MSTD_REQUIRES(condition)

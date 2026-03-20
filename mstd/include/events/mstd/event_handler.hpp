@@ -67,14 +67,14 @@ namespace mstd {
 			if (_events.empty()) return;
 
 			// SAFETY WHEN CALLBACK DELETES ITSELF
-			std::vector<event_handler> callbacks_to_run;
-			callbacks_to_run.reserve(_events.size());
+			std::vector<event_handler> callbacksToRun;
+			callbacksToRun.reserve(_events.size());
 
 			for (const auto& [id, event] : _events) {
-				callbacks_to_run.push_back(event);
+				callbacksToRun.push_back(event);
 			}
 
-			for (const auto& callback : callbacks_to_run) {
+			for (const auto& callback : callbacksToRun) {
 				callback(std::forward<Args>(args)...);
 			}
 		}

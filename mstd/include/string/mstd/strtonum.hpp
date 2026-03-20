@@ -23,50 +23,50 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 namespace mstd {
 	// 0x0F...
 #if _MSTD_HAS_CXX20
-	template<mstd::integral _N>
+	template<mstd::integral N>
 #else
-	template<class _N, std::enable_if_t<std::is_integral_v<_N>, bool> = true>
+	template<class N, std::enable_if_t<std::is_integral_v<N>, bool> = true>
 #endif
-	inline _MSTD_CONSTEXPR20 bool strxtonum(const std::string_view& hex_str, _N& num) {
-		if (hex_str.size() <= 2) return false;
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strxtonum(const std::string_view& hexStr, N& num) {
+		_MSTD_CONSTEXPR17 const size_t hex_divider = 16u;
+		_MSTD_CONSTEXPR17 const size_t bits_in_hex = 8u;
+		_MSTD_CONSTEXPR17 const size_t a_decimal_rep = 10;
 
-		if (hex_str[0] != '0' || hex_str[1] != 'x') {
+		if (hexStr.size() <= 2) return false;
+
+		if (hexStr[0] != '0' || hexStr[1] != 'x') {
 			return false;
 		}
 		size_t i = 2;
 
-		const std::numeric_limits<_N>& limits = std::numeric_limits<_N>();
-		const uint32_t& max_bits_num = std::max((limits.digits + limits.is_signed) / 8, 1);
+		using limits = std::numeric_limits<N>;
+		const uint32_t maxBitsNum = std::max<uint32_t>((limits::digits + limits::is_signed) / bits_in_hex, 1);
 
-		using _UN = std::make_unsigned_t<_N>;
-		_UN unum = 0;
-		while (((hex_str[i] >= '0' && hex_str[i] <= '9') ||
-			(hex_str[i] >= 'A' && hex_str[i] <= 'F') ||
-			(hex_str[i] >= 'a' && hex_str[i] <= 'f')) && i - 2 < max_bits_num) {
+		using UN = std::make_unsigned_t<N>;
+		UN unum = 0;
+		while (((hexStr[i] >= '0' && hexStr[i] <= '9') ||
+			(hexStr[i] >= 'A' && hexStr[i] <= 'F') ||
+			(hexStr[i] >= 'a' && hexStr[i] <= 'f')) && i - 2 < maxBitsNum) {
 			
-			if (mul_overflow(unum, 16u, unum)) {
+			if (mul_overflow(unum, hex_divider, unum)) {
 				return false;
 			}
 
-			if (hex_str[i] >= '0' && hex_str[i] <= '9') {
-				if (add_overflow(unum, hex_str[i] - '0', unum)) {
-					return false;
-				}
+			if (hexStr[i] >= '0' && hexStr[i] <= '9' && add_overflow(unum, hexStr[i] - '0', unum)) {
+				return false;
 			}
-			else if (hex_str[i] >= 'A' && hex_str[i] <= 'F') {
-				if (add_overflow(unum, (hex_str[i] - 'A') + 10, unum)) {
-					return false;
-				}
+			
+			if (hexStr[i] >= 'A' && hexStr[i] <= 'F' && add_overflow(unum, (hexStr[i] - 'A') + a_decimal_rep, unum)) {
+				return false;
 			}
-			else if (hex_str[i] >= 'a' && hex_str[i] <= 'f') {
-				if (add_overflow(unum, (hex_str[i] - 'a') + 10, unum)) {
-					return false;
-				}
+			
+			if (hexStr[i] >= 'a' && hexStr[i] <= 'f' && add_overflow(unum, (hexStr[i] - 'a') + a_decimal_rep, unum)) {
+				return false;
 			}
 
 			++i;
-			if (i == hex_str.size()) {
-				num = static_cast<_N>(unum);
+			if (i == hexStr.size()) {
+				num = static_cast<N>(unum);
 				return true;
 			}
 		}
@@ -76,35 +76,37 @@ namespace mstd {
 
 	// 0c07...
 #if _MSTD_HAS_CXX20
-	template<mstd::integral _N>
+	template<mstd::integral N>
 #else
-	template<class _N, std::enable_if_t<std::is_integral_v<_N>, bool> = true>
+	template<class N, std::enable_if_t<std::is_integral_v<N>, bool> = true>
 #endif
-	inline _MSTD_CONSTEXPR20 bool strctonum(const std::string_view& oct_str, _N& num) {
-		if (oct_str.size() <= 2) return false;
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strctonum(const std::string_view& octStr, N& num) {
+		_MSTD_CONSTEXPR17 const size_t oct_divider = 8u;
 
-		if (oct_str[0] != '0' || oct_str[1] != 'c') {
+		if (octStr.size() <= 2) return false;
+
+		if (octStr[0] != '0' || octStr[1] != 'c') {
 			return false;
 		}
 		size_t i = 2;
 
-		const std::numeric_limits<_N>& limits = std::numeric_limits<_N>();
-		const uint32_t& max_octals_num = std::max((limits.digits + limits.is_signed) / 4, 1);
+		using limits = std::numeric_limits<N>;
+		const uint32_t& maxOctalsNum = std::max((limits::digits + limits::is_signed) / 4, 1);
 
-		using _UN = std::make_unsigned_t<_N>;
-		_UN unum = 0;
-		while (oct_str[i] >= '0' && oct_str[i] <= '7' && i - 2 < max_octals_num) {
-			if (mul_overflow(unum, 8u, unum)) {
+		using UN = std::make_unsigned_t<N>;
+		UN unum = 0;
+		while (octStr[i] >= '0' && octStr[i] <= '7' && i - 2 < maxOctalsNum) {
+			if (mul_overflow(unum, oct_divider, unum)) {
 				return false;
 			}
 
-			if (add_overflow(unum, oct_str[i] - '0', unum)) {
+			if (add_overflow(unum, octStr[i] - '0', unum)) {
 				return false;
 			}
 
 			++i;
-			if (i == oct_str.size()) {
-				num = static_cast<_N>(unum);
+			if (i == octStr.size()) {
+				num = static_cast<N>(unum);
 				return true;
 			}
 		}
@@ -114,35 +116,35 @@ namespace mstd {
 
 	// 0b01...
 #if _MSTD_HAS_CXX20
-	template<mstd::integral _N>
+	template<mstd::integral N>
 #else
-	template<class _N, std::enable_if_t<std::is_integral_v<_N>, bool> = true>
+	template<class N, std::enable_if_t<std::is_integral_v<N>, bool> = true>
 #endif
-	inline _MSTD_CONSTEXPR20 bool strbtonum(const std::string_view& bin_str, _N& num) {
-		if (bin_str.size() <= 2) return false;
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strbtonum(const std::string_view& binStr, N& num) {
+		if (binStr.size() <= 2) return false;
 
-		if (bin_str[0] != '0' || bin_str[1] != 'b') {
+		if (binStr[0] != '0' || binStr[1] != 'b') {
 			return false;
 		}
 		size_t i = 2;
 
-		const std::numeric_limits<_N>& limits = std::numeric_limits<_N>();
-		const uint32_t& max_bits_num = limits.digits + limits.is_signed;
+		using limits = std::numeric_limits<N>;
+		const uint32_t& maxOctalsNum = limits::digits + limits::is_signed;
 
-		using _UN = std::make_unsigned_t<_N>;
-		_UN unum = 0;
-		while (bin_str[i] >= '0' && bin_str[i] <= '1' && i - 2 < max_bits_num) {
+		using UN = std::make_unsigned_t<N>;
+		UN unum = 0;
+		while (binStr[i] >= '0' && binStr[i] <= '1' && i - 2 < maxOctalsNum) {
 			if (mul_overflow(unum, 2u, unum)) {
 				return false;
 			}
 
-			if (add_overflow(unum, bin_str[i] - '0', unum)) {
+			if (add_overflow(unum, binStr[i] - '0', unum)) {
 				return false;
 			}
 
 			++i;
-			if (i == bin_str.size()) {
-				num = static_cast<_N>(unum);
+			if (i == binStr.size()) {
+				num = static_cast<N>(unum);
 				return true;
 			}
 		}
@@ -152,32 +154,34 @@ namespace mstd {
 
 	// ((+|-)* 12) | (0b00...) | (0c00...) | (0x00...)
 #if _MSTD_HAS_CXX20
-	template<mstd::signed_integral _SN>
+	template<mstd::signed_integral SN>
 #else
-	template<class _SN, std::enable_if_t<mstd::is_signed_integral_v<_SN>, bool> = true>
+	template<class SN, std::enable_if_t<mstd::is_signed_integral_v<SN>, bool> = true>
 #endif
-	inline _MSTD_CONSTEXPR20 bool strtonum(const std::string_view& str, _SN& num) {
-		if (str.size() == 0) return false;
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strtonum(const std::string_view& str, SN& num) {
+		_MSTD_CONSTEXPR17 const size_t decimal_base = 10;
 
-		if (str.size() > 2) {
-			if (str[0] == '0') {
-				if (str[1] == 'b') {
-					return strbtonum(str, num);
-				}
-				else if (str[1] == 'c') {
-					return strctonum(str, num);
-				}
-				else if (str[1] == 'x') {
-					return strxtonum(str, num);
-				}
+		if (str.empty()) return false;
+
+		if (str.size() > 2 && str[0] == '0') {
+			if (str[1] == 'b') {
+				return strbtonum(str, num);
+			}
+			
+			if (str[1] == 'c') {
+				return strctonum(str, num);
+			}
+			
+			if (str[1] == 'x') {
+				return strxtonum(str, num);
 			}
 		}
 
 		size_t i = 0;
 
-		_SN sign = 1;
+		SN sign = 1;
 		while (str[i] == '-' || str[i] == '+') {
-			if (str[i] == '-') sign *= static_cast<_SN>(-1);
+			if (str[i] == '-') sign *= static_cast<SN>(-1);
 			
 			++i;
 			if (i == str.size()) return false;
@@ -185,7 +189,7 @@ namespace mstd {
 
 		num = 0;
 		while (str[i] >= '0' && str[i] <= '9') {
-			if (mul_overflow(num, 10, num)) {
+			if (mul_overflow(num, decimal_base, num)) {
 				return false;
 			}
 			if (add_overflow(num, sign * (str[i] - '0'), num)) {
@@ -203,24 +207,26 @@ namespace mstd {
 
 	// (+* 12) | (0b00...) | (0c00...) | (0x00...)
 #if _MSTD_HAS_CXX20
-	template<mstd::unsigned_integral _UN>
+	template<mstd::unsigned_integral UN>
 #else
-	template<class _UN, std::enable_if_t<mstd::is_unsigned_integral_v<_UN>, bool> = true>
+	template<class UN, std::enable_if_t<mstd::is_unsigned_integral_v<UN>, bool> = true>
 #endif
-	inline _MSTD_CONSTEXPR20 bool strtounum(const std::string_view& str, _UN& num) {
-		if (str.size() == 0) return false;
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strtounum(const std::string_view& str, UN& num) {
+		_MSTD_CONSTEXPR17 const size_t decimal_base = 10;
 
-		if (str.size() > 2) {
-			if (str[0] == '0') {
-				if (str[1] == 'b') {
-					return strbtonum(str, num);
-				}
-				else if (str[1] == 'c') {
-					return strctonum(str, num);
-				}
-				else if (str[1] == 'x') {
-					return strxtonum(str, num);
-				}
+		if (str.empty()) return false;
+
+		if (str.size() > 2 && str[0] == '0') {
+			if (str[1] == 'b') {
+				return strbtonum(str, num);
+			}
+			
+			if (str[1] == 'c') {
+				return strctonum(str, num);
+			}
+			
+			if (str[1] == 'x') {
+				return strxtonum(str, num);
 			}
 		}
 
@@ -232,7 +238,7 @@ namespace mstd {
 
 		num = 0;
 		while (str[i] >= '0' && str[i] <= '9') {
-			if (mul_overflow(num, 10u, num)) {
+			if (mul_overflow(num, decimal_base, num)) {
 				return false;
 			}
 			if (add_overflow(num, str[i] - '0', num)) {
@@ -250,18 +256,21 @@ namespace mstd {
 
 	// ((+|-)* 12.22)
 #if _MSTD_HAS_CXX20
-	template<mstd::floating_point _FP>
+	template<mstd::floating_point FP>
 #else
-	template<class _FP, std::enable_if_t<std::is_floating_point_v<_FP>, bool> = true>
+	template<class FP, std::enable_if_t<std::is_floating_point_v<FP>, bool> = true>
 #endif
-	inline _MSTD_CONSTEXPR20 bool strtofp(const std::string_view& str, _FP& num) {
-		if (str.size() == 0) return false;
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strtofp(const std::string_view& str, FP& num) {
+		_MSTD_CONSTEXPR17 const double decimal_mul = 0.1;
+		_MSTD_CONSTEXPR17 const size_t decimal_base = 10;
+
+		if (str.empty()) return false;
 
 		size_t i = 0;
 
-		_FP sign = 1;
+		FP sign = 1;
 		while (str[i] == '-' || str[i] == '+') {
-			if (str[i] == '-') sign *= static_cast<_FP>(-1);
+			if (str[i] == '-') sign *= static_cast<FP>(-1);
 			
 			++i;
 			if (i == str.size()) return false;
@@ -270,7 +279,7 @@ namespace mstd {
 		num = 0;
 		
 		while (str[i] >= '0' && str[i] <= '9') {
-			num *= 10;
+			num *= decimal_base;
 			num += str[i] - '0';
 
 			++i;
@@ -284,10 +293,10 @@ namespace mstd {
 			++i;
 			if (i == str.size()) return false;
 
-			_FP decimal = static_cast<_FP>(0.1);
+			FP decimal = static_cast<FP>(decimal_mul);
 			while (str[i] >= '0' && str[i] <= '9') {
 				num += decimal * (str[i] - '0');
-				decimal *= static_cast<_FP>(0.1);
+				decimal *= static_cast<FP>(decimal_mul);
 
 				++i;
 				if (i == str.size()) {

@@ -21,19 +21,19 @@ _MSTD_WARNING ("this is only available for c++17 and greater!");
 
 namespace mstd {
 #if _MSTD_HAS_CXX20
-	template <unsigned_integral _idT>
+	template <unsigned_integral IdT>
 #else
-	template <class _idT, std::enable_if_t<mstd::is_unsigned_integral_v<_idT>, bool>>
+	template <class IdT, std::enable_if_t<mstd::is_unsigned_integral_v<IdT>, bool>>
 #endif
 	class base_id_manager {
 	public:
-		using id_type = _idT;
+		using id_type = IdT;
+
+		static _MSTD_CONSTEXPR17 id_type max_ids = std::numeric_limits<id_type>::max();
 
 	private:
 		id_type _nextId = 0;
 		std::set<id_type> _removedIds = {};
-
-		static _MSTD_CONSTEXPR17 id_type _maxIds = std::numeric_limits<id_type>::max();
 
 		_MSTD_CONSTEXPR20 void _update_removed_ids() {
 			if (_removedIds.empty()) return;
@@ -65,7 +65,7 @@ namespace mstd {
 				return id;
 			}
 
-			if (_nextId == _maxIds) return bad_id();
+			if (_nextId == max_ids) return bad_id();
 
 			const id_type id = _nextId;
 			++_nextId;
@@ -95,12 +95,8 @@ namespace mstd {
 			return ~static_cast<id_type>(0);
 		}
 
-		[[nodiscard]] static _MSTD_CONSTEXPR20 id_type max_ids() noexcept {
-			return _maxIds;
-		}
-
 		[[nodiscard]] static _MSTD_CONSTEXPR20 id_type last_id() noexcept {
-			return _maxIds - 1;
+			return max_ids - 1;
 		}
 	};
 }
