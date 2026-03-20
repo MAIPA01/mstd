@@ -1,5 +1,5 @@
-#include <mstd/mat.hpp>
 #include <gtest/gtest.h>
+#include <mstd/mat.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_MAT, DIMENSIONS_AND_STATIC_SIZES) {
@@ -27,11 +27,11 @@ namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_MAT, COLUMN_AND_ELEMENT_ACCESS) {
 		mat<3, 3, float> m = mat<3, 3, float>::identity();
 
-		m[2u][0u] = 5.0f;
+		m[2u][0u]		   = 5.0f;
 		EXPECT_EQ(m[2u][0u], 5.0f);
 
 		mat<3, 3, float>::column_type col = { 10.f, 11.f, 12.f };
-		m[1u] = col;
+		m[1u]							  = col;
 		EXPECT_EQ(m[1u][0u], 10.f);
 		EXPECT_EQ(m[1u][1u], 11.f);
 		EXPECT_EQ(m[1u][2u], 12.f);
@@ -47,10 +47,7 @@ namespace mstd::test {
 	}
 
 	TEST(ARITHMETIC_TESTS_MAT, TRANSPOSE) {
-		mat<2, 3, int> m(
-			1, 2, 3,
-			4, 5, 6
-		);
+		mat<2, 3, int> m(1, 2, 3, 4, 5, 6);
 
 		auto mT = m.transposed();
 
@@ -62,11 +59,7 @@ namespace mstd::test {
 	}
 
 	TEST(ARITHMETIC_TESTS_MAT, SUB_MAT) {
-		mat<3, 3, int> m(
-			1, 2, 3,
-			4, 5, 6,
-			7, 8, 9
-		);
+		mat<3, 3, int> m(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
 		auto sub = m.get_sub_matrix(1, 1);
 
@@ -78,7 +71,7 @@ namespace mstd::test {
 
 	TEST(ARITHMETIC_TESTS_MAT, TRANSFORMATIONS_4x4) {
 		float angle = 3.14159265f / 2.0f;
-		auto rotZ = mat<4, 4, float>::rot_z(angle);
+		auto rotZ	= mat<4, 4, float>::rot_z(angle);
 
 		EXPECT_NEAR(rotZ[0u][0u], 0.0f, 1e-6);
 		EXPECT_NEAR(rotZ[0u][1u], 1.0f, 1e-6);
@@ -111,28 +104,24 @@ namespace mstd::test {
 	}
 
 	TEST(ARITHMETIC_TESTS_MAT, DETERMINANT_2x2) {
-		mat<2, 2, float> m(2, 1,
-			4, 6);
+		mat<2, 2, float> m(2, 1, 4, 6);
 		EXPECT_FLOAT_EQ(m.determinant(), 8.0f);
 	}
 
 	TEST(ARITHMETIC_TESTS_MAT, DETERMINANT_3x3) {
-		mat<3, 3, float> m(1, 2, 3,
-			0, 1, 4,
-			5, 6, 0);
+		mat<3, 3, float> m(1, 2, 3, 0, 1, 4, 5, 6, 0);
 		// det = 1*(0-24) - 2*(0-20) + 3*(0-5) = -24 + 40 - 15 = 1
 		EXPECT_FLOAT_EQ(m.determinant(), 1.0f);
 	}
 
 	TEST(ARITHMETIC_TESTS_MAT, DETERMINANT_4x4) {
 		mat<4, 4, float> m = mat<4, 4, float>::identity();
-		m[0u][0u] = 2.0f;
+		m[0u][0u]		   = 2.0f;
 		EXPECT_FLOAT_EQ(m.determinant(), 2.0f);
 	}
 
 	TEST(ARITHMETIC_TESTS_MAT, INVERT_2x2) {
-		mat<2, 2, float> m(4, 7,
-			2, 6);
+		mat<2, 2, float> m(4, 7, 2, 6);
 		auto inv = m.inverted();
 		auto res = m * inv;
 
@@ -140,17 +129,13 @@ namespace mstd::test {
 	}
 
 	TEST(ARITHMETIC_TESTS_MAT, INVERT_3x3) {
-		mat<3, 3, float> m(1, 0, 5,
-			2, 1, 6,
-			3, 4, 0);
+		mat<3, 3, float> m(1, 0, 5, 2, 1, 6, 3, 4, 0);
 		auto inv = m.inverted();
 		auto res = m * inv;
 
-		for (size_t x = 0; x < 3; ++x) {
-			for (size_t y = 0; y < 3; ++y) {
-				EXPECT_NEAR(res[x][y], (x == y ? 1.0f : 0.0f), 1e-5);
+			for (size_t x = 0; x < 3; ++x) {
+					for (size_t y = 0; y < 3; ++y) { EXPECT_NEAR(res[x][y], x == y ? 1.0f : 0.0f, 1e-5); }
 			}
-		}
 	}
 
 	TEST(ARITHMETIC_TESTS_MAT, MAT_MULTIPLICATION) {
@@ -193,4 +178,4 @@ namespace mstd::test {
 		EXPECT_FALSE(m1 == m3);
 		EXPECT_TRUE(m1 != m3);
 	}
-}
+} // namespace mstd::test

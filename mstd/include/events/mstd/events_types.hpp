@@ -9,15 +9,15 @@
 
 #pragma once
 #ifndef _MSTD_EVENTS_TYPES_HPP_
-#define _MSTD_EVENTS_TYPES_HPP_
+	#define _MSTD_EVENTS_TYPES_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <mstd/events_utils.hpp>
+		#include <mstd/events_utils.hpp>
 
 namespace mstd {
 	template<template<class, class, class...> class EventsMap, class... Args>
@@ -27,13 +27,13 @@ namespace mstd {
 	using method_base_event_handler = base_event_handler<EventsMap>;
 
 	template<class... Args>
-	using unordered_event_handler = base_event_handler<std::unordered_map, Args...>;
+	using unordered_event_handler		 = base_event_handler<std::unordered_map, Args...>;
 	using unordered_method_event_handler = unordered_event_handler<>;
 
 	template<class... Args>
-	using event_handler = base_event_handler<std::map, Args...>;
+	using event_handler		   = base_event_handler<std::map, Args...>;
 	using method_event_handler = event_handler<>;
-}
+} // namespace mstd
 
-#endif
+	#endif
 #endif

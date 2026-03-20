@@ -1,5 +1,5 @@
-#include <mstd/vec.hpp>
 #include <gtest/gtest.h>
+#include <mstd/vec.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_VEC, ALL) {
@@ -29,7 +29,7 @@ namespace mstd::test {
 
 		// pointer constructor
 		float* values = new float[3] { 4.f, 4.f, 4.f };
-		v3 = mstd::vec3(values, 3);
+		v3			  = mstd::vec3(values, 3);
 		ASSERT_FLOAT_EQ(v3.x(), 4.f);
 		ASSERT_FLOAT_EQ(v3.y(), 4.f);
 		ASSERT_FLOAT_EQ(v3.z(), 4.f);
@@ -273,4 +273,4 @@ namespace mstd::test {
 		ASSERT_FLOAT_EQ(v3[1u], -0.5f);
 		ASSERT_FLOAT_EQ(v3[2u], -0.5f);
 	}
-}
+} // namespace mstd::test

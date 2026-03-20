@@ -9,17 +9,17 @@
 
 #pragma once
 #ifndef _MSTD_STRING_LIBS_HPP_
-#define _MSTD_STRING_LIBS_HPP_
+	#define _MSTD_STRING_LIBS_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <string>
-#include <string_view>
-#include <algorithm>
+		#include <algorithm>
+		#include <string>
+		#include <string_view>
 
-#endif
+	#endif
 #endif

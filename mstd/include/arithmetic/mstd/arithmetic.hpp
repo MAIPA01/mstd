@@ -9,20 +9,20 @@
 
 #pragma once
 #ifndef _MSTD_ARITHMETIC_HPP_
-#define _MSTD_ARITHMETIC_HPP_
+	#define _MSTD_ARITHMETIC_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <mstd/overflow_operations.hpp>
-#include <mstd/math_functions.hpp>
-#include <mstd/bit_operations.hpp>
-#include <mstd/vec.hpp>
-#include <mstd/quat.hpp>
-#include <mstd/mat.hpp>
+		#include <mstd/bit_operations.hpp>
+		#include <mstd/mat.hpp>
+		#include <mstd/math_functions.hpp>
+		#include <mstd/overflow_operations.hpp>
+		#include <mstd/quat.hpp>
+		#include <mstd/vec.hpp>
 
-#endif
+	#endif
 #endif

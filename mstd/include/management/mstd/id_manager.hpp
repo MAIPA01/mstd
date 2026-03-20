@@ -9,77 +9,77 @@
 
 #pragma once
 #ifndef _MSTD_ID_MANAGER_HPP_
-#define _MSTD_ID_MANAGER_HPP_
+	#define _MSTD_ID_MANAGER_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
-_MSTD_WARNING ("this is only available for c++17 and greater!");
-#else
+	#if !_MSTD_HAS_CXX17
+_MSTD_WARNING("this is only available for c++17 and greater!");
+	#else
 
-#include <mstd/types.hpp>
+		#include <mstd/types.hpp>
 
 namespace mstd {
-#if _MSTD_HAS_CXX20
-	template <unsigned_integral IdT>
-#else
-	template <class IdT, std::enable_if_t<mstd::is_unsigned_integral_v<IdT>, bool>>
-#endif
+		#if _MSTD_HAS_CXX20
+	template<unsigned_integral IdT>
+		#else
+	template<class IdT, std::enable_if_t<mstd::is_unsigned_integral_v<IdT>, bool> >
+		#endif
 	class base_id_manager {
 	public:
-		using id_type = IdT;
+		using id_type							 = IdT;
 
 		static _MSTD_CONSTEXPR17 id_type max_ids = std::numeric_limits<id_type>::max();
 
 	private:
-		id_type _nextId = 0;
+		id_type _nextId				  = 0;
 		std::set<id_type> _removedIds = {};
 
 		_MSTD_CONSTEXPR20 void _update_removed_ids() {
-			if (_removedIds.empty()) return;
+				if (_removedIds.empty()) { return; }
 
 			auto last = std::prev(_removedIds.end());
-			while (*last == _nextId - 1) {
-				--_nextId;
-				_removedIds.erase(*last);
+				while (*last == _nextId - 1) {
+					--_nextId;
+					_removedIds.erase(*last);
 
-				if (_removedIds.empty()) return;
+						if (_removedIds.empty()) { return; }
 
-				last = std::prev(_removedIds.end());
-			}
+					last = std::prev(_removedIds.end());
+				}
 		}
 
 	public:
-		_MSTD_CONSTEXPR20 base_id_manager() noexcept = default;
-		_MSTD_CONSTEXPR20 base_id_manager(const base_id_manager& other) noexcept = default;
-		_MSTD_CONSTEXPR20 base_id_manager(base_id_manager&& other) noexcept = default;
-		_MSTD_CONSTEXPR20 ~base_id_manager() noexcept = default;
+		_MSTD_CONSTEXPR20 base_id_manager() noexcept										= default;
+		_MSTD_CONSTEXPR20 base_id_manager(base_id_manager const& other) noexcept			= default;
+		_MSTD_CONSTEXPR20 base_id_manager(base_id_manager&& other) noexcept					= default;
+		_MSTD_CONSTEXPR20 ~base_id_manager() noexcept										= default;
 
-		_MSTD_CONSTEXPR20 base_id_manager& operator=(const base_id_manager& other) noexcept = default;
-		_MSTD_CONSTEXPR20 base_id_manager& operator=(base_id_manager&& other) noexcept = default;
+		_MSTD_CONSTEXPR20 base_id_manager& operator=(base_id_manager const& other) noexcept = default;
+		_MSTD_CONSTEXPR20 base_id_manager& operator=(base_id_manager&& other) noexcept		= default;
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 id_type get_next_id() {
-			if (!_removedIds.empty()) {
-				const id_type id = *_removedIds.begin();
-				_removedIds.erase(id);
-				return id;
-			}
+				if (!_removedIds.empty()) {
+					id_type const id = *_removedIds.begin();
+					_removedIds.erase(id);
+					return id;
+				}
 
-			if (_nextId == max_ids) return bad_id();
+				if (_nextId == max_ids) { return bad_id(); }
 
-			const id_type id = _nextId;
+			id_type const id = _nextId;
 			++_nextId;
 			return id;
 		}
 
 		_MSTD_CONSTEXPR20 bool return_id(id_type id) {
-#if _MSTD_HAS_CXX20
-			if (id == bad_id() || id >= _nextId || _removedIds.contains(id)) {
-#else
-			if (id == bad_id() || id >= _nextId || _removedIds.find(id) != _removedIds.end()) {
-#endif
-				return false;
-			}
+		#if _MSTD_HAS_CXX20
+				if (id == bad_id() || id >= _nextId || _removedIds.contains(id)) {
+		#else
+				if (id == bad_id() || id >= _nextId || _removedIds.find(id) != _removedIds.end()) {
+		#endif
+					return false;
+				}
 
 			_removedIds.insert(id);
 			_update_removed_ids();
@@ -91,14 +91,10 @@ namespace mstd {
 			_removedIds.clear();
 		}
 
-		[[nodiscard]] static _MSTD_CONSTEXPR20 id_type bad_id() noexcept {
-			return ~static_cast<id_type>(0);
-		}
+		[[nodiscard]] static _MSTD_CONSTEXPR20 id_type bad_id() noexcept { return ~static_cast<id_type>(0); }
 
-		[[nodiscard]] static _MSTD_CONSTEXPR20 id_type last_id() noexcept {
-			return max_ids - 1;
-		}
+		[[nodiscard]] static _MSTD_CONSTEXPR20 id_type last_id() noexcept { return max_ids - 1; }
 	};
-}
-#endif
+} // namespace mstd
+	#endif
 #endif

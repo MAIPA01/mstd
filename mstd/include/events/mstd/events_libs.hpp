@@ -9,18 +9,18 @@
 
 #pragma once
 #ifndef _MSTD_EVENTS_LIBS_HPP_
-#define _MSTD_EVENTS_LIBS_HPP_
+	#define _MSTD_EVENTS_LIBS_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <functional>
-#include <unordered_map>
-#include <queue>
-#include <map>
+		#include <functional>
+		#include <map>
+		#include <queue>
+		#include <unordered_map>
 
-#endif
+	#endif
 #endif

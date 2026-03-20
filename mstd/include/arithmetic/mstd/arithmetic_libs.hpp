@@ -9,27 +9,27 @@
 
 #pragma once
 #ifndef _MSTD_ARITHMETIC_LIBS_HPP_
-#define _MSTD_ARITHMETIC_LIBS_HPP_
+	#define _MSTD_ARITHMETIC_LIBS_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <limits>
-#include <type_traits>
-#define _USE_MATH_DEFINES
-#include <math.h>
-#include <cmath>
-#include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <iomanip>
-#include <cstring>
-#include <string>
-#if _MSTD_HAS_CXX20
-#include <bit>
-#endif
-#endif
+		#include <limits>
+		#include <type_traits>
+		#define _USE_MATH_DEFINES
+		#include <math.h>
+		#include <algorithm>
+		#include <cmath>
+		#include <cstring>
+		#include <iomanip>
+		#include <iostream>
+		#include <sstream>
+		#include <string>
+		#if _MSTD_HAS_CXX20
+			#include <bit>
+		#endif
+	#endif
 #endif

@@ -9,31 +9,31 @@
 
 #pragma once
 #ifndef _MSTD_TERMINAL_LIBS_HPP_
-#define _MSTD_TERMINAL_LIBS_HPP_
+	#define _MSTD_TERMINAL_LIBS_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <cstdlib>
-#include <algorithm>
-#include <iostream>
+		#include <algorithm>
+		#include <cstdlib>
+		#include <iostream>
 
-#ifdef _WIN32
-	#define VC_EXTRALEAN
-	#define NOMINMAX
-	#define WIN32_LEAN_AND_MEAN
+		#ifdef _WIN32
+			#define VC_EXTRALEAN
+			#define NOMINMAX
+			#define WIN32_LEAN_AND_MEAN
 
-	#include <Windows.h>
+			#include <Windows.h>
 
-	#undef VC_EXTRALEAN
-	#undef NOMINMAX
-	#undef WIN32_LEAN_AND_MEAN
-#elif defined(__linux__) || defined(__APPLE__)
-	#include <sys/ioctl.h>
-#endif // Windows/Linux
+			#undef VC_EXTRALEAN
+			#undef NOMINMAX
+			#undef WIN32_LEAN_AND_MEAN
+		#elif defined(__linux__) || defined(__APPLE__)
+			#include <sys/ioctl.h>
+		#endif // Windows/Linux
 
-#endif
+	#endif
 #endif

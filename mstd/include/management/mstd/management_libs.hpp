@@ -9,18 +9,18 @@
 
 #pragma once
 #ifndef _MSTD_MANAGEMENT_LIBS_HPP_
-#define _MSTD_MANAGEMENT_LIBS_HPP_
+	#define _MSTD_MANAGEMENT_LIBS_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <set>
-#include <limits>
-#include <type_traits>
-#include <functional>
+		#include <functional>
+		#include <limits>
+		#include <set>
+		#include <type_traits>
 
-#endif
+	#endif
 #endif

@@ -1,5 +1,5 @@
-#include <mstd/quat.hpp>
 #include <gtest/gtest.h>
+#include <mstd/quat.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_QUAT, ALL) {
@@ -136,6 +136,5 @@ namespace mstd::test {
 
 		// quat != quat
 		ASSERT_FALSE(q != q);
-
 	}
-}
+} // namespace mstd::test

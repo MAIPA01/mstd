@@ -9,60 +9,63 @@
 
 #pragma once
 #ifndef _MSTD_FUNCTIONS_TYPES_HPP_
-#define _MSTD_FUNCTIONS_TYPES_HPP_
+	#define _MSTD_FUNCTIONS_TYPES_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <mstd/functions_utils.hpp>
+		#include <mstd/functions_utils.hpp>
 
 namespace mstd {
-	#pragma region FUNCTIONS_CHECKS
+		#pragma region FUNCTIONS_CHECKS
 	template<class F>
-	static _MSTD_CONSTEXPR17 const bool is_function_v = is_callable_v<F> &&
-			(is_free_function_v<F> || is_member_function_v<F>) && !is_functor_v<F> && !is_std_function_v<F>;
+	static _MSTD_CONSTEXPR17 const bool is_function_v =
+	  is_callable_v<F> && (is_free_function_v<F> || is_member_function_v<F>) && !is_functor_v<F> &&
+	  !is_std_function_v<F>;
 
 	template<class F>
-	static _MSTD_CONSTEXPR17 const bool is_action_v = is_function_v<F> && std::is_void_v<function_return_t<F>>;
+	static _MSTD_CONSTEXPR17 const bool is_action_v =
+	  is_function_v<F> && std::is_void_v<function_return_t<F> >;
 
 	template<class F>
 	static _MSTD_CONSTEXPR17 const bool is_method_v = is_action_v<F> && function_args_num_v<F> == 0;
 
-	#if _MSTD_HAS_CXX20
-	template<class F> concept func = is_function_v<F>;
+		#if _MSTD_HAS_CXX20
+	template<class F> concept func	 = is_function_v<F>;
 	template<class F> concept action = is_action_v<F>;
 	template<class F> concept method = is_method_v<F>;
-	#endif
-	#pragma endregion
+		#endif
+		#pragma endregion
 
-	#pragma region CPP_FUNCTIONS
+		#pragma region CPP_FUNCTIONS
 	template<class F>
 	using func_t = as_std_function_t<F>;
 
-	template<class... Args> 
+	template<class... Args>
 	using action_t = func_t<void(Args...)>;
 
 	using method_t = action_t<>;
-	#pragma endregion
+		#pragma endregion
 
-	#pragma region C_FUNCTIONS
+		#pragma region C_FUNCTIONS
+
 	namespace utils {
 		template<class F, class C, class = void>
 		struct c_func_impl {};
 
 		template<class F, class C>
-		struct c_func_impl<F, C, std::void_t<std::enable_if_t<mstd::is_function_v<F>, bool>>> {
+		struct c_func_impl<F, C, std::void_t<std::enable_if_t<mstd::is_function_v<F>, bool> > > {
 			using type = F C::*;
 		};
 
 		template<class F>
-		struct c_func_impl<F, void, std::void_t<std::enable_if_t<mstd::is_function_v<F>, bool>>> {
+		struct c_func_impl<F, void, std::void_t<std::enable_if_t<mstd::is_function_v<F>, bool> > > {
 			using type = F*;
 		};
-	}
+	} // namespace utils
 
 	template<class F>
 	using c_func_t = _MSTD_TYPENAME17 utils::c_func_impl<F, void>::type;
@@ -76,12 +79,12 @@ namespace mstd {
 	template<class C, class... Args>
 	using c_member_action_t = c_member_func_t<C, void(Args...)>;
 
-	using c_method_t = c_action_t<>;
+	using c_method_t		= c_action_t<>;
 
 	template<class C>
 	using c_member_method_t = c_member_action_t<C>;
-	#pragma endregion
+		#pragma endregion
 
-}
-#endif
+} // namespace mstd
+	#endif
 #endif

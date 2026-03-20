@@ -1,5 +1,5 @@
-#include <mstd/overflow_operations.hpp>
 #include <gtest/gtest.h>
+#include <mstd/overflow_operations.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_OVERFLOW_OPERATIONS, ALL) {
@@ -31,4 +31,4 @@ namespace mstd::test {
 		bi = -1;
 		ASSERT_TRUE(mstd::div_overflow(ai, bi, ci));
 	}
-}
+} // namespace mstd::test

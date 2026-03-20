@@ -9,93 +9,88 @@
 
 #pragma once
 #ifndef _MSTD_CONFIG_HPP
-#define _MSTD_CONFIG_HPP
+	#define _MSTD_CONFIG_HPP
 
-#pragma region VERSION
-#define MSTD_VERSION_MAJOR 1
-#define MSTD_VERSION_MINOR 4
-#define MSTD_VERSION_PATCH 8
+	#pragma region VERSION
+	#define MSTD_VERSION_MAJOR 1
+	#define MSTD_VERSION_MINOR 4
+	#define MSTD_VERSION_PATCH 8
 
-#define _MSTD_STRINGIFY_HELPER(x) #x
+	#define _MSTD_STRINGIFY_HELPER(x) #x
 
-#define _MSTD_VERSION_TO_STRING(major, minor, patch) _MSTD_STRINGIFY_HELPER(major)"."\
-													 _MSTD_STRINGIFY_HELPER(minor)"."\
-													 _MSTD_STRINGIFY_HELPER(patch)
-#define _MSTD_VERSION_TO_INT(major, minor, patch) (major * 100 + minor * 10 + patch)
+	#define _MSTD_VERSION_TO_STRING(major, minor, patch)                                                  \
+		_MSTD_STRINGIFY_HELPER(major) "." _MSTD_STRINGIFY_HELPER(minor) "." _MSTD_STRINGIFY_HELPER(patch)
+	#define _MSTD_VERSION_TO_INT(major, minor, patch) (major * 100 + minor * 10 + patch)
 
-#define MSTD_VERSION_STRING _MSTD_VERSION_TO_STRING(MSTD_VERSION_MAJOR, \
-												MSTD_VERSION_MINOR, \
-												MSTD_VERSION_PATCH)
-#define MSTD_VERSION_INT _MSTD_VERSION_TO_INT(MSTD_VERSION_MAJOR, \
-											MSTD_VERSION_MINOR, \
-											MSTD_VERSION_PATCH)
-#define MSTD_VERSION MSTD_VERSION_STRING
-#pragma endregion
+	#define MSTD_VERSION_STRING                                                             \
+		_MSTD_VERSION_TO_STRING(MSTD_VERSION_MAJOR, MSTD_VERSION_MINOR, MSTD_VERSION_PATCH)
+	#define MSTD_VERSION_INT _MSTD_VERSION_TO_INT(MSTD_VERSION_MAJOR, MSTD_VERSION_MINOR, MSTD_VERSION_PATCH)
+	#define MSTD_VERSION	 MSTD_VERSION_STRING
+	#pragma endregion
 
-#pragma region LAST_UPDATE
-#define MSTD_LAST_UPDATE_DAY 19
-#define MSTD_LAST_UPDATE_MONTH 03
-#define MSTD_LAST_UPDATE_YEAR 2026
+	#pragma region LAST_UPDATE
+	#define MSTD_LAST_UPDATE_DAY   20
+	#define MSTD_LAST_UPDATE_MONTH 03
+	#define MSTD_LAST_UPDATE_YEAR  2026
 
-#define _MSTD_LAST_UPDATE_DATE_HELPER(day, month, year) _MSTD_STRINGIFY_HELPER(day)"."\
-															_MSTD_STRINGIFY_HELPER(month)"."\
-															_MSTD_STRINGIFY_HELPER(year)
+	#define _MSTD_LAST_UPDATE_DATE_HELPER(day, month, year)                                            \
+		_MSTD_STRINGIFY_HELPER(day) "." _MSTD_STRINGIFY_HELPER(month) "." _MSTD_STRINGIFY_HELPER(year)
 
-#define MSTD_LAST_UPDATE_DATE _MSTD_LAST_UPDATE_DATE_HELPER(MSTD_LAST_UPDATE_DAY, \
-															MSTD_LAST_UPDATE_MONTH, \
-														    MSTD_LAST_UPDATE_YEAR)
-#pragma endregion
+	#define MSTD_LAST_UPDATE_DATE                                                                          \
+		_MSTD_LAST_UPDATE_DATE_HELPER(MSTD_LAST_UPDATE_DAY, MSTD_LAST_UPDATE_MONTH, MSTD_LAST_UPDATE_YEAR)
+	#pragma endregion
 
-#pragma region VERSION_CHECKS
-#ifndef _HAS_CXX17
-	#define _MSTD_HAS_CXX17 __cplusplus >= 201703L
-#else
-	#define _MSTD_HAS_CXX17 _HAS_CXX17
-#endif
+	#pragma region VERSION_CHECKS
+	#ifndef _HAS_CXX17
+		#define _MSTD_HAS_CXX17 __cplusplus >= 201'703l
+	#else
+		#define _MSTD_HAS_CXX17 _HAS_CXX17
+	#endif
 
-#ifndef MSTD_ENABLE_CXX20
-	#define _MSTD_HAS_CXX20 0
-#elif !defined(_HAS_CXX20)
-	#define _MSTD_HAS_CXX20 (__cplusplus >= 202002L)
-#else
-	#define _MSTD_HAS_CXX20 _HAS_CXX20
-#endif
-#pragma endregion
+	#ifndef MSTD_ENABLE_CXX20
+		#define _MSTD_HAS_CXX20 0
+	#elif !defined(_HAS_CXX20)
+		#define _MSTD_HAS_CXX20 (__cplusplus >= 202'002l)
+	#else
+		#define _MSTD_HAS_CXX20 _HAS_CXX20
+	#endif
+	#pragma endregion
 
-#pragma region PRAGMA_MESSAGES
-#define _MSTD_STRINGIZE_(S) #S
-#define _MSTD_STRINGIZE(S)  _MSTD_STRINGIZE_(S)
+	#pragma region PRAGMA_MESSAGES
+	#define _MSTD_STRINGIZE_(S) #S
+	#define _MSTD_STRINGIZE(S)	_MSTD_STRINGIZE_(S)
 
-#define _MSTD_PRAGMA(PRAGMA)          _Pragma(#PRAGMA)
-#define _MSTD_PRAGMA_MESSAGE(MESSAGE) _MSTD_PRAGMA(message(MESSAGE))
-#define _MSTD_MESSAGE(MESSAGE)   _MSTD_PRAGMA_MESSAGE(__FILE__ "(" _MSTD_STRINGIZE(__LINE__) "): " MESSAGE)
+	#define _MSTD_PRAGMA(PRAGMA)		  _Pragma(#PRAGMA)
+	#define _MSTD_PRAGMA_MESSAGE(MESSAGE) _MSTD_PRAGMA(message(MESSAGE))
+	#define _MSTD_MESSAGE(MESSAGE) _MSTD_PRAGMA_MESSAGE(__FILE__ "(" _MSTD_STRINGIZE(__LINE__) "): " MESSAGE)
 
-#define _MSTD_WARNING(MESSAGE) _MSTD_MESSAGE("warning: " MESSAGE)
-#define _MSTD_ERROR(MESSAGE)   static_assert(false, "error: " MESSAGE)
-#pragma endregion
+	#define _MSTD_WARNING(MESSAGE) _MSTD_MESSAGE("warning: " MESSAGE)
+	#define _MSTD_ERROR(MESSAGE)   static_assert(false, "error: " MESSAGE)
+	#pragma endregion
 
-#pragma region VERSION_DEPENDENT
-#if _MSTD_HAS_CXX17
-	#define _MSTD_CONSTEXPR17 constexpr
-#else
-	#define _MSTD_CONSTEXPR17
-#endif
+	#pragma region VERSION_DEPENDENT
+	#if _MSTD_HAS_CXX17
+		#define _MSTD_CONSTEXPR17 constexpr
+	#else
+		#define _MSTD_CONSTEXPR17
+	#endif
 
-#if _MSTD_HAS_CXX20
-	#define _MSTD_TYPENAME17
-	#define _MSTD_INLINE17
-	#define _MSTD_CONSTEXPR20 constexpr
-	#define _MSTD_RETURN_VALUE_IF(condition, ...) __VA_ARGS__
-	#define _MSTD_REQUIRES(condition) requires (condition)
-	#define _MSTD_ENABLE_IF_TEMPLATE(class_name, condition)
-#else
-	#define _MSTD_TYPENAME17 typename
-	#define _MSTD_INLINE17 inline
-	#define _MSTD_CONSTEXPR20
-	#define _MSTD_RETURN_VALUE_IF(condition, ...) typename std::enable_if_t<(condition), __VA_ARGS__>
-	#define _MSTD_REQUIRES(condition)
-	#define _MSTD_ENABLE_IF_TEMPLATE(class_name, condition) template<class class_name, std::enable_if_t<(condition), bool> = true>
-#endif
-#pragma endregion
+	#if _MSTD_HAS_CXX20
+		#define _MSTD_TYPENAME17
+		#define _MSTD_INLINE17
+		#define _MSTD_CONSTEXPR20					  constexpr
+		#define _MSTD_RETURN_VALUE_IF(condition, ...) __VA_ARGS__
+		#define _MSTD_REQUIRES(condition)			  requires (condition)
+		#define _MSTD_ENABLE_IF_TEMPLATE(class_name, condition)
+	#else
+		#define _MSTD_TYPENAME17 typename
+		#define _MSTD_INLINE17	 inline
+		#define _MSTD_CONSTEXPR20
+		#define _MSTD_RETURN_VALUE_IF(condition, ...) typename std::enable_if_t<(condition), __VA_ARGS__>
+		#define _MSTD_REQUIRES(condition)
+		#define _MSTD_ENABLE_IF_TEMPLATE(class_name, condition)                    \
+			template<class class_name, std::enable_if_t<(condition), bool> = true>
+	#endif
+	#pragma endregion
 
 #endif

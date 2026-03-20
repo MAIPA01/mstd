@@ -9,19 +9,19 @@
 
 #pragma once
 #ifndef _MSTD_MANAGEMENT_HPP_
-#define _MSTD_MANAGEMENT_HPP_
+	#define _MSTD_MANAGEMENT_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <mstd/management_types.hpp>
-#include <mstd/id_manager.hpp>
-#include <mstd/hash.hpp>
-#include <mstd/assert_base.hpp>
-#include <mstd/assert.hpp>
+		#include <mstd/assert.hpp>
+		#include <mstd/assert_base.hpp>
+		#include <mstd/hash.hpp>
+		#include <mstd/id_manager.hpp>
+		#include <mstd/management_types.hpp>
 
-#endif
+	#endif
 #endif

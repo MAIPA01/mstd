@@ -8,22 +8,22 @@
  */
 #pragma once
 #ifndef _MSTD_UTILS_HPP_
-#define _MSTD_UTILS_HPP_
+	#define _MSTD_UTILS_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <mstd/libs.hpp>
-#include <mstd/arithmetic_utils.hpp>
-#include <mstd/containers_utils.hpp>
-#include <mstd/events_utils.hpp>
-#include <mstd/functions_utils.hpp>
-#include <mstd/string_utils.hpp>
-#include <mstd/terminal_utils.hpp>
-#include <mstd/management_utils.hpp>
+		#include <mstd/arithmetic_utils.hpp>
+		#include <mstd/containers_utils.hpp>
+		#include <mstd/events_utils.hpp>
+		#include <mstd/functions_utils.hpp>
+		#include <mstd/libs.hpp>
+		#include <mstd/management_utils.hpp>
+		#include <mstd/string_utils.hpp>
+		#include <mstd/terminal_utils.hpp>
 
-#endif
+	#endif
 #endif

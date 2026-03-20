@@ -9,148 +9,131 @@
 
 #pragma once
 #ifndef _MSTD_ISSTRNUM_HPP_
-#define _MSTD_ISSTRNUM_HPP_
+	#define _MSTD_ISSTRNUM_HPP_
 
-#include <mstd/config.hpp>
+	#include <mstd/config.hpp>
 
-#if !_MSTD_HAS_CXX17
+	#if !_MSTD_HAS_CXX17
 _MSTD_WARNING("this is only available for c++17 and greater!");
-#else
+	#else
 
-#include <mstd/string_types.hpp>
+		#include <mstd/string_types.hpp>
 
 namespace mstd {
-	inline bool isstrhex(const std::string_view& str) {
-		if (str.size() <= 2) return false;
-		if (str[0] != '0' || str[1] != 'x') return false;
+	inline bool isstrhex(std::string_view const& str) {
+			if (str.size() <= 2) { return false; }
+			if (str[0] != '0' || str[1] != 'x') { return false; }
 
 		size_t i = 2;
-		for (; i != str.size(); ++i) {
-			if ((str[i] < '0' || str[i] > '9') &&
-				(str[i] < 'a' || str[i] > 'f') &&
-				(str[i] < 'A' || str[i] > 'F')) {
-				return false;
+			for (; i != str.size(); ++i) {
+					if ((str[i] < '0' || str[i] > '9') && (str[i] < 'a' || str[i] > 'f') &&
+						(str[i] < 'A' || str[i] > 'F')) {
+						return false;
+					}
 			}
-		}
 
 		return true;
 	}
 
-	inline bool isstroct(const std::string_view& str) {
-		if (str.size() <= 2) return false;
-		if (str[0] != '0' || str[1] != 'c') return false;
+	inline bool isstroct(std::string_view const& str) {
+			if (str.size() <= 2) { return false; }
+			if (str[0] != '0' || str[1] != 'c') { return false; }
 
 		size_t i = 2;
-		for (; i != str.size(); ++i) {
-			if (str[i] < '0' || str[i] > '7') {
-				return false;
+			for (; i != str.size(); ++i) {
+					if (str[i] < '0' || str[i] > '7') { return false; }
 			}
-		}
 
 		return true;
 	}
 
-	inline bool isstrbin(const std::string_view& str) {
-		if (str.size() <= 2) return false;
-		if (str[0] != '0' || str[1] != 'b') return false;
+	inline bool isstrbin(std::string_view const& str) {
+			if (str.size() <= 2) { return false; }
+			if (str[0] != '0' || str[1] != 'b') { return false; }
 
 		size_t i = 2;
-		for (; i != str.size(); ++i) {
-			if (str[i] < '0' || str[i] > '1') {
-				return false;
+			for (; i != str.size(); ++i) {
+					if (str[i] < '0' || str[i] > '1') { return false; }
 			}
-		}
 
 		return true;
 	}
 
-	inline bool isstrnum(const std::string_view& str) {
-		if (str.empty()) return false;
+	inline bool isstrnum(std::string_view const& str) {
+			if (str.empty()) { return false; }
 
-		if (str.size() > 2 && str[0] == '0') {
-			if (str[1] == 'b') {
-				return isstrbin(str);
-			}
+			if (str.size() > 2 && str[0] == '0') {
+					if (str[1] == 'b') { return isstrbin(str); }
 
-			if (str[1] == 'c') {
-				return isstroct(str);
-			}
+					if (str[1] == 'c') { return isstroct(str); }
 
-			if (str[1] == 'x') {
-				return isstrhex(str);
+					if (str[1] == 'x') { return isstrhex(str); }
 			}
-		}
 
 		size_t i = 0;
-		while (str[i] == '+' || str[i] == '-') {
-			++i;
-			if (i == str.size()) return false;
-		}
+			while (str[i] == '+' || str[i] == '-') {
+				++i;
+					if (i == str.size()) { return false; }
+			}
 
-		for (; i != str.size(); ++i) {
-			if (str[i] < '0' || str[i] > '9') return false;
-		}
+			for (; i != str.size(); ++i) {
+					if (str[i] < '0' || str[i] > '9') { return false; }
+			}
 
 		return true;
 	}
 
-	inline bool isstrunum(const std::string_view& str) {
-		if (str.empty()) return false;
+	inline bool isstrunum(std::string_view const& str) {
+			if (str.empty()) { return false; }
 
-		if (str.size() > 2 && str[0] == '0') {
-			if (str[1] == 'b') {
-				return isstrbin(str);
-			}
-			
-			if (str[1] == 'c') {
-				return isstroct(str);
-			}
+			if (str.size() > 2 && str[0] == '0') {
+					if (str[1] == 'b') { return isstrbin(str); }
 
-			if (str[1] == 'x') {
-				return isstrhex(str);
+					if (str[1] == 'c') { return isstroct(str); }
+
+					if (str[1] == 'x') { return isstrhex(str); }
 			}
-		}
 
 		size_t i = 0;
-		while (str[i] == '+') {
-			++i;
-			if (i == str.size()) return false;
-		}
+			while (str[i] == '+') {
+				++i;
+					if (i == str.size()) { return false; }
+			}
 
-		for (; i != str.size(); ++i) {
-			if (str[i] < '0' || str[i] > '9') return false;
-		}
+			for (; i != str.size(); ++i) {
+					if (str[i] < '0' || str[i] > '9') { return false; }
+			}
 
 		return true;
 	}
 
-	inline bool isstrfp(const std::string_view& str) {
-		if (str.empty()) return false;
+	inline bool isstrfp(std::string_view const& str) {
+			if (str.empty()) { return false; }
 
 		size_t i = 0;
-		while (str[i] == '+' || str[i] == '-') {
-			++i;
-			if (i == str.size()) return false;
-		}
-
-		while (str[i] >= '0' && str[i] <= '9') {
-			++i;
-			if (i == str.size()) return true;
-		}
-
-		if (str[i] == '.') {
-			++i;
-			if (i == str.size()) return false;
+			while (str[i] == '+' || str[i] == '-') {
+				++i;
+					if (i == str.size()) { return false; }
+			}
 
 			while (str[i] >= '0' && str[i] <= '9') {
 				++i;
-				if (i == str.size()) return true;
+					if (i == str.size()) { return true; }
 			}
-		}
+
+			if (str[i] == '.') {
+				++i;
+					if (i == str.size()) { return false; }
+
+					while (str[i] >= '0' && str[i] <= '9') {
+						++i;
+							if (i == str.size()) { return true; }
+					}
+			}
 
 		return false;
 	}
-}
+} // namespace mstd
 
-#endif
+	#endif
 #endif

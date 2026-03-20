@@ -1,5 +1,5 @@
-#include <mstd/math_functions.hpp>
 #include <gtest/gtest.h>
+#include <mstd/math_functions.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_MATH_FUNCTIONS, ALL) {
@@ -41,4 +41,4 @@ namespace mstd::test {
 		// Q_rstqr
 		ASSERT_FLOAT_EQ(mstd::q_rsqrt(2.f), 0.70693f);
 	}
-}
+} // namespace mstd::test
