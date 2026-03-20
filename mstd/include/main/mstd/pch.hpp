@@ -7,18 +7,10 @@
  * Copyright (c) 2025, Patryk Antosik (MAIPA01)
  */
 
-
 #pragma once
-#ifndef _MSTD_ARITHMETIC_UTILS_HPP_
-	#define _MSTD_ARITHMETIC_UTILS_HPP_
+#ifndef _MSTD_PCH_HPP_
+	#define _MSTD_PCH_HPP_
 
-	#include <mstd/config.hpp>
+	#include <mstd/libs.hpp>
 
-	#if !_MSTD_HAS_CXX17
-_MSTD_WARNING("this is only available for c++17 and greater!");
-	#else
-
-		#include <mstd/arithmetic_libs.hpp>
-
-	#endif
-#endif
+#endif // MSTD_PCH_HPP

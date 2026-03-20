@@ -203,8 +203,7 @@ namespace mstd {
 
 	// member (const volatile noexcept)
 	template<class C, class R, class... Args>
-	struct function_traits<R(Args...) const volatile noexcept, C>
-		: function_traits<R(Args...) const volatile, C> {
+	struct function_traits<R(Args...) const volatile noexcept, C> : function_traits<R(Args...) const volatile, C> {
 		using function_type								= R(Args...) const volatile noexcept;
 
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
@@ -216,8 +215,7 @@ namespace mstd {
 
 	// member (const volatile & noexcept)
 	template<class C, class R, class... Args>
-	struct function_traits<R(Args...) const volatile & noexcept, C>
-		: function_traits<R(Args...) const volatile&, C> {
+	struct function_traits<R(Args...) const volatile & noexcept, C> : function_traits<R(Args...) const volatile&, C> {
 		using function_type								= R(Args...) const volatile& noexcept;
 
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
@@ -229,8 +227,7 @@ namespace mstd {
 
 	// member (const volatile && noexcept)
 	template<class C, class R, class... Args>
-	struct function_traits<R(Args...) const volatile && noexcept, C>
-		: function_traits<R(Args...) const volatile&&, C> {
+	struct function_traits<R(Args...) const volatile && noexcept, C> : function_traits<R(Args...) const volatile&&, C> {
 		using function_type								= R(Args...) const volatile&& noexcept;
 
 		static _MSTD_CONSTEXPR17 const bool is_noexcept = true;
@@ -405,8 +402,7 @@ namespace mstd {
 
 	// for callable objects (lambdas, functors)
 	template<class F>
-	struct function_traits<F, std::void_t<decltype(&F::operator())> >
-		: function_traits<decltype(&F::operator())> {
+	struct function_traits<F, std::void_t<decltype(&F::operator())> > : function_traits<decltype(&F::operator())> {
 		static _MSTD_CONSTEXPR17 const bool is_ptr	   = false;
 		static _MSTD_CONSTEXPR17 const bool is_functor = true;
 		static _MSTD_CONSTEXPR17 const bool is_free	   = false;
@@ -444,8 +440,7 @@ namespace mstd {
 
 	// for member function pointers (const volatile)
 	template<class C, class R, class... Args>
-	struct function_traits<R (C::*)(Args...) const volatile> : function_traits<R(Args...) const volatile, C> {
-	};
+	struct function_traits<R (C::*)(Args...) const volatile> : function_traits<R(Args...) const volatile, C> {};
 
 	// for member function pointers (const &)
 	template<class C, class R, class... Args>
@@ -457,8 +452,7 @@ namespace mstd {
 
 	// for member function pointers (const noexcept)
 	template<class C, class R, class... Args>
-	struct function_traits<R (C::*)(Args...) const noexcept> : function_traits<R(Args...) const noexcept, C> {
-	};
+	struct function_traits<R (C::*)(Args...) const noexcept> : function_traits<R(Args...) const noexcept, C> {};
 
 		#pragma endregion
 
@@ -466,18 +460,15 @@ namespace mstd {
 
 	// for member function pointers (const volatile &)
 	template<class C, class R, class... Args>
-	struct function_traits<R (C::*)(Args...) const volatile&>
-		: function_traits<R(Args...) const volatile&, C> {};
+	struct function_traits<R (C::*)(Args...) const volatile&> : function_traits<R(Args...) const volatile&, C> {};
 
 	// for member function pointers (const volatile &&)
 	template<class C, class R, class... Args>
-	struct function_traits<R (C::*)(Args...) const volatile&&>
-		: function_traits<R(Args...) const volatile&&, C> {};
+	struct function_traits<R (C::*)(Args...) const volatile&&> : function_traits<R(Args...) const volatile&&, C> {};
 
 	// for member function pointers (const volatile noexcept)
 	template<class C, class R, class... Args>
-	struct function_traits<R (C::*)(Args...) const volatile noexcept>
-		: function_traits<R(Args...) const volatile noexcept, C> {};
+	struct function_traits<R (C::*)(Args...) const volatile noexcept> : function_traits<R(Args...) const volatile noexcept, C> {};
 
 		#pragma endregion
 
@@ -503,8 +494,7 @@ namespace mstd {
 
 	// for member function pointers (const & noexcept)
 	template<class C, class R, class... Args>
-	struct function_traits<R (C::*)(Args...) const & noexcept>
-		: function_traits<R(Args...) const & noexcept, C> {};
+	struct function_traits<R (C::*)(Args...) const & noexcept> : function_traits<R(Args...) const & noexcept, C> {};
 
 		#pragma endregion
 
@@ -512,8 +502,7 @@ namespace mstd {
 
 	// for member function pointers (const && noexcept)
 	template<class C, class R, class... Args>
-	struct function_traits<R (C::*)(Args...) const && noexcept>
-		: function_traits<R(Args...) const && noexcept, C> {};
+	struct function_traits<R (C::*)(Args...) const && noexcept> : function_traits<R(Args...) const && noexcept, C> {};
 
 		#pragma endregion
 
@@ -529,8 +518,7 @@ namespace mstd {
 
 	// for member function pointers (volatile noexcept)
 	template<class C, class R, class... Args>
-	struct function_traits<R (C::*)(Args...) volatile noexcept>
-		: function_traits<R(Args...) volatile noexcept, C> {};
+	struct function_traits<R (C::*)(Args...) volatile noexcept> : function_traits<R(Args...) volatile noexcept, C> {};
 
 		#pragma endregion
 
@@ -538,8 +526,7 @@ namespace mstd {
 
 	// for member function pointers (volatile & noexcept)
 	template<class C, class R, class... Args>
-	struct function_traits<R (C::*)(Args...) volatile & noexcept>
-		: function_traits<R(Args...) volatile & noexcept, C> {};
+	struct function_traits<R (C::*)(Args...) volatile & noexcept> : function_traits<R(Args...) volatile & noexcept, C> {};
 
 		#pragma endregion
 
@@ -547,8 +534,8 @@ namespace mstd {
 
 	// for member function pointers (volatile && noexcept)
 	template<class C, class R, class... Args>
-	struct function_traits<R (C::*)(Args...) volatile && noexcept>
-		: function_traits<R (C::*)(Args...) volatile && noexcept, C> {};
+	struct function_traits<R (C::*)(Args...) volatile && noexcept> : function_traits<R (C::*)(Args...) volatile && noexcept, C> {
+	};
 
 		#pragma endregion
 

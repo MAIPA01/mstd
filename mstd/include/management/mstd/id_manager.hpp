@@ -51,23 +51,23 @@ namespace mstd {
 
 	public:
 		_MSTD_CONSTEXPR20 base_id_manager() noexcept										= default;
-		_MSTD_CONSTEXPR20 base_id_manager(base_id_manager const& other) noexcept			= default;
+		_MSTD_CONSTEXPR20 base_id_manager(const base_id_manager& other) noexcept			= default;
 		_MSTD_CONSTEXPR20 base_id_manager(base_id_manager&& other) noexcept					= default;
 		_MSTD_CONSTEXPR20 ~base_id_manager() noexcept										= default;
 
-		_MSTD_CONSTEXPR20 base_id_manager& operator=(base_id_manager const& other) noexcept = default;
+		_MSTD_CONSTEXPR20 base_id_manager& operator=(const base_id_manager& other) noexcept = default;
 		_MSTD_CONSTEXPR20 base_id_manager& operator=(base_id_manager&& other) noexcept		= default;
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 id_type get_next_id() {
 				if (!_removedIds.empty()) {
-					id_type const id = *_removedIds.begin();
+					const id_type id = *_removedIds.begin();
 					_removedIds.erase(id);
 					return id;
 				}
 
 				if (_nextId == max_ids) { return bad_id(); }
 
-			id_type const id = _nextId;
+			const id_type id = _nextId;
 			++_nextId;
 			return id;
 		}

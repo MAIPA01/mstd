@@ -47,9 +47,9 @@ namespace mstd {
 			((_values[Idxs] = static_cast<T>(values)), ...);
 		}
 
-		_MSTD_CONSTEXPR20 void _fill_values(T const& value) { std::fill_n(&_values[0], N, value); }
+		_MSTD_CONSTEXPR20 void _fill_values(const T& value) { std::fill_n(&_values[0], N, value); }
 
-		_MSTD_CONSTEXPR20 void _fill_values_from(size_t firstIdx, T const& value) {
+		_MSTD_CONSTEXPR20 void _fill_values_from(size_t firstIdx, const T& value) {
 				if (firstIdx >= N) { return; }
 			std::fill_n(&_values[0] + firstIdx, N - firstIdx, value);
 		}
@@ -60,13 +60,9 @@ namespace mstd {
 		template<class OT>
 		#endif
 		_MSTD_CONSTEXPR20 void _copy_values_from(const OT*& values, const size_t& size) {
-				if _MSTD_CONSTEXPR17 (std::is_same_v<OT, T>) {
-					std::memcpy(&_values[0], values, std::min(N, size) * sizeof(T));
-				}
+				if _MSTD_CONSTEXPR17 (std::is_same_v<OT, T>) { std::memcpy(&_values[0], values, std::min(N, size) * sizeof(T)); }
 				else {
-						for (size_t i = 0; i != std::min(N, size); ++i) {
-							_values[i] = static_cast<T>(values[i]);
-						}
+						for (size_t i = 0; i != std::min(N, size); ++i) { _values[i] = static_cast<T>(values[i]); }
 				}
 		}
 
@@ -80,9 +76,7 @@ namespace mstd {
 					std::memcpy(&_values[0], &values[0], std::min(N, TN) * sizeof(T));
 				}
 				else {
-						for (size_t i = 0; i != std::min(N, TN); ++i) {
-							_values[i] = static_cast<T>(values[i]);
-						}
+						for (size_t i = 0; i != std::min(N, TN); ++i) { _values[i] = static_cast<T>(values[i]); }
 				}
 		}
 
@@ -94,12 +88,10 @@ namespace mstd {
 		#endif
 		_MSTD_CONSTEXPR20 void _copy_values_from(const vec<ON, OT>& other) {
 				if _MSTD_CONSTEXPR17 (std::is_same_v<OT, T>) {
-					std::memcpy(&_values[0], static_cast<T const*>(other), std::min(N, ON) * sizeof(T));
+					std::memcpy(&_values[0], static_cast<const T*>(other), std::min(N, ON) * sizeof(T));
 				}
 				else {
-						for (size_t i = 0; i != std::min(N, ON); ++i) {
-							_values[i] = static_cast<T>(other[i]);
-						}
+						for (size_t i = 0; i != std::min(N, ON); ++i) { _values[i] = static_cast<T>(other[i]); }
 				}
 		}
 
@@ -117,8 +109,7 @@ namespace mstd {
 		requires (sizeof...(Ts) > 0 && sizeof...(Ts) <= N)
 		#else
 		template<class... Ts,
-		  std::enable_if_t<(sizeof...(Ts) > 0 && sizeof...(Ts) <= N && are_all_v<std::is_arithmetic, Ts...>),
-			bool> = true>
+		  std::enable_if_t<(sizeof...(Ts) > 0 && sizeof...(Ts) <= N && are_all_v<std::is_arithmetic, Ts...>), bool> = true>
 		#endif
 		_MSTD_CONSTEXPR20 vec(const Ts&... values) {
 			_set_values<Ts...>(std::index_sequence_for<Ts...>(), values...);
@@ -131,8 +122,7 @@ namespace mstd {
 		requires (sizeof...(Ts) > 0 && sizeof...(Ts) <= N - ON && ON < N)
 		#else
 		template<size_t ON, class OT, class... Ts,
-		  std::enable_if_t<(sizeof...(Ts) > 0 && sizeof...(Ts) <= N - ON && ON < N &&
-							 are_all_v<std::is_arithmetic, OT, Ts...>),
+		  std::enable_if_t<(sizeof...(Ts) > 0 && sizeof...(Ts) <= N - ON && ON < N && are_all_v<std::is_arithmetic, OT, Ts...>),
 			bool> = true>
 		#endif
 		_MSTD_CONSTEXPR20 vec(const vec<ON, OT>& other, const Ts&... values) {
@@ -181,8 +171,7 @@ namespace mstd {
 		#else
 		template<class AT, class BT, size_t ON, std::enable_if_t<(ON == 3), bool> = true>
 		#endif
-		_MSTD_CONSTEXPR20 vec(const vec<ON, AT>& otherA, const vec<ON, BT>& otherB)
-			: vec(otherA.cross(otherB)) {
+		_MSTD_CONSTEXPR20 vec(const vec<ON, AT>& otherA, const vec<ON, BT>& otherB) : vec(otherA.cross(otherB)) {
 		}
 
 		#pragma endregion // VECTOR_3_CONSTRUCTORS
@@ -222,7 +211,7 @@ namespace mstd {
 
 		static _MSTD_CONSTEXPR20 vec<N, T> one() { return fill(static_cast<T>(1)); }
 
-		static _MSTD_CONSTEXPR20 vec<N, T> fill(T const& value) {
+		static _MSTD_CONSTEXPR20 vec<N, T> fill(const T& value) {
 			vec<N, T> res;
 			res._fill_values(value);
 			return res;
@@ -236,7 +225,7 @@ namespace mstd {
 
 		_MSTD_CONSTEXPR20 bool is_one() const { return is_filled_with(static_cast<T>(1)); }
 
-		_MSTD_CONSTEXPR20 bool is_filled_with(T const& value) const {
+		_MSTD_CONSTEXPR20 bool is_filled_with(const T& value) const {
 				for (size_t i = 0; i != N; ++i) {
 						if (_values[i] != value) { return false; }
 				}
@@ -321,13 +310,13 @@ namespace mstd {
 			return res.normalize();
 		}
 
-		_MSTD_CONSTEXPR20 T dot(vec<N, T> const& other) const {
+		_MSTD_CONSTEXPR20 T dot(const vec<N, T>& other) const {
 			T res = static_cast<T>(0);
 				for (size_t i = 0; i != N; ++i) { res += _values[i] * other[i]; }
 			return res;
 		}
 
-		_MSTD_CONSTEXPR20 T angle_between(vec<N, T> const& other) const {
+		_MSTD_CONSTEXPR20 T angle_between(const vec<N, T>& other) const {
 			T thisLen = length();
 				if (thisLen == static_cast<T>(0)) { return static_cast<T>(0); }
 
@@ -337,23 +326,23 @@ namespace mstd {
 			return static_cast<T>(std::acos(dot(other) / (thisLen * otherLen)));
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& reflect(vec<N, T> const& normal) noexcept {
+		_MSTD_CONSTEXPR20 vec<N, T>& reflect(const vec<N, T>& normal) noexcept {
 			_MSTD_CONSTEXPR17 const float two = 2.0f;
 			*this -= two * this->dot(normal) * normal;
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> reflected(vec<N, T> const& normal) const noexcept {
+		_MSTD_CONSTEXPR20 vec<N, T> reflected(const vec<N, T>& normal) const noexcept {
 			vec<N, T> res = *this;
 			return res.reflect(normal);
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& refract(vec<N, T> const& normal, T const& eta) {
+		_MSTD_CONSTEXPR20 vec<N, T>& refract(const vec<N, T>& normal, const T& eta) {
 			*this = this->refracted(normal, eta);
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> refracted(vec<N, T> const& normal, T const& eta) const {
+		_MSTD_CONSTEXPR20 vec<N, T> refracted(const vec<N, T>& normal, const T& eta) const {
 			float cosTheta		   = std::min((-(*this)).dot(normal), 1.0f);
 			vec<N, T> rOutPerp	   = eta * (*this + (cosTheta * normal));
 			float length		   = rOutPerp.length();
@@ -381,84 +370,82 @@ namespace mstd {
 			return res.fract();
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& mod(T const& y) {
+		_MSTD_CONSTEXPR20 vec<N, T>& mod(const T& y) {
 				for (size_t i = 0; i != N; ++i) { _values[i] -= y * std::floor(_values[i] / y); }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> modded(T const& y) const {
+		_MSTD_CONSTEXPR20 vec<N, T> modded(const T& y) const {
 			vec<N, T> res = *this;
 			return res.mod(y);
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& mod(vec<N, T> const& other) {
-				for (size_t i = 0; i != N; ++i) {
-					_values[i] -= other[i] * std::floor(_values[i] / other[i]);
-				}
+		_MSTD_CONSTEXPR20 vec<N, T>& mod(const vec<N, T>& other) {
+				for (size_t i = 0; i != N; ++i) { _values[i] -= other[i] * std::floor(_values[i] / other[i]); }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> modded(vec<N, T> const& other) const {
+		_MSTD_CONSTEXPR20 vec<N, T> modded(const vec<N, T>& other) const {
 			vec<N, T> res = *this;
 			return res.mod(other);
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& pow(T const& y) {
+		_MSTD_CONSTEXPR20 vec<N, T>& pow(const T& y) {
 				for (size_t i = 0; i != N; ++i) { _values[i] = std::pow(_values[i], y); }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> powed(T const& y) const {
+		_MSTD_CONSTEXPR20 vec<N, T> powed(const T& y) const {
 			vec<N, T> res = *this;
 			return res.pow(y);
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& pow(vec<N, T> const& other) {
+		_MSTD_CONSTEXPR20 vec<N, T>& pow(const vec<N, T>& other) {
 				for (size_t i = 0; i != N; ++i) { _values[i] = std::pow(_values[i], other[i]); }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> powed(vec<N, T> const& other) const {
+		_MSTD_CONSTEXPR20 vec<N, T> powed(const vec<N, T>& other) const {
 			vec<N, T> res = *this;
 			return res.pow(other);
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& clamp(T const& minVal, T const& maxVal) {
+		_MSTD_CONSTEXPR20 vec<N, T>& clamp(const T& minVal, const T& maxVal) {
 				for (size_t i = 0; i != N; ++i) { _values[i] = std::clamp(_values[i], minVal, maxVal); }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> clampped(T const& minVal, T const& maxVal) const {
+		_MSTD_CONSTEXPR20 vec<N, T> clampped(const T& minVal, const T& maxVal) const {
 			vec<N, T> res = *this;
 			return res.clamp(minVal, maxVal);
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& clamp(vec<N, T> const& minVal, vec<N, T> const& maxVal) {
+		_MSTD_CONSTEXPR20 vec<N, T>& clamp(const vec<N, T>& minVal, const vec<N, T>& maxVal) {
 				for (size_t i = 0; i != N; ++i) { _values[i] = std::clamp(_values[i], minVal[i], maxVal[i]); }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> clampped(vec<N, T> const& minVal, vec<N, T> const& maxVal) const {
+		_MSTD_CONSTEXPR20 vec<N, T> clampped(const vec<N, T>& minVal, const vec<N, T>& maxVal) const {
 			vec<N, T> res = *this;
 			return res.clamp(minVal, maxVal);
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& step(T const& edge) noexcept {
+		_MSTD_CONSTEXPR20 vec<N, T>& step(const T& edge) noexcept {
 				for (size_t i = 0; i != N; ++i) { _values[i] = ::mstd::step(edge, _values[i]); }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& step(vec<N, T> const& edge) noexcept {
+		_MSTD_CONSTEXPR20 vec<N, T>& step(const vec<N, T>& edge) noexcept {
 				for (size_t i = 0; i != N; ++i) { _values[i] = ::mstd::step(edge[i], _values[i]); }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> stepped(T const& edge) const noexcept {
+		_MSTD_CONSTEXPR20 vec<N, T> stepped(const T& edge) const noexcept {
 			vec<N, T> res = *this;
 			return res.step(edge);
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> stepped(vec<N, T> const& edge) const noexcept {
+		_MSTD_CONSTEXPR20 vec<N, T> stepped(const vec<N, T>& edge) const noexcept {
 			vec<N, T> res = *this;
 			return res.step(edge);
 		}
@@ -466,30 +453,29 @@ namespace mstd {
 		#pragma region VECTOR_3_OPERATIONS
 		_MSTD_ENABLE_IF_TEMPLATE(Type = value_type, (N == 3 && std::is_same_v<Type, value_type>))
 
-		_MSTD_CONSTEXPR20 vec<N, T> cross(vec<N, T> const& other) const _MSTD_REQUIRES(N == 3) {
-			return vec<N, T>((_values[1] * other[2]) - (_values[2] * other[1]),
-			  (_values[2] * other[0]) - (_values[0] * other[2]),
+		_MSTD_CONSTEXPR20 vec<N, T> cross(const vec<N, T>& other) const _MSTD_REQUIRES(N == 3) {
+			return vec<N, T>((_values[1] * other[2]) - (_values[2] * other[1]), (_values[2] * other[0]) - (_values[0] * other[2]),
 			  (_values[0] * other[1]) - (_values[1] * other[0]));
 		}
 
 		_MSTD_ENABLE_IF_TEMPLATE(Type = value_type, (N == 3 && std::is_same_v<Type, value_type>))
 
-		_MSTD_CONSTEXPR20 vec<N, T>& rotate(vec<N, T> const& axis, T const& radians) _MSTD_REQUIRES(N == 3) {
-			quat<T> const p(T(0), *this);
+		_MSTD_CONSTEXPR20 vec<N, T>& rotate(const vec<N, T>& axis, const T& radians) _MSTD_REQUIRES(N == 3) {
+			const quat<T> p(T(0), *this);
 
 			vec<N, T> normAxis = axis;
 				if (!normAxis.is_zero()) { normAxis.normalize(); }
 
-			quat<T> const& q	   = quat<T>::rotation(normAxis, radians);
+			const quat<T>& q	   = quat<T>::rotation(normAxis, radians);
 
-			quat<T> const& inversQ = q.inverted();
+			const quat<T>& inversQ = q.inverted();
 
 			*this				   = (q * p * inversQ).v;
 			return *this;
 		}
 		_MSTD_ENABLE_IF_TEMPLATE(Type = value_type, (N == 3 && std::is_same_v<Type, value_type>))
 
-		_MSTD_CONSTEXPR20 vec<N, T> rotated(vec<N, T> const& axis, T const& radians) _MSTD_REQUIRES(N == 3) {
+		_MSTD_CONSTEXPR20 vec<N, T> rotated(const vec<N, T>& axis, const T& radians) _MSTD_REQUIRES(N == 3) {
 			vec<N, T> res = *this;
 			return res.rotate(axis, radians);
 		}
@@ -499,95 +485,93 @@ namespace mstd {
 
 		#pragma region OPERATORS
 
-		_MSTD_CONSTEXPR20 vec<N, T>& operator+=(vec<N, T> const& other) {
+		_MSTD_CONSTEXPR20 vec<N, T>& operator+=(const vec<N, T>& other) {
 				for (size_t i = 0; i != N; ++i) { _values[i] += other[i]; }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& operator-=(vec<N, T> const& other) {
+		_MSTD_CONSTEXPR20 vec<N, T>& operator-=(const vec<N, T>& other) {
 				for (size_t i = 0; i != N; ++i) { _values[i] -= other[i]; }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& operator*=(vec<N, T> const& other) {
+		_MSTD_CONSTEXPR20 vec<N, T>& operator*=(const vec<N, T>& other) {
 				for (size_t i = 0; i != N; ++i) { _values[i] *= other[i]; }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& operator/=(vec<N, T> const& other) {
+		_MSTD_CONSTEXPR20 vec<N, T>& operator/=(const vec<N, T>& other) {
 				if (other == vec<N, T>::zero()) { return *this; }
 				for (size_t i = 0; i != N; ++i) { _values[i] /= other[i]; }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& operator+=(T const& other) {
+		_MSTD_CONSTEXPR20 vec<N, T>& operator+=(const T& other) {
 				for (size_t i = 0; i != N; ++i) { _values[i] += other; }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& operator-=(T const& other) {
+		_MSTD_CONSTEXPR20 vec<N, T>& operator-=(const T& other) {
 				for (size_t i = 0; i != N; ++i) { _values[i] -= other; }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& operator*=(T const& other) {
+		_MSTD_CONSTEXPR20 vec<N, T>& operator*=(const T& other) {
 				for (size_t i = 0; i != N; ++i) { _values[i] *= other; }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T>& operator/=(T const& other) {
+		_MSTD_CONSTEXPR20 vec<N, T>& operator/=(const T& other) {
 				if (other == static_cast<T>(0)) { return *this; }
 				for (size_t i = 0; i != N; ++i) { _values[i] /= other; }
 			return *this;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> operator+(vec<N, T> const& other) const {
+		_MSTD_CONSTEXPR20 vec<N, T> operator+(const vec<N, T>& other) const {
 			vec<N, T> res = *this;
 			res += other;
 			return res;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> operator-(vec<N, T> const& other) const {
+		_MSTD_CONSTEXPR20 vec<N, T> operator-(const vec<N, T>& other) const {
 			vec<N, T> res = *this;
 			res -= other;
 			return res;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> operator*(vec<N, T> const& other) const {
+		_MSTD_CONSTEXPR20 vec<N, T> operator*(const vec<N, T>& other) const {
 			vec<N, T> res = *this;
 			res *= other;
 			return res;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> operator/(vec<N, T> const& other) const {
+		_MSTD_CONSTEXPR20 vec<N, T> operator/(const vec<N, T>& other) const {
 			vec<N, T> res = *this;
 			res /= other;
 			return res;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> operator+(T const& other) const {
+		_MSTD_CONSTEXPR20 vec<N, T> operator+(const T& other) const {
 			vec<N, T> res = *this;
 			res += other;
 			return res;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> operator-(T const& other) const {
+		_MSTD_CONSTEXPR20 vec<N, T> operator-(const T& other) const {
 			vec<N, T> res = *this;
 			res -= other;
 			return res;
 		}
 
-		_MSTD_CONSTEXPR20 vec<N, T> operator*(T const& other) const {
+		_MSTD_CONSTEXPR20 vec<N, T> operator*(const T& other) const {
 			vec<N, T> res = *this;
 			res *= other;
 			return res;
 		}
 
-		friend _MSTD_CONSTEXPR20 vec<N, T> operator*(T const& other, vec<N, T> const& vector) {
-			return vector * other;
-		}
+		friend _MSTD_CONSTEXPR20 vec<N, T> operator*(const T& other, const vec<N, T>& vector) { return vector * other; }
 
-		_MSTD_CONSTEXPR20 vec<N, T> operator/(T const& other) const {
+		_MSTD_CONSTEXPR20 vec<N, T> operator/(const T& other) const {
 			vec<N, T> res = *this;
 			res /= other;
 			return res;
@@ -614,23 +598,23 @@ namespace mstd {
 		}
 
 		template<size_t ON>
-		_MSTD_CONSTEXPR20 bool operator==(vec<ON, T> const& other) const {
+		_MSTD_CONSTEXPR20 bool operator==(const vec<ON, T>& other) const {
 				if constexpr (N != ON) { return false; }
-				else { return std::memcmp(_values, static_cast<T const*>(other), N * sizeof(T)) == 0; }
+				else { return std::memcmp(_values, static_cast<const T*>(other), N * sizeof(T)) == 0; }
 		}
 
 		template<size_t ON>
-		_MSTD_CONSTEXPR20 bool operator!=(vec<ON, T> const& other) const {
+		_MSTD_CONSTEXPR20 bool operator!=(const vec<ON, T>& other) const {
 			return !(*this == other);
 		}
 
-		_MSTD_CONSTEXPR20 operator T const*() const { return _values; }
+		_MSTD_CONSTEXPR20 operator const T*() const { return _values; }
 
-		_MSTD_CONSTEXPR20 T& operator[](size_t const& idx) { return _values[idx]; }
+		_MSTD_CONSTEXPR20 T& operator[](const size_t& idx) { return _values[idx]; }
 
-		_MSTD_CONSTEXPR20 T operator[](size_t const& idx) const { return _values[idx]; }
+		_MSTD_CONSTEXPR20 T operator[](const size_t& idx) const { return _values[idx]; }
 
-		friend std::ostream& operator<<(std::ostream& str, vec<N, T> const& vector) {
+		friend std::ostream& operator<<(std::ostream& str, const vec<N, T>& vector) {
 			str << "[";
 				for (size_t i = 0; i != N; ++i) {
 					str << std::to_string(vector[i]);
@@ -645,31 +629,31 @@ namespace mstd {
 		#pragma region EXTRA_OPERATORS
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 T length(vec<N, T> const& a) noexcept {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 T length(const vec<N, T>& a) noexcept {
 		return a.length();
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> normalize(vec<N, T> const& a) noexcept {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> normalize(const vec<N, T>& a) noexcept {
 		return a.normalized();
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> max(vec<N, T> const& a, vec<N, T> const& b) noexcept {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> max(const vec<N, T>& a, const vec<N, T>& b) noexcept {
 		vec<N, T> res;
 			for (size_t i = 0; i != N; ++i) { res[i] = std::max(a[i], b[i]); }
 		return res;
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> min(vec<N, T> const& a, vec<N, T> const& b) noexcept {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> min(const vec<N, T>& a, const vec<N, T>& b) noexcept {
 		vec<N, T> res;
 			for (size_t i = 0; i != N; ++i) { res[i] = std::min(a[i], b[i]); }
 		return res;
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 T dot(vec<N, T> const& a, vec<N, T> const& b) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 T dot(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.dot(b);
 	}
 
@@ -684,69 +668,67 @@ namespace mstd {
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 T angle_between(vec<N, T> const& a, vec<N, T> const& b) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 T angle_between(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.angle_between(b);
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> reflect(vec<N, T> const& dir, vec<N, T> const& normal) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> reflect(const vec<N, T>& dir, const vec<N, T>& normal) {
 		return dir.reflected(normal);
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> refract(vec<N, T> const& dir, vec<N, T> const& normal,
-	  T const& eta) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> refract(const vec<N, T>& dir, const vec<N, T>& normal, const T& eta) {
 		return dir.refracted(normal, eta);
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> saturate(vec<N, T> const& a) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> saturate(const vec<N, T>& a) {
 		return a.saturated();
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> fract(vec<N, T> const& a) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> fract(const vec<N, T>& a) {
 		return a.fracted();
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> mod(vec<N, T> const& a, T const& y) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> mod(const vec<N, T>& a, const T& y) {
 		return a.modded(y);
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> mod(vec<N, T> const& a, vec<N, T> const& b) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> mod(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.modded(b);
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> pow(vec<N, T> const& a, T const& y) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> pow(const vec<N, T>& a, const T& y) {
 		return a.powed(y);
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> pow(vec<N, T> const& a, vec<N, T> const& b) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> pow(const vec<N, T>& a, const vec<N, T>& b) {
 		return a.powed(b);
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> clamp(vec<N, T> const& a, T const& minVal, T const& maxVal) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> clamp(const vec<N, T>& a, const T& minVal, const T& maxVal) {
 		return a.clampped(minVal, maxVal);
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> clamp(vec<N, T> const& a, vec<N, T> const& minVal,
-	  vec<N, T> const& maxVal) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> clamp(const vec<N, T>& a, const vec<N, T>& minVal, const vec<N, T>& maxVal) {
 		return a.clampped(minVal, maxVal);
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> step(T const& edge, vec<N, T> const& a) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> step(const T& edge, const vec<N, T>& a) {
 		return a.stepped(edge);
 	}
 
 	template<class T, size_t N>
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> step(vec<N, T> const& edge, vec<N, T> const& a) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 vec<N, T> step(const vec<N, T>& edge, const vec<N, T>& a) {
 		return a.stepped(edge);
 	}
 

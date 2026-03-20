@@ -5,7 +5,7 @@ namespace mstd::test {
 	struct TestLogger {
 		static inline std::vector<std::string> logs;
 
-		static void log(std::string_view const msg) { logs.emplace_back(msg); }
+		static void log(const std::string_view msg) { logs.emplace_back(msg); }
 
 		static void clear() { logs.clear(); }
 	};
@@ -17,7 +17,7 @@ namespace mstd::test {
 
 	TEST_F(AssertTest, LoggerIsCalledOnFailure) {
 		bool failed	   = false;
-		auto my_logger = [&](std::string_view const msg) {
+		auto my_logger = [&](const std::string_view msg) {
 			failed = true;
 			EXPECT_FALSE(msg.empty());
 			EXPECT_TRUE(msg.find("1 == 2") != std::string::npos);
@@ -30,7 +30,7 @@ namespace mstd::test {
 
 	TEST_F(AssertTest, FormatLogContent) {
 		std::string captured_msg;
-		auto logger = [&](std::string_view const msg) { captured_msg = msg; };
+		auto logger = [&](const std::string_view msg) { captured_msg = msg; };
 
 		MSTD_LOG_ASSERT_BASE(2 + 2 == 5, logger);
 
@@ -41,7 +41,7 @@ namespace mstd::test {
 
 	TEST_F(AssertTest, FormatWithArguments) {
 		std::string captured_msg;
-		auto logger = [&](std::string_view const msg) { captured_msg = msg; };
+		auto logger = [&](const std::string_view msg) { captured_msg = msg; };
 
 		int value	= 42;
 		MSTD_LOG_ASSERT_BASE(value == 0, logger, "Value should be 0, but is {}", value);
@@ -51,7 +51,7 @@ namespace mstd::test {
 
 	TEST_F(AssertTest, DoNotLogOnSuccess) {
 		bool logger_called = false;
-		auto logger		   = [&](std::string_view const) { logger_called = true; };
+		auto logger		   = [&](const std::string_view) { logger_called = true; };
 
 		MSTD_LOG_ASSERT_BASE(true, logger);
 
@@ -62,7 +62,7 @@ namespace mstd::test {
 		std::string s  = "test";
 		int i		   = 42;
 		int call_count = 0;
-		auto logger	   = [&](std::string_view const) { call_count++; };
+		auto logger	   = [&](const std::string_view) { call_count++; };
 
 		MSTD_LOG_ASSERT_BASE(!s.empty(), logger);
 		MSTD_LOG_ASSERT_BASE(i == 42, logger);

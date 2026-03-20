@@ -28,22 +28,18 @@ namespace mstd {
 		#pragma region INDEX_SEQUENCE_FROM_TO
 
 	template<size_t Start, size_t... Indices>
-	_MSTD_CONSTEXPR20 std::index_sequence<(Start + Indices)...> shift_index_sequence(
-	  std::index_sequence<Indices...> const&
-	) {
+	_MSTD_CONSTEXPR20 std::index_sequence<(Start + Indices)...> shift_index_sequence(const std::index_sequence<Indices...>&) {
 		return {};
 	}
 
 	template<size_t Start, size_t End>
-	using make_index_sequence_from_to =
-	  decltype(shift_index_sequence<Start>(std::make_index_sequence<End - Start>()));
+	using make_index_sequence_from_to = decltype(shift_index_sequence<Start>(std::make_index_sequence<End - Start>()));
 
 	template<size_t Start, size_t Size>
 	using make_index_sequence_from = decltype(shift_index_sequence<Start>(std::make_index_sequence<Size>()));
 
 	template<size_t Start, class... Ts>
-	using make_index_sequence_for_from =
-	  decltype(shift_index_sequence<Start>(std::index_sequence_for<Ts...>()));
+	using make_index_sequence_for_from = decltype(shift_index_sequence<Start>(std::index_sequence_for<Ts...>()));
 		#pragma endregion
 
 		#pragma region UNIVERSAL_CHECKS
@@ -122,9 +118,8 @@ namespace mstd {
 
 	namespace utils {
 		template<auto A>
-		struct abs_impl
-			: std::conditional_t<std::is_unsigned_v<decltype(A)>, std::integral_constant<decltype(A), A>,
-				std::integral_constant<decltype(A), (A > 0 ? A : -A)> > {};
+		struct abs_impl : std::conditional_t<std::is_unsigned_v<decltype(A)>, std::integral_constant<decltype(A), A>,
+							std::integral_constant<decltype(A), (A > 0 ? A : -A)> > {};
 	} // namespace utils
 
 	template<auto A>
@@ -194,12 +189,10 @@ namespace mstd {
 
 		#pragma region IS_IN
 	template<template<class, class> class Cmp, class T, class U, class... Us>
-	_MSTD_CONSTEXPR17 const bool is_type_in_v =
-	  (Cmp<T, U>::value || (sizeof...(Us) > 0 ? (Cmp<T, Us>::value || ...) : false));
+	_MSTD_CONSTEXPR17 const bool is_type_in_v = (Cmp<T, U>::value || (sizeof...(Us) > 0 ? (Cmp<T, Us>::value || ...) : false));
 
 	template<template<auto, auto> class Cmp, auto A, auto B, auto... Cs>
-	_MSTD_CONSTEXPR17 const bool is_value_in_v =
-	  (Cmp<A, B>::value || (sizeof...(Cs) > 0 ? (Cmp<A, Cs>::value || ...) : false));
+	_MSTD_CONSTEXPR17 const bool is_value_in_v = (Cmp<A, B>::value || (sizeof...(Cs) > 0 ? (Cmp<A, Cs>::value || ...) : false));
 
 	template<class T, class U, class... Us>
 	_MSTD_CONSTEXPR17 const bool is_same_type_in_v = is_type_in_v<std::is_same, T, U, Us...>;
@@ -232,13 +225,11 @@ namespace mstd {
 		struct unique_impl {};
 
 		template<class T, class... Us>
-		struct unique_impl<types_holder<>, types_holder<T, Us...> >
-			: unique_impl<types_holder<T>, types_holder<Us...> > {};
+		struct unique_impl<types_holder<>, types_holder<T, Us...> > : unique_impl<types_holder<T>, types_holder<Us...> > {};
 
 		template<class... Ts, class T, class... Us>
 		struct unique_impl<types_holder<Ts...>, types_holder<T, Us...> >
-			: std::conditional_t<is_same_type_in_v<T, Ts...>,
-				unique_impl<types_holder<Ts...>, types_holder<Us...> >,
+			: std::conditional_t<is_same_type_in_v<T, Ts...>, unique_impl<types_holder<Ts...>, types_holder<Us...> >,
 				unique_impl<types_holder<Ts..., T>, types_holder<Us...> > > {};
 
 		template<class... Ts>

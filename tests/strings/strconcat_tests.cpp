@@ -16,7 +16,7 @@ namespace mstd::test {
 
 	TEST(StringConcatTest, ConcatEfficiency) {
 		std::string out;
-		char const* part = "MeasureMe";
+		const char* part = "MeasureMe";
 
 		concat_to(out, part, part, part);
 
@@ -26,7 +26,7 @@ namespace mstd::test {
 
 	TEST(StringConcatTest, MixedTypes) {
 		char arr[]		   = "Array";
-		char const* ptr	   = "Pointer";
+		const char* ptr	   = "Pointer";
 		std::string str	   = "StdString";
 		char c			   = '!';
 

@@ -18,7 +18,7 @@ namespace mstd::test {
 
 		std::vector<int> expected = { 3, 2, 1 };
 		size_t i				  = 0;
-			for (auto const& val : s) { EXPECT_EQ(val, expected[i++]); }
+			for (const auto& val : s) { EXPECT_EQ(val, expected[i++]); }
 	}
 
 	TEST_F(OrderedSetTest, InsertNewElements) {
@@ -40,7 +40,7 @@ namespace mstd::test {
 		EXPECT_EQ(set.size(), 4);
 		std::vector<int> expected = { 1, 3, 4, 2 };
 		size_t i				  = 0;
-			for (auto const& val : set) { EXPECT_EQ(val, expected[i++]); }
+			for (const auto& val : set) { EXPECT_EQ(val, expected[i++]); }
 	}
 
 	TEST_F(OrderedSetTest, EraseElement) {

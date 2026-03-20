@@ -69,8 +69,7 @@ namespace mstd::test {
 	public:
 		int mana_cost = 5;
 
-		DECLARE_CLONE_BASE_FUNC_WITH_DEFINITION_ADVANCED(EnchantedWeapon, Weapon,
-		  MAKE_TUPLE(mana_cost, mana_cost))
+		DECLARE_CLONE_BASE_FUNC_WITH_DEFINITION_ADVANCED(EnchantedWeapon, Weapon, MAKE_TUPLE(mana_cost, mana_cost))
 	};
 
 	TEST(MacroCloneTest, DeepCopyValidation) {

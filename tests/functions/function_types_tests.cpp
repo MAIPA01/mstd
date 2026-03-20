@@ -14,7 +14,7 @@ namespace mstd::test {
 
 	void global_action(int) {}
 
-	int global_func(std::string const&) { return 0; }
+	int global_func(const std::string&) { return 0; }
 
 	// --- TESTY CPP_FUNCTIONS ---
 

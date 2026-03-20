@@ -87,7 +87,7 @@ namespace mstd::test {
 		static int a	  = 5;
 		static float b	  = 10;
 
-		auto const result = mstd::if_v<true, &a, &b>;
+		const auto result = mstd::if_v<true, &a, &b>;
 		EXPECT_EQ(result, &a);
 	}
 } // namespace mstd::test

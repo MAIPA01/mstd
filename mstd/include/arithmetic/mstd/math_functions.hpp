@@ -46,10 +46,9 @@ namespace mstd {
 		#else
 	template<class T, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
 		#endif
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 T remap(const T& input, const T& currStart, const T& currEnd,
-	  const T& expectedStart, const T& expectedEnd) noexcept {
-		return expectedStart +
-			   (((expectedEnd - expectedStart) / (currEnd - currStart)) * (input - currStart));
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 T remap(const T& input, const T& currStart, const T& currEnd, const T& expectedStart,
+	  const T& expectedEnd) noexcept {
+		return expectedStart + (((expectedEnd - expectedStart) / (currEnd - currStart)) * (input - currStart));
 	}
 
 		#if _MSTD_HAS_CXX20
@@ -77,8 +76,7 @@ namespace mstd {
 		#if _MSTD_HAS_CXX20
 	template<floating_point AT, floating_point BT, floating_point EpsT>
 		#else
-	template<class AT, class BT, class EpsT,
-	  std::enable_if_t<mstd::are_floating_points_v<AT, BT, EpsT>, bool> = true>
+	template<class AT, class BT, class EpsT, std::enable_if_t<mstd::are_floating_points_v<AT, BT, EpsT>, bool> = true>
 		#endif
 	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool epsilon_equal(const AT& a, const BT& b,
 	  const EpsT& epsilon = default_epsilon) noexcept {
@@ -91,8 +89,7 @@ namespace mstd {
 	template<class AT, class BT, class EpsT = double,
 	  std::enable_if_t<mstd::are_arithmetic_v<AT, BT> && std::is_floating_point_v<EpsT>, bool> = true>
 		#endif
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool is_equal(const AT& a, const BT& b,
-	  const EpsT& eps = default_epsilon) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool is_equal(const AT& a, const BT& b, const EpsT& eps = default_epsilon) {
 			if _MSTD_CONSTEXPR17 (std::is_floating_point_v<AT> || std::is_floating_point_v<BT>) {
 				return epsilon_equal(a, b, eps);
 			}
@@ -105,8 +102,7 @@ namespace mstd {
 	template<class AT, class BT, class EpsT = double,
 	  std::enable_if_t<mstd::are_arithmetic_v<AT, BT> && std::is_floating_point_v<EpsT>, bool> = true>
 		#endif
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool is_not_equal(const AT& a, const BT& b,
-	  const EpsT& eps = default_epsilon) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool is_not_equal(const AT& a, const BT& b, const EpsT& eps = default_epsilon) {
 		return !is_equal(a, b, eps);
 	}
 

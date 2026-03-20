@@ -39,8 +39,7 @@ namespace mstd {
 	template<class T = float, std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
 	class quat;
 
-	template<size_t C, size_t R, class T,
-	  std::enable_if_t<(C > 0 && R > 0 && std::is_arithmetic_v<T>), bool> = true>
+	template<size_t C, size_t R, class T, std::enable_if_t<(C > 0 && R > 0 && std::is_arithmetic_v<T>), bool> = true>
 	class mat;
 		#endif
 

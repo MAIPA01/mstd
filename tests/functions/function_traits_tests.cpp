@@ -4,7 +4,7 @@
 
 namespace mstd::test {
 	// Funkcje testowe
-	int test_func(std::string const&, int&&, double) { return 0; }
+	int test_func(const std::string&, int&&, double) { return 0; }
 
 	void test_noexcept() noexcept {}
 
@@ -13,7 +13,7 @@ namespace mstd::test {
 
 		void const_method() const {}
 
-		int const& get_val(float) const {
+		const int& get_val(float) const {
 			static int i = 0;
 			return i;
 		}
@@ -28,7 +28,7 @@ namespace mstd::test {
 	TEST(FUNCTIONS_FunctionTraitsRevisedTest, ReturnTypes) {
 		using M = decltype(&Member::get_val);
 
-		static_assert(std::is_same_v<function_return_t<M>, int const&>);
+		static_assert(std::is_same_v<function_return_t<M>, const int&>);
 		static_assert(std::is_same_v<function_decayed_return_t<M>, int>);
 	}
 
@@ -36,7 +36,7 @@ namespace mstd::test {
 		using F = decltype(&test_func);
 
 		static_assert(function_args_num_v<F> == 3);
-		static_assert(std::is_same_v<function_arg_t<F, 0>, std::string const&>);
+		static_assert(std::is_same_v<function_arg_t<F, 0>, const std::string&>);
 		static_assert(std::is_same_v<function_decayed_arg_t<F, 0>, std::string>);
 
 		static_assert(std::is_same_v<function_arg_t<F, 1>, int&&>);
@@ -49,7 +49,7 @@ namespace mstd::test {
 		using FullTuple	   = function_args_t<F>;
 		using DecayedTuple = function_decayed_args_t<F>;
 
-		EXPECT_TRUE((std::is_same_v<FullTuple, std::tuple<std::string const&, int&&, double>>));
+		EXPECT_TRUE((std::is_same_v<FullTuple, std::tuple<const std::string&, int&&, double>>));
 		EXPECT_TRUE((std::is_same_v<DecayedTuple, std::tuple<std::string, int, double>>));
 	}
 
@@ -112,9 +112,9 @@ namespace mstd::test {
 
 	TEST(FunctionTraitsTest, MemberFunctionsQualifiers) {
 		using ConstMem = decltype(&Member::get_val);
-		static_assert(std::is_same_v<function_type_t<ConstMem>, int const&(float) const>);
+		static_assert(std::is_same_v<function_type_t<ConstMem>, const int&(float) const>);
 
-		static_assert(std::is_same_v<core_function_type_t<ConstMem>, int const&(float)>);
+		static_assert(std::is_same_v<core_function_type_t<ConstMem>, const int&(float)>);
 	}
 
 	TEST(FunctionTraitsTest, VolatileAndRefQualifiers) {

@@ -38,7 +38,7 @@ namespace mstd {
 		size_t i				  = 2;
 
 		using limits			  = std::numeric_limits<N>;
-		uint32_t const maxBitsNum = std::max<uint32_t>((limits::digits + limits::is_signed) / bits_in_hex, 1);
+		const uint32_t maxBitsNum = std::max<uint32_t>((limits::digits + limits::is_signed) / bits_in_hex, 1);
 
 		using UN				  = std::make_unsigned_t<N>;
 		UN unum					  = 0;
@@ -47,17 +47,13 @@ namespace mstd {
 				   i - 2 < maxBitsNum) {
 					if (mul_overflow(unum, hex_divider, unum)) { return false; }
 
-					if (hexStr[i] >= '0' && hexStr[i] <= '9' && add_overflow(unum, hexStr[i] - '0', unum)) {
+					if (hexStr[i] >= '0' && hexStr[i] <= '9' && add_overflow(unum, hexStr[i] - '0', unum)) { return false; }
+
+					if (hexStr[i] >= 'A' && hexStr[i] <= 'F' && add_overflow(unum, (hexStr[i] - 'A') + a_decimal_rep, unum)) {
 						return false;
 					}
 
-					if (hexStr[i] >= 'A' && hexStr[i] <= 'F' &&
-						add_overflow(unum, (hexStr[i] - 'A') + a_decimal_rep, unum)) {
-						return false;
-					}
-
-					if (hexStr[i] >= 'a' && hexStr[i] <= 'f' &&
-						add_overflow(unum, (hexStr[i] - 'a') + a_decimal_rep, unum)) {
+					if (hexStr[i] >= 'a' && hexStr[i] <= 'f' && add_overflow(unum, (hexStr[i] - 'a') + a_decimal_rep, unum)) {
 						return false;
 					}
 
@@ -86,7 +82,7 @@ namespace mstd {
 		size_t i					 = 2;
 
 		using limits				 = std::numeric_limits<N>;
-		uint32_t const& maxOctalsNum = std::max((limits::digits + limits::is_signed) / 4, 1);
+		const uint32_t& maxOctalsNum = std::max((limits::digits + limits::is_signed) / 4, 1);
 
 		using UN					 = std::make_unsigned_t<N>;
 		UN unum						 = 0;
@@ -118,7 +114,7 @@ namespace mstd {
 		size_t i					 = 2;
 
 		using limits				 = std::numeric_limits<N>;
-		uint32_t const& maxOctalsNum = limits::digits + limits::is_signed;
+		const uint32_t& maxOctalsNum = limits::digits + limits::is_signed;
 
 		using UN					 = std::make_unsigned_t<N>;
 		UN unum						 = 0;

@@ -136,7 +136,7 @@ namespace mstd::test {
 	}
 
 	TEST_F(StableVectorTest, HasValueViaConstIterator) {
-		mstd::stable_vector<int> const const_container = { 100, 200 };
+		const mstd::stable_vector<int> const_container = { 100, 200 };
 
 		auto cit									   = const_container.cbegin();
 		EXPECT_TRUE(const_container.has_value(cit));
@@ -175,8 +175,8 @@ namespace mstd::test {
 		int* ptr_empty = container.try_at(2);
 		EXPECT_EQ(ptr_empty, nullptr);
 
-		auto const& c_container = container;
-		int const* c_ptr		= c_container.try_at(5);
+		const auto& c_container = container;
+		const int* c_ptr		= c_container.try_at(5);
 		EXPECT_EQ(*c_ptr, 500);
 	}
 
@@ -190,7 +190,7 @@ namespace mstd::test {
 		EXPECT_EQ(*it, 20);
 		EXPECT_EQ(container.get_id(it), 1);
 
-		auto const& c_container = container;
+		const auto& c_container = container;
 		auto cit				= c_container.get(2);
 		EXPECT_EQ(*cit, 30);
 	}
@@ -207,11 +207,11 @@ namespace mstd::test {
 	}
 
 	TEST_F(StableVectorTest, ConstTryGetReturnsConstIterator) {
-		mstd::stable_vector<int> const c_container = { 10, 20 };
+		const mstd::stable_vector<int> c_container = { 10, 20 };
 
 		mstd::stable_vector<int> temp			   = { 1, 2, 3 };
 		temp.erase(1);
-		auto const& c_temp = temp;
+		const auto& c_temp = temp;
 
 		auto it			   = c_temp.try_get(1);
 		EXPECT_EQ(it, c_temp.cend());

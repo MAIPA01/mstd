@@ -26,7 +26,7 @@ namespace mstd {
 	public:
 		using value_type	  = T;
 		using reference		  = T&;
-		using const_reference = T const&;
+		using const_reference = const T&;
 
 	private:
 		using _data_type = std::vector<T>;
@@ -62,16 +62,14 @@ namespace mstd {
 	public:
 		_MSTD_CONSTEXPR20 stable_vector()						  = default;
 
-		_MSTD_CONSTEXPR20 stable_vector(stable_vector const&)	  = default;
+		_MSTD_CONSTEXPR20 stable_vector(const stable_vector&)	  = default;
 		_MSTD_CONSTEXPR20 stable_vector(stable_vector&&) noexcept = default;
 
 		_MSTD_CONSTEXPR20 stable_vector(size_type count) { resize(count); }
 
-		_MSTD_CONSTEXPR20 stable_vector(size_type count, T const& value) { resize(count, value); }
+		_MSTD_CONSTEXPR20 stable_vector(size_type count, const T& value) { resize(count, value); }
 
-		_MSTD_CONSTEXPR20 stable_vector(std::initializer_list<T> const& init) : _data(init) {
-			_append_indexes(_data.size());
-		}
+		_MSTD_CONSTEXPR20 stable_vector(const std::initializer_list<T>& init) : _data(init) { _append_indexes(_data.size()); }
 
 		#if _MSTD_HAS_CXX20
 		template<mstd::iterator Iter>
@@ -84,12 +82,12 @@ namespace mstd {
 
 		_MSTD_CONSTEXPR20 ~stable_vector()									 = default;
 
-		_MSTD_CONSTEXPR20 stable_vector& operator=(stable_vector const&)	 = default;
+		_MSTD_CONSTEXPR20 stable_vector& operator=(const stable_vector&)	 = default;
 		_MSTD_CONSTEXPR20 stable_vector& operator=(stable_vector&&) noexcept = default;
 
 		#pragma region INSERT_ON_FREE_SPOT
 
-		_MSTD_CONSTEXPR20 iterator insert(T const& value) {
+		_MSTD_CONSTEXPR20 iterator insert(const T& value) {
 				if (_data.size() == size()) { _append_indexes(1); }
 			return _data.insert(_data.cend(), value);
 		}
@@ -99,7 +97,7 @@ namespace mstd {
 			return _data.insert(_data.cend(), value);
 		}
 
-		_MSTD_CONSTEXPR20 iterator insert(T const& value, size_type count) {
+		_MSTD_CONSTEXPR20 iterator insert(const T& value, size_type count) {
 			_append_indexes(count - (size() - _data.size()));
 			return _data.insert(_data.cend(), count, value);
 		}
@@ -115,15 +113,13 @@ namespace mstd {
 			return _data.insert(_data.cend(), first, last);
 		}
 
-		_MSTD_CONSTEXPR20 iterator insert(std::initializer_list<T> init) {
-			return insert(init.begin(), init.end());
-		}
+		_MSTD_CONSTEXPR20 iterator insert(std::initializer_list<T> init) { return insert(init.begin(), init.end()); }
 
 		#pragma endregion INSERT_ON_FREE_SPOT
 
 		#pragma region INSERT_AT_IDX
 
-		_MSTD_CONSTEXPR20 iterator insert_at(size_type id, T const& value) {
+		_MSTD_CONSTEXPR20 iterator insert_at(size_type id, const T& value) {
 				if (has_value(id)) {
 					_data[_dataIndex[id]] = value;
 					return std::next(_data.begin() + _dataIndex[id]);
@@ -171,7 +167,7 @@ namespace mstd {
 			return iter;
 		}
 
-		_MSTD_CONSTEXPR20 iterator insert_at(size_type id, T const& value, size_type count) {
+		_MSTD_CONSTEXPR20 iterator insert_at(size_type id, const T& value, size_type count) {
 			iterator iter = insert(id, value);
 				for (size_t i = 1; i < count; ++i) { insert(id + i, value); }
 			return iter;
@@ -197,7 +193,7 @@ namespace mstd {
 
 		#pragma region INSERT_AT_ITER
 
-		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, T const& value) {
+		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, const T& value) {
 			return insert(_id[std::distance(_data.begin(), pos)], value);
 		}
 
@@ -205,7 +201,7 @@ namespace mstd {
 			return insert(_id[std::distance(_data.begin(), pos)], value);
 		}
 
-		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, T const& value, size_type count) {
+		_MSTD_CONSTEXPR20 iterator insert_at(const_iterator pos, const T& value, size_type count) {
 			return insert(_id[std::distance(_data.begin(), pos)], count, value);
 		}
 
@@ -256,7 +252,7 @@ namespace mstd {
 			return *emplace_at(size(), std::forward<Args>(args)...);
 		}
 
-		_MSTD_CONSTEXPR20 void push_back(T const& value) { insert_at(size(), value); }
+		_MSTD_CONSTEXPR20 void push_back(const T& value) { insert_at(size(), value); }
 
 		_MSTD_CONSTEXPR20 void push_back(T&& value) { insert_at(size(), value); }
 
@@ -324,7 +320,7 @@ namespace mstd {
 			_data.resize(count);
 		}
 
-		_MSTD_CONSTEXPR20 void resize(size_type count, T const& value) {
+		_MSTD_CONSTEXPR20 void resize(size_type count, const T& value) {
 			_append_indexes(count - size());
 			_data.resize(count, value);
 		}
@@ -441,9 +437,7 @@ namespace mstd {
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool has_value(iterator pos) const { return has_value(get_id(pos)); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool has_value(const_iterator pos) const {
-			return has_value(get_id(pos));
-		}
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool has_value(const_iterator pos) const { return has_value(get_id(pos)); }
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 iterator begin() { return _data.begin(); }
 
@@ -475,34 +469,32 @@ namespace mstd {
 
 		[[nodiscard]] T* data() { return _data.data(); }
 
-		[[nodiscard]] T const* data() const { return _data.data(); }
+		[[nodiscard]] const T* data() const { return _data.data(); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(stable_vector const& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(const stable_vector& other) const {
 			return _data == other._data && _id == other._id && _dataIndex == other._dataIndex;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(stable_vector const& other) const {
-			return !(*this == other);
-		}
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(const stable_vector& other) const { return !(*this == other); }
 
 		#if _MSTD_HAS_CXX20
-		[[nodiscard]] _MSTD_CONSTEXPR20 auto operator<=>(stable_vector const& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 auto operator<=>(const stable_vector& other) const {
 			return _data <=> other._data && _id <=> other._id && _dataIndex <=> other._dataIndex;
 		}
 		#else
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<(stable_vector const& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<(const stable_vector& other) const {
 			return _data < other._data && _id < other._id && _dataIndex < other._dataIndex;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<=(stable_vector const& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<=(const stable_vector& other) const {
 			return _data <= other._data && _id <= other._id && _dataIndex <= other._dataIndex;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>(stable_vector const& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>(const stable_vector& other) const {
 			return _data > other._data && _id > other._id && _dataIndex > other._dataIndex;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>=(stable_vector const& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>=(const stable_vector& other) const {
 			return _data >= other._data && _id >= other._id && _dataIndex >= other._dataIndex;
 		}
 		#endif

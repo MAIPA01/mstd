@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.30)
-project(mstd VERSION 1.4.8 LANGUAGES CXX)
+project(mstd VERSION 1.4.9 LANGUAGES CXX)
 
-option(BUILD_MSTD_TESTS 				"Build mstd tests" 				OFF)
-option(BUILD_MSTD_COVERAGE 				"Enable coverage reporting" 	OFF)
-option(BUILD_MSTD_DOCUMENTATION 		"Build documentation" 			OFF)
-option(CHECK_MSTD_CLANG_TIDY 			"Enables clang-tidy check"		OFF)
+option(MSTD_BUILD_TESTS 				"Build mstd tests" 				OFF)
+option(MSTD_BUILD_COVERAGE 				"Enable coverage reporting" 	OFF)
+option(MSTD_BUILD_DOCUMENTATION 		"Build documentation" 			OFF)
+option(MSTD_ENABLE_CLANG_TIDY 			"Enables clang-tidy check"		OFF)
 
 option(MSTD_USE_EXTERNAL_FMT_FORMAT 	"Enable if you want to use own fmt library (tested and compatible fmt version: 12.1.0)"	OFF)
 option(MSTD_ENABLE_CXX20 				"enables c++20 features" 																OFF)

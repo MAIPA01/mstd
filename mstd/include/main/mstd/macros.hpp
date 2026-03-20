@@ -20,8 +20,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 	// define MSTD_ENABLE_FOR_EACH_MACROS or MSTD_ENABLE_ENUMS_MACROS or MSTD_ENABLE_CLONE_FUNC_MACROS to use macros in for each region
 		#pragma region FOR_EACH
 
-		#if defined(MSTD_ENABLE_FOR_EACH_MACROS) || defined(MSTD_ENABLE_ENUMS_MACROS) || \
-		  defined(MSTD_ENABLE_CLONE_FUNC_MACROS)
+		#if defined(MSTD_ENABLE_FOR_EACH_MACROS) || defined(MSTD_ENABLE_ENUMS_MACROS) || defined(MSTD_ENABLE_CLONE_FUNC_MACROS)
 
 			#define _RESCAN(...)  _RESCAN1(_RESCAN1(_RESCAN1(_RESCAN1(__VA_ARGS__))))
 			#define _RESCAN1(...) _RESCAN2(_RESCAN2(_RESCAN2(_RESCAN2(__VA_ARGS__))))
@@ -55,21 +54,18 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 			#define _FOR_EACH_HELPER(func, again, separator, value, ...)           \
 				func(value) __VA_OPT__(separator again _PARENS(func, __VA_ARGS__))
 
-			#define DO_FOR_EACH(func, value, ...)                                     \
-				_FOR_EACH(func, _DO_FOR_EACH_HELPER, value __VA_OPT__(, __VA_ARGS__))
+			#define DO_FOR_EACH(func, value, ...) _FOR_EACH(func, _DO_FOR_EACH_HELPER, value __VA_OPT__(, __VA_ARGS__))
 			#define _DO_FOR_EACH_HELPER(func, value, ...)                                     \
 				_FOR_EACH_HELPER(func, _DO_FOR_EACH_AGAIN, , value __VA_OPT__(, __VA_ARGS__))
 			#define _DO_FOR_EACH_AGAIN() _DO_FOR_EACH_HELPER
 
-			#define DO_FOR_EACH_WITH_CONST(func, const_value, value, ...) \
+			#define DO_FOR_EACH_WITH_CONST(func, const_value, value, ...)                                     \
 				_FOR_EACH(func, _DO_FOR_EACH_WITH_CONST_HELPER, const_value, value __VA_OPT__(, __VA_ARGS__))
-			#define _DO_FOR_EACH_WITH_CONST_HELPER(func, const_value, value, ...)                   \
-				func(const_value, value)                                                            \
-				  __VA_OPT__(_DO_FOR_EACH_WITH_CONST_AGAIN _PARENS(func, const_value, __VA_ARGS__))
+			#define _DO_FOR_EACH_WITH_CONST_HELPER(func, const_value, value, ...)                                          \
+				func(const_value, value) __VA_OPT__(_DO_FOR_EACH_WITH_CONST_AGAIN _PARENS(func, const_value, __VA_ARGS__))
 			#define _DO_FOR_EACH_WITH_CONST_AGAIN() _DO_FOR_EACH_WITH_CONST_HELPER
 
-			#define LIST_DO_FOR_EACH(func, value, ...)                                     \
-				_FOR_EACH(func, _LIST_DO_FOR_EACH_HELPER, value __VA_OPT__(, __VA_ARGS__))
+			#define LIST_DO_FOR_EACH(func, value, ...) _FOR_EACH(func, _LIST_DO_FOR_EACH_HELPER, value __VA_OPT__(, __VA_ARGS__))
 			#define _LIST_DO_FOR_EACH_HELPER(func, value, ...)                                               \
 				_FOR_EACH_HELPER(func, _LIST_DO_FOR_EACH_AGAIN, _NEXT_ELEM, value __VA_OPT__(, __VA_ARGS__))
 			#define _LIST_DO_FOR_EACH_AGAIN() _LIST_DO_FOR_EACH_HELPER
@@ -88,12 +84,10 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 			#define _ENUM_ELEMENT_COUNT(tuple) +1ull
 			#define _ENUM_TO_STRING_CASE_HELPER(enum_name, name, ...) \
 			case enum_name::name: return #name;
-			#define _ENUM_TO_STRING_CASE(enum_name, tuple)                            \
-				_INVOKE(_ENUM_TO_STRING_CASE_HELPER, (enum_name, BREAK_TUPLE(tuple)))
+			#define _ENUM_TO_STRING_CASE(enum_name, tuple) _INVOKE(_ENUM_TO_STRING_CASE_HELPER, (enum_name, BREAK_TUPLE(tuple)))
 			#define _ENUM_FROM_STRING_IF_HELPER(enum_name, name, ...) \
 				if (s == #name) return enum_name::name;
-			#define _ENUM_FROM_STRING_IF(enum_name, tuple)                            \
-				_INVOKE(_ENUM_FROM_STRING_IF_HELPER, (enum_name, BREAK_TUPLE(tuple)))
+			#define _ENUM_FROM_STRING_IF(enum_name, tuple) _INVOKE(_ENUM_FROM_STRING_IF_HELPER, (enum_name, BREAK_TUPLE(tuple)))
 
 			#define _ENUM_DECLARATION(type, name, base, elem_func, ...)      \
 				type name base { LIST_DO_FOR_EACH(elem_func, __VA_ARGS__) };
@@ -114,10 +108,8 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 						}                                                        \
 				}
 
-			#define _ENUM_STREAM_OPERATOR(name)                                        \
-				inline ::std::ostream& operator<<(::std::ostream& os, const name& v) { \
-					return os << to_string(v);                                         \
-				}
+			#define _ENUM_STREAM_OPERATOR(name)                                                                     \
+				inline ::std::ostream& operator<<(::std::ostream& os, const name& v) { return os << to_string(v); }
 
 			#define _ENUM_FROM_STRING_FUNC(name, case_func, ...)              \
 				template<class T>                                             \
@@ -128,16 +120,14 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 					throw std::invalid_argument("Unknown enum string: " + s); \
 				}
 
-			#define _ENUM_TEMPLATE(type, name, base, declaration_func, size_func, to_string_func, \
-			  from_string_func, ...)                                                              \
-				declaration_func(type, name, base, __VA_ARGS__) size_func(name, __VA_ARGS__)      \
-				  to_string_func(name, __VA_ARGS__) _ENUM_STREAM_OPERATOR(name)                   \
-					from_string_func(name, __VA_ARGS__)
+			#define _ENUM_TEMPLATE(type, name, base, declaration_func, size_func, to_string_func, from_string_func, ...)       \
+				declaration_func(type, name, base, __VA_ARGS__) size_func(name, __VA_ARGS__) to_string_func(name, __VA_ARGS__) \
+				  _ENUM_STREAM_OPERATOR(name) from_string_func(name, __VA_ARGS__)
 
 			#pragma region STANDARD_ENUMS
 
 			#define _STANDARD_ENUM_ELEMENT_HELPER(name, ...) name
-			#define _STANDARD_ENUM_ELEMENT(tuple) _INVOKE(_STANDARD_ENUM_ELEMENT_HELPER, (BREAK_TUPLE(tuple)))
+			#define _STANDARD_ENUM_ELEMENT(tuple)			 _INVOKE(_STANDARD_ENUM_ELEMENT_HELPER, (BREAK_TUPLE(tuple)))
 			#define _STANDARD_ENUM_STRING_TO_STRING_CASE_HELPER(enum_name, name, string) \
 			case enum_name::name: return string;
 			#define _STANDARD_ENUM_STRING_TO_STRING_CASE(enum_name, tuple)                            \
@@ -152,38 +142,31 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 			#define _STANDARD_ENUM_SIZE_FUNC(name, ...) _ENUM_SIZE_FUNC(name, __VA_ARGS__)
 
-			#define _STANDARD_ENUM_TO_STRING_FUNC(name, ...)                  \
-				_ENUM_TO_STRING_FUNC(name, _ENUM_TO_STRING_CASE, __VA_ARGS__)
+			#define _STANDARD_ENUM_TO_STRING_FUNC(name, ...) _ENUM_TO_STRING_FUNC(name, _ENUM_TO_STRING_CASE, __VA_ARGS__)
 
 			#define _STANDARD_ENUM_STRING_TO_STRING_FUNC(name, ...)                           \
 				_ENUM_TO_STRING_FUNC(name, _STANDARD_ENUM_STRING_TO_STRING_CASE, __VA_ARGS__)
 
-			#define _STANDARD_ENUM_FROM_STRING_FUNC(name, ...)                  \
-				_ENUM_FROM_STRING_FUNC(name, _ENUM_FROM_STRING_IF, __VA_ARGS__)
+			#define _STANDARD_ENUM_FROM_STRING_FUNC(name, ...) _ENUM_FROM_STRING_FUNC(name, _ENUM_FROM_STRING_IF, __VA_ARGS__)
 
 			#define _STANDARD_ENUM_STRING_FROM_STRING_FUNC(name, ...)                           \
 				_ENUM_FROM_STRING_FUNC(name, _STANDARD_ENUM_STRING_FROM_STRING_IF, __VA_ARGS__)
 
-			#define _STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, declaration_func, size_func, \
-			  to_string_func, from_string_func, ...)                                            \
-				_ENUM_TEMPLATE(type, name, base, declaration_func, size_func, to_string_func,   \
-				  from_string_func, __VA_ARGS__)
+			#define _STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, declaration_func, size_func, to_string_func,              \
+			  from_string_func, ...)                                                                                         \
+				_ENUM_TEMPLATE(type, name, base, declaration_func, size_func, to_string_func, from_string_func, __VA_ARGS__)
 
-			#define _STANDARD_ENUM_TEMPLATE(type, name, base, ...)                                          \
-				_STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, _STANDARD_ENUM_DECLARATION,                  \
-				  _STANDARD_ENUM_SIZE_FUNC, _STANDARD_ENUM_TO_STRING_FUNC, _STANDARD_ENUM_FROM_STRING_FUNC, \
-				  __VA_ARGS__)
-			#define _STANDARD_ENUM_STRING_TEMPLATE(type, name, base, ...)                  \
-				_STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, _STANDARD_ENUM_DECLARATION, \
-				  _STANDARD_ENUM_SIZE_FUNC, _STANDARD_ENUM_STRING_TO_STRING_FUNC,          \
-				  _STANDARD_ENUM_STRING_FROM_STRING_FUNC, __VA_ARGS__)
+			#define _STANDARD_ENUM_TEMPLATE(type, name, base, ...)                                                   \
+				_STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, _STANDARD_ENUM_DECLARATION, _STANDARD_ENUM_SIZE_FUNC, \
+				  _STANDARD_ENUM_TO_STRING_FUNC, _STANDARD_ENUM_FROM_STRING_FUNC, __VA_ARGS__)
+			#define _STANDARD_ENUM_STRING_TEMPLATE(type, name, base, ...)                                            \
+				_STANDARD_ENUM_FUNC_TEMPLATE(type, name, base, _STANDARD_ENUM_DECLARATION, _STANDARD_ENUM_SIZE_FUNC, \
+				  _STANDARD_ENUM_STRING_TO_STRING_FUNC, _STANDARD_ENUM_STRING_FROM_STRING_FUNC, __VA_ARGS__)
 
-			#define _STANDARD_ENUM(name, base, ...) _STANDARD_ENUM_TEMPLATE(enum, name, base, __VA_ARGS__)
-			#define _STANDARD_ENUM_CLASS(name, base, ...)                    \
-				_STANDARD_ENUM_TEMPLATE(enum class, name, base, __VA_ARGS__)
+			#define _STANDARD_ENUM(name, base, ...)		  _STANDARD_ENUM_TEMPLATE(enum, name, base, __VA_ARGS__)
+			#define _STANDARD_ENUM_CLASS(name, base, ...) _STANDARD_ENUM_TEMPLATE(enum class, name, base, __VA_ARGS__)
 
-			#define _STANDARD_ENUM_STRING(name, base, ...)                    \
-				_STANDARD_ENUM_STRING_TEMPLATE(enum, name, base, __VA_ARGS__)
+			#define _STANDARD_ENUM_STRING(name, base, ...) _STANDARD_ENUM_STRING_TEMPLATE(enum, name, base, __VA_ARGS__)
 			#define _STANDARD_ENUM_CLASS_STRING(name, base, ...)                    \
 				_STANDARD_ENUM_STRING_TEMPLATE(enum class, name, base, __VA_ARGS__)
 
@@ -192,18 +175,17 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 			#define ENUM_CLASS(name, ...)			 _STANDARD_ENUM_CLASS(name, , __VA_ARGS__)
 			#define ENUM_CLASS_BASE(name, base, ...) _STANDARD_ENUM_CLASS(name, : base, __VA_ARGS__)
 
-			#define ENUM_STRING(name, ...)			  _STANDARD_ENUM_STRING(name, , __VA_ARGS__)
-			#define ENUM_BASE_STRING(name, base, ...) _STANDARD_ENUM_STRING(name, : base, __VA_ARGS__)
-			#define ENUM_CLASS_STRING(name, ...)	  _STANDARD_ENUM_CLASS_STRING(name, , __VA_ARGS__)
-			#define ENUM_CLASS_BASE_STRING(name, base, ...)            \
-				_STANDARD_ENUM_CLASS_STRING(name, : base, __VA_ARGS__)
+			#define ENUM_STRING(name, ...)					_STANDARD_ENUM_STRING(name, , __VA_ARGS__)
+			#define ENUM_BASE_STRING(name, base, ...)		_STANDARD_ENUM_STRING(name, : base, __VA_ARGS__)
+			#define ENUM_CLASS_STRING(name, ...)			_STANDARD_ENUM_CLASS_STRING(name, , __VA_ARGS__)
+			#define ENUM_CLASS_BASE_STRING(name, base, ...) _STANDARD_ENUM_CLASS_STRING(name, : base, __VA_ARGS__)
 
 			#pragma endregion
 
 			#pragma region ENUMS_WITH_VALUE
 
 			#define _VALUE_ENUM_ELEMENT_HELPER(name, value, ...) name = value
-			#define _VALUE_ENUM_ELEMENT(tuple) _INVOKE(_VALUE_ENUM_ELEMENT_HELPER, (BREAK_TUPLE(tuple)))
+			#define _VALUE_ENUM_ELEMENT(tuple)					 _INVOKE(_VALUE_ENUM_ELEMENT_HELPER, (BREAK_TUPLE(tuple)))
 			#define _VALUE_ENUM_STRING_TO_STRING_CASE_HELPER(enum_name, name, value, string) \
 			case enum_name::name: return string;
 			#define _VALUE_ENUM_STRING_TO_STRING_CASE(enum_name, tuple)                            \
@@ -218,20 +200,16 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 			#define _VALUE_ENUM_SIZE_FUNC(name, ...) _ENUM_SIZE_FUNC(name, __VA_ARGS__)
 
-			#define _VALUE_ENUM_TO_STRING_FUNC(name, ...)                     \
-				_ENUM_TO_STRING_FUNC(name, _ENUM_TO_STRING_CASE, __VA_ARGS__)
+			#define _VALUE_ENUM_TO_STRING_FUNC(name, ...) _ENUM_TO_STRING_FUNC(name, _ENUM_TO_STRING_CASE, __VA_ARGS__)
 			#define _VALUE_ENUM_STRING_TO_STRING_FUNC(name, ...)                           \
 				_ENUM_TO_STRING_FUNC(name, _VALUE_ENUM_STRING_TO_STRING_CASE, __VA_ARGS__)
 
-			#define _VALUE_ENUM_FROM_STRING_FUNC(name, ...)                     \
-				_ENUM_FROM_STRING_FUNC(name, _ENUM_FROM_STRING_IF, __VA_ARGS__)
+			#define _VALUE_ENUM_FROM_STRING_FUNC(name, ...) _ENUM_FROM_STRING_FUNC(name, _ENUM_FROM_STRING_IF, __VA_ARGS__)
 			#define _VALUE_ENUM_STRING_FROM_STRING_FUNC(name, ...)                           \
 				_ENUM_FROM_STRING_FUNC(name, _VALUE_ENUM_STRING_FROM_STRING_IF, __VA_ARGS__)
 
-			#define _VALUE_ENUM_FUNC_TEMPLATE(type, name, base, declaration, size_func, to_string_func,    \
-			  from_string_func, ...)                                                                       \
-				_ENUM_TEMPLATE(type, name, base, declaration, size_func, to_string_func, from_string_func, \
-				  __VA_ARGS__)
+			#define _VALUE_ENUM_FUNC_TEMPLATE(type, name, base, declaration, size_func, to_string_func, from_string_func, ...) \
+				_ENUM_TEMPLATE(type, name, base, declaration, size_func, to_string_func, from_string_func, __VA_ARGS__)
 
 			#define _VALUE_ENUM_TEMPLATE(type, name, base, ...)                                             \
 				_VALUE_ENUM_FUNC_TEMPLATE(type, name, base, _VALUE_ENUM_DECLARATION, _VALUE_ENUM_SIZE_FUNC, \
@@ -240,25 +218,21 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 				_VALUE_ENUM_FUNC_TEMPLATE(type, name, base, _VALUE_ENUM_DECLARATION, _VALUE_ENUM_SIZE_FUNC, \
 				  _VALUE_ENUM_STRING_TO_STRING_FUNC, _VALUE_ENUM_STRING_FROM_STRING_FUNC, __VA_ARGS__)
 
-			#define _VALUE_ENUM(name, base, ...) _VALUE_ENUM_TEMPLATE(enum, name, base, __VA_ARGS__)
-			#define _VALUE_ENUM_CLASS(name, base, ...)                    \
-				_VALUE_ENUM_TEMPLATE(enum class, name, base, __VA_ARGS__)
+			#define _VALUE_ENUM(name, base, ...)	   _VALUE_ENUM_TEMPLATE(enum, name, base, __VA_ARGS__)
+			#define _VALUE_ENUM_CLASS(name, base, ...) _VALUE_ENUM_TEMPLATE(enum class, name, base, __VA_ARGS__)
 
-			#define _VALUE_ENUM_STRING(name, base, ...)                    \
-				_VALUE_ENUM_STRING_TEMPLATE(enum, name, base, __VA_ARGS__)
-			#define _VALUE_ENUM_CLASS_STRING(name, base, ...)                    \
-				_VALUE_ENUM_STRING_TEMPLATE(enum class, name, base, __VA_ARGS__)
+			#define _VALUE_ENUM_STRING(name, base, ...)		  _VALUE_ENUM_STRING_TEMPLATE(enum, name, base, __VA_ARGS__)
+			#define _VALUE_ENUM_CLASS_STRING(name, base, ...) _VALUE_ENUM_STRING_TEMPLATE(enum class, name, base, __VA_ARGS__)
 
 			#define ENUM_VALUE(name, ...)				   _VALUE_ENUM(name, , __VA_ARGS__)
 			#define ENUM_BASE_VALUE(name, base, ...)	   _VALUE_ENUM(name, : base, __VA_ARGS__)
 			#define ENUM_CLASS_VALUE(name, ...)			   _VALUE_ENUM_CLASS(name, , __VA_ARGS__)
 			#define ENUM_CLASS_BASE_VALUE(name, base, ...) _VALUE_ENUM_CLASS(name, : base, __VA_ARGS__)
 
-			#define ENUM_VALUE_STRING(name, ...)			_VALUE_ENUM_STRING(name, , __VA_ARGS__)
-			#define ENUM_BASE_VALUE_STRING(name, base, ...) _VALUE_ENUM_STRING(name, : base, __VA_ARGS__)
-			#define ENUM_CLASS_VALUE_STRING(name, ...)		_VALUE_ENUM_CLASS_STRING(name, , __VA_ARGS__)
-			#define ENUM_CLASS_BASE_VALUE_STRING(name, base, ...)   \
-				_VALUE_ENUM_CLASS_STRING(name, : base, __VA_ARGS__)
+			#define ENUM_VALUE_STRING(name, ...)				  _VALUE_ENUM_STRING(name, , __VA_ARGS__)
+			#define ENUM_BASE_VALUE_STRING(name, base, ...)		  _VALUE_ENUM_STRING(name, : base, __VA_ARGS__)
+			#define ENUM_CLASS_VALUE_STRING(name, ...)			  _VALUE_ENUM_CLASS_STRING(name, , __VA_ARGS__)
+			#define ENUM_CLASS_BASE_VALUE_STRING(name, base, ...) _VALUE_ENUM_CLASS_STRING(name, : base, __VA_ARGS__)
 
 			#pragma endregion
 
@@ -277,10 +251,9 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 				virtual class_name* Clone() const base_class_operator;            \
 				void CloneTo(class_name* cloned) const;
 
-			#define DECLARE_CLONE_FUNC(class_name) _DECLARE_CLONE_FUNC_TEMPLATE(class_name, )
-			#define DECLARE_OVERRIDED_CLONE_FUNC(class_name)       \
-				_DECLARE_CLONE_FUNC_TEMPLATE(class_name, override)
-			#define DECLARE_ABSTRACT_CLONE_FUNC(class_name) _DECLARE_CLONE_FUNC_TEMPLATE(class_name, = 0)
+			#define DECLARE_CLONE_FUNC(class_name)			 _DECLARE_CLONE_FUNC_TEMPLATE(class_name, )
+			#define DECLARE_OVERRIDED_CLONE_FUNC(class_name) _DECLARE_CLONE_FUNC_TEMPLATE(class_name, override)
+			#define DECLARE_ABSTRACT_CLONE_FUNC(class_name)	 _DECLARE_CLONE_FUNC_TEMPLATE(class_name, = 0)
 
 			#pragma endregion
 
@@ -289,16 +262,13 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 			#define _FIELD_CLONE_HELPER(fieldName, value) cloned->fieldName = value;
 			#define FIELD_CLONE(tuple)					  _INVOKE(_FIELD_CLONE_HELPER, (BREAK_TUPLE(tuple)))
 
-			#define _DECLARE_CLONE_FUNC_WITH_DEFINITION_TEMPLATE(class_name, base_class_func, \
-			  base_class_operator, ...)                                                       \
-				virtual class_name* Clone() const base_class_operator {                       \
-					class_name* cloned = new class_name();                                    \
-					CloneTo(cloned);                                                          \
-					return cloned;                                                            \
-				}                                                                             \
-				void CloneTo(class_name* cloned) const {                                      \
-					base_class_func __VA_OPT__(DO_FOR_EACH(FIELD_CLONE, __VA_ARGS__))         \
-				}
+			#define _DECLARE_CLONE_FUNC_WITH_DEFINITION_TEMPLATE(class_name, base_class_func, base_class_operator, ...)      \
+				virtual class_name* Clone() const base_class_operator {                                                      \
+					class_name* cloned = new class_name();                                                                   \
+					CloneTo(cloned);                                                                                         \
+					return cloned;                                                                                           \
+				}                                                                                                            \
+				void CloneTo(class_name* cloned) const { base_class_func __VA_OPT__(DO_FOR_EACH(FIELD_CLONE, __VA_ARGS__)) }
 
 			#define STANDARD_CLONE(fieldName)				 MAKE_TUPLE(fieldName, fieldName)
 			#define POINTER_DEEP_CLONE(fieldName, valueType) MAKE_TUPLE(fieldName, new valueType(*fieldName))
@@ -332,13 +302,11 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 			#define CLONE_FUNC_DEFINITION_ADVANCED(class_name, ...)                    \
 				_CLONE_FUNC_DEFINITION_TEMPLATE(class_name, __VA_OPT__(, __VA_ARGS__))
-			#define CLONE_BASE_FUNC_DEFINITION_ADVANCED(class_name, base_class_name, ...)     \
-				_CLONE_FUNC_DEFINITION_TEMPLATE(class_name, base_class_name::CloneTo(cloned); \
-				  __VA_OPT__(, __VA_ARGS__))
+			#define CLONE_BASE_FUNC_DEFINITION_ADVANCED(class_name, base_class_name, ...)                                \
+				_CLONE_FUNC_DEFINITION_TEMPLATE(class_name, base_class_name::CloneTo(cloned); __VA_OPT__(, __VA_ARGS__))
 
-			#define CLONE_FUNC_DEFINITION(class_name, ...)             \
-				CLONE_FUNC_DEFINITION_ADVANCED(class_name __VA_OPT__(, \
-				  LIST_DO_FOR_EACH(STANDARD_CLONE, __VA_ARGS__)))
+			#define CLONE_FUNC_DEFINITION(class_name, ...)                                                             \
+				CLONE_FUNC_DEFINITION_ADVANCED(class_name __VA_OPT__(, LIST_DO_FOR_EACH(STANDARD_CLONE, __VA_ARGS__)))
 			#define CLONE_BASE_FUNC_DEFINITION(class_name, base_class_name, ...)               \
 				CLONE_BASE_FUNC_DEFINITION_ADVANCED(class_name,                                \
 				  base_class_name __VA_OPT__(, LIST_DO_FOR_EACH(STANDARD_CLONE, __VA_ARGS__)))

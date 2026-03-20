@@ -82,7 +82,7 @@ BreakFunctionDefinitionParameters: false
 BreakInheritanceList: AfterComma
 BreakStringLiterals: true
 BreakTemplateDeclarations: Yes
-ColumnLimit: 110
+ColumnLimit: 130
 CompactNamespaces: false
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 2
@@ -133,9 +133,9 @@ PPIndentWidth: 4
 PackConstructorInitializers: BinPack
 PointerAlignment: Left
 QualifierAlignment: Custom
-QualifierOrder: [ friend, static, inline, constexpr, type, const, volatile ]
+QualifierOrder: [ friend, static, inline, constexpr, const, volatile, restrict, type ]
 ReferenceAlignment: Left
-ReflowComments: Never
+ReflowComments: IndentOnly
 RemoveBracesLLVM: false
 RemoveEmptyLinesInUnwrappedLines: true
 RemoveParentheses: ReturnStatement

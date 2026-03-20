@@ -19,7 +19,7 @@ namespace mstd::test {
 		};
 
 		size_t i = 0;
-			for (auto const& pair : bm) {
+			for (const auto& pair : bm) {
 				ASSERT_LT(i, expected.size());
 				EXPECT_EQ(pair.first, expected[i].first);
 				EXPECT_EQ(pair.second, expected[i].second);
@@ -30,7 +30,7 @@ namespace mstd::test {
 
 	TEST_F(BimapTest, ConstIteration) {
 		bm.insert({ "Alpha", 100 });
-		auto const& c_bm = bm;
+		const auto& c_bm = bm;
 
 		auto it			 = c_bm.begin();
 		EXPECT_EQ(it->first, "Alpha");

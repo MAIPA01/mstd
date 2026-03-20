@@ -23,12 +23,10 @@ namespace mstd {
 		#pragma region FUNCTIONS_CHECKS
 	template<class F>
 	static _MSTD_CONSTEXPR17 const bool is_function_v =
-	  is_callable_v<F> && (is_free_function_v<F> || is_member_function_v<F>) && !is_functor_v<F> &&
-	  !is_std_function_v<F>;
+	  is_callable_v<F> && (is_free_function_v<F> || is_member_function_v<F>) && !is_functor_v<F> && !is_std_function_v<F>;
 
 	template<class F>
-	static _MSTD_CONSTEXPR17 const bool is_action_v =
-	  is_function_v<F> && std::is_void_v<function_return_t<F> >;
+	static _MSTD_CONSTEXPR17 const bool is_action_v = is_function_v<F> && std::is_void_v<function_return_t<F> >;
 
 	template<class F>
 	static _MSTD_CONSTEXPR17 const bool is_method_v = is_action_v<F> && function_args_num_v<F> == 0;

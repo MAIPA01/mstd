@@ -1,4 +1,4 @@
-project(mstd-tests VERSION 1.4.8 LANGUAGES CXX)
+project(mstd-tests VERSION 1.4.9 LANGUAGES CXX)
 
 # source files
 set(PROJECT_TEST_SOURCES ${PROJECT_NAME}_TEST_SOURCES)
@@ -10,6 +10,8 @@ add_executable(${PROJECT_NAME} ${${PROJECT_TEST_SOURCES}})
 target_link_libraries(${PROJECT_NAME} PRIVATE   mstd::mstd
                                                 gtest_main
 )
+
+target_precompile_headers(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.hpp")
 
 # Optimizations
 target_compile_options(${PROJECT_NAME} PRIVATE

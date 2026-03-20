@@ -15,6 +15,8 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${${PROJECT_HEADERS}})
 # make library
 add_library(${PROJECT_NAME} INTERFACE ${${PROJECT_HEADERS}})
 
+target_precompile_headers(${PROJECT_NAME} INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include/main/mstd/pch.hpp")
+
 if(CHECK_MSTD_CLANG_TIDY)
     if(MSTD_ENABLE_CXX20)
         set(CLANG_TIDY_CXX_STANDARD c++20)
@@ -22,11 +24,12 @@ if(CHECK_MSTD_CLANG_TIDY)
         set(CLANG_TIDY_CXX_STANDARD c++17)
     endif()
 
+    disable_clang_tidy_for_file("${CMAKE_CURRENT_SOURCE_DIR}/include/main/mstd/pch.hpp")
     enable_clang_tidy(
             TARGET ${PROJECT_NAME}
             CONFIG "${CMAKE_SOURCE_DIR}/.clang-tidy"
             CXX_STANDARD ${CLANG_TIDY_CXX_STANDARD}
-            HEADER_FILTER "^${CMAKE_SOURCE_DIR}[\\\\\/\\\\]mstd[\\\\\/\\\\].*"
+            HEADER_FILTER "^${CMAKE_CURRENT_SOURCE_DIR}[\\\\\/\\\\].*"
             EXCLUDE_HEADER_FILTER "^${CMAKE_SOURCE_DIR}[\\\\\/\\\\]third_party[\\\\\/\\\\].*"
     )
 endif()

@@ -29,10 +29,8 @@ namespace mstd {
 		_MSTD_CONSTEXPR17 const uint32_t corner_elements_shift = 24;
 		_MSTD_CONSTEXPR17 const uint32_t middle_elements_shift = 8;
 
-		return ((value >> corner_elements_shift) & first_elem_mask) |
-			   ((value >> middle_elements_shift) & second_elem_mask) |
-			   ((value << middle_elements_shift) & third_elem_mask) |
-			   ((value << corner_elements_shift) & forth_elem_mask);
+		return ((value >> corner_elements_shift) & first_elem_mask) | ((value >> middle_elements_shift) & second_elem_mask) |
+			   ((value << middle_elements_shift) & third_elem_mask) | ((value << corner_elements_shift) & forth_elem_mask);
 	}
 } // namespace mstd
 	#endif

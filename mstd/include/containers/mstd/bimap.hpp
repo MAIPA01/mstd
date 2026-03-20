@@ -28,7 +28,7 @@ namespace mstd {
 		using mapped_type	  = T;
 		using value_type	  = std::pair<Key, T>;
 		using reference		  = value_type&;
-		using const_reference = value_type const&;
+		using const_reference = const value_type&;
 
 	private:
 		using _data_type = std::vector<value_type>;
@@ -49,7 +49,7 @@ namespace mstd {
 		_map_type _map;
 		_inverted_map_type _invertedMap;
 
-		_MSTD_CONSTEXPR20 void _update_indexes(size_type const& from) {
+		_MSTD_CONSTEXPR20 void _update_indexes(const size_type& from) {
 				for (size_type i = from; i != _data.size(); ++i) {
 					_map[_data[i].first]		  = i;
 					_invertedMap[_data[i].second] = i;
@@ -59,11 +59,9 @@ namespace mstd {
 	public:
 		_MSTD_CONSTEXPR20 bimap() = default;
 
-		_MSTD_CONSTEXPR20 bimap(std::initializer_list<value_type> const& init) {
-			insert(init.begin(), init.end());
-		}
+		_MSTD_CONSTEXPR20 bimap(const std::initializer_list<value_type>& init) { insert(init.begin(), init.end()); }
 
-		_MSTD_CONSTEXPR20 bimap(bimap<Key, T, Map> const& other)	 = default;
+		_MSTD_CONSTEXPR20 bimap(const bimap<Key, T, Map>& other)	 = default;
 		_MSTD_CONSTEXPR20 bimap(bimap<Key, T, Map>&& other) noexcept = default;
 
 		#if _MSTD_HAS_CXX20
@@ -77,14 +75,12 @@ namespace mstd {
 
 		_MSTD_CONSTEXPR20 ~bimap()								   = default;
 
-		_MSTD_CONSTEXPR20 bimap& operator=(bimap const& other)	   = default;
+		_MSTD_CONSTEXPR20 bimap& operator=(const bimap& other)	   = default;
 		_MSTD_CONSTEXPR20 bimap& operator=(bimap&& other) noexcept = default;
 
-		_MSTD_CONSTEXPR20 T& emplace(Key const& key, T const& value) {
-			return insert(std::make_pair(key, value));
-		}
+		_MSTD_CONSTEXPR20 T& emplace(const Key& key, const T& value) { return insert(std::make_pair(key, value)); }
 
-		_MSTD_CONSTEXPR20 T& insert(value_type const& value) {
+		_MSTD_CONSTEXPR20 T& insert(const value_type& value) {
 				if (contains(value.first) && _data[_map.at(value.first)].second == value.second) {
 					return _data[_map.at(value.first)].second;
 				}
@@ -140,12 +136,12 @@ namespace mstd {
 				for (Iter iter = begin; iter != end; ++iter) { insert(*iter); }
 		}
 
-		_MSTD_CONSTEXPR20 void erase(Key const& key) {
+		_MSTD_CONSTEXPR20 void erase(const Key& key) {
 				if (!contains(key)) { return; }
 
 			size_t elementOffset = _map.at(key);
 
-			iterator const& itr	 = std::next(_data.begin(), elementOffset);
+			const iterator& itr	 = std::next(_data.begin(), elementOffset);
 			T value				 = itr->second;
 			_data.erase(itr);
 			_map.erase(key);
@@ -154,12 +150,12 @@ namespace mstd {
 			_update_indexes(elementOffset);
 		}
 
-		_MSTD_CONSTEXPR20 void erase_value(T const& value) {
+		_MSTD_CONSTEXPR20 void erase_value(const T& value) {
 				if (!contains_value(value)) { return; }
 
 			size_t elementOffset = _invertedMap.at(value);
 
-			iterator const& itr	 = std::next(_data.begin(), elementOffset);
+			const iterator& itr	 = std::next(_data.begin(), elementOffset);
 			Key key				 = itr->first;
 			_data.erase(itr);
 			_invertedMap.erase(value);
@@ -168,22 +164,22 @@ namespace mstd {
 			_update_indexes(elementOffset);
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 T& at(Key const& key) {
+		[[nodiscard]] _MSTD_CONSTEXPR20 T& at(const Key& key) {
 			mstd_assert(contains(key), "Key '{}' not found", key);
 			return _data.at(_map.at(key)).second;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 const T& at(Key const& key) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 const T& at(const Key& key) const {
 			mstd_assert(contains(key), "Key '{}' not found", key);
 			return _data.at(_map.at(key)).second;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 Key& at_value(T const& value) {
+		[[nodiscard]] _MSTD_CONSTEXPR20 Key& at_value(const T& value) {
 			mstd_assert(contains_value(value), "Value '{}' not found", value);
 			return _data.at(_invertedMap.at(value)).first;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 const Key& at_value(T const& value) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 const Key& at_value(const T& value) const {
 			mstd_assert(contains_value(value), "Value '{}' not found", value);
 			return _data.at(_invertedMap.at(value)).first;
 		}
@@ -192,7 +188,7 @@ namespace mstd {
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool empty() const { return _data.empty(); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool contains(Key const& key) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool contains(const Key& key) const {
 		#if _MSTD_HAS_CXX20
 			return _map.contains(key);
 		#else
@@ -200,7 +196,7 @@ namespace mstd {
 		#endif
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool contains_value(T const& value) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool contains_value(const T& value) const {
 		#if _MSTD_HAS_CXX20
 			return _invertedMap.contains(value);
 		#else
@@ -208,22 +204,22 @@ namespace mstd {
 		#endif
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 iterator find(Key const& key) {
+		[[nodiscard]] _MSTD_CONSTEXPR20 iterator find(const Key& key) {
 			auto it = _map.find(key);
 			return it != _map.end() ? std::next(_data.begin(), it->second) : _data.end();
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator find(Key const& key) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator find(const Key& key) const {
 			auto it = _map.find(key);
 			return it != _map.end() ? std::next(_data.cbegin(), it->second) : _data.cend();
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 iterator find_value(T const& value) {
+		[[nodiscard]] _MSTD_CONSTEXPR20 iterator find_value(const T& value) {
 			auto it = _invertedMap.find(value);
 			return it != _invertedMap.end() ? std::next(_data.begin(), it->second) : _data.end();
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator find_value(T const& value) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator find_value(const T& value) const {
 			auto it = _invertedMap.find(value);
 			return it != _invertedMap.end() ? std::next(_data.cbegin(), it->second) : _data.cend();
 		}
@@ -258,18 +254,18 @@ namespace mstd {
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator crend() const { return _data.crend(); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 T& operator[](Key const& key) {
+		[[nodiscard]] _MSTD_CONSTEXPR20 T& operator[](const Key& key) {
 				if (!contains(key)) { return emplace(key, T()); }
 			return at(key);
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 const T& operator[](Key const& key) const { return at(key); }
+		[[nodiscard]] _MSTD_CONSTEXPR20 const T& operator[](const Key& key) const { return at(key); }
 
-		_MSTD_CONSTEXPR20 bool operator==(bimap const& other) const {
+		_MSTD_CONSTEXPR20 bool operator==(const bimap& other) const {
 			return _map == other._map && _invertedMap == other._invertedMap && _data == other._data;
 		}
 
-		_MSTD_CONSTEXPR20 bool operator!=(bimap const& other) const { return !(*this == other); }
+		_MSTD_CONSTEXPR20 bool operator!=(const bimap& other) const { return !(*this == other); }
 	};
 } // namespace mstd
 

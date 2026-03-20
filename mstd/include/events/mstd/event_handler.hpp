@@ -41,7 +41,7 @@ namespace mstd {
 		_MSTD_CONSTEXPR20 base_event_handler() noexcept	 = default;
 		_MSTD_CONSTEXPR20 ~base_event_handler() noexcept = default;
 
-		_MSTD_CONSTEXPR20 id_type add_callback(event_handler const& callback) {
+		_MSTD_CONSTEXPR20 id_type add_callback(const event_handler& callback) {
 			id_type id = _ids.get_next_id();
 				if (id == id_manager_type::bad_id()) { return id; }
 
@@ -69,12 +69,12 @@ namespace mstd {
 			std::vector<event_handler> callbacksToRun;
 			callbacksToRun.reserve(_events.size());
 
-				for (auto const& [id, event] : _events) { callbacksToRun.push_back(event); }
+				for (const auto& [id, event] : _events) { callbacksToRun.push_back(event); }
 
-				for (auto const& callback : callbacksToRun) { callback(std::forward<Args>(args)...); }
+				for (const auto& callback : callbacksToRun) { callback(std::forward<Args>(args)...); }
 		}
 
-		_MSTD_CONSTEXPR20 id_type operator+=(event_handler const& callback) { return add_callback(callback); }
+		_MSTD_CONSTEXPR20 id_type operator+=(const event_handler& callback) { return add_callback(callback); }
 
 		_MSTD_CONSTEXPR20 bool operator-=(id_type callbackId) { return remove_callback(callbackId); }
 

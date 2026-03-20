@@ -98,9 +98,7 @@ namespace mstd {
 	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool div_overflow(const Na& a, const Nb& b, N& out) {
 		using limits = std::numeric_limits<N>;
 
-			if _MSTD_CONSTEXPR17 (are_unsigned_v<N, Na, Nb>) {
-				out = static_cast<N>(b == 0 ? limits::max() : a / b);
-			}
+			if _MSTD_CONSTEXPR17 (are_unsigned_v<N, Na, Nb>) { out = static_cast<N>(b == 0 ? limits::max() : a / b); }
 			else {
 					if (a == limits::min() && b == -1) { return true; }
 

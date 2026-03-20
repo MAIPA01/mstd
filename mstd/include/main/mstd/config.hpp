@@ -14,7 +14,7 @@
 	#pragma region VERSION
 	#define MSTD_VERSION_MAJOR 1
 	#define MSTD_VERSION_MINOR 4
-	#define MSTD_VERSION_PATCH 8
+	#define MSTD_VERSION_PATCH 9
 
 	#define _MSTD_STRINGIFY_HELPER(x) #x
 
@@ -22,10 +22,9 @@
 		_MSTD_STRINGIFY_HELPER(major) "." _MSTD_STRINGIFY_HELPER(minor) "." _MSTD_STRINGIFY_HELPER(patch)
 	#define _MSTD_VERSION_TO_INT(major, minor, patch) (major * 100 + minor * 10 + patch)
 
-	#define MSTD_VERSION_STRING                                                             \
-		_MSTD_VERSION_TO_STRING(MSTD_VERSION_MAJOR, MSTD_VERSION_MINOR, MSTD_VERSION_PATCH)
-	#define MSTD_VERSION_INT _MSTD_VERSION_TO_INT(MSTD_VERSION_MAJOR, MSTD_VERSION_MINOR, MSTD_VERSION_PATCH)
-	#define MSTD_VERSION	 MSTD_VERSION_STRING
+	#define MSTD_VERSION_STRING _MSTD_VERSION_TO_STRING(MSTD_VERSION_MAJOR, MSTD_VERSION_MINOR, MSTD_VERSION_PATCH)
+	#define MSTD_VERSION_INT	_MSTD_VERSION_TO_INT(MSTD_VERSION_MAJOR, MSTD_VERSION_MINOR, MSTD_VERSION_PATCH)
+	#define MSTD_VERSION		MSTD_VERSION_STRING
 	#pragma endregion
 
 	#pragma region LAST_UPDATE
@@ -42,7 +41,9 @@
 
 	#pragma region VERSION_CHECKS
 	#ifndef _HAS_CXX17
-		#define _MSTD_HAS_CXX17 __cplusplus >= 201'703l
+	// clang-format off
+		#define _MSTD_HAS_CXX17 __cplusplus >= 201703l
+	// clang-format on
 	#else
 		#define _MSTD_HAS_CXX17 _HAS_CXX17
 	#endif
@@ -50,7 +51,9 @@
 	#ifndef MSTD_ENABLE_CXX20
 		#define _MSTD_HAS_CXX20 0
 	#elif !defined(_HAS_CXX20)
-		#define _MSTD_HAS_CXX20 (__cplusplus >= 202'002l)
+	// clang-format off
+		#define _MSTD_HAS_CXX20 (__cplusplus >= 202002l)
+	// clang-format on
 	#else
 		#define _MSTD_HAS_CXX20 _HAS_CXX20
 	#endif
@@ -62,7 +65,7 @@
 
 	#define _MSTD_PRAGMA(PRAGMA)		  _Pragma(#PRAGMA)
 	#define _MSTD_PRAGMA_MESSAGE(MESSAGE) _MSTD_PRAGMA(message(MESSAGE))
-	#define _MSTD_MESSAGE(MESSAGE) _MSTD_PRAGMA_MESSAGE(__FILE__ "(" _MSTD_STRINGIZE(__LINE__) "): " MESSAGE)
+	#define _MSTD_MESSAGE(MESSAGE)		  _MSTD_PRAGMA_MESSAGE(__FILE__ "(" _MSTD_STRINGIZE(__LINE__) "): " MESSAGE)
 
 	#define _MSTD_WARNING(MESSAGE) _MSTD_MESSAGE("warning: " MESSAGE)
 	#define _MSTD_ERROR(MESSAGE)   static_assert(false, "error: " MESSAGE)

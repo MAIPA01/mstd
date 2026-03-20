@@ -18,10 +18,10 @@ namespace mstd::test {
 	}
 
 	TEST(StringInfoTest, CStylePointer) {
-		char const* ptr = "Dynamic";
+		const char* ptr = "Dynamic";
 		EXPECT_EQ(utils::string_size(ptr), 7);
 
-		char const* null_ptr = nullptr;
+		const char* null_ptr = nullptr;
 		EXPECT_EQ(utils::string_size(null_ptr), 0);
 	}
 
@@ -33,15 +33,14 @@ namespace mstd::test {
 	}
 
 	TEST(StringInfoTest, ConstVolatility) {
-		char const volatile c = 'X';
+		const volatile char c = 'X';
 		EXPECT_EQ(utils::string_size(c), 1);
 
-		std::string const cs = "ConstString";
+		const std::string cs = "ConstString";
 		EXPECT_EQ(utils::string_size(cs), 11);
 	}
 
 	TEST(StringInfoTest, CompileTimeOptimization) {
-		static_assert(utils::string_size("ConstexprTest") == 13,
-		  "string_size should be constexpr for literals");
+		static_assert(utils::string_size("ConstexprTest") == 13, "string_size should be constexpr for literals");
 	}
 } // namespace mstd::test

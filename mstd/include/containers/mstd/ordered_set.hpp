@@ -33,21 +33,17 @@ namespace mstd {
 		std::vector<T> _orderedElements;
 		std::unordered_map<T, size_t> _elementsMap;
 
-		_MSTD_CONSTEXPR20 void _update_indexes(size_t const& from) {
-				for (size_t i = from; i != _orderedElements.size(); ++i) {
-					_elementsMap[_orderedElements[i]] = i;
-				}
+		_MSTD_CONSTEXPR20 void _update_indexes(const size_t& from) {
+				for (size_t i = from; i != _orderedElements.size(); ++i) { _elementsMap[_orderedElements[i]] = i; }
 		}
 
 	public:
 		_MSTD_CONSTEXPR20 ordered_set()								= default;
 
-		_MSTD_CONSTEXPR20 ordered_set(ordered_set const& other)		= default;
+		_MSTD_CONSTEXPR20 ordered_set(const ordered_set& other)		= default;
 		_MSTD_CONSTEXPR20 ordered_set(ordered_set&& other) noexcept = default;
 
-		_MSTD_CONSTEXPR20 ordered_set(std::initializer_list<T> const& init) {
-			insert_back(init.begin(), init.end());
-		}
+		_MSTD_CONSTEXPR20 ordered_set(const std::initializer_list<T>& init) { insert_back(init.begin(), init.end()); }
 
 		#if _MSTD_HAS_CXX20
 		template<mstd::iterator Iter>
@@ -60,13 +56,12 @@ namespace mstd {
 
 		_MSTD_CONSTEXPR20 ~ordered_set()									   = default;
 
-		_MSTD_CONSTEXPR20 ordered_set& operator=(ordered_set const& other)	   = default;
+		_MSTD_CONSTEXPR20 ordered_set& operator=(const ordered_set& other)	   = default;
 		_MSTD_CONSTEXPR20 ordered_set& operator=(ordered_set&& other) noexcept = default;
 
 		template<class... Args>
-		_MSTD_CONSTEXPR20 T& emplace(const_iterator const& where, Args const&... args) {
-			size_t whereOffset =
-			  std::clamp<size_t>(std::distance(_orderedElements.begin(), where), 0, _orderedElements.size());
+		_MSTD_CONSTEXPR20 T& emplace(const const_iterator& where, const Args&... args) {
+			size_t whereOffset = std::clamp<size_t>(std::distance(_orderedElements.begin(), where), 0, _orderedElements.size());
 
 			_orderedElements.emplace(where, args...);
 
@@ -76,14 +71,14 @@ namespace mstd {
 		}
 
 		template<class... Args>
-		_MSTD_CONSTEXPR20 T& emplace_back(Args const&... args) {
+		_MSTD_CONSTEXPR20 T& emplace_back(const Args&... args) {
 			return emplace(cend(), args...);
 		}
 
-		_MSTD_CONSTEXPR20 T& insert(const_iterator const& where, T const& item) {
+		_MSTD_CONSTEXPR20 T& insert(const const_iterator& where, const T& item) {
 				if (!contains(item)) {
-					size_t whereOffset = std::clamp<size_t>(std::distance(_orderedElements.cbegin(), where),
-					  0, _orderedElements.size());
+					size_t whereOffset =
+					  std::clamp<size_t>(std::distance(_orderedElements.cbegin(), where), 0, _orderedElements.size());
 
 					_orderedElements.insert(where, item);
 
@@ -91,9 +86,9 @@ namespace mstd {
 					return *std::next(_orderedElements.begin(), whereOffset);
 				}
 
-			size_t whereOffset = std::clamp<size_t>(std::distance(_orderedElements.cbegin(), where), 0,
-			  _orderedElements.size() - 1);
-			size_t const& elementOffset = _elementsMap.at(item);
+			size_t whereOffset =
+			  std::clamp<size_t>(std::distance(_orderedElements.cbegin(), where), 0, _orderedElements.size() - 1);
+			const size_t& elementOffset = _elementsMap.at(item);
 
 			// remove element
 			_orderedElements.erase(std::next(_orderedElements.cbegin(), elementOffset));
@@ -121,7 +116,7 @@ namespace mstd {
 				}
 		}
 
-		_MSTD_CONSTEXPR20 T& insert_back(T const& item) { return insert(cend(), item); }
+		_MSTD_CONSTEXPR20 T& insert_back(const T& item) { return insert(cend(), item); }
 
 		#if _MSTD_HAS_CXX20
 		template<mstd::iterator Iter>
@@ -132,7 +127,7 @@ namespace mstd {
 			insert(cend(), begin, end);
 		}
 
-		_MSTD_CONSTEXPR20 void erase(T const& item) {
+		_MSTD_CONSTEXPR20 void erase(const T& item) {
 				if (!contains(item)) { return; }
 
 			size_t elementOffset = _elementsMap[item];
@@ -143,7 +138,7 @@ namespace mstd {
 			_update_indexes(elementOffset);
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool contains(T const& item) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool contains(const T& item) const {
 		#if _MSTD_HAS_CXX20
 			return _elementsMap.contains(item);
 		#else
@@ -151,16 +146,14 @@ namespace mstd {
 		#endif
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 iterator find(T const& item) {
+		[[nodiscard]] _MSTD_CONSTEXPR20 iterator find(const T& item) {
 			auto it = _elementsMap.find(item);
-			return it != _elementsMap.end() ? std::next(_orderedElements.begin(), it->second) :
-											  _orderedElements.end();
+			return it != _elementsMap.end() ? std::next(_orderedElements.begin(), it->second) : _orderedElements.end();
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator find(T const& item) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_iterator find(const T& item) const {
 			auto it = _elementsMap.find(item);
-			return it != _elementsMap.end() ? std::next(_orderedElements.begin(), it->second) :
-											  _orderedElements.end();
+			return it != _elementsMap.end() ? std::next(_orderedElements.begin(), it->second) : _orderedElements.end();
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 size_t size() const { return _orderedElements.size(); }
@@ -188,29 +181,19 @@ namespace mstd {
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 reverse_iterator rend() { return _orderedElements.rend(); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator rbegin() const {
-			return _orderedElements.crbegin();
-		}
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator rbegin() const { return _orderedElements.crbegin(); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator rend() const {
-			return _orderedElements.crend();
-		}
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator rend() const { return _orderedElements.crend(); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator crbegin() const {
-			return _orderedElements.crbegin();
-		}
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator crbegin() const { return _orderedElements.crbegin(); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator crend() const {
-			return _orderedElements.crend();
-		}
+		[[nodiscard]] _MSTD_CONSTEXPR20 const_reverse_iterator crend() const { return _orderedElements.crend(); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(ordered_set<T> const& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(const ordered_set<T>& other) const {
 			return _orderedElements == other._orderedElements;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(ordered_set<T> const& other) const {
-			return !(*this == other);
-		}
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(const ordered_set<T>& other) const { return !(*this == other); }
 	};
 } // namespace mstd
 	#endif

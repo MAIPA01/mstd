@@ -1,5 +1,5 @@
 /*
-* mstd - Maipa's Standard Library
+ * mstd - Maipa's Standard Library
  *
  * Licensed under the BSD 3-Clause License with Attribution Requirement.
  * See the LICENSE file for details: https://github.com/MAIPA01/mstd/blob/main/LICENSE
@@ -24,8 +24,7 @@ namespace mstd {
 	struct is_iterator : std::false_type {};
 
 	template<class T>
-	struct is_iterator<T, std::void_t<typename std::iterator_traits<T>::iterator_category> >
-		: std::true_type {};
+	struct is_iterator<T, std::void_t<typename std::iterator_traits<T>::iterator_category> > : std::true_type {};
 
 	template<class T>
 	inline _MSTD_CONSTEXPR17 bool is_iterator_v = is_iterator<T>::value;

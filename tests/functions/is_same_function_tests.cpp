@@ -13,7 +13,7 @@ namespace mstd::test {
 
 		void const_method() const {}
 
-		int const& get_val(float) const {
+		const int& get_val(float) const {
 			static int i = 0;
 			return i;
 		}

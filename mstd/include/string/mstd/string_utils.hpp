@@ -24,38 +24,35 @@ namespace mstd::utils {
 	struct string_type_info;
 
 	template<class T>
-	struct string_type_info<T, std::enable_if_t<std::is_same_v<std::remove_cv_t<T>, char> ||
-												std::is_same_v<std::remove_cv_t<T>, signed char> ||
-												std::is_same_v<std::remove_cv_t<T>, unsigned char> > > {
-		static _MSTD_CONSTEXPR17 size_t size(T const&) { return 1; }
+	struct string_type_info<T,
+	  std::enable_if_t<std::is_same_v<std::remove_cv_t<T>, char> || std::is_same_v<std::remove_cv_t<T>, signed char> ||
+					   std::is_same_v<std::remove_cv_t<T>, unsigned char> > > {
+		static _MSTD_CONSTEXPR17 size_t size(const T&) { return 1; }
 	};
 
 	template<class T, size_t N>
-	struct string_type_info<T[N], std::enable_if_t<std::is_same_v<std::remove_cv_t<T>, char> ||
-												   std::is_same_v<std::remove_cv_t<T>, signed char> ||
-												   std::is_same_v<std::remove_cv_t<T>, unsigned char> > > {
-		static _MSTD_CONSTEXPR17 size_t size(T const (&)[N]) { return N - 1; }
+	struct string_type_info<T[N],
+	  std::enable_if_t<std::is_same_v<std::remove_cv_t<T>, char> || std::is_same_v<std::remove_cv_t<T>, signed char> ||
+					   std::is_same_v<std::remove_cv_t<T>, unsigned char> > > {
+		static _MSTD_CONSTEXPR17 size_t size(const T (&)[N]) { return N - 1; }
 	};
 
 	template<class T>
 	struct string_type_info<T,
-	  std::enable_if_t<std::is_pointer_v<T> &&
-					   (std::is_same_v<std::remove_cv_t<std::remove_pointer_t<T> >, char> ||
-						 std::is_same_v<std::remove_cv_t<std::remove_pointer_t<T> >, signed char> ||
-						 std::is_same_v<std::remove_cv_t<std::remove_pointer_t<T> >, unsigned char>)> > {
-		static _MSTD_CONSTEXPR17 size_t size(T s) {
-			return s ? std::strlen(reinterpret_cast<char const*>(s)) : 0;
-		}
+	  std::enable_if_t<std::is_pointer_v<T> && (std::is_same_v<std::remove_cv_t<std::remove_pointer_t<T> >, char> ||
+												 std::is_same_v<std::remove_cv_t<std::remove_pointer_t<T> >, signed char> ||
+												 std::is_same_v<std::remove_cv_t<std::remove_pointer_t<T> >, unsigned char>)> > {
+		static _MSTD_CONSTEXPR17 size_t size(T s) { return s ? std::strlen(reinterpret_cast<const char*>(s)) : 0; }
 	};
 
 	template<class T>
 	struct string_type_info<T, std::enable_if_t<std::is_same_v<std::remove_cv_t<T>, std::string> > > {
-		static _MSTD_CONSTEXPR17 size_t size(std::string const& s) { return s.size(); }
+		static _MSTD_CONSTEXPR17 size_t size(const std::string& s) { return s.size(); }
 	};
 
 	template<class T>
 	struct string_type_info<T, std::enable_if_t<std::is_same_v<std::remove_cv_t<T>, std::string_view> > > {
-		static _MSTD_CONSTEXPR17 size_t size(std::string_view const& s) { return s.size(); }
+		static _MSTD_CONSTEXPR17 size_t size(const std::string_view& s) { return s.size(); }
 	};
 
 	template<class String>
