@@ -15,20 +15,20 @@ option(MSTD_ENABLE_CLONE_FUNC_MACROS 	"enables CLONE_FUNC macros" 														
 option(MSTD_ENABLE_EXTRA_MACROS 		"enables external macros" 																OFF)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/third_party.cmake)
-if(CHECK_MSTD_CLANG_TIDY)
+if(MSTD_ENABLE_CLANG_TIDY)
 	include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/clang_tidy.cmake)
 endif()
-if (BUILD_MSTD_DOCUMENTATION)
+if (MSTD_BUILD_DOCUMENTATION)
 	include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/doxygen.cmake)
 endif()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/mstd)
 
-if(BUILD_MSTD_TESTS)
+if(MSTD_BUILD_TESTS)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)
 endif()
 
-if (BUILD_MSTD_COVERAGE)
+if (MSTD_BUILD_COVERAGE)
 	include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/coverage_report.cmake)
 
     setup_coverage_report(

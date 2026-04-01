@@ -165,22 +165,30 @@ namespace mstd {
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 T& at(const Key& key) {
-			mstd_assert(contains(key), "Key '{}' not found", key);
+				if _MSTD_CONSTEXPR17 (fmt::is_formattable<Key>::value) { mstd_assert(contains(key), "Key '{}' not found", key); }
+				else { mstd_assert(contains(key), "Key not found"); }
 			return _data.at(_map.at(key)).second;
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 const T& at(const Key& key) const {
-			mstd_assert(contains(key), "Key '{}' not found", key);
+				if _MSTD_CONSTEXPR17 (fmt::is_formattable<Key>::value) { mstd_assert(contains(key), "Key '{}' not found", key); }
+				else { mstd_assert(contains(key), "Key not found"); }
 			return _data.at(_map.at(key)).second;
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 Key& at_value(const T& value) {
-			mstd_assert(contains_value(value), "Value '{}' not found", value);
+				if _MSTD_CONSTEXPR17 (fmt::is_formattable<T>::value) {
+					mstd_assert(contains_value(value), "Value '{}' not found", value);
+				}
+				else { mstd_assert(contains_value(value), "Value not found"); }
 			return _data.at(_invertedMap.at(value)).first;
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 const Key& at_value(const T& value) const {
-			mstd_assert(contains_value(value), "Value '{}' not found", value);
+				if _MSTD_CONSTEXPR17 (fmt::is_formattable<T>::value) {
+					mstd_assert(contains_value(value), "Value '{}' not found", value);
+				}
+				else { mstd_assert(contains_value(value), "Value not found"); }
 			return _data.at(_invertedMap.at(value)).first;
 		}
 

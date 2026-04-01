@@ -145,12 +145,14 @@ namespace mstd {
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 T& at(const Key& key) {
-			mstd_assert(contains(key), "Key '{}' not found", key);
+				if _MSTD_CONSTEXPR17 (fmt::is_formattable<Key>::value) { mstd_assert(contains(key), "Key '{}' not found", key); }
+				else { mstd_assert(contains(key), "Key not found"); }
 			return _orderedElements.at(_elementsMap.at(key)).second;
 		}
 
 		[[nodiscard]] _MSTD_CONSTEXPR20 const T& at(const Key& key) const {
-			mstd_assert(contains(key), "Key '{}' not found", key);
+				if _MSTD_CONSTEXPR17 (fmt::is_formattable<Key>::value) { mstd_assert(contains(key), "Key '{}' not found", key); }
+				else { mstd_assert(contains(key), "Key not found"); }
 			return _orderedElements.at(_elementsMap.at(key)).second;
 		}
 

@@ -29,7 +29,7 @@ if(NOT MSTD_USE_EXTERNAL_FMT_FORMAT)
     endif()
 endif()
 
-if(BUILD_MSTD_TESTS)
+if(MSTD_BUILD_TESTS)
     CPMAddPackage("gh:google/googletest#v1.17.0")
     if(googletest_ADDED)
         message(STATUS "Cmake added local googletest: ${googletest_SOURCE_DIR}")
