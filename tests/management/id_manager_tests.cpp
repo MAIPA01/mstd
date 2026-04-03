@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/id_manager.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	class IdManagerTest : public ::testing::Test {

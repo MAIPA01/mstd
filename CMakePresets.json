@@ -90,13 +90,13 @@
       "name": "x64-release-c++20",
       "displayName": "x64 Release c++20",
       "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
-      "inherits": ["windows-base", "c++20", "x64", "release"]
+      "inherits": [ "release", "x64-debug-c++20" ]
     },
     {
       "name": "x64-release-c++17",
       "displayName": "x64 Release c++17",
       "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
-      "inherits": ["windows-base", "c++17", "x64", "release"]
+      "inherits": [ "release", "x64-debug-c++17" ]
     },
     {
       "name": "x86-debug-c++20",
@@ -114,13 +114,13 @@
       "name": "x86-release-c++20",
       "displayName": "x86 Release c++20",
       "description": "Docelowy systemu Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
-      "inherits": ["windows-base", "c++20", "x86", "release"]
+      "inherits": [ "release", "x86-debug-c++20" ]
     },
     {
       "name": "x86-release-c++17",
       "displayName": "x86 Release c++17",
       "description": "Docelowy systemu Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
-      "inherits": ["windows-base", "c++17", "x86", "release"]
+      "inherits": [ "release", "x86-debug-c++17" ]
     }
   ]
 }

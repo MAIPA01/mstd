@@ -274,6 +274,16 @@ namespace mstd {
 	using id32_manager = base_id_manager<uint32_t>;
 	using id64_manager = base_id_manager<uint64_t>;
 		#pragma endregion
+
+		#pragma region FLAGS
+		#if _MSTD_HAS_CXX20
+	template<class BitsEnum>
+		#else
+	template<class BitsEnum, std::enable_if_t<std::is_enum_v<BitsEnum>, bool> = true>
+		#endif
+	_MSTD_REQUIRES(std::is_enum_v<BitsEnum>)
+	class flags;
+		#pragma endregion
 } // namespace mstd
 
 	#endif

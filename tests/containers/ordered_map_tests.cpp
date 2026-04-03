@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/ordered_map.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	class OrderedMapTest : public ::testing::Test {

@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/function_traits.hpp>
-#include <string>
+#include <pch.hpp>
 
 namespace mstd::test {
 	// Funkcje testowe

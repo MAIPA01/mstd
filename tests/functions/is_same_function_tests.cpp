@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/is_same_function.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	void func_v_v() {}

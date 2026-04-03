@@ -4,5 +4,8 @@
 
 	#include <gtest/gtest.h>
 	#include <mstd/mstd.hpp>
+	#include <string>
+	#include <type_traits>
+	#include <unordered_set>
 
 #endif // MSTD_PCH_HPP

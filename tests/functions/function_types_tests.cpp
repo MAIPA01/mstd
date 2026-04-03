@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/functions_types.hpp>
-#include <string>
-#include <type_traits>
+#include <pch.hpp>
 
 namespace mstd::test {
 	struct TestClass {

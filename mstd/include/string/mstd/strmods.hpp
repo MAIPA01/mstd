@@ -20,12 +20,21 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 		#include <mstd/string_types.hpp>
 
 namespace mstd {
-	inline std::string trim(const std::string_view& str) {
+	inline std::string trim(const std::string_view str) {
+		#if _MSTD_HAS_CXX20
 		const std::string_view::const_iterator& start =
-		  std::find_if_not(str.begin(), str.end(), [](unsigned char ch) { return std::isspace(ch); });
+		  std::ranges::find_if_not(str, [](const unsigned char ch) { return std::isspace(ch); });
 
 		const std::string_view::const_iterator& end =
-		  std::find_if_not(str.rbegin(), str.rend(), [](unsigned char ch) { return std::isspace(ch); }).base();
+		  std::ranges::find_if_not(str.rbegin(), str.rend(), [](const unsigned char ch) { return std::isspace(ch); }).base();
+
+		#else
+		const std::string_view::const_iterator& start =
+		  std::find_if_not(str.begin(), str.end(), [](const unsigned char ch) { return std::isspace(ch); });
+
+		const std::string_view::const_iterator& end =
+		  std::find_if_not(str.rbegin(), str.rend(), [](const unsigned char ch) { return std::isspace(ch); }).base();
+		#endif
 
 		return (start < end) ? std::string(start, end) : std::string();
 	}

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/vec.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_VEC, ALL) {

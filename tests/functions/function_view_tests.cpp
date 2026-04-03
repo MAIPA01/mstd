@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/function_view.hpp>
+#include <pch.hpp>
 
 namespace mstd::tests {
 	int free_func(int x) { return x * 2; }

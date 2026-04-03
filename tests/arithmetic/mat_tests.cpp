@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/mat.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_MAT, DIMENSIONS_AND_STATIC_SIZES) {

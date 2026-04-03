@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/terminal.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	TEST(TerminalTest, GetSizeValidValues) {

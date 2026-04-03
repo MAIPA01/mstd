@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/string_types.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	TEST(StringInfoTest, SingleChar) {

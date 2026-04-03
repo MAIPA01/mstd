@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/macros.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 #define TEST_TUPLE	 (A, B, C)

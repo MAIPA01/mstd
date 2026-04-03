@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/assert.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	struct TestLogger {

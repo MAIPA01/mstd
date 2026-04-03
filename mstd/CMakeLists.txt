@@ -10,14 +10,12 @@ foreach(DIR ${HEADERS_PATHS})
     list(APPEND ${PROJECT_HEADERS} ${CURRENT_HEADERS})
 endforeach()
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${${PROJECT_HEADERS}})
-
 # make library
 add_library(${PROJECT_NAME} INTERFACE ${${PROJECT_HEADERS}})
 
 target_precompile_headers(${PROJECT_NAME} INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include/main/mstd/pch.hpp")
 
-if(CHECK_MSTD_CLANG_TIDY)
+if(MSTD_ENABLE_CLANG_TIDY)
     if(MSTD_ENABLE_CXX20)
         set(CLANG_TIDY_CXX_STANDARD c++20)
     else()
@@ -56,6 +54,59 @@ target_compile_definitions(${PROJECT_NAME} INTERFACE	$<$<BOOL:${MSTD_ENABLE_CXX2
                                                         $<$<BOOL:${MSTD_ENABLE_ENUMS_MACROS}>:MSTD_ENABLE_ENUMS_MACROS>
                                                         $<$<BOOL:${MSTD_ENABLE_CLONE_FUNC_MACROS}>:MSTD_ENABLE_CLONE_FUNC_MACROS>
                                                         $<$<BOOL:${MSTD_ENABLE_EXTRA_MACROS}>:MSTD_ENABLE_EXTRA_MACROS>
+)
+
+# Optimizations
+target_compile_options(${PROJECT_NAME} INTERFACE
+    # MSVC/clang with MSVC frontend
+    $<$<OR:$<CXX_COMPILER_ID:MSVC>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>>>:
+        $<$<CONFIG:Release>:
+            /O2
+            /GL
+            /fp:fast
+        >
+        $<$<CONFIG:Debug>:
+            /RTC1
+            /Zi
+        >
+        /Zc:preprocessor
+        /Zc:__cplusplus
+        /W4
+        /WX
+    >
+    # GCC/clang with GNU frontend
+    $<$<OR:$<CXX_COMPILER_ID:GNU>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>>>:
+        $<$<CONFIG:Release>:
+            -O3
+            -flto
+        >
+        -Wall
+        -Wextra
+        -Werror
+        -fno-strict-aliasing
+        $<$<BOOL:${MSTD_BUILD_COVERAGE}>:
+            -g
+            --coverage
+            -fcoverage-mcdc
+            -fprofile-instr-generate
+            -fcoverage-mapping
+        >
+    >
+)
+
+target_link_options(${PROJECT_NAME} INTERFACE
+    # MSVC/clang with MSVC frontend
+    $<$<OR:$<CXX_COMPILER_ID:MSVC>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>>>:
+        $<$<CONFIG:Release>:/LTCG>
+        $<$<CONFIG:Debug>:/DEBUG>
+    >
+    # GCC/clang with GNU frontend
+    $<$<OR:$<CXX_COMPILER_ID:GNU>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>>>:
+        $<$<CONFIG:Release>:-flto>
+#        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang>>:-fuse-ld=lld>
+        -static
+        $<$<BOOL:${MSTD_BUILD_COVERAGE}>:-fprofile-instr-generate>
+    >
 )
 
 # TODO: install

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/math_functions.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_MATH_FUNCTIONS, ALL) {

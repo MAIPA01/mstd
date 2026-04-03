@@ -27,7 +27,7 @@ namespace mstd {
 		#else
 	template<class N, std::enable_if_t<std::is_integral_v<N>, bool> = true>
 		#endif
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strxtonum(const std::string_view& hexStr, N& num) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strxtonum(const std::string_view hexStr, N& num) {
 		_MSTD_CONSTEXPR17 const size_t hex_divider	 = 16u;
 		_MSTD_CONSTEXPR17 const size_t bits_in_hex	 = 8u;
 		_MSTD_CONSTEXPR17 const size_t a_decimal_rep = 10;
@@ -73,7 +73,7 @@ namespace mstd {
 		#else
 	template<class N, std::enable_if_t<std::is_integral_v<N>, bool> = true>
 		#endif
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strctonum(const std::string_view& octStr, N& num) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strctonum(const std::string_view octStr, N& num) {
 		_MSTD_CONSTEXPR17 const size_t oct_divider = 8u;
 
 			if (octStr.size() <= 2) { return false; }
@@ -107,7 +107,7 @@ namespace mstd {
 		#else
 	template<class N, std::enable_if_t<std::is_integral_v<N>, bool> = true>
 		#endif
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strbtonum(const std::string_view& binStr, N& num) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strbtonum(const std::string_view binStr, N& num) {
 			if (binStr.size() <= 2) { return false; }
 
 			if (binStr[0] != '0' || binStr[1] != 'b') { return false; }
@@ -139,7 +139,7 @@ namespace mstd {
 		#else
 	template<class SN, std::enable_if_t<mstd::is_signed_integral_v<SN>, bool> = true>
 		#endif
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strtonum(const std::string_view& str, SN& num) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strtonum(const std::string_view str, SN& num) {
 		_MSTD_CONSTEXPR17 const size_t decimal_base = 10;
 
 			if (str.empty()) { return false; }
@@ -180,7 +180,7 @@ namespace mstd {
 		#else
 	template<class UN, std::enable_if_t<mstd::is_unsigned_integral_v<UN>, bool> = true>
 		#endif
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strtounum(const std::string_view& str, UN& num) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strtounum(const std::string_view str, UN& num) {
 		_MSTD_CONSTEXPR17 const size_t decimal_base = 10;
 
 			if (str.empty()) { return false; }
@@ -217,7 +217,7 @@ namespace mstd {
 		#else
 	template<class FP, std::enable_if_t<std::is_floating_point_v<FP>, bool> = true>
 		#endif
-	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strtofp(const std::string_view& str, FP& num) {
+	_MSTD_INLINE17 _MSTD_CONSTEXPR20 bool strtofp(const std::string_view str, FP& num) {
 		_MSTD_CONSTEXPR17 const double decimal_mul	= 0.1;
 		_MSTD_CONSTEXPR17 const size_t decimal_base = 10;
 

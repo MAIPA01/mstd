@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/strmods.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	TEST(StringModifyTest, TrimBasic) {

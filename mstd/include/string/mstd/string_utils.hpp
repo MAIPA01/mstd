@@ -52,7 +52,7 @@ namespace mstd::utils {
 
 	template<class T>
 	struct string_type_info<T, std::enable_if_t<std::is_same_v<std::remove_cv_t<T>, std::string_view> > > {
-		static _MSTD_CONSTEXPR17 size_t size(const std::string_view& s) { return s.size(); }
+		static _MSTD_CONSTEXPR17 size_t size(const std::string_view s) { return s.size(); }
 	};
 
 	template<class String>

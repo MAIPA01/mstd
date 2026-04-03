@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/event_handler.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	TEST(EVENTS_EVENT_HANDLER, BASIC_INVOKE) {

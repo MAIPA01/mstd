@@ -1,15 +1,20 @@
-project(mstd-tests VERSION 1.4.9 LANGUAGES CXX)
+project(mstd-tests VERSION 1.5.1 LANGUAGES CXX)
 
 # source files
 set(PROJECT_TEST_SOURCES ${PROJECT_NAME}_TEST_SOURCES)
 file(GLOB_RECURSE ${PROJECT_TEST_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
+enable_testing()
+
 # make exec
 add_executable(${PROJECT_NAME} ${${PROJECT_TEST_SOURCES}})
+add_test(${PROJECT_NAME}_TEST ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE   mstd::mstd
+target_link_libraries(${PROJECT_NAME} PRIVATE   mstd
                                                 gtest_main
 )
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/pch.hpp")
 
@@ -41,24 +46,8 @@ target_compile_options(${PROJECT_NAME} PRIVATE
         -Wextra
         -Werror
         -fno-strict-aliasing
-        $<$<BOOL:${BUILD_MSTD_COVERAGE}>:
-            --coverage
-            -fcoverage-mcdc
-            -fprofile-instr-generate
-            -fcoverage-mapping
-        >
-    >
-    # disable noexcept type warning on GCC
-    $<$<CXX_COMPILER_ID:GNU>:
-        $<$<CONFIG:Release>:
-            -O3
-            -flto
-        >
-        -Wall
-        -Wextra
-        -Werror
-        -fno-strict-aliasing
-        $<$<BOOL:${BUILD_MSTD_COVERAGE}>:
+        $<$<BOOL:${MSTD_BUILD_COVERAGE}>:
+            -g
             --coverage
             -fcoverage-mcdc
             -fprofile-instr-generate
@@ -78,12 +67,6 @@ target_link_options(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:-flto>
 #        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang>>:-fuse-ld=lld>
         -static
-        $<$<BOOL:${BUILD_MSTD_COVERAGE}>:-fprofile-instr-generate>
-    >
-    # disable noexcept type warning on GCC
-    $<$<CXX_COMPILER_ID:GNU>:
-        $<$<CONFIG:Release>:-flto>
-        -static
-        $<$<BOOL:${BUILD_MSTD_COVERAGE}>:-fprofile-instr-generate>
+        $<$<BOOL:${MSTD_BUILD_COVERAGE}>:-fprofile-instr-generate>
     >
 )

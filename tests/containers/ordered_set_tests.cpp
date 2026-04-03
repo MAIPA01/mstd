@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/ordered_set.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	class OrderedSetTest : public ::testing::Test {

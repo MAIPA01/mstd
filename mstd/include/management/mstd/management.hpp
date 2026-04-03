@@ -19,6 +19,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 		#include <mstd/assert.hpp>
 		#include <mstd/assert_base.hpp>
+		#include <mstd/flags.hpp>
 		#include <mstd/hash.hpp>
 		#include <mstd/id_manager.hpp>
 		#include <mstd/management_types.hpp>

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/management_types.hpp>
+#include <pch.hpp>
 
 namespace mstd::test {
 	TEST(TraitsTest, ArithmeticEqualityCorrected) {

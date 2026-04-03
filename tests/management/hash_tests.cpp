@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
-#include <mstd/hash.hpp>
-#include <unordered_set>
+#include <pch.hpp>
 
 namespace mstd::test {
 	TEST(HashTest, Consistency) {
