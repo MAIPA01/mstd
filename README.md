@@ -2,7 +2,7 @@
 
 ## About
 
-**mstd** (Maipa's Standard Library) is an extension of the C++ standard library, providing additional utility functions, new data types, and helpful templates for type comparisons. It aims to enhance the standard functionality with useful features while maintaining compatibility with modern C++.
+**mstd** (Maipa's Standard Library) is an extension of the C++ standard library, providing additional utility functions, new data types, and helpful templates for type comparisons. It aims to enhance the standard functionality with useful features while maintaining compatibility with modern C++. ['DOCS'](maipa01.github.io/mstd/html)
 
 ## Features
 
