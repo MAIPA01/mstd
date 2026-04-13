@@ -1,0 +1,4 @@
+var structmstd_1_1utils_1_1string__type__info_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__pointed505b05ae6c0dfbe1f73a44bdd9deff4 =
+[
+    [ "size", "d1/d6a/structmstd_1_1utils_1_1string__type__info_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__pointed505b05ae6c0dfbe1f73a44bdd9deff4.html#aa5ab71c67782c908937c8e5178bf215c", null ]
+];

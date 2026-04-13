@@ -1,0 +1,4 @@
+var structmstd_1_1utils_1_1string__type__info_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__same__ad1f77280e3c05ec28c53a9350537704 =
+[
+    [ "size", "da/ddf/structmstd_1_1utils_1_1string__type__info_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__same__ad1f77280e3c05ec28c53a9350537704.html#aa7e2e3e93ea037c937ac86cf21173f2d", null ]
+];

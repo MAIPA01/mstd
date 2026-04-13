@@ -1,0 +1,14 @@
+<map id="mstd::function_traits&lt; F, std::void_t&lt; decltype(&amp;F::operator())&gt; &gt;" name="mstd::function_traits&lt; F, std::void_t&lt; decltype(&amp;F::operator())&gt; &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1016,27,1187,86"/>
+<area shape="rect" id="Node000002" href="$d0/d74/structmstd_1_1utils_1_1function__default__type__traits.html" title=" " alt="" coords="250,22,386,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="401,32,410,31,566,14,689,4,811,5,967,20,1019,32,1013,32,967,26,811,11,689,10,567,19,410,36,402,37"/>
+<area shape="rect" id="Node000004" href="$d7/dcb/structmstd_1_1function__traits.html" title=" " alt="" coords="789,35,967,78"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="401,49,790,54,786,57,401,54"/>
+<area shape="rect" id="Node000005" href="$d7/dcb/structmstd_1_1function__traits.html" title=" " alt="" coords="435,88,576,131"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="401,74,438,88,433,88,401,80"/>
+<area shape="rect" id="Node000003" href="$d0/d74/structmstd_1_1utils_1_1function__default__type__traits.html" title=" " alt="" coords="5,22,142,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="157,48,251,50,247,52,158,54"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="982,54,1018,56,1013,56,982,59"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="591,127,671,141,766,150,867,149,918,143,966,132,1017,111,1060,87,1065,85,1020,116,968,137,918,148,868,154,766,155,671,146,590,133"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="591,107,675,103,764,91,818,79,823,78,765,96,676,108,591,113"/>
+</map>

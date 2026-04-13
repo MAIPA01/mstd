@@ -1,0 +1,19 @@
+<map id="mstd::function_traits&lt; R(C::*)(Args...) volatile &amp;&amp;noexcept &gt;" name="mstd::function_traits&lt; R(C::*)(Args...) volatile &amp;&amp;noexcept &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1368,131,1534,190"/>
+<area shape="rect" id="Node000002" href="$d0/d74/structmstd_1_1utils_1_1function__default__type__traits.html" title=" " alt="" coords="612,147,748,206"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="764,187,875,201,1013,211,1166,213,1243,208,1318,199,1365,191,1370,190,1319,205,1243,214,1166,218,1013,216,874,206,764,193"/>
+<area shape="rect" id="Node000005" href="$d7/dcb/structmstd_1_1function__traits.html" title=" " alt="" coords="1152,131,1318,190"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="763,172,1154,162,1149,164,764,177"/>
+<area shape="rect" id="Node000006" href="$d7/dcb/structmstd_1_1function__traits.html" title=" " alt="" coords="798,77,938,119"/>
+<area shape="poly" id="edge9_Node000006_Node000002" title=" " alt="" coords="762,140,818,119,813,121,764,144"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,365,213,407"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="176,410,248,432,332,447,376,449,420,446,462,437,503,421,534,401,563,376,588,347,610,317,644,256,666,208,670,205,649,258,614,320,592,350,566,379,538,405,505,426,464,442,420,451,376,454,331,452,247,437,176,416"/>
+<area shape="rect" id="Node000004" href="$d0/d74/structmstd_1_1utils_1_1function__default__type__traits.html" title=" " alt="" coords="368,115,504,174"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="227,383,259,377,289,367,317,352,342,332,354,316,359,300,357,266,353,231,356,212,365,191,382,176,386,172,370,194,361,213,359,231,362,266,364,300,358,318,346,336,320,357,291,372,260,382,229,388"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="157,413,196,434,238,453,334,485,378,492,435,494,869,494,902,491,933,484,964,473,993,458,1047,419,1094,373,1136,322,1170,272,1217,192,1222,189,1175,274,1140,325,1098,376,1050,423,995,463,966,478,935,489,903,497,869,499,434,499,377,497,333,490,236,458,194,439,156,418"/>
+<area shape="poly" id="edge10_Node000006_Node000003" title=" " alt="" coords="111,348,122,290,143,219,159,183,180,149,205,119,235,94,269,75,305,59,381,37,460,27,539,27,615,34,686,45,803,75,798,77,685,50,614,39,538,32,460,33,382,42,307,64,272,79,238,99,209,123,184,153,164,186,148,221,127,291,116,350"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="519,153,614,167,609,168,520,158"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="1334,158,1370,160,1364,161,1334,163"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="953,84,962,83,1063,79,1142,82,1220,94,1319,117,1370,133,1364,133,1318,122,1219,99,1141,87,1063,84,962,89,954,89"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="938,122,963,129,1060,145,1154,156,1149,157,1060,151,961,134,938,127"/>
+</map>

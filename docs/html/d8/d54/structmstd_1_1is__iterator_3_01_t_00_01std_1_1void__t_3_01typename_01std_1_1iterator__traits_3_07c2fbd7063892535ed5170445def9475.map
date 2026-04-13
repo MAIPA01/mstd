@@ -1,0 +1,10 @@
+<map id="mstd::is_iterator&lt; T, std::void_t&lt; typename std::iterator_traits&lt; T &gt;::iterator_category &gt; &gt;" name="mstd::is_iterator&lt; T, std::void_t&lt; typename std::iterator_traits&lt; T &gt;::iterator_category &gt; &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="33,239,202,313"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,113,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,45,71,124,87,184,106,238,100,238,82,186,66,124,59,50"/>
+<area shape="rect" id="Node000004" href="$d2/dee/structmstd_1_1is__iterator.html" title=" " alt="" coords="80,81,203,124"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="82,40,124,80,119,82,82,46"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="251,89,352,116"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="306,130,304,174,297,197,285,216,268,233,248,246,204,264,202,259,245,242,264,229,281,213,292,194,298,173,303,134"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="123,136,122,149,116,195,116,239,111,237,110,194,116,147,121,140"/>
+</map>

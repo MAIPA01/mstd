@@ -1,0 +1,4 @@
+var structmstd_1_1utils_1_1string__type__info_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__same__09a7d612d83959e55deaf8777cc3627a =
+[
+    [ "size", "df/d71/structmstd_1_1utils_1_1string__type__info_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__same__09a7d612d83959e55deaf8777cc3627a.html#a23d2618015d3772483db7ea03dad8500", null ]
+];

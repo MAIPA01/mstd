@@ -1,0 +1,16 @@
+<map id="mstd::ordered_map&lt; Key, T &gt;" name="mstd::ordered_map&lt; Key, T &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="75,333,216,376"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,219,132,261"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,275,74,293,80,308,105,332,99,333,76,311,69,295,67,280"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="11,112,126,139"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="69,151,71,219,66,218,68,156"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="96,5,134,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="82,42,73,57,66,85,68,112,63,112,61,85,68,55,85,37"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="156,104,293,147"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="135,41,172,78,200,103,195,104,168,82,136,46"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="156,219,293,261"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="213,274,193,311,172,335,168,331,189,308,208,277"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="226,160,227,219,222,217,223,165"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="233,5,272,32"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="247,44,232,105,228,102,244,49"/>
+</map>

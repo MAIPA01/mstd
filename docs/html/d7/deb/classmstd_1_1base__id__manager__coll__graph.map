@@ -1,0 +1,15 @@
+<map id="mstd::base_id_manager&lt; IdT &gt;" name="mstd::base_id_manager&lt; IdT &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="177,317,337,360"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,203,213,245"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,253,196,291,230,317,225,317,193,295,145,258"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="237,211,277,237"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="259,251,259,318,255,316,255,254"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="301,211,432,237"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="352,249,315,295,287,319,284,315,311,291,347,251"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="292,104,355,131"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="333,143,346,178,362,211,357,210,341,180,331,148"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="380,104,478,131"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="416,142,376,212,372,208,412,146"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="410,5,448,32"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="430,46,431,105,427,103,428,50"/>
+</map>

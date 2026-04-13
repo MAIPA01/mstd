@@ -1,0 +1,36 @@
+<map id="mstd::function_traits&lt; R(C::*)(Args...) const &amp;&amp;noexcept &gt;" name="mstd::function_traits&lt; R(C::*)(Args...) const &amp;&amp;noexcept &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="2126,224,2284,283"/>
+<area shape="rect" id="Node000002" href="$d0/d74/structmstd_1_1utils_1_1function__default__type__traits.html" title=" " alt="" coords="292,101,428,160"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="410,90,466,59,534,31,590,14,647,5,720,3,1963,3,2007,9,2047,28,2082,55,2113,88,2140,124,2163,160,2194,225,2189,222,2158,163,2136,127,2109,91,2079,59,2044,32,2005,15,1962,8,720,8,647,10,591,19,536,36,468,64,413,94"/>
+<area shape="rect" id="Node000004" href="$dc/d55/structmstd_1_1function__traits_3_01_r_07_args_8_8_8_08_01const_01_6_6noexcept_00_01_c_01_4.html" title=" " alt="" coords="1846,232,2077,275"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="442,100,466,93,592,63,648,56,720,53,1709,53,1750,59,1790,74,1826,96,1859,123,1913,181,1949,232,1944,230,1909,184,1855,126,1823,100,1787,79,1749,64,1708,59,720,59,648,61,593,69,468,99,444,105"/>
+<area shape="rect" id="Node000005" href="$df/d7c/structmstd_1_1function__traits_3_01_r_07_args_8_8_8_08_01const_01_6_6_00_01_c_01_4.html" title=" " alt="" coords="1618,232,1796,275"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="443,119,573,109,720,104,1354,104,1403,108,1451,118,1498,133,1542,151,1620,192,1679,232,1673,231,1618,197,1540,156,1496,138,1450,123,1402,113,1354,109,720,109,574,114,444,125"/>
+<area shape="rect" id="Node000006" href="$df/d15/structmstd_1_1function__traits_3_01_r_07_args_8_8_8_08_01const_00_01_c_01_4.html" title=" " alt="" coords="1275,232,1431,275"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="443,136,795,173,1022,200,1251,232,1277,238,1272,239,1250,237,1021,206,795,178,444,141"/>
+<area shape="rect" id="Node000007" href="$dd/db6/structmstd_1_1function__traits_3_01_r_07_args_8_8_8_08_00_01_c_01_4.html" title=" " alt="" coords="972,232,1112,275"/>
+<area shape="poly" id="edge10_Node000007_Node000002" title=" " alt="" coords="437,164,468,173,600,203,705,216,811,223,947,237,974,243,969,244,946,243,811,228,704,221,599,209,466,179,438,169"/>
+<area shape="rect" id="Node000012" href="$d7/dcb/structmstd_1_1function__traits.html" title=" " alt="" coords="651,368,792,411"/>
+<area shape="poly" id="edge18_Node000012_Node000002" title=" " alt="" coords="440,165,445,171,458,197,462,223,453,272,448,295,447,317,453,339,469,361,488,376,509,387,556,400,605,404,653,403,648,404,605,409,555,406,507,392,485,380,465,365,448,341,442,318,443,294,448,271,456,223,453,199,441,173,439,170"/>
+<area shape="rect" id="Node000003" href="$d0/d74/structmstd_1_1utils_1_1function__default__type__traits.html" title=" " alt="" coords="6,128,143,187"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="157,147,293,135,289,139,159,152"/>
+<area shape="rect" id="Node000011" href="$d0/d74/structmstd_1_1utils_1_1function__default__type__traits.html" title=" " alt="" coords="467,300,603,359"/>
+<area shape="poly" id="edge16_Node000011_Node000003" title=" " alt="" coords="119,195,146,225,157,249,161,259,169,269,203,291,240,309,279,321,319,329,398,336,469,337,464,338,398,342,318,335,278,326,238,314,200,296,166,273,156,262,152,251,141,228,119,201"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="2093,251,2128,253,2123,254,2093,256"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="1812,251,1848,253,1843,254,1812,256"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="1446,251,1620,253,1615,254,1447,256"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="1127,251,1277,253,1272,254,1128,256"/>
+<area shape="rect" id="Node000008" href="$d1/d4f/structmstd_1_1utils_1_1function__core__traits_3_01_r_07_args_8_8_8_08_00_01_c_01_4.html" title=" " alt="" coords="627,245,816,288"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="831,258,840,257,974,255,969,256,840,263,832,263"/>
+<area shape="rect" id="Node000009" href="$df/db9/structmstd_1_1utils_1_1function__core__traits.html" title=" " alt="" coords="277,184,443,227"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="458,219,629,250,624,252,459,225"/>
+<area shape="rect" id="Node000010" href="$df/db9/structmstd_1_1utils_1_1function__core__traits.html" title=" " alt="" coords="5,239,144,281"/>
+<area shape="poly" id="edge14_Node000008_Node000010" title=" " alt="" coords="158,259,277,260,628,264,625,268,277,265,160,264"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="158,241,278,219,274,223,160,246"/>
+<area shape="poly" id="edge15_Node000007_Node000011" title=" " alt="" coords="618,322,713,313,815,297,839,291,974,265,969,266,840,296,816,303,714,318,619,327"/>
+<area shape="poly" id="edge22_Node000001_Node000012" title=" " alt="" coords="769,417,823,447,889,477,964,500,1002,507,1041,509,1962,509,2006,502,2046,484,2081,456,2112,421,2138,384,2160,346,2190,284,2195,282,2165,349,2143,387,2116,425,2084,459,2048,488,2008,507,1963,515,1041,515,1002,512,963,505,887,482,820,451,768,422"/>
+<area shape="poly" id="edge21_Node000004_Node000012" title=" " alt="" coords="807,410,918,433,980,441,1041,444,1708,444,1749,439,1787,425,1822,404,1855,378,1908,322,1944,276,1949,274,1913,325,1858,382,1825,408,1789,429,1750,444,1709,449,1041,449,979,446,917,438,807,416"/>
+<area shape="poly" id="edge20_Node000005_Node000012" title=" " alt="" coords="807,385,1009,377,1130,367,1250,353,1352,336,1454,315,1624,276,1629,275,1455,320,1353,341,1251,359,1131,373,1010,382,807,391"/>
+<area shape="poly" id="edge19_Node000006_Node000012" title=" " alt="" coords="806,371,1113,308,1271,273,1277,272,1114,313,807,376"/>
+<area shape="poly" id="edge17_Node000007_Node000012" title=" " alt="" coords="796,360,839,345,893,332,917,326,945,315,1008,276,1013,274,948,320,918,331,895,337,840,351,798,365"/>
+</map>

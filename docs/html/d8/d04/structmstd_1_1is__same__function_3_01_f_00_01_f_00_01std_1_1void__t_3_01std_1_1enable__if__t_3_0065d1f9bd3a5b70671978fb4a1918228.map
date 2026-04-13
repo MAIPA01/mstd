@@ -1,0 +1,10 @@
+<map id="mstd::is_same_function&lt; F, F, std::void_t&lt; std::enable_if_t&lt; is_function_v&lt; F &gt; &gt; &gt; &gt;" name="mstd::is_same_function&lt; F, F, std::void_t&lt; std::enable_if_t&lt; is_function_v&lt; F &gt; &gt; &gt; &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="61,239,228,313"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,113,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,45,64,84,71,123,95,185,124,238,119,239,90,187,66,125,58,84,58,50"/>
+<area shape="rect" id="Node000004" href="$d6/d67/structmstd_1_1is__same__function.html" title=" " alt="" coords="80,81,240,124"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="86,39,137,80,132,82,86,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="279,89,380,116"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="334,130,332,174,325,197,313,216,295,233,274,247,229,265,227,260,272,242,292,229,309,213,320,194,327,173,331,134"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="149,137,149,148,144,195,144,239,139,237,139,195,143,148,147,141"/>
+</map>

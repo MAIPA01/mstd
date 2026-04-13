@@ -1,0 +1,25 @@
+<map id="mstd::function_traits&lt; R(Args...) noexcept &gt;" name="mstd::function_traits&lt; R(Args...) noexcept &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1016,72,1175,115"/>
+<area shape="rect" id="Node000008" href="$d9/d51/structmstd_1_1function__traits_3_01_r_07_6_6_08_07_args_8_8_8_08_01noexcept_01_4.html" title=" " alt="" coords="1224,5,1410,48"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="1182,65,1241,49,1246,48,1183,70"/>
+<area shape="rect" id="Node000009" href="$df/d6a/structmstd_1_1function__traits_3_01_r_07_6_08_07_args_8_8_8_08_01noexcept_01_4.html" title=" " alt="" coords="1229,72,1405,115"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="1190,91,1231,93,1226,94,1191,96"/>
+<area shape="rect" id="Node000010" href="$d1/dae/structmstd_1_1function__traits_3_01_r_07_5_08_07_args_8_8_8_08_01noexcept_01_4.html" title=" " alt="" coords="1231,139,1403,181"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="1183,117,1246,138,1241,138,1182,122"/>
+<area shape="rect" id="Node000002" href="$d0/d74/structmstd_1_1utils_1_1function__default__type__traits.html" title=" " alt="" coords="251,133,387,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="398,124,457,103,520,87,645,66,743,58,841,60,967,69,1018,78,1013,78,966,75,841,65,743,64,645,72,522,92,459,108,400,129"/>
+<area shape="rect" id="Node000004" href="$d0/dfd/structmstd_1_1function__traits_3_01_r_07_args_8_8_8_08_4.html" title=" " alt="" coords="823,172,964,215"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="402,171,615,185,825,195,820,196,615,190,403,176"/>
+<area shape="poly" id="edge7_Node000004_Node000002" title=" " alt="" coords="402,158,615,167,825,183,820,184,615,172,403,163"/>
+<area shape="rect" id="Node000007" href="$d7/dcb/structmstd_1_1function__traits.html" title=" " alt="" coords="534,101,674,144"/>
+<area shape="poly" id="edge9_Node000007_Node000002" title=" " alt="" coords="402,148,536,132,531,133,403,154"/>
+<area shape="rect" id="Node000003" href="$d0/d74/structmstd_1_1utils_1_1function__default__type__traits.html" title=" " alt="" coords="5,133,142,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="156,160,253,161,248,164,157,165"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="951,162,1048,116,1053,115,953,167"/>
+<area shape="rect" id="Node000005" href="$df/db9/structmstd_1_1utils_1_1function__core__traits.html" title=" " alt="" coords="521,243,687,285"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="702,243,796,221,824,216,830,215,797,227,703,248"/>
+<area shape="rect" id="Node000006" href="$df/db9/structmstd_1_1utils_1_1function__core__traits.html" title=" " alt="" coords="250,243,388,285"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="404,261,523,264,518,264,404,267"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="690,115,1018,97,1012,99,691,120"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="690,139,797,164,825,174,820,173,796,169,689,144"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="mstd::quat&lt; T &gt;" name="mstd::quat&lt; T &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,301,120,328"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="45,5,83,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="66,47,65,301,60,301,61,48"/>
+<area shape="rect" id="Node000004" href="$d0/dae/classmstd_1_1vec.html" title=" " alt="" coords="78,104,207,131"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="74,44,97,78,124,103,119,104,93,82,74,49"/>
+<area shape="rect" id="Node000003" href="$d0/dae/classmstd_1_1vec.html" title=" " alt="" coords="78,203,204,229"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="124,242,74,303,71,299,118,242"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="144,144,144,203,139,202,141,149"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="141,5,197,32"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="163,45,148,105,143,103,160,50"/>
+</map>

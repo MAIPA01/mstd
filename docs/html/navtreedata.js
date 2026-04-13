@@ -24,12 +24,35 @@
 */
 var NAVTREE =
 [
-  [ "Maipa's Standard Library Extension", "index.html", ]
+  [ "Maipa's Standard Library Extension", "index.html", [
+    [ "Namespace Members", "namespacemembers.html", [
+      [ "All", "namespacemembers.html", null ],
+      [ "Functions", "namespacemembers_func.html", null ],
+      [ "Variables", "namespacemembers_vars.html", null ],
+      [ "Typedefs", "namespacemembers_type.html", null ]
+    ] ],
+    [ "Concepts", "concepts.html", "concepts" ],
+    [ "Classes", "annotated.html", [
+      [ "Class List", "annotated.html", "annotated_dup" ],
+      [ "Class Index", "classes.html", null ],
+      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
+      [ "Class Members", "functions.html", [
+        [ "All", "functions.html", "functions_dup" ],
+        [ "Functions", "functions_func.html", "functions_func" ],
+        [ "Variables", "functions_vars.html", null ],
+        [ "Typedefs", "functions_type.html", null ],
+        [ "Related Symbols", "functions_rela.html", null ]
+      ] ]
+    ] ]
+  ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"index.html"
+"annotated.html",
+"d3/df9/classmstd_1_1mat.html#a2c4c78bd5c1faf32f8ee1af0cde4ff9c",
+"d8/dfa/classmstd_1_1stable__vector.html#a55877c3a6f13f404d69c6e3ac7761103",
+"da/db8/classmstd_1_1base__id__manager.html#a6a5babd106b0110f47b9158924dc4304"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

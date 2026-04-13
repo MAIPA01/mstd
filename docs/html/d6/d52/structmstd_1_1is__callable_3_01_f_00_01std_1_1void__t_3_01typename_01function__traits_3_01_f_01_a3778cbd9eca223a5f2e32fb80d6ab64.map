@@ -1,0 +1,10 @@
+<map id="mstd::is_callable&lt; F, std::void_t&lt; typename function_traits&lt; F &gt;::std_function_type &gt; &gt;" name="mstd::is_callable&lt; F, std::void_t&lt; typename function_traits&lt; F &gt;::std_function_type &gt; &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="35,239,206,313"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,113,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,45,71,123,88,184,108,238,102,238,83,186,66,125,59,50"/>
+<area shape="rect" id="Node000004" href="$d0/dc6/structmstd_1_1is__callable.html" title=" " alt="" coords="81,81,208,124"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="83,40,126,80,121,82,83,46"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="255,89,356,116"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="310,130,308,174,301,197,289,216,272,233,251,247,207,265,205,260,249,242,268,229,285,213,296,194,303,173,307,134"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="126,136,125,149,119,195,119,239,114,237,113,194,119,147,124,140"/>
+</map>
