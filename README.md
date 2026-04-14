@@ -4,6 +4,18 @@
 
 **mstd** (Maipa's Standard Library) is an extension of the C++ standard library, providing additional utility functions, new data types, and helpful templates for type comparisons. It aims to enhance the standard functionality with useful features while maintaining compatibility with modern C++. [DOCS](https://maipa01.github.io/mstd/html "Documentation")
 
+## Options
+You can enable option using `#define option_name` or use cmake `set(option_name CACHE ON)`
+
+| Cmake Option/C++ define | Description | Default |
+|:---|:---|:---:|
+|     `MSTD_ENABLE_CXX20`          |	enables c++20 features | OFF |
+| `MSTD_DISABLE_ASSERT_ON_RELEASE` | makes every assert in this library (void)0 on release builds | OFF |
+| `MSTD_ENABLE_FOR_EACH_MACROS` | enables FOR_EACH macros | OFF |
+| `MSTD_ENABLE_ENUMS_MACROS` | enables ENUM macros | OFF |
+| `MSTD_ENABLE_CLONE_FUNC_MACROS` | enables CLONE_FUNC macros | OFF |
+| `MSTD_ENABLE_EXTRA_MACROS` | enables external macros | OFF |
+
 ## Features
 
 - **Extended String Manipulation**: Additional functions for modifying and handling strings.
