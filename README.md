@@ -4,10 +4,17 @@
 
 **mstd** (Maipa's Standard Library) is an extension of the C++ standard library, providing additional utility functions, new data types, and helpful templates for type comparisons. It aims to enhance the standard functionality with useful features while maintaining compatibility with modern C++. [DOCS](https://maipa01.github.io/mstd/html "Documentation")
 
-## Options
-You can enable option using `#define option_name` or use cmake `set(option_name CACHE ON)`
+## Requirements
 
-| Cmake Option/C++ define          | Description                                                  | Default |
+- **C++ Standard**: The library is designed for **C++20** and later.
+- **Supported Platforms**: The library is intended to work on **Windows, macOS, and Linux**.
+
+
+## Options
+### Compilation defines options
+You can enable option using `#define option_name` or use cmake `set(option_name ON CACHE BOOL)`
+
+| Cmake option/C++ define Name     | Description                                                  | Default |
 |:---------------------------------|:-------------------------------------------------------------|:-------:|
 | `MSTD_ENABLE_CXX20`              | enables c++20 features                                       |   OFF   |
 | `MSTD_DISABLE_ASSERT_ON_RELEASE` | makes every assert in this library (void)0 on release builds |   OFF   |
@@ -16,6 +23,25 @@ You can enable option using `#define option_name` or use cmake `set(option_name 
 | `MSTD_ENABLE_CLONE_FUNC_MACROS`  | enables CLONE_FUNC macros                                    |   OFF   |
 | `MSTD_ENABLE_EXTRA_MACROS`       | enables external macros                                      |   OFF   |
 
+### External libraries options
+If you want to use external libraries not installed by project using CPM
+
+| Cmake option Name   | Description                                                                           | Default |
+|:--------------------|:--------------------------------------------------------------------------------------|:-------:|
+| `MSTD_FMT_EXTERNAL` | Enable if you want to use own fmt library (tested and compatible fmt version: 12.1.0) |   OFF   |
+
+### Project developing options
+These options are used while testing or changing code in project
+
+| Cmake option Name          | Description                                        |          Default          |
+|:---------------------------|:---------------------------------------------------|:-------------------------:|
+| `MSTD_BUILD_TESTS`         | Build mstd tests                                   | `${PROJECT_IS_TOP_LEVEL}` |
+| `MSTD_BUILD_COVERAGE`      | Enable coverage reporting                          | `${PROJECT_IS_TOP_LEVEL}` |
+| `MSTD_BUILD_DOCUMENTATION` | Build documentation                                | `${PROJECT_IS_TOP_LEVEL}` |
+| `MSTD_ENABLE_CLANG_TIDY`   | Enables clang-tidy check                           | `${PROJECT_IS_TOP_LEVEL}` |
+| `MSTD_INSTALL`             | Enables installation of this project               | `${PROJECT_IS_TOP_LEVEL}` |
+| `MSTD_INSTALL_TEST`        | This is only to test if installation of mstd works |            OFF            |
+
 ## Features
 
 - **Extended String Manipulation**: Additional functions for modifying and handling strings.
@@ -23,12 +49,19 @@ You can enable option using `#define option_name` or use cmake `set(option_name 
 - **New Data Structures**:
   - `ordered_map`: A map that preserves the insertion order, similar to `vector`.
   - `ordered_set`: A set that maintains insertion order, like `vector`.
+  - `stable_vector`: A vector with stable indexes
 - **Safe Arithmetic Operations**: Functions for performing arithmetic with overflow detection:
   - `add_overflow`
   - `sub_overflow`
   - `mul_overflow`
   - `div_overflow`
 - **Type Comparisons for Functions**: Templates that allow comparing function types, treating lambdas and function pointers as equivalent when they share the same signature.
+- **Managment Utilities**:
+  - `flags`: A class which represents multiple values of given flag-like enum
+  - `id_manager`: Manager which helps with managing ids
+  - `assert`: Macros for easy defining your own assert
+- **Events**:
+  - `events_handler`: Event handler
 
 ## Macros
 
@@ -95,15 +128,6 @@ To enable these macros, define them before including `mstd.hpp`:
 ```
 
 You can enable one or more of these macros depending on your needs.
-
-## Requirements
-
-- **C++ Standard**: The library is designed for **C++20** and later.
-- **Supported Platforms**: The library is intended to work on **Windows, macOS, and Linux**.
-
-## Installation
-
-No additional dependencies are required. Simply include the **mstd** headers in your project.
 
 ## Usage Examples
 
