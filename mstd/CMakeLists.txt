@@ -1,20 +1,27 @@
-# header files
+# region HEADER FILES
 set(PROJECT_HEADERS ${PROJECT_NAME}_HEADERS)
 set(BUILD_HEADERS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(INSTALL_HEADERS_PATH include)
 
-file(GLOB HEADERS_PATHS CONFIGURE_DEPENDS LIST_DIRECTORIES true LIST_FILES false ${BUILD_HEADERS_PATH}/*)
+file(GLOB BUILD_HEADERS_PATHS CONFIGURE_DEPENDS LIST_DIRECTORIES true LIST_FILES false ${BUILD_HEADERS_PATH}/*)
 
 set(${PROJECT_HEADERS} "")
-foreach(DIR ${HEADERS_PATHS})
+foreach(DIR ${BUILD_HEADERS_PATHS})
     file(GLOB_RECURSE CURRENT_HEADERS "${DIR}/${PROJECT_NAME}/*.hpp")
     list(APPEND ${PROJECT_HEADERS} ${CURRENT_HEADERS})
 endforeach()
+# endregion
 
-# make library
+# region LIBRARY_SETUP
 add_library(${PROJECT_NAME} INTERFACE ${${PROJECT_HEADERS}})
 
-target_precompile_headers(${PROJECT_NAME} INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include/main/mstd/pch.hpp")
+# set library alias
+set(PROJECT_NAMESPACE ${PROJECT_NAME}::)
+set(PROJECT_ALIAS ${PROJECT_NAMESPACE}${PROJECT_NAME})
+add_library(${PROJECT_ALIAS} ALIAS ${PROJECT_NAME})
+# endregion
 
+# region CLANG_TIDY
 if(MSTD_ENABLE_CLANG_TIDY)
     if(MSTD_ENABLE_CXX20)
         set(CLANG_TIDY_CXX_STANDARD c++20)
@@ -31,23 +38,27 @@ if(MSTD_ENABLE_CLANG_TIDY)
             EXCLUDE_HEADER_FILTER "^${CMAKE_SOURCE_DIR}[\\\\\/\\\\]third_party[\\\\\/\\\\].*"
     )
 endif()
+# endregion
+
+target_precompile_headers(${PROJECT_NAME} INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATH}/main/mstd/pch.hpp>"
+                                                    "$<INSTALL_INTERFACE:${mstd_PCH_PATH}>"
+)
 
 target_compile_features(${PROJECT_NAME} INTERFACE $<IF:$<BOOL:${MSTD_ENABLE_CXX20}>, cxx_std_20, cxx_std_17>)
 
-# set library alias
-set(PROJECT_NAMESPACE ${PROJECT_NAME}::)
-set(PROJECT_ALIAS ${PROJECT_NAMESPACE}${PROJECT_NAME})
-add_library(${PROJECT_ALIAS} ALIAS ${PROJECT_NAME})
+if(NOT TARGET mstd::fmt_imported)
+    add_library(mstd::fmt_imported INTERFACE IMPORTED)
+    target_link_libraries(mstd::fmt_imported INTERFACE fmt::fmt)
+endif()
 
-target_link_libraries(${PROJECT_NAME} INTERFACE fmt::fmt)
-
-# set headers folder
-set(INSTALL_HEADERS_PATH include)
-target_include_directories(${PROJECT_NAME} INTERFACE ${HEADERS_PATHS}
-#	$<BUILD_INTERFACE:${BUILD_HEADERS_PATH}>
-#	$<INSTALL_INTERFACE:${INSTALL_HEADERS_PATH}>
+target_link_libraries(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:fmt::fmt>
+                                                $<INSTALL_INTERFACE:mstd::fmt_imported>
 )
 
+# set headers folder
+target_include_directories(${PROJECT_NAME} INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATHS}>")
+
+# region COMPILE_DEFINITIONS
 target_compile_definitions(${PROJECT_NAME} INTERFACE	$<$<BOOL:${MSTD_ENABLE_CXX20}>:MSTD_ENABLE_CXX20>
 														$<$<BOOL:${MSTD_DISABLE_ASSERT_ON_RELEASE}>:MSTD_DISABLE_ASSERT_ON_RELEASE>
                                                         $<$<BOOL:${MSTD_ENABLE_FOR_EACH_MACROS}>:MSTD_ENABLE_FOR_EACH_MACROS>
@@ -55,8 +66,9 @@ target_compile_definitions(${PROJECT_NAME} INTERFACE	$<$<BOOL:${MSTD_ENABLE_CXX2
                                                         $<$<BOOL:${MSTD_ENABLE_CLONE_FUNC_MACROS}>:MSTD_ENABLE_CLONE_FUNC_MACROS>
                                                         $<$<BOOL:${MSTD_ENABLE_EXTRA_MACROS}>:MSTD_ENABLE_EXTRA_MACROS>
 )
+# endregion
 
-# Optimizations
+# region COMPILE_OPTIONS
 target_compile_options(${PROJECT_NAME} INTERFACE
     # MSVC/clang with MSVC frontend
     $<$<OR:$<CXX_COMPILER_ID:MSVC>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>>>:
@@ -93,7 +105,9 @@ target_compile_options(${PROJECT_NAME} INTERFACE
         >
     >
 )
+# endregion
 
+# region LINK_OPTIONS
 target_link_options(${PROJECT_NAME} INTERFACE
     # MSVC/clang with MSVC frontend
     $<$<OR:$<CXX_COMPILER_ID:MSVC>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:MSVC>>>:
@@ -103,40 +117,60 @@ target_link_options(${PROJECT_NAME} INTERFACE
     # GCC/clang with GNU frontend
     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>>>:
         $<$<CONFIG:Release>:-flto>
-#        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang>>:-fuse-ld=lld>
         -static
         $<$<BOOL:${MSTD_BUILD_COVERAGE}>:-fprofile-instr-generate>
     >
 )
+# endregion
 
-# TODO: install
+# region INSTALL
+if(MSTD_INSTALL)
+    # Installing header files
+    foreach(DIR ${BUILD_HEADERS_PATHS})
+        install(DIRECTORY ${DIR}/${PROJECT_NAME}/
+                DESTINATION ${INSTALL_HEADERS_PATH}/${PROJECT_NAME}/
+                FILES_MATCHING PATTERN "*.hpp"
+        )
+    endforeach()
 
-# library installation
-#set(PROJECT_CONFIG_FILE ${PROJECT_NAME}-config)
-#install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_CONFIG_FILE}
-#	LIBRARY DESTINATION lib
-#	ARCHIVE DESTINATION lib
-#	RUNTIME DESTINATION bin
-#	INCLUDES DESTINATION ${INSTALL_HEADERS_PATH}
-#)
+    # Installing targets
+    set(PROJECT_INSTALL_TARGETS ${PROJECT_NAME}Targets)
+    install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets
+        INCLUDES DESTINATION ${INSTALL_HEADERS_PATH}
+    )
 
-#install(DIRECTORY ${BUILD_HEADERS_PATH}/ DESTINATION ${INSTALL_HEADERS_PATH})
-#install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets)
+    # Generate Targets.cmake
+    install(EXPORT ${PROJECT_INSTALL_TARGETS}
+            FILE ${PROJECT_INSTALL_TARGETS}.cmake
+            NAMESPACE ${PROJECT_NAMESPACE}
+            DESTINATION cmake
+    )
 
-# export cmake config
-#install(EXPORT ${PROJECT_CONFIG_FILE} DESTINATION cmake/${PROJECT_NAME} NAMESPACE ${PROJECT_NAMESPACE})
-#export(EXPORT ${PROJECT_CONFIG_FILE} NAMESPACE ${PROJECT_NAMESPACE})
+    # Create Config.cmake
+    include(CMakePackageConfigHelpers)
 
-# configuration version file
-#set(PROJECT_CONFIG_VERSION_FILE ${PROJECT_CONFIG_FILE}-version.cmake)
-#include(CMakePackageConfigHelpers)
-#write_basic_package_version_file(
-#	"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_CONFIG_VERSION_FILE}"
-#	VERSION ${PROJECT_VERSION}
-#	COMPATIBILITY AnyNewerVersion
-#)
+    set(PROJECT_INSTALL_CONFIG ${PROJECT_NAME}Config)
+    set(INCLUDE_INSTALL_DIR ${INSTALL_HEADERS_PATH})
+    configure_package_config_file(
+            "${CMAKE_SOURCE_DIR}/cmake/${PROJECT_INSTALL_CONFIG}.cmake.in"
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_INSTALL_CONFIG}.cmake"
+            INSTALL_DESTINATION cmake
+            PATH_VARS INCLUDE_INSTALL_DIR
+    )
 
-#install(FILES
-#	"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_CONFIG_VERSION_FILE}"
-#	DESTINATION cmake/${PROJECT_NAME}
-#)
+    # Create Version.cmake
+    set(PROJECT_INSTALL_VERSION ${PROJECT_NAME}Version)
+    write_basic_package_version_file(
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_INSTALL_VERSION}.cmake"
+            VERSION ${PROJECT_VERSION}
+            COMPATIBILITY AnyNewerVersion
+    )
+
+    # Install config files
+    install(FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_INSTALL_CONFIG}.cmake"
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_INSTALL_VERSION}.cmake"
+            DESTINATION cmake
+    )
+endif()
+# endregion

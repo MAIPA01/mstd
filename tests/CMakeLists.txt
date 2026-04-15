@@ -6,11 +6,28 @@ file(GLOB_RECURSE ${PROJECT_TEST_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 enable_testing()
 
+# region INSTALL_TESTING
+if (MSTD_INSTALL_TEST)
+    find_package(mstd REQUIRED
+            HINTS "${CMAKE_SOURCE_DIR}/dist"
+    )
+
+    message(STATUS FOUND: ${mstd_FOUND})
+    message(STATUS SOURCE_DIR: ${mstd_SOURCE_DIR})
+    target_compile_definitions(mstd::mstd INTERFACE MSTD_ENABLE_ENUMS_MACROS
+                                                    MSTD_ENABLE_CXX20
+                                                    MSTD_ENABLE_FOR_EACH_MACROS
+                                                    MSTD_ENABLE_CLONE_FUNC_MACROS
+                                                    MSTD_ENABLE_EXTRA_MACROS
+    )
+endif()
+# endregion
+
 # make exec
 add_executable(${PROJECT_NAME} ${${PROJECT_TEST_SOURCES}})
 add_test(${PROJECT_NAME}_TEST ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE   mstd
+target_link_libraries(${PROJECT_NAME} PRIVATE   mstd::mstd
                                                 gtest_main
 )
 

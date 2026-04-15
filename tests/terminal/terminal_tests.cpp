@@ -11,7 +11,7 @@ namespace mstd::test {
 		EXPECT_GE(static_cast<unsigned int>(w), 0);
 		EXPECT_GE(static_cast<unsigned int>(h), 0);
 
-		std::cout << "[ INFO ] Detected Terminal Size: " << w << "x" << h << std::endl;
+		//std::cout << "[ INFO ] Detected Terminal Size: " << w << "x" << h << std::endl;
 	}
 
 	TEST(TerminalTest, ClearTerminalExecution) {

@@ -1,0 +1,15 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(fmt)
+
+if(fmt_FOUND AND NOT TARGET mstd::fmt_imported)
+    add_library(mstd::fmt_imported INTERFACE IMPORTED)
+    target_link_libraries(mstd::fmt_imported INTERFACE fmt::fmt)
+endif()
+
+set_and_check(mstd_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
+set(mstd_PCH_PATH "${mstd_INCLUDE_DIR}/mstd/pch.hpp")
+
+include(${CMAKE_CURRENT_LIST_DIR}/mstdTargets.cmake)
