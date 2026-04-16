@@ -2,16 +2,19 @@
 
 ## About
 
-**mstd** (Maipa's Standard Library) is an extension of the C++ standard library, providing additional utility functions, new data types, and helpful templates for type comparisons. It aims to enhance the standard functionality with useful features while maintaining compatibility with modern C++. [DOCS](https://maipa01.github.io/mstd/html "Documentation")
+**mstd** (Maipa's Standard Library) is an extension of the C++ standard library, providing additional utility functions,
+new data types, and helpful templates for type comparisons. It aims to enhance the standard functionality with useful
+features while maintaining compatibility with modern C++. [DOCS](https://maipa01.github.io/mstd/html "Documentation")
 
 ## Requirements
 
-- **C++ Standard**: The library is designed for **C++20** and later.
+- **C++ Standard**: The library is designed for **C++17** and later.
 - **Supported Platforms**: The library is intended to work on **Windows, macOS, and Linux**.
 
-
 ## Options
+
 ### Compilation defines options
+
 You can enable option using `#define option_name` or use cmake `set(option_name ON CACHE BOOL)`
 
 | Cmake option/C++ define Name     | Description                                                  | Default |
@@ -24,6 +27,7 @@ You can enable option using `#define option_name` or use cmake `set(option_name 
 | `MSTD_ENABLE_EXTRA_MACROS`       | enables external macros                                      |   OFF   |
 
 ### External libraries options
+
 If you want to use external libraries not installed by project using CPM
 
 | Cmake option Name   | Description                                                                           | Default |
@@ -31,6 +35,7 @@ If you want to use external libraries not installed by project using CPM
 | `MSTD_FMT_EXTERNAL` | Enable if you want to use own fmt library (tested and compatible fmt version: 12.1.0) |   OFF   |
 
 ### Project developing options
+
 These options are used while testing or changing code in project
 
 | Cmake option Name          | Description                                        |          Default          |
@@ -47,33 +52,54 @@ These options are used while testing or changing code in project
 - **Extended String Manipulation**: Additional functions for modifying and handling strings.
 - **Terminal Utilities**: Functions for clearing the terminal and retrieving its dimensions.
 - **New Data Structures**:
-  - `ordered_map`: A map that preserves the insertion order, similar to `vector`.
-  - `ordered_set`: A set that maintains insertion order, like `vector`.
-  - `stable_vector`: A vector with stable indexes
+    - `ordered_map`: A map that preserves the insertion order, similar to `vector`.
+    - `ordered_set`: A set that maintains insertion order, like `vector`.
+    - `stable_vector`: A vector with stable indexes
 - **Safe Arithmetic Operations**: Functions for performing arithmetic with overflow detection:
-  - `add_overflow`
-  - `sub_overflow`
-  - `mul_overflow`
-  - `div_overflow`
-- **Type Comparisons for Functions**: Templates that allow comparing function types, treating lambdas and function pointers as equivalent when they share the same signature.
-- **Managment Utilities**:
-  - `flags`: A class which represents multiple values of given flag-like enum
-  - `id_manager`: Manager which helps with managing ids
-  - `assert`: Macros for easy defining your own assert
+    - `add_overflow`
+    - `sub_overflow`
+    - `mul_overflow`
+    - `div_overflow`
+- **Type Comparisons for Functions**: Templates that allow comparing function types, treating lambdas and function
+  pointers as equivalent when they share the same signature.
+- **Management Utilities**:
+    - `flags`: A class which represents multiple values of given flag-like enum
+    - `id_manager`: Manager which helps with managing ids
+    - `assert`: Macros for easy defining your own assert
 - **Events**:
-  - `events_handler`: Event handler
+    - `events_handler`: Event handler
+
+## Installation
+
+After installing, you can use `find_package(mstd)`.
+
+### Components
+
+You can also include components `find_pcakage(mstd COMPONENTS comp)`. They work the same way as [Compilation defines options](#compilation-defines-options), but
+they provide separate components you need to include.
+
+| Component Name       | Option                           | Target Name                |
+|:---------------------|:---------------------------------|:---------------------------|
+| CXX20                | `MSTD_ENABLE_CXX20`              | mstd::CXX20                |
+| NO_ASSERT_ON_RELEASE | `MSTD_DISABLE_ASSERT_ON_RELEASE` | mstd::NO_ASSERT_ON_RELEASE |
+| FOR_EACH_MACROS      | `MSTD_ENABLE_FOR_EACH_MACROS`    | mstd::FOR_EACH_MACROS      |
+| ENUMS_MACROS         | `MSTD_ENABLE_ENUMS_MACROS`       | mstd::ENUMS_MACROS         |
+| CLONE_FUNC_MACROS    | `MSTD_ENABLE_CLONE_FUNC_MACROS`  | mstd::CLONE_FUNC_MACROS    |
+| EXTRA_MACROS         | `MSTD_ENABLE_EXTRA_MACROS`       | mstd::EXTRA_MACROS         |
 
 ## Macros
 
-Before including the `mstd.hpp` or `macros.hpp` header, you can define certain macros to enable specific sets of utility functions and features within the library.
+Before including the `mstd.hpp` or `macros.hpp` header, you can define certain macros to enable specific sets of utility
+functions and features within the library.
 
 ### Available Macros:
 
-- **USE_FOR_EACH_MACROS**: This macro enables access to the `DO_FOR_EACH` macro, which allows you to iterate over multiple elements and apply a function to each element.
+- **MSTD_ENABLE_FOR_EACH_MACROS**: This macro enables access to the `DO_FOR_EACH` macro, which allows you to iterate over
+  multiple elements and apply a function to each element.
 
   Example usage:
   ```cpp
-  #define USE_FOR_EACH_MACROS
+  #define MSTD_ENABLE_FOR_EACH_MACROS
   #include <mstd/mstd.hpp>
 
   #define TO_STR(x) #x
@@ -81,11 +107,12 @@ Before including the `mstd.hpp` or `macros.hpp` header, you can define certain m
   DO_FOR_EACH(TO_STR, 1, 2, 3); // Outputs: "1" "2" "3"
   ```
 
-- **USE_ENUMS_MACROS**: This macro enables access to the `ENUM` macro, which allows you to define enums or enum classes along with helper functions such as `to_string()` and `size<Enum>()`.
+- **MSTD_ENABLE_ENUMS_MACROS**: This macro enables access to the `ENUM` macro, which allows you to define enums or enum classes
+  along with helper functions such as `to_string()` and `size<Enum>()`.
 
   Example usage:
   ```cpp
-  #define USE_ENUMS_MACROS
+  #define MSTD_ENABLE_ENUMS_MACROS
   #include <mstd/mstd.hpp>
 
   // Defining an enum using ENUM macro
@@ -96,11 +123,13 @@ Before including the `mstd.hpp` or `macros.hpp` header, you can define certain m
   std::cout << size<Color>() << std::endl; // Outputs: 3 (the number of elements in the enum)
   ```
 
-- **USE_CLONE_FUNC_MACROS**: This macro enables access to macros that help you define basic cloning functions like `Clone()` and `CloneTo()` for your custom classes. Specifically, it uses the `CloneFuncInClassDefinition` macro to automatically generate the `Clone()` function that returns a pointer to a cloned object.
+- **MSTD_ENABLE_CLONE_FUNC_MACROS**: This macro enables access to macros that help you define basic cloning functions like
+  `Clone()` and `CloneTo()` for your custom classes. Specifically, it uses the `CloneFuncInClassDefinition` macro to
+  automatically generate the `Clone()` function that returns a pointer to a cloned object.
 
   Example usage:
   ```cpp
-  #define USE_CLONE_FUNC_MACROS
+  #define MSTD_ENABLE_CLONE_FUNC_MACROS
   #include <mstd/mstd.hpp>
 
   // Example of a class with Clone() function returning a pointer using CloneFuncInClassDefinition macro
@@ -121,9 +150,9 @@ Before including the `mstd.hpp` or `macros.hpp` header, you can define certain m
 To enable these macros, define them before including `mstd.hpp`:
 
 ```cpp
-#define USE_FOR_EACH_MACROS
-#define USE_ENUMS_MACROS
-#define USE_CLONE_FUNC_MACROS
+#define MSTD_ENABLE_FOR_EACH_MACROS
+#define MSTD_ENABLE_ENUMS_MACROS
+#define MSTD_ENABLE_CLONE_FUNC_MACROS
 #include <mstd/mstd.hpp>
 ```
 
@@ -192,4 +221,5 @@ int main() {
 
 ## License
 
-This project is licensed under the **BSD 3-Clause License with Attribution Requirement**. See the [`LICENSE`](./LICENSE) file for more details.
+This project is licensed under the **BSD 3-Clause License with Attribution Requirement**. See the [LICENSE](./LICENSE "License")
+file for more details.

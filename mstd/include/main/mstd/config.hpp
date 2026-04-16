@@ -28,7 +28,7 @@
 	#pragma endregion
 
 	#pragma region LAST_UPDATE
-	#define MSTD_LAST_UPDATE_DAY   15
+	#define MSTD_LAST_UPDATE_DAY   16
 	#define MSTD_LAST_UPDATE_MONTH 04
 	#define MSTD_LAST_UPDATE_YEAR  2026
 

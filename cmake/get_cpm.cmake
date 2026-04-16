@@ -1,9 +1,13 @@
 set(CPM_USE_LOCAL_PACKAGES OFF)
 # Storage location
-set(CPM_SOURCE_CACHE ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
+if(NOT CPM_SOURCE_CACHE)
+    set(CPM_SOURCE_CACHE ${CMAKE_SOURCE_DIR}/third_party)
+endif()
 
 # Set download location
-set(CPM_DOWNLOAD_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpm/CPM.cmake")
+if(NOT CPM_DOWNLOAD_LOCATION)
+    set(CPM_DOWNLOAD_LOCATION "${CMAKE_SOURCE_DIR}/third_party/cpm/CPM.cmake")
+endif()
 
 # download CPM.cmake
 # Expand relative path. This is important if the provided path contains a tilde (~)

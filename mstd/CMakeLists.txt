@@ -44,9 +44,7 @@ target_precompile_headers(${PROJECT_NAME} INTERFACE "$<BUILD_INTERFACE:${BUILD_H
                                                     "$<INSTALL_INTERFACE:${${PROJECT_NAME}_PCH_PATH}>"
 )
 
-target_compile_features(${PROJECT_NAME} INTERFACE   $<BUILD_INTERFACE:$<IF:$<BOOL:${MSTD_ENABLE_CXX20}>, cxx_std_20, cxx_std_17>>
-                                                    $<INSTALL_INTERFACE:cxx_std_17>
-)
+target_compile_features(${PROJECT_NAME} INTERFACE   $<BUILD_INTERFACE:$<IF:$<BOOL:${MSTD_ENABLE_CXX20}>, cxx_std_20, cxx_std_17>>)
 
 # region LINK_LIBRARIES
 if(NOT TARGET ${PROJECT_NAMESPACE}fmt_imported)
@@ -59,7 +57,9 @@ target_link_libraries(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:fmt::fmt>
 # endregion
 
 # set headers folder
-target_include_directories(${PROJECT_NAME} INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATHS}>")
+target_include_directories(${PROJECT_NAME} SYSTEM INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATHS}>"
+                                                            $<INSTALL_INTERFACE:${INSTALL_HEADERS_PATH}>
+)
 
 # region COMPILE_DEFINITIONS
 target_compile_definitions(${PROJECT_NAME} INTERFACE	$<BUILD_INTERFACE:
