@@ -40,31 +40,36 @@ if(MSTD_ENABLE_CLANG_TIDY)
 endif()
 # endregion
 
-target_precompile_headers(${PROJECT_NAME} INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATH}/main/mstd/pch.hpp>"
-                                                    "$<INSTALL_INTERFACE:${mstd_PCH_PATH}>"
+target_precompile_headers(${PROJECT_NAME} INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATH}/main/${PROJECT_NAME}/pch.hpp>"
+                                                    "$<INSTALL_INTERFACE:${${PROJECT_NAME}_PCH_PATH}>"
 )
 
-target_compile_features(${PROJECT_NAME} INTERFACE $<IF:$<BOOL:${MSTD_ENABLE_CXX20}>, cxx_std_20, cxx_std_17>)
+target_compile_features(${PROJECT_NAME} INTERFACE   $<BUILD_INTERFACE:$<IF:$<BOOL:${MSTD_ENABLE_CXX20}>, cxx_std_20, cxx_std_17>>
+                                                    $<INSTALL_INTERFACE:cxx_std_17>
+)
 
-if(NOT TARGET mstd::fmt_imported)
-    add_library(mstd::fmt_imported INTERFACE IMPORTED)
-    target_link_libraries(mstd::fmt_imported INTERFACE fmt::fmt)
+# region LINK_LIBRARIES
+if(NOT TARGET ${PROJECT_NAMESPACE}fmt_imported)
+    add_library(${PROJECT_NAMESPACE}fmt_imported INTERFACE IMPORTED)
 endif()
 
 target_link_libraries(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:fmt::fmt>
-                                                $<INSTALL_INTERFACE:mstd::fmt_imported>
+                                                $<INSTALL_INTERFACE:${PROJECT_NAMESPACE}fmt_imported>
 )
+# endregion
 
 # set headers folder
 target_include_directories(${PROJECT_NAME} INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATHS}>")
 
 # region COMPILE_DEFINITIONS
-target_compile_definitions(${PROJECT_NAME} INTERFACE	$<$<BOOL:${MSTD_ENABLE_CXX20}>:MSTD_ENABLE_CXX20>
-														$<$<BOOL:${MSTD_DISABLE_ASSERT_ON_RELEASE}>:MSTD_DISABLE_ASSERT_ON_RELEASE>
-                                                        $<$<BOOL:${MSTD_ENABLE_FOR_EACH_MACROS}>:MSTD_ENABLE_FOR_EACH_MACROS>
-                                                        $<$<BOOL:${MSTD_ENABLE_ENUMS_MACROS}>:MSTD_ENABLE_ENUMS_MACROS>
-                                                        $<$<BOOL:${MSTD_ENABLE_CLONE_FUNC_MACROS}>:MSTD_ENABLE_CLONE_FUNC_MACROS>
-                                                        $<$<BOOL:${MSTD_ENABLE_EXTRA_MACROS}>:MSTD_ENABLE_EXTRA_MACROS>
+target_compile_definitions(${PROJECT_NAME} INTERFACE	$<BUILD_INTERFACE:
+                                                            $<$<BOOL:${MSTD_ENABLE_CXX20}>:MSTD_ENABLE_CXX20>
+														    $<$<BOOL:${MSTD_DISABLE_ASSERT_ON_RELEASE}>:MSTD_DISABLE_ASSERT_ON_RELEASE>
+                                                            $<$<BOOL:${MSTD_ENABLE_FOR_EACH_MACROS}>:MSTD_ENABLE_FOR_EACH_MACROS>
+                                                            $<$<BOOL:${MSTD_ENABLE_ENUMS_MACROS}>:MSTD_ENABLE_ENUMS_MACROS>
+                                                            $<$<BOOL:${MSTD_ENABLE_CLONE_FUNC_MACROS}>:MSTD_ENABLE_CLONE_FUNC_MACROS>
+                                                            $<$<BOOL:${MSTD_ENABLE_EXTRA_MACROS}>:MSTD_ENABLE_EXTRA_MACROS>
+                                                        >
 )
 # endregion
 
@@ -96,14 +101,13 @@ target_compile_options(${PROJECT_NAME} INTERFACE
         -Wextra
         -Werror
         -fno-strict-aliasing
-        $<$<BOOL:${MSTD_BUILD_COVERAGE}>:
-            -g
-            --coverage
-            -fcoverage-mcdc
-            -fprofile-instr-generate
-            -fcoverage-mapping
-        >
     >
+    $<BUILD_INTERFACE:$<$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>,$<BOOL:${MSTD_BUILD_COVERAGE}>>:
+        --coverage
+        -fcoverage-mcdc
+        -fprofile-instr-generate
+        -fcoverage-mapping
+    >>
 )
 # endregion
 
@@ -118,8 +122,10 @@ target_link_options(${PROJECT_NAME} INTERFACE
     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>>>:
         $<$<CONFIG:Release>:-flto>
         -static
-        $<$<BOOL:${MSTD_BUILD_COVERAGE}>:-fprofile-instr-generate>
     >
+    $<BUILD_INTERFACE:$<$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>,$<BOOL:${MSTD_BUILD_COVERAGE}>>:
+        -fprofile-instr-generate
+    >>
 )
 # endregion
 
@@ -128,7 +134,7 @@ if(MSTD_INSTALL)
     # Installing header files
     foreach(DIR ${BUILD_HEADERS_PATHS})
         install(DIRECTORY ${DIR}/${PROJECT_NAME}/
-                DESTINATION ${INSTALL_HEADERS_PATH}/${PROJECT_NAME}/
+                DESTINATION ${INSTALL_HEADERS_PATH}/${PROJECT_NAME}
                 FILES_MATCHING PATTERN "*.hpp"
         )
     endforeach()

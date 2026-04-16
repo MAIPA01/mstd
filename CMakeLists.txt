@@ -33,7 +33,7 @@ if (NOT MSTD_INSTALL_TEST)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/mstd)
 endif()
 
-if(MSTD_BUILD_TESTS)
+if(MSTD_BUILD_TESTS OR MSTD_BUILD_COVERAGE)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)
 endif()
 

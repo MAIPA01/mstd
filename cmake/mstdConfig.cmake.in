@@ -4,12 +4,55 @@ include(CMakeFindDependencyMacro)
 
 find_dependency(fmt)
 
-if(fmt_FOUND AND NOT TARGET mstd::fmt_imported)
-    add_library(mstd::fmt_imported INTERFACE IMPORTED)
-    target_link_libraries(mstd::fmt_imported INTERFACE fmt::fmt)
+if(fmt_FOUND AND NOT TARGET @PROJECT_NAMESPACE@fmt_imported)
+    add_library(@PROJECT_NAMESPACE@fmt_imported INTERFACE IMPORTED)
+    target_link_libraries(@PROJECT_NAMESPACE@fmt_imported INTERFACE fmt::fmt)
 endif()
 
-set_and_check(mstd_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
-set(mstd_PCH_PATH "${mstd_INCLUDE_DIR}/mstd/pch.hpp")
+set_and_check(@PROJECT_NAME@_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
+set(@PROJECT_NAME@_PCH_PATH "${@PROJECT_NAME@_INCLUDE_DIR}/@PROJECT_NAME@/pch.hpp")
 
-include(${CMAKE_CURRENT_LIST_DIR}/mstdTargets.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake)
+
+set(@PROJECT_NAME@_components CXX20 NO_ASSERT_ON_RELEASE FOR_EACH_MACROS ENUMS_MACROS CLONE_FUNC_MACROS EXTRA_MACROS)
+
+foreach(comp ${@PROJECT_NAME@_FIND_COMPONENTS})
+    if (NOT comp IN_LIST @PROJECT_NAME@_components)
+        set(@PROJECT_NAME@_NOT_FOUND_MESSAGE "Unsupported components: ${comp}")
+        set(@PROJECT_NAME@_FOUND FALSE)
+        break()
+    endif()
+
+    set(comp_target "@PROJECT_NAMESPACE@${comp}")
+
+    if (NOT TARGET ${comp_target})
+        add_library(${comp_target} INTERFACE IMPORTED)
+
+        if (comp STREQUAL "CXX20")
+            set_target_properties(${comp_target} PROPERTIES
+                INTERFACE_COMPILE_DEFINITIONS MSTD_ENABLE_CXX20
+                INTERFACE_COMPILE_FEATURES cxx_std_20
+            )
+        elseif(comp STREQUAL "NO_ASSERT_ON_RELEASE")
+            set_target_properties(${comp_target} PROPERTIES
+                INTERFACE_COMPILE_DEFINITIONS MSTD_DISABLE_ASSERT_ON_RELEASE
+            )
+        elseif(comp STREQUAL "FOR_EACH_MACROS")
+            set_target_properties(${comp_target} PROPERTIES
+                INTERFACE_COMPILE_DEFINITIONS MSTD_ENABLE_FOR_EACH_MACROS
+            )
+        elseif(comp STREQUAL "ENUMS_MACROS")
+            set_target_properties(${comp_target} PROPERTIES
+                INTERFACE_COMPILE_DEFINITIONS MSTD_ENABLE_ENUMS_MACROS
+            )
+        elseif(comp STREQUAL "CLONE_FUNC_MACROS")
+            set_target_properties(${comp_target} PROPERTIES
+                INTERFACE_COMPILE_DEFINITIONS MSTD_ENABLE_CLONE_FUNC_MACROS
+            )
+        elseif(comp STREQUAL "EXTRA_MACROS")
+            set_target_properties(${comp_target} PROPERTIES
+                INTERFACE_COMPILE_DEFINITIONS MSTD_ENABLE_EXTRA_MACROS
+            )
+        endif()
+    endif()
+endforeach()

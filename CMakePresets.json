@@ -16,6 +16,7 @@
         "MSTD_BUILD_COVERAGE": "ON",
         "MSTD_BUILD_DOCUMENTATION": "ON",
         "MSTD_ENABLE_CLANG_TIDY": "ON",
+        "MSTD_INSTALL_TEST": "OFF",
         "MSTD_DISABLE_ASSERT_ON_RELEASE": "OFF",
         "MSTD_ENABLE_FOR_EACH_MACROS": "ON",
         "MSTD_ENABLE_ENUMS_MACROS": "ON",
@@ -29,7 +30,7 @@
       }
     },
     {
-      "name": "c++20",
+      "name": "cpp20",
       "hidden": true,
       "cacheVariables": {
         "CMAKE_CXX_STANDARD": "20",
@@ -37,7 +38,7 @@
       }
     },
     {
-      "name": "c++17",
+      "name": "cpp17",
       "hidden": true,
       "cacheVariables": {
         "CMAKE_CXX_STANDARD": "17",
@@ -75,52 +76,52 @@
       }
     },
     {
-      "name": "x64-debug-c++20",
+      "name": "x64-debug-cpp20",
       "displayName": "x64 Debug c++20",
       "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (Debug)",
-      "inherits": ["windows-base", "c++20", "x64", "debug"]
+      "inherits": ["windows-base", "cpp20", "x64", "debug"]
     },
     {
-      "name": "x64-debug-c++17",
+      "name": "x64-debug-cpp17",
       "displayName": "x64 Debug c++17",
       "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (Debug)",
-      "inherits": ["windows-base", "c++17", "x64", "debug"]
+      "inherits": ["windows-base", "cpp17", "x64", "debug"]
     },
     {
-      "name": "x64-release-c++20",
+      "name": "x64-release-cpp20",
       "displayName": "x64 Release c++20",
       "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
-      "inherits": [ "release", "x64-debug-c++20" ]
+      "inherits": [ "release", "x64-debug-cpp20" ]
     },
     {
-      "name": "x64-release-c++17",
+      "name": "x64-release-cpp17",
       "displayName": "x64 Release c++17",
       "description": "Docelowy system Windows (64-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
-      "inherits": [ "release", "x64-debug-c++17" ]
+      "inherits": [ "release", "x64-debug-cpp17" ]
     },
     {
-      "name": "x86-debug-c++20",
+      "name": "x86-debug-cpp20",
       "displayName": "x86 Debug c++20",
       "description": "Docelowy system Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (Debug)",
-      "inherits": ["windows-base", "c++20", "x86", "debug"]
+      "inherits": ["windows-base", "cpp20", "x86", "debug"]
     },
     {
-      "name": "x86-debug-c++17",
+      "name": "x86-debug-cpp17",
       "displayName": "x86 Debug c++17",
       "description": "Docelowy system Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (Debug)",
-      "inherits": ["windows-base", "c++17", "x86", "debug"]
+      "inherits": ["windows-base", "cpp17", "x86", "debug"]
     },
     {
-      "name": "x86-release-c++20",
+      "name": "x86-release-cpp20",
       "displayName": "x86 Release c++20",
       "description": "Docelowy systemu Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
-      "inherits": [ "release", "x86-debug-c++20" ]
+      "inherits": [ "release", "x86-debug-cpp20" ]
     },
     {
-      "name": "x86-release-c++17",
+      "name": "x86-release-cpp17",
       "displayName": "x86 Release c++17",
       "description": "Docelowy systemu Windows (32-bitowy) ze środowiskiem programistycznym programu Visual Studio. (RelWithDebInfo)",
-      "inherits": [ "release", "x86-debug-c++17" ]
+      "inherits": [ "release", "x86-debug-cpp17" ]
     }
   ]
 }

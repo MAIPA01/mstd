@@ -1,8 +1,6 @@
 set(CPM_USE_LOCAL_PACKAGES OFF)
-if(NOT CPM_SOURCE_CACHE)
-    # Storage location
-    set(CPM_SOURCE_CACHE ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
-endif()
+# Storage location
+set(CPM_SOURCE_CACHE ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 # Set download location
 set(CPM_DOWNLOAD_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/third_party/cpm/CPM.cmake")

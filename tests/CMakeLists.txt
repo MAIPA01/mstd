@@ -1,4 +1,4 @@
-project(mstd-tests VERSION 1.5.1 LANGUAGES CXX)
+project(mstd-tests VERSION 1.5.2 LANGUAGES CXX)
 
 # source files
 set(PROJECT_TEST_SOURCES ${PROJECT_NAME}_TEST_SOURCES)
@@ -8,18 +8,14 @@ enable_testing()
 
 # region INSTALL_TESTING
 if (MSTD_INSTALL_TEST)
+    message("TESTING_INSTALL")
     find_package(mstd REQUIRED
             HINTS "${CMAKE_SOURCE_DIR}/dist"
+            COMPONENTS ENUMS_MACROS CXX20 FOR_EACH_MACROS CLONE_FUNC_MACROS EXTRA_MACROS
     )
 
-    message(STATUS FOUND: ${mstd_FOUND})
-    message(STATUS SOURCE_DIR: ${mstd_SOURCE_DIR})
-    target_compile_definitions(mstd::mstd INTERFACE MSTD_ENABLE_ENUMS_MACROS
-                                                    MSTD_ENABLE_CXX20
-                                                    MSTD_ENABLE_FOR_EACH_MACROS
-                                                    MSTD_ENABLE_CLONE_FUNC_MACROS
-                                                    MSTD_ENABLE_EXTRA_MACROS
-    )
+    add_library(mstd::all INTERFACE IMPORTED)
+    target_link_libraries(mstd::all INTERFACE mstd::mstd mstd::ENUMS_MACROS mstd::CXX20 mstd::FOR_EACH_MACROS mstd::CLONE_FUNC_MACROS mstd::EXTRA_MACROS)
 endif()
 # endregion
 
@@ -27,7 +23,7 @@ endif()
 add_executable(${PROJECT_NAME} ${${PROJECT_TEST_SOURCES}})
 add_test(${PROJECT_NAME}_TEST ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE   mstd::mstd
+target_link_libraries(${PROJECT_NAME} PRIVATE   $<IF:$<BOOL:${MSTD_INSTALL_TEST}>, mstd::all, mstd::mstd>
                                                 gtest_main
 )
 
@@ -63,13 +59,12 @@ target_compile_options(${PROJECT_NAME} PRIVATE
         -Wextra
         -Werror
         -fno-strict-aliasing
-        $<$<BOOL:${MSTD_BUILD_COVERAGE}>:
-            -g
-            --coverage
-            -fcoverage-mcdc
-            -fprofile-instr-generate
-            -fcoverage-mapping
-        >
+    >
+    $<$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>,$<BOOL:${MSTD_BUILD_COVERAGE}>>:
+        --coverage
+        -fcoverage-mcdc
+        -fprofile-instr-generate
+        -fcoverage-mapping
     >
 )
 
@@ -82,8 +77,9 @@ target_link_options(${PROJECT_NAME} PRIVATE
     # GCC/clang with GNU frontend
     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>>>:
         $<$<CONFIG:Release>:-flto>
-#        $<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:Clang>>:-fuse-ld=lld>
         -static
-        $<$<BOOL:${MSTD_BUILD_COVERAGE}>:-fprofile-instr-generate>
+    >
+    $<$<AND:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_FRONTEND_VARIANT:GNU>,$<BOOL:${MSTD_BUILD_COVERAGE}>>:
+        -fprofile-instr-generate
     >
 )
