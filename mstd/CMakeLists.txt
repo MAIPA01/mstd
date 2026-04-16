@@ -1,7 +1,7 @@
 # region HEADER FILES
 set(PROJECT_HEADERS ${PROJECT_NAME}_HEADERS)
 set(BUILD_HEADERS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(INSTALL_HEADERS_PATH include)
+set(INSTALL_HEADERS_DIR include)
 
 file(GLOB BUILD_HEADERS_PATHS CONFIGURE_DEPENDS LIST_DIRECTORIES true LIST_FILES false ${BUILD_HEADERS_PATH}/*)
 
@@ -40,9 +40,7 @@ if(MSTD_ENABLE_CLANG_TIDY)
 endif()
 # endregion
 
-target_precompile_headers(${PROJECT_NAME} INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATH}/main/${PROJECT_NAME}/pch.hpp>"
-                                                    "$<INSTALL_INTERFACE:${${PROJECT_NAME}_PCH_PATH}>"
-)
+target_precompile_headers(${PROJECT_NAME} INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATH}/main/${PROJECT_NAME}/pch.hpp>")
 
 target_compile_features(${PROJECT_NAME} INTERFACE   $<BUILD_INTERFACE:$<IF:$<BOOL:${MSTD_ENABLE_CXX20}>, cxx_std_20, cxx_std_17>>)
 
@@ -57,9 +55,7 @@ target_link_libraries(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:fmt::fmt>
 # endregion
 
 # set headers folder
-target_include_directories(${PROJECT_NAME} SYSTEM INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATHS}>"
-                                                            $<INSTALL_INTERFACE:${INSTALL_HEADERS_PATH}>
-)
+target_include_directories(${PROJECT_NAME} INTERFACE "$<BUILD_INTERFACE:${BUILD_HEADERS_PATHS}>")
 
 # region COMPILE_DEFINITIONS
 target_compile_definitions(${PROJECT_NAME} INTERFACE	$<BUILD_INTERFACE:
@@ -134,7 +130,7 @@ if(MSTD_INSTALL)
     # Installing header files
     foreach(DIR ${BUILD_HEADERS_PATHS})
         install(DIRECTORY ${DIR}/${PROJECT_NAME}/
-                DESTINATION ${INSTALL_HEADERS_PATH}/${PROJECT_NAME}
+                DESTINATION ${INSTALL_HEADERS_DIR}/${PROJECT_NAME}
                 FILES_MATCHING PATTERN "*.hpp"
         )
     endforeach()
@@ -142,7 +138,7 @@ if(MSTD_INSTALL)
     # Installing targets
     set(PROJECT_INSTALL_TARGETS ${PROJECT_NAME}Targets)
     install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets
-        INCLUDES DESTINATION ${INSTALL_HEADERS_PATH}
+        INCLUDES DESTINATION ${INSTALL_HEADERS_DIR}
     )
 
     # Generate Targets.cmake
@@ -156,12 +152,10 @@ if(MSTD_INSTALL)
     include(CMakePackageConfigHelpers)
 
     set(PROJECT_INSTALL_CONFIG ${PROJECT_NAME}Config)
-    set(INCLUDE_INSTALL_DIR ${INSTALL_HEADERS_PATH})
     configure_package_config_file(
             "${CMAKE_SOURCE_DIR}/cmake/${PROJECT_INSTALL_CONFIG}.cmake.in"
             "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_INSTALL_CONFIG}.cmake"
             INSTALL_DESTINATION cmake
-            PATH_VARS INCLUDE_INSTALL_DIR
     )
 
     # Create Version.cmake
