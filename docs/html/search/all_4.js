@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['data_0',['data',['../d8/dfa/classmstd_1_1stable__vector.html#af9a34fc20eac24b7e5994fb6a337e523',1,'mstd::stable_vector::data()'],['../d8/dfa/classmstd_1_1stable__vector.html#ab60f393df1893814d8746e0f86b203c4',1,'mstd::stable_vector::data() const']]],
+  ['data_0',['data',['../d8/dfa/classmstd_1_1stable__vector.html#a378c1faa3a0e4fb4beb077d6dc8a3a0d',1,'mstd::stable_vector::data()'],['../d8/dfa/classmstd_1_1stable__vector.html#a23e4d5fc844cd31dd21d9a6ec6352caa',1,'mstd::stable_vector::data() const']]],
   ['decayed_5farg_5ftype_1',['decayed_arg_type',['../d3/d07/structmstd_1_1utils_1_1function__core__traits_3_01_r_07_args_8_8_8_08_00_01void_01_4.html#ab62b5b45095681c4f9a53107ae9d9230',1,'mstd::utils::function_core_traits&lt; R(Args...), void &gt;']]],
   ['decayed_5fargs_5ftuple_2',['decayed_args_tuple',['../d3/d07/structmstd_1_1utils_1_1function__core__traits_3_01_r_07_args_8_8_8_08_00_01void_01_4.html#a6ad3315b0b041db285ac701b6c258289',1,'mstd::utils::function_core_traits&lt; R(Args...), void &gt;']]],
   ['decayed_5freturn_5ftype_3',['decayed_return_type',['../d3/d07/structmstd_1_1utils_1_1function__core__traits_3_01_r_07_args_8_8_8_08_00_01void_01_4.html#a064c064f2c74a8615527be597d273693',1,'mstd::utils::function_core_traits&lt; R(Args...), void &gt;']]],

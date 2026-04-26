@@ -2,50 +2,50 @@
 #include <pch.hpp>
 
 namespace mstd::tests {
-	int free_func(int x) { return x * 2; }
+	int free_func(const int x) { return x * 2; }
 
-	int free_func_noexcept(int x) noexcept { return x * 2; }
+	int free_func_noexcept(const int x) noexcept { return x * 2; }
 
 	struct Mock {
 		int val = 10;
 
-		int mem_const(int x) const { return val + x; }
+		int mem_const(const int x) const { return val + x; }
 
-		int mem_noexcept(int x) noexcept { return val + x; }
+		int mem_noexcept(const int x) const noexcept { return val + x; }
 
-		int mem_volatile(int x) volatile { return val + x; }
+		int mem_volatile(const int x) const volatile { return val + x; }
 
-		int mem_ref(int x) & { return val + x; }
+		int mem_ref(const int x) const& { return val + x; }
 	};
 
 	TEST(FunctionViewTest, FreeFunction) {
-		function_view<int(int)> fv(free_func);
+		const function_view<int(int)> fv(free_func);
 		EXPECT_EQ(fv(5), 10);
 
-		function_view<int(int)> fv2 = free_func;
+		const function_view<int(int)> fv2 = free_func;
 		EXPECT_EQ(fv2(5), 10);
 	}
 
 	TEST(FunctionViewTest, LambdaSupport) {
-		auto lambda = [](int x) { return x + 1; };
+		auto lambda = [](const int x) { return x + 1; };
 		function_view<int(int)> fv(lambda);
 		EXPECT_EQ(fv(10), 11);
 
-		auto other_lambda = [](int x) { return x + 2; };
+		auto other_lambda = [](const int x) { return x + 2; };
 		fv				  = other_lambda;
 		EXPECT_EQ(fv(10), 12);
 
 		int offset	  = 100;
-		auto stateful = [offset](int x) { return x + offset; };
+		auto stateful = [offset](const int x) { return x + offset; };
 
-		function_view<int(int)> fv_stateful(stateful);
+		const function_view<int(int)> fv_stateful(stateful);
 		EXPECT_EQ(fv_stateful(5), 105);
 	}
 
 	TEST(FunctionViewTest, NoexceptConstraint) {
 		using fv_noexcept = function_view<int(int) noexcept>;
 
-		fv_noexcept v1(free_func_noexcept);
+		const fv_noexcept v1(free_func_noexcept);
 		EXPECT_EQ(v1(5), 10);
 
 		static_assert(!std::is_constructible_v<fv_noexcept, decltype(free_func)>,
@@ -69,19 +69,21 @@ namespace mstd::tests {
 		function_view<Sig> fv(pair);
 		EXPECT_EQ(fv(10), 60);
 
+		fv	  = pair;
+
 		m.val = 100;
 		EXPECT_EQ(fv(10), 110);
 	}
 
 	TEST(FunctionViewTest, CopyAndMoveSemantics) {
-		function_view<int(int)> v1 = free_func;
+		const function_view<int(int)> v1 = free_func;
 
 		// Copy
-		function_view<int(int)> v2 = v1;
+		function_view<int(int)> v2		 = v1;
 		EXPECT_EQ(v2(5), 10);
 
 		// Move
-		function_view<int(int)> v3 = std::move(v2);
+		const function_view<int(int)> v3 = std::move(v2);
 		EXPECT_EQ(v3(10), 20);
 
 		EXPECT_EQ(v1(5), 10);
@@ -91,7 +93,7 @@ namespace mstd::tests {
 		function_view<int(int)> fv = free_func;
 		EXPECT_EQ(fv(5), 10);
 
-		auto lambda = [](int x) { return x * x; };
+		auto lambda = [](const int x) { return x * x; };
 
 		fv			= lambda;
 		EXPECT_EQ(fv(5), 25);

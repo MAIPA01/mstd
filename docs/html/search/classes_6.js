@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['ordered_5fmap_0',['ordered_map',['../da/d6d/classmstd_1_1ordered__map.html',1,'mstd']]],
-  ['ordered_5fset_1',['ordered_set',['../da/d89/classmstd_1_1ordered__set.html',1,'mstd']]]
+  ['mat_0',['mat',['../d3/df9/classmstd_1_1mat.html',1,'mstd']]],
+  ['mat_3c_20n_2c_20n_2c_20t_20_3e_1',['mat&lt; N, N, T &gt;',['../d3/df9/classmstd_1_1mat.html',1,'mstd']]],
+  ['mat_5fcolumn_2',['mat_column',['../d4/d27/classmstd_1_1mat_1_1mat__column.html',1,'mstd::mat']]]
 ];

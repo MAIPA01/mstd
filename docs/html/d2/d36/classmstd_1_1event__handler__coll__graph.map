@@ -1,0 +1,16 @@
+<map id="mstd::event_handler&lt; Args &gt;" name="mstd::event_handler&lt; Args &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="101,552,241,595"/>
+<area shape="rect" id="Node000002" href="$d8/dfa/classmstd_1_1stable__vector.html" title=" " alt="" coords="87,437,255,480"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,494,173,553,169,551,169,497"/>
+<area shape="rect" id="Node000003" href="$d8/dfa/classmstd_1_1stable__vector.html" title=" " alt="" coords="87,339,255,365"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="172,378,174,438,168,436,170,383"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,211,169,237"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="104,248,165,338,160,339,103,253"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="114,104,228,131"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="139,143,128,156,108,185,95,211,90,209,104,182,124,153,141,138"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="193,203,320,245"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="200,138,216,153,249,202,243,203,212,156,200,144"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="152,5,190,32"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="171,45,174,104,168,103,171,50"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="241,257,208,316,187,340,183,336,204,313,238,261"/>
+</map>

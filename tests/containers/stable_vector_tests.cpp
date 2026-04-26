@@ -18,6 +18,7 @@ namespace mstd::test {
 		EXPECT_EQ(c.size(), 3);
 		EXPECT_EQ(c.at(0), 10);
 		EXPECT_EQ(c.at(2), 30);
+		EXPECT_EQ(c.get_next_id(), 3);
 	}
 
 	TEST_F(StableVectorTest, ResizeIncreasesSize) {
@@ -48,7 +49,7 @@ namespace mstd::test {
 			int a;
 			std::string b;
 
-			Dummy(int x, std::string y) : a(x), b(y) {}
+			Dummy(const int x, const std::string& y) : a(x), b(y) {}
 		};
 
 		mstd::stable_vector<Dummy> c_dummy;
@@ -59,7 +60,7 @@ namespace mstd::test {
 
 	TEST_F(StableVectorTest, EraseRemovesElementAndSwaps) {
 		container			= { 0, 1, 2, 3, 4 };
-		size_t initial_size = container.size();
+		const size_t initial_size = container.size();
 
 		container.erase(1);
 
@@ -73,7 +74,9 @@ namespace mstd::test {
 	TEST_F(StableVectorTest, FrontAndBackAccess) {
 		container = { 1, 2, 3 };
 		EXPECT_EQ(container.front(), 1);
+		EXPECT_EQ(container.front_id(), 0);
 		EXPECT_EQ(container.back(), 3);
+		EXPECT_EQ(container.back_id(), 2);
 	}
 
 	TEST_F(StableVectorTest, IterationTest) {
@@ -87,15 +90,15 @@ namespace mstd::test {
 		container.push_back(100); // ID 0
 		container.push_back(200); // ID 1
 
-		auto it = container.begin();
+		const auto it = container.begin();
 		EXPECT_EQ(container.get_id(it), 0);
 
-		auto it2 = std::next(it);
+		const auto it2 = std::next(it);
 		EXPECT_EQ(container.get_id(it2), 1);
 	}
 
 	TEST_F(StableVectorTest, EqualityOperator) {
-		mstd::stable_vector<int> c1 = { 1, 2 };
+		const mstd::stable_vector<int> c1 = { 1, 2 };
 		mstd::stable_vector<int> c2 = { 1, 2 };
 		EXPECT_TRUE(c1 == c2);
 
@@ -104,33 +107,38 @@ namespace mstd::test {
 	}
 
 	TEST_F(StableVectorTest, GetIdFromIterator) {
+		EXPECT_EQ(container.get_next_id(), 0);
 		container.push_back(10);	  // ID 0
 		container.insert_at(10, 100); // ID 10
-		container.push_back(20);	  // ID 11
+		EXPECT_EQ(container.get_next_id(), 2);
+		container.push_back(20);	  // ID 2
 
-		auto it = container.begin();
+		const auto it = container.begin();
 		EXPECT_EQ(container.get_id(it), 0);
 
 		auto it_last = std::prev(container.end());
 		EXPECT_EQ(*it_last, 20);
-		EXPECT_EQ(container.get_id(it_last), 11);
+		EXPECT_EQ(container.get_id(2), 2);
+		EXPECT_EQ(container.get_id(it_last), 2);
 
+		EXPECT_EQ(container.get_next_id(), 3);
 		container.insert(22); // ID 3
 
 		it_last = std::prev(container.end());
 		EXPECT_EQ(*it_last, 22);
 		EXPECT_EQ(container.get_id(it_last), 3);
+		EXPECT_EQ(container.get_id(3), 3);
 	}
 
 	TEST_F(StableVectorTest, HasValueViaIterator) {
 		container = { 10, 20, 30 }; // ID: 0, 1, 2
 
-		auto it	  = container.begin();
+		const auto it	  = container.begin();
 		EXPECT_TRUE(container.has_value(it));
 
 		container.erase(0); // Usuwamy element pod ID 0
 
-		auto it_new = container.begin();
+		const auto it_new = container.begin();
 		EXPECT_TRUE(container.has_value(it_new));
 		EXPECT_EQ(*it_new, 30);
 	}
@@ -138,7 +146,7 @@ namespace mstd::test {
 	TEST_F(StableVectorTest, HasValueViaConstIterator) {
 		const mstd::stable_vector<int> const_container = { 100, 200 };
 
-		auto cit									   = const_container.cbegin();
+		const auto cit									   = const_container.cbegin();
 		EXPECT_TRUE(const_container.has_value(cit));
 
 		EXPECT_EQ(const_container.get_id(cit), 0);
@@ -185,24 +193,24 @@ namespace mstd::test {
 		container.push_back(20); // ID 1
 		container.push_back(30); // ID 2
 
-		auto it = container.get(1);
+		const auto it = container.get(1);
 		ASSERT_NE(it, container.end());
 		EXPECT_EQ(*it, 20);
 		EXPECT_EQ(container.get_id(it), 1);
 
 		const auto& c_container = container;
-		auto cit				= c_container.get(2);
+		const auto cit				= c_container.get(2);
 		EXPECT_EQ(*cit, 30);
 	}
 
 	TEST_F(StableVectorTest, TryGetReturnsIteratorOrEnd) {
 		container.insert_at(10, 1000);
 
-		auto it_found = container.try_get(10);
+		const auto it_found = container.try_get(10);
 		EXPECT_NE(it_found, container.end());
 		EXPECT_EQ(*it_found, 1000);
 
-		auto it_missing = container.try_get(5);
+		const auto it_missing = container.try_get(5);
 		EXPECT_EQ(it_missing, container.end());
 	}
 
@@ -213,10 +221,10 @@ namespace mstd::test {
 		temp.erase(1);
 		const auto& c_temp = temp;
 
-		auto it			   = c_temp.try_get(1);
+		const auto it			   = c_temp.try_get(1);
 		EXPECT_EQ(it, c_temp.cend());
 
-		auto it_valid = c_temp.try_get(0);
+		const auto it_valid = c_temp.try_get(0);
 		EXPECT_EQ(*it_valid, 1);
 	}
 
@@ -249,8 +257,8 @@ namespace mstd::test {
 		container.erase(0);
 		container.erase(1);
 
-		size_t current_active = container.active_slots();
-		size_t current_empty  = container.empty_slots();
+		const size_t current_active = container.active_slots();
+		const size_t current_empty  = container.empty_slots();
 
 		EXPECT_EQ(current_active, 3);
 		EXPECT_EQ(current_empty, 2);
@@ -267,5 +275,169 @@ namespace mstd::test {
 
 		container.erase(0);
 		EXPECT_EQ(container.active_slots(), 1);
+	}
+
+	class NonCopyableValue {
+	public:
+		NonCopyableValue()									 = default;
+		NonCopyableValue(const NonCopyableValue&)			 = delete;
+		NonCopyableValue(NonCopyableValue&&)				 = default;
+		~NonCopyableValue()									 = default;
+
+		NonCopyableValue& operator=(const NonCopyableValue&) = delete;
+		NonCopyableValue& operator=(NonCopyableValue&&)		 = default;
+	};
+
+	TEST_F(StableVectorTest, NonCopyableValue) {
+		mstd::stable_vector<NonCopyableValue> valueContainer;
+
+		// INSERT ON FREE SPOT
+		{
+			auto test = NonCopyableValue();
+			valueContainer.insert(NonCopyableValue());
+			// valueContainer.insert(test);						// is not copyable
+			valueContainer.insert(std::move(test));
+
+			// valueContainer.insert(NonCopyableValue(), 2);	// is not copyable
+			// valueContainer.insert(test, 2);					// is not copyable
+			// valueContainer.insert(std::move(test), 2);		// is not copyable
+
+			// valueContainer.insert({ NonCopyableValue() });	// is not copyable
+			// valueContainer.insert({ test });					// is not copyable
+			// valueContainer.insert({ std::move(test) });		// is not copyable
+
+			ASSERT_TRUE(true);
+		}
+
+		// INSERT AT IDX
+		{
+			auto test = NonCopyableValue();
+			valueContainer.insert_at(0, NonCopyableValue());
+			// valueContainer.insert_at(1, test);						// is not copyable
+			valueContainer.insert_at(2, std::move(test));
+
+			// valueContainer.insert_at(3, NonCopyableValue(), 2);		// is not copyable
+			// valueContainer.insert_at(4, test, 2);					// is not copyable
+			// valueContainer.insert_at(5, std::move(test), 2);			// is not copyable
+
+			// valueContainer.insert_at(6, { NonCopyableValue() });		// is not copyable
+			// valueContainer.insert_at(7, { test });					// is not copyable
+			// valueContainer.insert_at(8, { std::move(test) });		// is not copyable
+
+			ASSERT_TRUE(true);
+		}
+
+		// EMPLACE ON FREE SPOT
+		{
+			valueContainer.emplace();
+
+			ASSERT_TRUE(true);
+		}
+
+		// EMPLACE AT IDX
+		{
+			valueContainer.emplace_at(0);
+
+			ASSERT_TRUE(true);
+		}
+
+		// EMPLACE BACK
+		{
+			valueContainer.emplace_back();
+
+			ASSERT_TRUE(true);
+		}
+
+		// PUSH BACK
+		{
+			auto test = NonCopyableValue();
+			valueContainer.push_back(NonCopyableValue());
+			// valueContainer.push_back(test);					// is not copyable
+			valueContainer.push_back(std::move(test));
+
+			ASSERT_TRUE(true);
+		}
+	}
+
+	class NonMovableValue {
+	public:
+		NonMovableValue()								   = default;
+		NonMovableValue(const NonMovableValue&)			   = default;
+		NonMovableValue(NonMovableValue&&)				   = delete;
+		~NonMovableValue()								   = default;
+
+		NonMovableValue& operator=(const NonMovableValue&) = default;
+		NonMovableValue& operator=(NonMovableValue&&)	   = delete;
+	};
+
+	TEST_F(StableVectorTest, NonMovableValue) {
+		mstd::stable_vector<NonMovableValue> valueContainer;
+
+		// INSERT ON FREE SPOT
+		{
+			// auto test = NonMovableValue();
+			// valueContainer.insert(NonMovableValue());			// is not movable
+			// valueContainer.insert(test);							// is not movable
+			// valueContainer.insert(std::move(test));				// is not movable
+
+			// valueContainer.insert(NonMovableValue(), 2);			// is not movable
+			// valueContainer.insert(test, 2);						// is not movable
+			// valueContainer.insert(std::move(test), 2);			// is not movable
+
+			// valueContainer.insert({ NonMovableValue() });		// is not movable
+			// valueContainer.insert({ test });						// is not movable
+			// valueContainer.insert({ std::move(test) });			// is not movable
+
+			ASSERT_TRUE(true);
+		}
+
+		// INSERT AT IDX
+		{
+			// auto test = NonMovableValue();
+			// valueContainer.insert_at(0, NonMovableValue());			// is not movable
+			// valueContainer.insert_at(1, test);						// is not movable
+			// valueContainer.insert_at(2, std::move(test));			// is not movable
+
+			// valueContainer.insert_at(3, NonMovableValue(), 2);		// is not movable
+			// valueContainer.insert_at(4, test, 2);					// is not movable
+			// valueContainer.insert_at(5, std::move(test), 2);			// is not movable
+
+			// valueContainer.insert_at(6, { NonMovableValue() });		// is not movable
+			// valueContainer.insert_at(7, { test });					// is not movable
+			// valueContainer.insert_at(8, { std::move(test) });		// is not movable
+
+			ASSERT_TRUE(true);
+		}
+
+		// EMPLACE ON FREE SPOT
+		{
+			// valueContainer.emplace(); // is not movable
+
+			ASSERT_TRUE(true);
+		}
+
+		// EMPLACE AT IDX
+		{
+			// valueContainer.emplace_at(0); // is not movable
+
+			ASSERT_TRUE(true);
+		}
+
+		// EMPLACE BACK
+		{
+			// valueContainer.emplace_back(); // is not movable
+
+			ASSERT_TRUE(true);
+		}
+
+		// PUSH BACK
+		{
+			// auto test = NonMovableValue();
+			// valueContainer.push_back(NonMovableValue());	// is not movable
+			// valueContainer.push_back(test);				// is not movable
+			// valueContainer.push_back(std::move(test));	// is not movable
+
+			ASSERT_TRUE(true);
+		}
 	}
 } // namespace mstd::test

@@ -20,6 +20,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 		#include <algorithm>
 		#include <initializer_list>
 		#include <map>
+		#include <type_traits>
 		#include <unordered_map>
 		#include <unordered_set>
 		#include <vector>

@@ -98,4 +98,206 @@ namespace mstd::test {
 		EXPECT_EQ(set.size(), 0);
 		EXPECT_FALSE(set.contains(1));
 	}
+
+	class NonCopyableValue {
+	public:
+		int value = 0;
+
+		explicit NonCopyableValue(const int val) : value(val) {}
+
+		NonCopyableValue(const NonCopyableValue&)			 = delete;
+		NonCopyableValue(NonCopyableValue&&)				 = default;
+		~NonCopyableValue()									 = default;
+
+		NonCopyableValue& operator=(const NonCopyableValue&) = delete;
+		NonCopyableValue& operator=(NonCopyableValue&&)		 = default;
+
+		[[nodiscard]] bool operator==(const NonCopyableValue& other) const { return value == other.value; }
+	};
+} // namespace mstd::test
+
+template<>
+struct ::std::hash<mstd::test::NonCopyableValue> {
+	[[nodiscard]] size_t operator()(const mstd::test::NonCopyableValue& val) const noexcept {
+		return ::std::hash<int>()(val.value);
+	}
+};
+
+namespace mstd::test {
+	TEST_F(OrderedSetTest, NonCopyableValue) {
+		mstd::ordered_set<NonCopyableValue> valueContainer;
+
+		// EMPLACE
+		{
+			// valueContainer.emplace(valueContainer.cend(), 1); // is not copyable
+
+			ASSERT_TRUE(true);
+		}
+
+		// EMPLACE BACK
+		{
+			// valueContainer.emplace_back(2); // is not copyable
+
+			ASSERT_TRUE(true);
+		}
+
+		// INSERT
+		{
+			// auto test = NonCopyableValue(3);
+			// valueContainer.insert(valueContainer.cend(), NonCopyableValue(4)); // is not copyable
+			// valueContainer.insert(valueContainer.cend(), test);							// is not copyable
+			// valueContainer.insert(valueContainer.cend(), std::move(test)); // is not copyable
+
+			// valueContainer.insert(valueContainer.cend(), { NonCopyableValue(3) });		// is not copyable
+			// valueContainer.insert(valueContainer.cend(), { test });						// is not copyable
+			// valueContainer.insert(valueContainer.cend(), { std::move(test) });			// is not copyable
+
+			ASSERT_TRUE(true);
+		}
+
+		// INSERT BACK
+		{
+			// auto test = NonCopyableValue(5);
+			// valueContainer.insert_back(NonCopyableValue(6)); // is not copyable
+			// valueContainer.insert_back(test);							// is not copyable
+			// valueContainer.insert_back(std::move(test)); // is not copyable
+
+			// valueContainer.insert_back({ NonCopyableValue(3) });			// is not copyable
+			// valueContainer.insert_back({ test });						// is not copyable
+			// valueContainer.insert_back({ std::move(test) });				// is not copyable
+
+			ASSERT_TRUE(true);
+		}
+
+		// ERASE
+		{
+			// auto test = NonCopyableValue(3);
+			// valueContainer.erase(NonCopyableValue(4)); // is not copyable
+			// valueContainer.erase(test); // is not copyable
+			// valueContainer.erase(std::move(test)); // is not copyable
+
+			ASSERT_TRUE(true);
+		}
+
+		// CONTAINS
+		{
+			auto test	= NonCopyableValue(3);
+			std::ignore = valueContainer.contains(NonCopyableValue(4));
+			std::ignore = valueContainer.contains(test);
+			std::ignore = valueContainer.contains(std::move(test));
+
+			ASSERT_TRUE(true);
+		}
+
+		// FIND
+		{
+			auto test	= NonCopyableValue(3);
+			std::ignore = valueContainer.find(NonCopyableValue(4));
+			std::ignore = valueContainer.find(test);
+			std::ignore = valueContainer.find(std::move(test));
+
+			ASSERT_TRUE(true);
+		}
+	}
+
+	class NonMovableValue {
+	public:
+		int value = 0;
+
+		explicit NonMovableValue(const int val) : value(val) {}
+
+		NonMovableValue(const NonMovableValue&)			   = default;
+		NonMovableValue(NonMovableValue&&)				   = delete;
+		~NonMovableValue()								   = default;
+
+		NonMovableValue& operator=(const NonMovableValue&) = default;
+		NonMovableValue& operator=(NonMovableValue&&)	   = delete;
+
+		[[nodiscard]] bool operator==(const NonMovableValue& other) const { return value == other.value; }
+	};
+} // namespace mstd::test
+
+template<>
+struct ::std::hash<mstd::test::NonMovableValue> {
+	[[nodiscard]] size_t operator()(const mstd::test::NonMovableValue& val) const noexcept {
+		return ::std::hash<int>()(val.value);
+	}
+};
+
+namespace mstd::test {
+	TEST_F(OrderedSetTest, NonMovableValue) {
+		mstd::ordered_set<NonMovableValue> valueContainer;
+
+		// EMPLACE
+		{
+			// valueContainer.emplace(valueContainer.cend(), 1); // is not movable
+
+			ASSERT_TRUE(true);
+		}
+
+		// EMPLACE BACK
+		{
+			// valueContainer.emplace_back(2); // is not movable
+
+			ASSERT_TRUE(true);
+		}
+
+		// INSERT
+		{
+			// auto test = NonMovableValue(3);
+			// valueContainer.insert(valueContainer.cend(), NonMovableValue(4)); // is not movable
+			// valueContainer.insert(valueContainer.cend(), test);							// is not movable
+			// valueContainer.insert(valueContainer.cend(), std::move(test)); // is not movable
+
+			// valueContainer.insert(valueContainer.cend(), { NonMovableValue(3) });		// is not movable
+			// valueContainer.insert(valueContainer.cend(), { test });						// is not movable
+			// valueContainer.insert(valueContainer.cend(), { std::move(test) });			// is not movable
+
+			ASSERT_TRUE(true);
+		}
+
+		// INSERT BACK
+		{
+			// auto test = NonMovableValue(5);
+			// valueContainer.insert_back(NonMovableValue(6)); // is not movable
+			// valueContainer.insert_back(test);							// is not movable
+			// valueContainer.insert_back(std::move(test)); // is not movable
+
+			// valueContainer.insert_back({ NonMovableValue(3) });			// is not movable
+			// valueContainer.insert_back({ test });						// is not movable
+			// valueContainer.insert_back({ std::move(test) });				// is not movable
+
+			ASSERT_TRUE(true);
+		}
+
+		// ERASE
+		{
+			// auto test = NonMovableValue(3);
+			// valueContainer.erase(NonMovableValue(4)); // is not movable
+			// valueContainer.erase(test); // is not movable
+			// valueContainer.erase(std::move(test)); // is not movable
+
+			ASSERT_TRUE(true);
+		}
+
+		// CONTAINS
+		{
+			auto test	= NonMovableValue(3);
+			std::ignore = valueContainer.contains(NonMovableValue(4));
+			std::ignore = valueContainer.contains(test);
+			std::ignore = valueContainer.contains(std::move(test));
+
+			ASSERT_TRUE(true);
+		}
+
+		// FIND
+		{
+			auto test	= NonMovableValue(3);
+			std::ignore = valueContainer.find(NonMovableValue(4));
+			std::ignore = valueContainer.find(test);
+			std::ignore = valueContainer.find(std::move(test));
+
+			ASSERT_TRUE(true);
+		}
+	}
 } // namespace mstd::test
