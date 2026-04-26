@@ -20,18 +20,8 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 		#include <mstd/events_utils.hpp>
 
 namespace mstd {
-	template<template<class, class, class...> class EventsMap, class... Args>
-	class base_event_handler;
-
-	template<template<class, class> class EventsMap>
-	using method_base_event_handler = base_event_handler<EventsMap>;
-
 	template<class... Args>
-	using unordered_event_handler		 = base_event_handler<std::unordered_map, Args...>;
-	using unordered_method_event_handler = unordered_event_handler<>;
-
-	template<class... Args>
-	using event_handler		   = base_event_handler<std::map, Args...>;
+	class event_handler;
 	using method_event_handler = event_handler<>;
 } // namespace mstd
 

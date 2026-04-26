@@ -19,66 +19,69 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 		#include <mstd/events_types.hpp>
 		#include <mstd/functions.hpp>
-		#include <mstd/id_manager.hpp>
+		#include <mstd/stable_vector.hpp>
 
 namespace mstd {
-	template<template<class, class, class...> class EventsMap, class... Args>
-	class base_event_handler {
+	template<class... Args>
+	class event_handler {
 	public:
-		using id_type		  = size_t;
-		using id_manager_type = base_id_manager<id_type>;
+		using event_type		   = void(Args&&...);
+		using event_action_handler = action_t<Args&&...>;
 
-		using event_type	  = void(Args&&...);
-		using event_handler	  = action_t<Args&&...>;
+		using events_type		   = stable_vector<event_action_handler>;
 
-		using events_type	  = EventsMap<id_type, event_handler>;
+		using id_type			   = _MSTD_TYPENAME17 events_type::size_type;
 
 	private:
 		events_type _events = {};
-		id_manager_type _ids;
 
 	public:
-		_MSTD_CONSTEXPR20 base_event_handler() noexcept	 = default;
-		_MSTD_CONSTEXPR20 ~base_event_handler() noexcept = default;
+		_MSTD_CONSTEXPR20 event_handler() noexcept	= default;
+		_MSTD_CONSTEXPR20 ~event_handler() noexcept = default;
 
-		_MSTD_CONSTEXPR20 id_type add_callback(const event_handler& callback) {
-			id_type id = _ids.get_next_id();
-				if (id == id_manager_type::bad_id()) { return id; }
-
-			_events[id] = callback;
-			return id;
+		_MSTD_CONSTEXPR20 id_type add_callback(const event_action_handler& callback) {
+			_events.push_back(callback);
+			return _events.back_id();
 		}
 
-		_MSTD_CONSTEXPR20 bool remove_callback(id_type callbackId) {
-			auto itr = _events.find(callbackId);
-				if (itr == _events.end()) { return false; }
-
+		_MSTD_CONSTEXPR20 bool remove_callback(const id_type callbackId) {
+				if (!_events.has_value(callbackId)) { return false; }
 			_events.erase(callbackId);
-			return _ids.return_id(callbackId);
+			return true;
 		}
 
-		_MSTD_CONSTEXPR20 void remove_all_callbacks() {
-			_events.clear();
-			_ids.reset();
-		}
+		_MSTD_CONSTEXPR20 void remove_all_callbacks() { _events.clear(); }
 
-		_MSTD_CONSTEXPR20 void invoke(Args&&... args) const {
+		#if _MSTD_HAS_CXX20
+		template<class... InvokeArgs>
+		requires (std::is_invocable_v<event_type, InvokeArgs...>)
+		#else
+		template<class... InvokeArgs, std::enable_if_t<std::is_invocable_v<event_type, InvokeArgs...>, bool> = true>
+		#endif
+		_MSTD_CONSTEXPR20 void invoke(InvokeArgs&&... args) const {
 				if (_events.empty()) { return; }
 
 			// SAFETY WHEN CALLBACK DELETES ITSELF
-			std::vector<event_handler> callbacksToRun;
+			std::vector<event_action_handler> callbacksToRun;
 			callbacksToRun.reserve(_events.size());
+			callbacksToRun.insert(callbacksToRun.end(), _events.begin(), _events.end());
 
-				for (const auto& [id, event] : _events) { callbacksToRun.push_back(event); }
-
-				for (const auto& callback : callbacksToRun) { callback(std::forward<Args>(args)...); }
+				for (const auto& callback : callbacksToRun) { callback(std::forward<InvokeArgs>(args)...); }
 		}
 
-		_MSTD_CONSTEXPR20 id_type operator+=(const event_handler& callback) { return add_callback(callback); }
+		_MSTD_CONSTEXPR20 id_type operator+=(const event_action_handler& callback) { return add_callback(callback); }
 
-		_MSTD_CONSTEXPR20 bool operator-=(id_type callbackId) { return remove_callback(callbackId); }
+		_MSTD_CONSTEXPR20 bool operator-=(const id_type callbackId) { return remove_callback(callbackId); }
 
-		_MSTD_CONSTEXPR20 void operator()(Args&&... args) const { invoke(std::forward<Args>(args)...); }
+		#if _MSTD_HAS_CXX20
+		template<class... InvokeArgs>
+		requires (std::is_invocable_v<event_type, InvokeArgs...>)
+		#else
+		template<class... InvokeArgs, std::enable_if_t<std::is_invocable_v<event_type, InvokeArgs...>, bool> = true>
+		#endif
+		_MSTD_CONSTEXPR20 void operator()(InvokeArgs&&... args) const {
+			invoke(std::forward<InvokeArgs>(args)...);
+		}
 	};
 } // namespace mstd
 	#endif
