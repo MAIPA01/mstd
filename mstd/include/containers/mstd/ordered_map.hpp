@@ -53,7 +53,7 @@ namespace mstd {
 
 		template<class UK, class U>
 		_MSTD_CONSTEXPR20 mapped_type& _emplace(const_iterator where, UK&& key, U&& value) {
-			return _insert(where, std::make_pair<key_type, mapped_type>(std::forward<UK>(key), std::forward<U>(value)));
+			return _insert(where, std::make_pair(std::forward<UK>(key), std::forward<U>(value)));
 		}
 
 		template<class UK, class U>
