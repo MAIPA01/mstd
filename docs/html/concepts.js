@@ -8,6 +8,8 @@ var concepts =
         [ "valid_function_view_function", "dc/d0c/conceptmstd_1_1utils_1_1valid__function__view__function.html", null ]
       ] ],
       [ "iterator", "d7/dad/conceptmstd_1_1iterator.html", null ],
+      [ "iterator_of", "d5/de2/conceptmstd_1_1iterator__of.html", null ],
+      [ "same_without_cvref_as", "d0/d00/conceptmstd_1_1same__without__cvref__as.html", null ],
       [ "function_ptr", "dc/d4f/conceptmstd_1_1function__ptr.html", null ],
       [ "function_ref", "da/d44/conceptmstd_1_1function__ref.html", null ],
       [ "function_moved", "d2/d14/conceptmstd_1_1function__moved.html", null ],

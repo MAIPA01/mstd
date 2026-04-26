@@ -1,6 +1,5 @@
 var hierarchy =
 [
-    [ "mstd::base_event_handler&lt; EventsMap, Args &gt;", "db/d50/classmstd_1_1base__event__handler.html", null ],
     [ "mstd::utils::base_function_view&lt; F, Ret, ArgsTuple &gt;", "d0/dec/structmstd_1_1utils_1_1base__function__view.html", null ],
     [ "mstd::utils::base_function_view&lt; F, function_return_t&lt; F &gt;, function_args_t&lt; F &gt; &gt;", "d0/dec/structmstd_1_1utils_1_1base__function__view.html", [
       [ "mstd::function_view< F >", "d8/d89/classmstd_1_1function__view.html", null ]
@@ -59,13 +58,16 @@ var hierarchy =
       [ "mstd::utils::abs_impl< A >", "da/d90/structmstd_1_1utils_1_1abs__impl.html", null ]
     ] ],
     [ "mstd::mat&lt; C, R, T &gt;::const_mat_column", "d3/d27/classmstd_1_1mat_1_1const__mat__column.html", null ],
+    [ "mstd::event_handler&lt; Args &gt;", "d0/d2f/classmstd_1_1event__handler.html", null ],
     [ "std::false_type", null, [
       [ "mstd::is_callable< F, std::void_t< typename function_traits< F >::std_function_type > >", "dc/d7e/structmstd_1_1is__callable_3_01_f_00_01std_1_1void__t_3_01typename_01function__traits_3_01_f_01_043e941825227a5adf5ab39cb087f501.html", null ],
       [ "mstd::is_iterator< T, std::void_t< typename std::iterator_traits< T >::iterator_category > >", "dd/dff/structmstd_1_1is__iterator_3_01_t_00_01std_1_1void__t_3_01typename_01std_1_1iterator__traits_3_06d7d9c467d139e56d8171f3848aae897.html", null ],
+      [ "mstd::is_iterator_of< Iter, T, std::void_t< std::enable_if_t< is_iterator_v< Iter > &&(std::is_convertible_v< typename std::iterator_traits< Iter >::value_type, remove_cvref_t< T > >||std::is_same_v< typename std::iterator_traits< Iter >::value_type, remove_cvref_t< T > >)> > >", "d0/d67/structmstd_1_1is__iterator__of_3_01_iter_00_01_t_00_01std_1_1void__t_3_01std_1_1enable__if__t_3_8b4af79a910fd44725a07726d8a94ad3.html", null ],
       [ "mstd::is_same_function< F, F, std::void_t< std::enable_if_t< is_function_v< F > > > >", "d3/d53/structmstd_1_1is__same__function_3_01_f_00_01_f_00_01std_1_1void__t_3_01std_1_1enable__if__t_3_02220cef7459a6438b7a19636b8713fb8.html", null ],
       [ "mstd::is_same_function< Fa, Fb, std::void_t< as_std_function_t< Fa >, as_std_function_t< Fb > > >", "d2/d80/structmstd_1_1is__same__function_3_01_fa_00_01_fb_00_01std_1_1void__t_3_01as__std__function__t_3d1b96092a7907e920167e1435bd8baf0.html", null ],
       [ "mstd::is_callable< F, class >", "d0/dc6/structmstd_1_1is__callable.html", null ],
       [ "mstd::is_iterator< T, class >", "d2/dee/structmstd_1_1is__iterator.html", null ],
+      [ "mstd::is_iterator_of< Iter, T, class >", "dc/d19/structmstd_1_1is__iterator__of.html", null ],
       [ "mstd::is_same_function< Fa, Fb, class >", "d6/d67/structmstd_1_1is__same__function.html", null ]
     ] ],
     [ "mstd::flags&lt; BitsEnum &gt;", "d8/d2f/classmstd_1_1flags.html", null ],
@@ -231,7 +233,9 @@ var hierarchy =
     [ "mstd::utils::if_impl&lt; Condition, TrueValue, FalseValue &gt;", "dc/d3f/structmstd_1_1utils_1_1if__impl.html", null ],
     [ "mstd::utils::if_impl&lt; true, TrueValue, FalseValue &gt;", "d5/dad/structmstd_1_1utils_1_1if__impl_3_01true_00_01_true_value_00_01_false_value_01_4.html", null ],
     [ "std::is_same", null, [
-      [ "mstd::is_same_function< Fa, Fb, std::void_t< as_std_function_t< Fa >, as_std_function_t< Fb > > >", "d2/d80/structmstd_1_1is__same__function_3_01_fa_00_01_fb_00_01std_1_1void__t_3_01as__std__function__t_3d1b96092a7907e920167e1435bd8baf0.html", null ]
+      [ "mstd::is_same_without_cvref< T, T >", "d3/d88/structmstd_1_1is__same__without__cvref_3_01_t_00_01_t_01_4.html", null ],
+      [ "mstd::is_same_function< Fa, Fb, std::void_t< as_std_function_t< Fa >, as_std_function_t< Fb > > >", "d2/d80/structmstd_1_1is__same__function_3_01_fa_00_01_fb_00_01std_1_1void__t_3_01as__std__function__t_3d1b96092a7907e920167e1435bd8baf0.html", null ],
+      [ "mstd::is_same_without_cvref< T, U >", "d2/dfc/structmstd_1_1is__same__without__cvref.html", null ]
     ] ],
     [ "mstd::mat&lt; C, R, T &gt;", "d3/df9/classmstd_1_1mat.html", null ],
     [ "mstd::mat&lt; C, R, T &gt;::mat_column", "d4/d27/classmstd_1_1mat_1_1mat__column.html", null ],
@@ -248,7 +252,9 @@ var hierarchy =
     [ "std::true_type", null, [
       [ "mstd::is_callable< F, std::void_t< typename function_traits< F >::std_function_type > >", "dc/d7e/structmstd_1_1is__callable_3_01_f_00_01std_1_1void__t_3_01typename_01function__traits_3_01_f_01_043e941825227a5adf5ab39cb087f501.html", null ],
       [ "mstd::is_iterator< T, std::void_t< typename std::iterator_traits< T >::iterator_category > >", "dd/dff/structmstd_1_1is__iterator_3_01_t_00_01std_1_1void__t_3_01typename_01std_1_1iterator__traits_3_06d7d9c467d139e56d8171f3848aae897.html", null ],
-      [ "mstd::is_same_function< F, F, std::void_t< std::enable_if_t< is_function_v< F > > > >", "d3/d53/structmstd_1_1is__same__function_3_01_f_00_01_f_00_01std_1_1void__t_3_01std_1_1enable__if__t_3_02220cef7459a6438b7a19636b8713fb8.html", null ]
+      [ "mstd::is_iterator_of< Iter, T, std::void_t< std::enable_if_t< is_iterator_v< Iter > &&(std::is_convertible_v< typename std::iterator_traits< Iter >::value_type, remove_cvref_t< T > >||std::is_same_v< typename std::iterator_traits< Iter >::value_type, remove_cvref_t< T > >)> > >", "d0/d67/structmstd_1_1is__iterator__of_3_01_iter_00_01_t_00_01std_1_1void__t_3_01std_1_1enable__if__t_3_8b4af79a910fd44725a07726d8a94ad3.html", null ],
+      [ "mstd::is_same_function< F, F, std::void_t< std::enable_if_t< is_function_v< F > > > >", "d3/d53/structmstd_1_1is__same__function_3_01_f_00_01_f_00_01std_1_1void__t_3_01std_1_1enable__if__t_3_02220cef7459a6438b7a19636b8713fb8.html", null ],
+      [ "mstd::is_same_without_cvref< T, T >", "d3/d88/structmstd_1_1is__same__without__cvref_3_01_t_00_01_t_01_4.html", null ]
     ] ],
     [ "mstd::types_holder&lt; Ts &gt;", "dc/d91/structmstd_1_1types__holder.html", null ],
     [ "mstd::utils::unique_impl&lt; T, U &gt;", "dc/d00/structmstd_1_1utils_1_1unique__impl.html", null ],

@@ -27,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Maipa&#39;s Standard Library Extension<span id="projectnumber">&#160;1.5.1</span>
+   <div id="projectname">Maipa&#39;s Standard Library Extension<span id="projectnumber">&#160;1.5.3</span>
    </div>
    <div id="projectbrief">mstd</div>
   </td>
@@ -103,7 +103,7 @@ Inheritance diagram for mstd::utils::base_function_view&lt; F, Ret, std::tuple&l
 <div class="dynheader">
 Collaboration diagram for mstd::utils::base_function_view&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="../../d4/d55/structmstd_1_1utils_1_1base__function__view_3_01_f_00_01_ret_00_01std_1_1tuple_3_01_args_8_8_8_01_4_01_4__coll__graph.svg" width="572" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="../../d4/d55/structmstd_1_1utils_1_1base__function__view_3_01_f_00_01_ret_00_01std_1_1tuple_3_01_args_8_8_8_01_4_01_4__coll__graph.svg" width="600" height="363"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -114,14 +114,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1d009cacc3dad53ac40f2cbc5d049fed" id="r_a1d009cacc3dad53ac40f2cbc5d049fed"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="#a1d009cacc3dad53ac40f2cbc5d049fed">~base_function_view</a> () noexcept=default</td></tr>
 <tr class="memitem:ab1d7853c61e044145c254d6ef32b6bf0" id="r_ab1d7853c61e044145c254d6ef32b6bf0"><td class="memItemLeft"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ab1d7853c61e044145c254d6ef32b6bf0">operator=</a> (const <a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp;) noexcept=default</td></tr>
 <tr class="memitem:ad6d8f38f6916ec18f2e709d586a00f6f" id="r_ad6d8f38f6916ec18f2e709d586a00f6f"><td class="memItemLeft"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad6d8f38f6916ec18f2e709d586a00f6f">operator=</a> (<a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memitem:a4baa8dbd76566e1315391a91720bcfb1" id="r_a4baa8dbd76566e1315391a91720bcfb1"><td class="memTemplParams" colspan="2">template&lt;class FreeFunc&gt; </td></tr>
-<tr class="memitem:a4baa8dbd76566e1315391a91720bcfb1 template"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4baa8dbd76566e1315391a91720bcfb1">base_function_view</a> (const FreeFunc &amp;freeFunc) noexcept</td></tr>
-<tr class="memitem:a3f7ec08dc1add1f04f51ed18e6bef5ad" id="r_a3f7ec08dc1add1f04f51ed18e6bef5ad"><td class="memTemplParams" colspan="2">template&lt;class FreeFunc&gt; </td></tr>
-<tr class="memitem:a3f7ec08dc1add1f04f51ed18e6bef5ad template"><td class="memItemLeft"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a3f7ec08dc1add1f04f51ed18e6bef5ad">operator=</a> (const FreeFunc &amp;freeFunc) noexcept</td></tr>
-<tr class="memitem:ad624e7fcf660005f39491acea6bdc57f" id="r_ad624e7fcf660005f39491acea6bdc57f"><td class="memTemplParams" colspan="2">template&lt;class MemberFunc&gt; </td></tr>
-<tr class="memitem:ad624e7fcf660005f39491acea6bdc57f template"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad624e7fcf660005f39491acea6bdc57f">base_function_view</a> (const <a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *&amp;parentPtr, const MemberFunc &amp;memberFunc) noexcept</td></tr>
+<tr class="memitem:a3a0a2216d258b65f4fbc7c306c2dac57" id="r_a3a0a2216d258b65f4fbc7c306c2dac57"><td class="memTemplParams" colspan="2">template&lt;class FreeFunc&gt; </td></tr>
+<tr class="memitem:a3a0a2216d258b65f4fbc7c306c2dac57 template"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a3a0a2216d258b65f4fbc7c306c2dac57">base_function_view</a> (FreeFunc &amp;&amp;freeFunc) noexcept</td></tr>
+<tr class="memitem:a676d9cdbf95b3b3318d1cb09282ace7f" id="r_a676d9cdbf95b3b3318d1cb09282ace7f"><td class="memTemplParams" colspan="2">template&lt;class FreeFunc&gt; </td></tr>
+<tr class="memitem:a676d9cdbf95b3b3318d1cb09282ace7f template"><td class="memItemLeft"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a676d9cdbf95b3b3318d1cb09282ace7f">operator=</a> (FreeFunc &amp;&amp;freeFunc) noexcept</td></tr>
+<tr class="memitem:a6b60c79ddc1f3917e541c70d0bb5919a" id="r_a6b60c79ddc1f3917e541c70d0bb5919a"><td class="memTemplParams" colspan="2">template&lt;class MemberFunc&gt; </td></tr>
+<tr class="memitem:a6b60c79ddc1f3917e541c70d0bb5919a template"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6b60c79ddc1f3917e541c70d0bb5919a">base_function_view</a> (<a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *parentPtr, MemberFunc &amp;&amp;memberFunc) noexcept</td></tr>
+<tr class="memitem:aeeece92399f4faa676e96cefd1bc72fe" id="r_aeeece92399f4faa676e96cefd1bc72fe"><td class="memTemplParams" colspan="2">template&lt;class MemberFunc&gt; </td></tr>
+<tr class="memitem:aeeece92399f4faa676e96cefd1bc72fe template"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aeeece92399f4faa676e96cefd1bc72fe">base_function_view</a> (const <a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *parentPtr, MemberFunc &amp;&amp;memberFunc) noexcept</td></tr>
+<tr class="memitem:af661bdf564dc47fbdfdc12711e76b587" id="r_af661bdf564dc47fbdfdc12711e76b587"><td class="memTemplParams" colspan="2">template&lt;class MemberFunc&gt; </td></tr>
+<tr class="memitem:af661bdf564dc47fbdfdc12711e76b587 template"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af661bdf564dc47fbdfdc12711e76b587">base_function_view</a> (std::pair&lt; <a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *, MemberFunc &gt; &amp;&amp;pair) noexcept</td></tr>
 <tr class="memitem:a1dcf834d65956f1e9711e1a9dc49b70b" id="r_a1dcf834d65956f1e9711e1a9dc49b70b"><td class="memTemplParams" colspan="2">template&lt;class MemberFunc&gt; </td></tr>
 <tr class="memitem:a1dcf834d65956f1e9711e1a9dc49b70b template"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1dcf834d65956f1e9711e1a9dc49b70b">base_function_view</a> (const std::pair&lt; <a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *, MemberFunc &gt; &amp;pair) noexcept</td></tr>
+<tr class="memitem:a764dbeb70d89714da4c637c5104d2aff" id="r_a764dbeb70d89714da4c637c5104d2aff"><td class="memTemplParams" colspan="2">template&lt;class MemberFunc&gt; </td></tr>
+<tr class="memitem:a764dbeb70d89714da4c637c5104d2aff template"><td class="memItemLeft"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a764dbeb70d89714da4c637c5104d2aff">operator=</a> (std::pair&lt; <a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *, MemberFunc &gt; &amp;&amp;pair) noexcept</td></tr>
 <tr class="memitem:a49deff22f8b5a7e4b1eb8aa8560cd3e7" id="r_a49deff22f8b5a7e4b1eb8aa8560cd3e7"><td class="memTemplParams" colspan="2">template&lt;class MemberFunc&gt; </td></tr>
 <tr class="memitem:a49deff22f8b5a7e4b1eb8aa8560cd3e7 template"><td class="memItemLeft"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a49deff22f8b5a7e4b1eb8aa8560cd3e7">operator=</a> (const std::pair&lt; <a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *, MemberFunc &gt; &amp;pair) noexcept</td></tr>
 <tr class="memitem:ac292002a6f75ea9766febbdb53498e07" id="r_ac292002a6f75ea9766febbdb53498e07"><td class="memTemplParams" colspan="2">template&lt;class Functor&gt; </td></tr>
@@ -137,8 +143,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afb47a8f533dcec3c2ccf6d263c416362" id="r_afb47a8f533dcec3c2ccf6d263c416362"><td class="memTemplParams" colspan="2">template&lt;class Functor&gt; </td></tr>
 <tr class="memitem:afb47a8f533dcec3c2ccf6d263c416362 template"><td class="memItemLeft"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#afb47a8f533dcec3c2ccf6d263c416362">operator=</a> (Functor &amp;&amp;functor) noexcept=delete</td></tr>
 <tr class="memitem:a57a621c1419291be0dbb9e51f7edfb43" id="r_a57a621c1419291be0dbb9e51f7edfb43"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a57a621c1419291be0dbb9e51f7edfb43">reset</a> () noexcept</td></tr>
-<tr class="memitem:a75be5c9c9655cba9abdb15637a9ae1ca" id="r_a75be5c9c9655cba9abdb15637a9ae1ca"><td class="memItemLeft">Ret&#160;</td><td class="memItemRight"><a class="el" href="#a75be5c9c9655cba9abdb15637a9ae1ca">invoke</a> (Args &amp;&amp;... args) const noexcept(<a class="el" href="../../df/d3d/namespacemstd.html#ac48371ce84f314968ef9396d59895352">is_noexcept_function_v</a>&lt; F &gt;)</td></tr>
-<tr class="memitem:a7fcb0d294f7ee1e433b63c39a30c39ee" id="r_a7fcb0d294f7ee1e433b63c39a30c39ee"><td class="memItemLeft">Ret&#160;</td><td class="memItemRight"><a class="el" href="#a7fcb0d294f7ee1e433b63c39a30c39ee">operator()</a> (Args &amp;&amp;... args) const noexcept(<a class="el" href="../../df/d3d/namespacemstd.html#ac48371ce84f314968ef9396d59895352">is_noexcept_function_v</a>&lt; F &gt;)</td></tr>
+<tr class="memitem:a0ba4f666a39f130835d087571570c8a1" id="r_a0ba4f666a39f130835d087571570c8a1"><td class="memTemplParams" colspan="2">template&lt;class... InvokeArgs&gt; </td></tr>
+<tr class="memitem:a0ba4f666a39f130835d087571570c8a1 template"><td class="memItemLeft">Ret&#160;</td><td class="memItemRight"><a class="el" href="#a0ba4f666a39f130835d087571570c8a1">invoke</a> (InvokeArgs &amp;&amp;... args) const noexcept(<a class="el" href="../../df/d3d/namespacemstd.html#ac48371ce84f314968ef9396d59895352">is_noexcept_function_v</a>&lt; F &gt;)</td></tr>
+<tr class="memitem:a9883f092008a49f0efdd46d93fce37e5" id="r_a9883f092008a49f0efdd46d93fce37e5"><td class="memTemplParams" colspan="2">template&lt;class... InvokeArgs&gt; </td></tr>
+<tr class="memitem:a9883f092008a49f0efdd46d93fce37e5 template"><td class="memItemLeft">Ret&#160;</td><td class="memItemRight"><a class="el" href="#a9883f092008a49f0efdd46d93fce37e5">operator()</a> (InvokeArgs &amp;&amp;... args) const noexcept(<a class="el" href="../../df/d3d/namespacemstd.html#ac48371ce84f314968ef9396d59895352">is_noexcept_function_v</a>&lt; F &gt;)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
 Private Types</h2></td></tr>
@@ -161,12 +169,12 @@ Private Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-static-attribs" class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:a221657163022961e2a48b20818f12b3f" id="r_a221657163022961e2a48b20818f12b3f"><td class="memTemplParams" colspan="2">template&lt;class FreeFunc&gt; </td></tr>
-<tr class="memitem:a221657163022961e2a48b20818f12b3f template"><td class="memItemLeft">static _MSTD_CONSTEXPR17 const bool&#160;</td><td class="memItemRight"><a class="el" href="#a221657163022961e2a48b20818f12b3f">is_valid_free_function_v</a></td></tr>
-<tr class="memitem:adeca4fd463e5271dd5b6018f88fdc705" id="r_adeca4fd463e5271dd5b6018f88fdc705"><td class="memTemplParams" colspan="2">template&lt;class MemberFunc&gt; </td></tr>
-<tr class="memitem:adeca4fd463e5271dd5b6018f88fdc705 template"><td class="memItemLeft">static _MSTD_CONSTEXPR17 const bool&#160;</td><td class="memItemRight"><a class="el" href="#adeca4fd463e5271dd5b6018f88fdc705">is_valid_member_function_v</a></td></tr>
-<tr class="memitem:af2c517bf1cff09053f267030fa36e590" id="r_af2c517bf1cff09053f267030fa36e590"><td class="memTemplParams" colspan="2">template&lt;class Functor, bool IsConst&gt; </td></tr>
-<tr class="memitem:af2c517bf1cff09053f267030fa36e590 template"><td class="memItemLeft">static _MSTD_CONSTEXPR17 const bool&#160;</td><td class="memItemRight"><a class="el" href="#af2c517bf1cff09053f267030fa36e590">is_valid_functor_v</a> = <a class="el" href="../../d3/d36/namespacemstd_1_1utils.html#ad6e4b189b4f08fe4e66b127dc001d24b">utils::is_valid_functor_v</a>&lt;Functor, IsConst, F, Ret, Args...&gt;</td></tr>
+<tr class="memitem:a325b437a2fe75328971c927e6b569fdd" id="r_a325b437a2fe75328971c927e6b569fdd"><td class="memTemplParams" colspan="2">template&lt;class FreeFunc&gt; </td></tr>
+<tr class="memitem:a325b437a2fe75328971c927e6b569fdd template"><td class="memItemLeft">static _MSTD_CONSTEXPR17 bool&#160;</td><td class="memItemRight"><a class="el" href="#a325b437a2fe75328971c927e6b569fdd">is_valid_free_function_v</a> = <a class="el" href="../../d3/d36/namespacemstd_1_1utils.html#a72b5121d40edba7ec1448fd2066f7ed9">utils::is_valid_free_function_v</a>&lt;FreeFunc, F, Ret, Args...&gt;</td></tr>
+<tr class="memitem:a31028fcd8079ceb6d17fc32b421fce44" id="r_a31028fcd8079ceb6d17fc32b421fce44"><td class="memTemplParams" colspan="2">template&lt;class MemberFunc&gt; </td></tr>
+<tr class="memitem:a31028fcd8079ceb6d17fc32b421fce44 template"><td class="memItemLeft">static _MSTD_CONSTEXPR17 bool&#160;</td><td class="memItemRight"><a class="el" href="#a31028fcd8079ceb6d17fc32b421fce44">is_valid_member_function_v</a></td></tr>
+<tr class="memitem:a6748dee551a6640dc5054db2c7f98efc" id="r_a6748dee551a6640dc5054db2c7f98efc"><td class="memTemplParams" colspan="2">template&lt;class Functor, bool IsConst&gt; </td></tr>
+<tr class="memitem:a6748dee551a6640dc5054db2c7f98efc template"><td class="memItemLeft">static _MSTD_CONSTEXPR17 bool&#160;</td><td class="memItemRight"><a class="el" href="#a6748dee551a6640dc5054db2c7f98efc">is_valid_functor_v</a> = <a class="el" href="../../d3/d36/namespacemstd_1_1utils.html#ad153f1c2edfe389446d5286a54ba9107">utils::is_valid_functor_v</a>&lt;Functor, IsConst, F, Ret, Args...&gt;</td></tr>
 </table>
 <a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="a57229ed5d303515a67d1569e84c9cb49" name="a57229ed5d303515a67d1569e84c9cb49"></a>
@@ -195,7 +203,7 @@ template&lt;class F, class Ret, class... Args&gt; </div>
 </div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae46cbaf2a7f92fd7274e272dce2cf0f3" name="ae46cbaf2a7f92fd7274e272dce2cf0f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">&#9670;&#160;</a></span>base_function_view() <span class="overload">[1/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">&#9670;&#160;</a></span>base_function_view() <span class="overload">[1/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -222,7 +230,7 @@ template&lt;class F, class Ret, class... Args&gt; </div>
 </div>
 </div>
 <a id="a0fd560c888fccdcaf5d180d5114a217c" name="a0fd560c888fccdcaf5d180d5114a217c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0fd560c888fccdcaf5d180d5114a217c">&#9670;&#160;</a></span>base_function_view() <span class="overload">[2/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fd560c888fccdcaf5d180d5114a217c">&#9670;&#160;</a></span>base_function_view() <span class="overload">[2/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -249,7 +257,7 @@ template&lt;class F, class Ret, class... Args&gt; </div>
 </div>
 </div>
 <a id="a3aa62c98e9ffe8d69460ad56391ed68f" name="a3aa62c98e9ffe8d69460ad56391ed68f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3aa62c98e9ffe8d69460ad56391ed68f">&#9670;&#160;</a></span>base_function_view() <span class="overload">[3/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3aa62c98e9ffe8d69460ad56391ed68f">&#9670;&#160;</a></span>base_function_view() <span class="overload">[3/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -302,8 +310,8 @@ template&lt;class F, class Ret, class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a4baa8dbd76566e1315391a91720bcfb1" name="a4baa8dbd76566e1315391a91720bcfb1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4baa8dbd76566e1315391a91720bcfb1">&#9670;&#160;</a></span>base_function_view() <span class="overload">[4/9]</span></h2>
+<a id="a3a0a2216d258b65f4fbc7c306c2dac57" name="a3a0a2216d258b65f4fbc7c306c2dac57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a0a2216d258b65f4fbc7c306c2dac57">&#9670;&#160;</a></span>base_function_view() <span class="overload">[4/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -318,7 +326,7 @@ template&lt;class FreeFunc&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::base_function_view </td>
           <td>(</td>
-          <td class="paramtype">const FreeFunc &amp;</td>          <td class="paramname"><span class="paramname"><em>freeFunc</em></span></td><td>)</td>
+          <td class="paramtype">FreeFunc &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>freeFunc</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -331,8 +339,8 @@ template&lt;class FreeFunc&gt; </div>
 
 </div>
 </div>
-<a id="ad624e7fcf660005f39491acea6bdc57f" name="ad624e7fcf660005f39491acea6bdc57f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad624e7fcf660005f39491acea6bdc57f">&#9670;&#160;</a></span>base_function_view() <span class="overload">[5/9]</span></h2>
+<a id="a6b60c79ddc1f3917e541c70d0bb5919a" name="a6b60c79ddc1f3917e541c70d0bb5919a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b60c79ddc1f3917e541c70d0bb5919a">&#9670;&#160;</a></span>base_function_view() <span class="overload">[5/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -347,12 +355,74 @@ template&lt;class MemberFunc&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::base_function_view </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *&amp;</td>          <td class="paramname"><span class="paramname"><em>parentPtr</em></span>, </td>
+          <td class="paramtype"><a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *</td>          <td class="paramname"><span class="paramname"><em>parentPtr</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const MemberFunc &amp;</td>          <td class="paramname"><span class="paramname"><em>memberFunc</em></span>&#160;)</td>
+          <td class="paramtype">MemberFunc &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>memberFunc</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeeece92399f4faa676e96cefd1bc72fe" name="aeeece92399f4faa676e96cefd1bc72fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeece92399f4faa676e96cefd1bc72fe">&#9670;&#160;</a></span>base_function_view() <span class="overload">[6/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class F, class Ret, class... Args&gt; </div>
+<div class="memtemplate">
+template&lt;class MemberFunc&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::base_function_view </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *</td>          <td class="paramname"><span class="paramname"><em>parentPtr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MemberFunc &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>memberFunc</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af661bdf564dc47fbdfdc12711e76b587" name="af661bdf564dc47fbdfdc12711e76b587"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af661bdf564dc47fbdfdc12711e76b587">&#9670;&#160;</a></span>base_function_view() <span class="overload">[7/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class F, class Ret, class... Args&gt; </div>
+<div class="memtemplate">
+template&lt;class MemberFunc&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::base_function_view </td>
+          <td>(</td>
+          <td class="paramtype">std::pair&lt; <a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *, MemberFunc &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>pair</em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -365,7 +435,7 @@ template&lt;class MemberFunc&gt; </div>
 </div>
 </div>
 <a id="a1dcf834d65956f1e9711e1a9dc49b70b" name="a1dcf834d65956f1e9711e1a9dc49b70b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1dcf834d65956f1e9711e1a9dc49b70b">&#9670;&#160;</a></span>base_function_view() <span class="overload">[6/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dcf834d65956f1e9711e1a9dc49b70b">&#9670;&#160;</a></span>base_function_view() <span class="overload">[8/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -394,7 +464,7 @@ template&lt;class MemberFunc&gt; </div>
 </div>
 </div>
 <a id="ac292002a6f75ea9766febbdb53498e07" name="ac292002a6f75ea9766febbdb53498e07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac292002a6f75ea9766febbdb53498e07">&#9670;&#160;</a></span>base_function_view() <span class="overload">[7/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac292002a6f75ea9766febbdb53498e07">&#9670;&#160;</a></span>base_function_view() <span class="overload">[9/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -423,7 +493,7 @@ template&lt;class Functor&gt; </div>
 </div>
 </div>
 <a id="af1ae7e5429e95d9c6f2ede5972bcdba2" name="af1ae7e5429e95d9c6f2ede5972bcdba2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1ae7e5429e95d9c6f2ede5972bcdba2">&#9670;&#160;</a></span>base_function_view() <span class="overload">[8/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af1ae7e5429e95d9c6f2ede5972bcdba2">&#9670;&#160;</a></span>base_function_view() <span class="overload">[10/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -452,7 +522,7 @@ template&lt;class Functor&gt; </div>
 </div>
 </div>
 <a id="a95ebd8b45171598879efcb9c58363a88" name="a95ebd8b45171598879efcb9c58363a88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95ebd8b45171598879efcb9c58363a88">&#9670;&#160;</a></span>base_function_view() <span class="overload">[9/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a95ebd8b45171598879efcb9c58363a88">&#9670;&#160;</a></span>base_function_view() <span class="overload">[11/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -595,13 +665,15 @@ template&lt;class MemberFunc&gt; </div>
 
 </div>
 </div>
-<a id="a75be5c9c9655cba9abdb15637a9ae1ca" name="a75be5c9c9655cba9abdb15637a9ae1ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75be5c9c9655cba9abdb15637a9ae1ca">&#9670;&#160;</a></span>invoke()</h2>
+<a id="a0ba4f666a39f130835d087571570c8a1" name="a0ba4f666a39f130835d087571570c8a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ba4f666a39f130835d087571570c8a1">&#9670;&#160;</a></span>invoke()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class F, class Ret, class... Args&gt; </div>
+<div class="memtemplate">
+template&lt;class... InvokeArgs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -609,7 +681,7 @@ template&lt;class F, class Ret, class... Args&gt; </div>
         <tr>
           <td class="memname">Ret <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::invoke </td>
           <td>(</td>
-          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td class="paramtype">InvokeArgs &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -622,13 +694,15 @@ template&lt;class F, class Ret, class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a7fcb0d294f7ee1e433b63c39a30c39ee" name="a7fcb0d294f7ee1e433b63c39a30c39ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7fcb0d294f7ee1e433b63c39a30c39ee">&#9670;&#160;</a></span>operator()()</h2>
+<a id="a9883f092008a49f0efdd46d93fce37e5" name="a9883f092008a49f0efdd46d93fce37e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9883f092008a49f0efdd46d93fce37e5">&#9670;&#160;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class F, class Ret, class... Args&gt; </div>
+<div class="memtemplate">
+template&lt;class... InvokeArgs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -636,7 +710,7 @@ template&lt;class F, class Ret, class... Args&gt; </div>
         <tr>
           <td class="memname">Ret <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td class="paramtype">InvokeArgs &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -650,7 +724,7 @@ template&lt;class F, class Ret, class... Args&gt; </div>
 </div>
 </div>
 <a id="ad6d8f38f6916ec18f2e709d586a00f6f" name="ad6d8f38f6916ec18f2e709d586a00f6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6d8f38f6916ec18f2e709d586a00f6f">&#9670;&#160;</a></span>operator=() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6d8f38f6916ec18f2e709d586a00f6f">&#9670;&#160;</a></span>operator=() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -677,7 +751,7 @@ template&lt;class F, class Ret, class... Args&gt; </div>
 </div>
 </div>
 <a id="ab1d7853c61e044145c254d6ef32b6bf0" name="ab1d7853c61e044145c254d6ef32b6bf0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab1d7853c61e044145c254d6ef32b6bf0">&#9670;&#160;</a></span>operator=() <span class="overload">[2/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1d7853c61e044145c254d6ef32b6bf0">&#9670;&#160;</a></span>operator=() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -703,37 +777,8 @@ template&lt;class F, class Ret, class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a3f7ec08dc1add1f04f51ed18e6bef5ad" name="a3f7ec08dc1add1f04f51ed18e6bef5ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f7ec08dc1add1f04f51ed18e6bef5ad">&#9670;&#160;</a></span>operator=() <span class="overload">[3/7]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class F, class Ret, class... Args&gt; </div>
-<div class="memtemplate">
-template&lt;class FreeFunc&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp; <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype">const FreeFunc &amp;</td>          <td class="paramname"><span class="paramname"><em>freeFunc</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a432d1e031ebb64a1ccbbaabdd1b2afe9" name="a432d1e031ebb64a1ccbbaabdd1b2afe9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a432d1e031ebb64a1ccbbaabdd1b2afe9">&#9670;&#160;</a></span>operator=() <span class="overload">[4/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a432d1e031ebb64a1ccbbaabdd1b2afe9">&#9670;&#160;</a></span>operator=() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -762,7 +807,7 @@ template&lt;class Functor&gt; </div>
 </div>
 </div>
 <a id="a49deff22f8b5a7e4b1eb8aa8560cd3e7" name="a49deff22f8b5a7e4b1eb8aa8560cd3e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49deff22f8b5a7e4b1eb8aa8560cd3e7">&#9670;&#160;</a></span>operator=() <span class="overload">[5/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a49deff22f8b5a7e4b1eb8aa8560cd3e7">&#9670;&#160;</a></span>operator=() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -790,8 +835,37 @@ template&lt;class MemberFunc&gt; </div>
 
 </div>
 </div>
+<a id="a676d9cdbf95b3b3318d1cb09282ace7f" name="a676d9cdbf95b3b3318d1cb09282ace7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a676d9cdbf95b3b3318d1cb09282ace7f">&#9670;&#160;</a></span>operator=() <span class="overload">[5/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class F, class Ret, class... Args&gt; </div>
+<div class="memtemplate">
+template&lt;class FreeFunc&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp; <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">FreeFunc &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>freeFunc</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="afb47a8f533dcec3c2ccf6d263c416362" name="afb47a8f533dcec3c2ccf6d263c416362"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb47a8f533dcec3c2ccf6d263c416362">&#9670;&#160;</a></span>operator=() <span class="overload">[6/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afb47a8f533dcec3c2ccf6d263c416362">&#9670;&#160;</a></span>operator=() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -820,7 +894,7 @@ template&lt;class Functor&gt; </div>
 </div>
 </div>
 <a id="a78add6922204aa99b498c1e8dbc0cff6" name="a78add6922204aa99b498c1e8dbc0cff6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78add6922204aa99b498c1e8dbc0cff6">&#9670;&#160;</a></span>operator=() <span class="overload">[7/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a78add6922204aa99b498c1e8dbc0cff6">&#9670;&#160;</a></span>operator=() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -836,6 +910,35 @@ template&lt;class Functor&gt; </div>
           <td class="memname"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp; <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype">Functor &amp;</td>          <td class="paramname"><span class="paramname"><em>functor</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a764dbeb70d89714da4c637c5104d2aff" name="a764dbeb70d89714da4c637c5104d2aff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a764dbeb70d89714da4c637c5104d2aff">&#9670;&#160;</a></span>operator=() <span class="overload">[8/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class F, class Ret, class... Args&gt; </div>
+<div class="memtemplate">
+template&lt;class MemberFunc&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ae46cbaf2a7f92fd7274e272dce2cf0f3">base_function_view</a> &amp; <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">std::pair&lt; <a class="el" href="../../df/d3d/namespacemstd.html#a5c60540ccf0e8ddf044c7618fa35807d">function_parent_t</a>&lt; MemberFunc &gt; *, MemberFunc &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>pair</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -948,8 +1051,8 @@ template&lt;class F, class Ret, class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a221657163022961e2a48b20818f12b3f" name="a221657163022961e2a48b20818f12b3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a221657163022961e2a48b20818f12b3f">&#9670;&#160;</a></span>is_valid_free_function_v</h2>
+<a id="a325b437a2fe75328971c927e6b569fdd" name="a325b437a2fe75328971c927e6b569fdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a325b437a2fe75328971c927e6b569fdd">&#9670;&#160;</a></span>is_valid_free_function_v</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -962,7 +1065,7 @@ template&lt;class FreeFunc&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR17 const bool <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::is_valid_free_function_v</td>
+          <td class="memname">_MSTD_CONSTEXPR17 bool <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::is_valid_free_function_v = <a class="el" href="../../d3/d36/namespacemstd_1_1utils.html#a72b5121d40edba7ec1448fd2066f7ed9">utils::is_valid_free_function_v</a>&lt;FreeFunc, F, Ret, Args...&gt;</td>
         </tr>
       </table>
   </td>
@@ -971,14 +1074,11 @@ template&lt;class FreeFunc&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">                                               =</div>
-<div class="line"><a class="code hl_variable" href="../../d3/d36/namespacemstd_1_1utils.html#a19ab6438727738cb3d656702f6901b69">utils::is_valid_free_function_v</a>&lt;FreeFunc, F, Ret, Args...&gt;</div>
-<div class="ttc" id="anamespacemstd_1_1utils_html_a19ab6438727738cb3d656702f6901b69"><div class="ttname"><a href="../../d3/d36/namespacemstd_1_1utils.html#a19ab6438727738cb3d656702f6901b69">mstd::utils::is_valid_free_function_v</a></div><div class="ttdeci">static _MSTD_CONSTEXPR17 const bool is_valid_free_function_v</div><div class="ttdef"><b>Definition</b> function_view.hpp:27</div></div>
-</div><!-- fragment -->
+
 </div>
 </div>
-<a id="af2c517bf1cff09053f267030fa36e590" name="af2c517bf1cff09053f267030fa36e590"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2c517bf1cff09053f267030fa36e590">&#9670;&#160;</a></span>is_valid_functor_v</h2>
+<a id="a6748dee551a6640dc5054db2c7f98efc" name="a6748dee551a6640dc5054db2c7f98efc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6748dee551a6640dc5054db2c7f98efc">&#9670;&#160;</a></span>is_valid_functor_v</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -991,7 +1091,7 @@ template&lt;class Functor, bool IsConst&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR17 const bool <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::is_valid_functor_v = <a class="el" href="../../d3/d36/namespacemstd_1_1utils.html#ad6e4b189b4f08fe4e66b127dc001d24b">utils::is_valid_functor_v</a>&lt;Functor, IsConst, F, Ret, Args...&gt;</td>
+          <td class="memname">_MSTD_CONSTEXPR17 bool <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::is_valid_functor_v = <a class="el" href="../../d3/d36/namespacemstd_1_1utils.html#ad153f1c2edfe389446d5286a54ba9107">utils::is_valid_functor_v</a>&lt;Functor, IsConst, F, Ret, Args...&gt;</td>
         </tr>
       </table>
   </td>
@@ -1003,8 +1103,8 @@ template&lt;class Functor, bool IsConst&gt; </div>
 
 </div>
 </div>
-<a id="adeca4fd463e5271dd5b6018f88fdc705" name="adeca4fd463e5271dd5b6018f88fdc705"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adeca4fd463e5271dd5b6018f88fdc705">&#9670;&#160;</a></span>is_valid_member_function_v</h2>
+<a id="a31028fcd8079ceb6d17fc32b421fce44" name="a31028fcd8079ceb6d17fc32b421fce44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31028fcd8079ceb6d17fc32b421fce44">&#9670;&#160;</a></span>is_valid_member_function_v</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1017,7 +1117,7 @@ template&lt;class MemberFunc&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR17 const bool <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::is_valid_member_function_v</td>
+          <td class="memname">_MSTD_CONSTEXPR17 bool <a class="el" href="../../d0/dec/structmstd_1_1utils_1_1base__function__view.html">mstd::utils::base_function_view</a>&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;::is_valid_member_function_v</td>
         </tr>
       </table>
   </td>
@@ -1026,9 +1126,9 @@ template&lt;class MemberFunc&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">                                                 =</div>
-<div class="line"><a class="code hl_variable" href="../../d3/d36/namespacemstd_1_1utils.html#a701d3fc8633a0310e4bb13f606acaa8b">utils::is_valid_member_function_v</a>&lt;MemberFunc, F, Ret, Args...&gt;</div>
-<div class="ttc" id="anamespacemstd_1_1utils_html_a701d3fc8633a0310e4bb13f606acaa8b"><div class="ttname"><a href="../../d3/d36/namespacemstd_1_1utils.html#a701d3fc8633a0310e4bb13f606acaa8b">mstd::utils::is_valid_member_function_v</a></div><div class="ttdeci">static _MSTD_CONSTEXPR17 const bool is_valid_member_function_v</div><div class="ttdef"><b>Definition</b> function_view.hpp:32</div></div>
+<b>Initial value:</b><div class="fragment"><div class="line">                                           =</div>
+<div class="line"><a class="code hl_variable" href="../../d3/d36/namespacemstd_1_1utils.html#a4f4a036711f65a67efeced433d82f8ce">utils::is_valid_member_function_v</a>&lt;MemberFunc, F, Ret, Args...&gt;</div>
+<div class="ttc" id="anamespacemstd_1_1utils_html_a4f4a036711f65a67efeced433d82f8ce"><div class="ttname"><a href="../../d3/d36/namespacemstd_1_1utils.html#a4f4a036711f65a67efeced433d82f8ce">mstd::utils::is_valid_member_function_v</a></div><div class="ttdeci">static _MSTD_CONSTEXPR17 bool is_valid_member_function_v</div><div class="ttdef"><b>Definition</b> function_view.hpp:32</div></div>
 </div><!-- fragment -->
 </div>
 </div>

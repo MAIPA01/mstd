@@ -27,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Maipa&#39;s Standard Library Extension<span id="projectnumber">&#160;1.5.1</span>
+   <div id="projectname">Maipa&#39;s Standard Library Extension<span id="projectnumber">&#160;1.5.3</span>
    </div>
    <div id="projectbrief">mstd</div>
   </td>
@@ -103,16 +103,16 @@ Inheritance diagram for mstd::bimap&lt; Key, T, Map &gt;:</div>
 <div class="dynheader">
 Collaboration diagram for mstd::bimap&lt; Key, T, Map &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="../../da/d7e/classmstd_1_1bimap__coll__graph.svg" width="482" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="../../da/d7e/classmstd_1_1bimap__coll__graph.svg" width="498" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a35dfe95c7de658920bfd810429253f7f" id="r_a35dfe95c7de658920bfd810429253f7f"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a35dfe95c7de658920bfd810429253f7f">key_type</a> = Key</td></tr>
-<tr class="memitem:a0b8014f106313a22fb99ef1183060384" id="r_a0b8014f106313a22fb99ef1183060384"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a0b8014f106313a22fb99ef1183060384">mapped_type</a> = T</td></tr>
-<tr class="memitem:abb10c5346b84d3acd33df3599bb2ac1e" id="r_abb10c5346b84d3acd33df3599bb2ac1e"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a> = std::pair&lt;Key, T&gt;</td></tr>
-<tr class="memitem:a76c80e24a1a3858787ac71aaddacd89e" id="r_a76c80e24a1a3858787ac71aaddacd89e"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a76c80e24a1a3858787ac71aaddacd89e">reference</a> = <a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a>&amp;</td></tr>
-<tr class="memitem:a84bc05c7777df72b21b67acada659d0c" id="r_a84bc05c7777df72b21b67acada659d0c"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a84bc05c7777df72b21b67acada659d0c">const_reference</a> = const <a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a>&amp;</td></tr>
+<tr class="memitem:a0b3c68d6f3c71890b905dbb26250e0e3" id="r_a0b3c68d6f3c71890b905dbb26250e0e3"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> = <a class="el" href="../../df/d3d/namespacemstd.html#af5fd27e3044b6d4deb2647461508ceb2">remove_cvref_t</a>&lt;Key&gt;</td></tr>
+<tr class="memitem:ac289c5e88567d95bda103843c7fb9f79" id="r_ac289c5e88567d95bda103843c7fb9f79"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> = <a class="el" href="../../df/d3d/namespacemstd.html#af5fd27e3044b6d4deb2647461508ceb2">remove_cvref_t</a>&lt;T&gt;</td></tr>
+<tr class="memitem:ad29ec291cfd9a7a00f692daee941e76d" id="r_ad29ec291cfd9a7a00f692daee941e76d"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> = std::pair&lt;<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a>, <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a>&gt;</td></tr>
+<tr class="memitem:a76c80e24a1a3858787ac71aaddacd89e" id="r_a76c80e24a1a3858787ac71aaddacd89e"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a76c80e24a1a3858787ac71aaddacd89e">reference</a> = <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a>&amp;</td></tr>
+<tr class="memitem:a84bc05c7777df72b21b67acada659d0c" id="r_a84bc05c7777df72b21b67acada659d0c"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a84bc05c7777df72b21b67acada659d0c">const_reference</a> = const <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a>&amp;</td></tr>
 <tr class="memitem:a1e9a3f2d5ea51bcf14a4735fb692dddb" id="r_a1e9a3f2d5ea51bcf14a4735fb692dddb"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a> = _MSTD_TYPENAME17 _data_type::size_type</td></tr>
 <tr class="memitem:a979c4c86dc347fd776dc13c273f51198" id="r_a979c4c86dc347fd776dc13c273f51198"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a979c4c86dc347fd776dc13c273f51198">difference_type</a> = _MSTD_TYPENAME17 _data_type::difference_type</td></tr>
 <tr class="memitem:a3e694515c6ba04178f9d27f825395048" id="r_a3e694515c6ba04178f9d27f825395048"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a> = _MSTD_TYPENAME17 _data_type::const_iterator</td></tr>
@@ -123,32 +123,46 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa37674d1b96428e5969ed23dfbcd6f2b" id="r_aa37674d1b96428e5969ed23dfbcd6f2b"><td class="memItemLeft">_MSTD_CONSTEXPR20&#160;</td><td class="memItemRight"><a class="el" href="#aa37674d1b96428e5969ed23dfbcd6f2b">bimap</a> ()=default</td></tr>
-<tr class="memitem:a63091dabdfb7a68c94dc15afe06fdcf9" id="r_a63091dabdfb7a68c94dc15afe06fdcf9"><td class="memItemLeft">_MSTD_CONSTEXPR20&#160;</td><td class="memItemRight"><a class="el" href="#a63091dabdfb7a68c94dc15afe06fdcf9">bimap</a> (const std::initializer_list&lt; <a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a> &gt; &amp;init)</td></tr>
-<tr class="memitem:a131d997154a03db278643c0cb8c2f860" id="r_a131d997154a03db278643c0cb8c2f860"><td class="memItemLeft">_MSTD_CONSTEXPR20&#160;</td><td class="memItemRight"><a class="el" href="#a131d997154a03db278643c0cb8c2f860">bimap</a> (const bimap&lt; Key, T, Map &gt; &amp;other)=default</td></tr>
-<tr class="memitem:af5fc03610a6eb04f49bcacd8f8cc2190" id="r_af5fc03610a6eb04f49bcacd8f8cc2190"><td class="memItemLeft">_MSTD_CONSTEXPR20&#160;</td><td class="memItemRight"><a class="el" href="#af5fc03610a6eb04f49bcacd8f8cc2190">bimap</a> (bimap&lt; Key, T, Map &gt; &amp;&amp;other) noexcept=default</td></tr>
-<tr class="memitem:a76d4a6f992cfa04265b845932af9a275" id="r_a76d4a6f992cfa04265b845932af9a275"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="../../d7/dad/conceptmstd_1_1iterator.html">mstd::iterator</a> Iter&gt; </td></tr>
-<tr class="memitem:a76d4a6f992cfa04265b845932af9a275 template"><td class="memItemLeft">_MSTD_CONSTEXPR20&#160;</td><td class="memItemRight"><a class="el" href="#a76d4a6f992cfa04265b845932af9a275">bimap</a> (const Iter &amp;<a class="el" href="#aeb31e6399dbc8112f819bbd49031f73d">begin</a>, const Iter &amp;<a class="el" href="#abe76e824ecc53b05d34a57dfae8ec372">end</a>)</td></tr>
+<tr class="memitem:a80cf347a0bf04ca75396fcc07d832ac2" id="r_a80cf347a0bf04ca75396fcc07d832ac2"><td class="memItemLeft">_MSTD_CONSTEXPR20&#160;</td><td class="memItemRight"><a class="el" href="#a80cf347a0bf04ca75396fcc07d832ac2">bimap</a> (std::initializer_list&lt; <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> &gt; init)</td></tr>
+<tr class="memitem:a3f7f1d2c589758f87915aefcac9aaa33" id="r_a3f7f1d2c589758f87915aefcac9aaa33"><td class="memItemLeft">_MSTD_CONSTEXPR20&#160;</td><td class="memItemRight"><a class="el" href="#a3f7f1d2c589758f87915aefcac9aaa33">bimap</a> (const bimap &amp;other)=default</td></tr>
+<tr class="memitem:a937ce8fae1b3301f76942de706d0acda" id="r_a937ce8fae1b3301f76942de706d0acda"><td class="memItemLeft">_MSTD_CONSTEXPR20&#160;</td><td class="memItemRight"><a class="el" href="#a937ce8fae1b3301f76942de706d0acda">bimap</a> (bimap &amp;&amp;other) noexcept=default</td></tr>
+<tr class="memitem:aae2de261a00d86db3d4d554e462e007b" id="r_aae2de261a00d86db3d4d554e462e007b"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="../../d5/de2/conceptmstd_1_1iterator__of.html">mstd::iterator_of</a>&lt; <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> &gt; Iter&gt; </td></tr>
+<tr class="memitem:aae2de261a00d86db3d4d554e462e007b template"><td class="memItemLeft">_MSTD_CONSTEXPR20&#160;</td><td class="memItemRight"><a class="el" href="#aae2de261a00d86db3d4d554e462e007b">bimap</a> (Iter <a class="el" href="#aeb31e6399dbc8112f819bbd49031f73d">begin</a>, Iter <a class="el" href="#abe76e824ecc53b05d34a57dfae8ec372">end</a>)</td></tr>
 <tr class="memitem:aeaca3b17b4d11497981834a11f7f223f" id="r_aeaca3b17b4d11497981834a11f7f223f"><td class="memItemLeft">_MSTD_CONSTEXPR20&#160;</td><td class="memItemRight"><a class="el" href="#aeaca3b17b4d11497981834a11f7f223f">~bimap</a> ()=default</td></tr>
 <tr class="memitem:a93a1fbbc3acc52c8a2ea1f8db5ca168c" id="r_a93a1fbbc3acc52c8a2ea1f8db5ca168c"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#aa37674d1b96428e5969ed23dfbcd6f2b">bimap</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a93a1fbbc3acc52c8a2ea1f8db5ca168c">operator=</a> (const <a class="el" href="#aa37674d1b96428e5969ed23dfbcd6f2b">bimap</a> &amp;other)=default</td></tr>
 <tr class="memitem:a4139b574a2a35dc098c77d4e780c67f5" id="r_a4139b574a2a35dc098c77d4e780c67f5"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#aa37674d1b96428e5969ed23dfbcd6f2b">bimap</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a4139b574a2a35dc098c77d4e780c67f5">operator=</a> (<a class="el" href="#aa37674d1b96428e5969ed23dfbcd6f2b">bimap</a> &amp;&amp;other) noexcept=default</td></tr>
-<tr class="memitem:ad93f2a1b49c019ff92ca5a92b93e51a8" id="r_ad93f2a1b49c019ff92ca5a92b93e51a8"><td class="memItemLeft">_MSTD_CONSTEXPR20 T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad93f2a1b49c019ff92ca5a92b93e51a8">emplace</a> (const Key &amp;key, const T &amp;value)</td></tr>
-<tr class="memitem:ababf68efe0646ecca363c15859a42a32" id="r_ababf68efe0646ecca363c15859a42a32"><td class="memItemLeft">_MSTD_CONSTEXPR20 T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ababf68efe0646ecca363c15859a42a32">insert</a> (const <a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a> &amp;value)</td></tr>
-<tr class="memitem:a5974aa4e6221e23cf5d9cee424d502bf" id="r_a5974aa4e6221e23cf5d9cee424d502bf"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="../../d7/dad/conceptmstd_1_1iterator.html">mstd::iterator</a> Iter&gt; </td></tr>
-<tr class="memitem:a5974aa4e6221e23cf5d9cee424d502bf template"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#a5974aa4e6221e23cf5d9cee424d502bf">insert</a> (const Iter &amp;<a class="el" href="#aeb31e6399dbc8112f819bbd49031f73d">begin</a>, const Iter &amp;<a class="el" href="#abe76e824ecc53b05d34a57dfae8ec372">end</a>)</td></tr>
-<tr class="memitem:acb3b4a6203c185d98059762f158023f8" id="r_acb3b4a6203c185d98059762f158023f8"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#acb3b4a6203c185d98059762f158023f8">erase</a> (const Key &amp;key)</td></tr>
-<tr class="memitem:aa8cee4de4c3ec23ffc50a0f2514b4833" id="r_aa8cee4de4c3ec23ffc50a0f2514b4833"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#aa8cee4de4c3ec23ffc50a0f2514b4833">erase_value</a> (const T &amp;value)</td></tr>
-<tr class="memitem:a4ffb570d687849f5a16ca3f4ea62ad78" id="r_a4ffb570d687849f5a16ca3f4ea62ad78"><td class="memItemLeft">_MSTD_CONSTEXPR20 T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a4ffb570d687849f5a16ca3f4ea62ad78">at</a> (const Key &amp;key)</td></tr>
-<tr class="memitem:a130c9cc3d8f89b049453dfbf34b576c1" id="r_a130c9cc3d8f89b049453dfbf34b576c1"><td class="memItemLeft">_MSTD_CONSTEXPR20 const T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a130c9cc3d8f89b049453dfbf34b576c1">at</a> (const Key &amp;key) const</td></tr>
-<tr class="memitem:afdf9d2f1d4c26b356a4117ed6ea9f5a9" id="r_afdf9d2f1d4c26b356a4117ed6ea9f5a9"><td class="memItemLeft">_MSTD_CONSTEXPR20 Key &amp;&#160;</td><td class="memItemRight"><a class="el" href="#afdf9d2f1d4c26b356a4117ed6ea9f5a9">at_value</a> (const T &amp;value)</td></tr>
-<tr class="memitem:a1ce16c1da031b766c051e876b3eb311c" id="r_a1ce16c1da031b766c051e876b3eb311c"><td class="memItemLeft">_MSTD_CONSTEXPR20 const Key &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a1ce16c1da031b766c051e876b3eb311c">at_value</a> (const T &amp;value) const</td></tr>
+<tr class="memitem:a6ab3840f70660b4b26e44a3ade98408a" id="r_a6ab3840f70660b4b26e44a3ade98408a"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a6ab3840f70660b4b26e44a3ade98408a">emplace</a> (const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;key, const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;value)</td></tr>
+<tr class="memitem:a142af1c4b86b021d210a9a65ca51a0b7" id="r_a142af1c4b86b021d210a9a65ca51a0b7"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a142af1c4b86b021d210a9a65ca51a0b7">emplace</a> (<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;key, <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;value)</td></tr>
+<tr class="memitem:a650fdeed0a0f2c186f63baacecc93706" id="r_a650fdeed0a0f2c186f63baacecc93706"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a650fdeed0a0f2c186f63baacecc93706">insert</a> (const <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> &amp;value)</td></tr>
+<tr class="memitem:af460e341f79f582ec0c2c40543f3f919" id="r_af460e341f79f582ec0c2c40543f3f919"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#af460e341f79f582ec0c2c40543f3f919">insert</a> (<a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> &amp;&amp;value)</td></tr>
+<tr class="memitem:a6ac31ace9b36c9f17f9acfe03a79193c" id="r_a6ac31ace9b36c9f17f9acfe03a79193c"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="../../d5/de2/conceptmstd_1_1iterator__of.html">mstd::iterator_of</a>&lt; <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> &gt; Iter&gt; </td></tr>
+<tr class="memitem:a6ac31ace9b36c9f17f9acfe03a79193c template"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#a6ac31ace9b36c9f17f9acfe03a79193c">insert</a> (Iter <a class="el" href="#aeb31e6399dbc8112f819bbd49031f73d">begin</a>, Iter <a class="el" href="#abe76e824ecc53b05d34a57dfae8ec372">end</a>)</td></tr>
+<tr class="memitem:a99bedc3515746fe75d9dbf4ed33ddc35" id="r_a99bedc3515746fe75d9dbf4ed33ddc35"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#a99bedc3515746fe75d9dbf4ed33ddc35">erase</a> (const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;key)</td></tr>
+<tr class="memitem:ae814073700ebf01c364f5941f29c9c6a" id="r_ae814073700ebf01c364f5941f29c9c6a"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#ae814073700ebf01c364f5941f29c9c6a">erase</a> (<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;key)</td></tr>
+<tr class="memitem:af188a37d2525c2aed1f06b137adb6923" id="r_af188a37d2525c2aed1f06b137adb6923"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#af188a37d2525c2aed1f06b137adb6923">erase_value</a> (const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;value)</td></tr>
+<tr class="memitem:a114607885df651c5b6876b2bec2b40f6" id="r_a114607885df651c5b6876b2bec2b40f6"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#a114607885df651c5b6876b2bec2b40f6">erase_value</a> (<a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;value)</td></tr>
+<tr class="memitem:aeb14d1e06a5491a7fcae5b9c6a0ade44" id="r_aeb14d1e06a5491a7fcae5b9c6a0ade44"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aeb14d1e06a5491a7fcae5b9c6a0ade44">at</a> (const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;key)</td></tr>
+<tr class="memitem:a02e7f3f76052f612e8ade676bc8748d5" id="r_a02e7f3f76052f612e8ade676bc8748d5"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a02e7f3f76052f612e8ade676bc8748d5">at</a> (<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;key)</td></tr>
+<tr class="memitem:a895dabf0d886d66401c751cf0cf564e3" id="r_a895dabf0d886d66401c751cf0cf564e3"><td class="memItemLeft">_MSTD_CONSTEXPR20 const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a895dabf0d886d66401c751cf0cf564e3">at</a> (const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;key) const</td></tr>
+<tr class="memitem:a4a9a9a7af1705f7994501d8ab9c26a4e" id="r_a4a9a9a7af1705f7994501d8ab9c26a4e"><td class="memItemLeft">_MSTD_CONSTEXPR20 const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a4a9a9a7af1705f7994501d8ab9c26a4e">at</a> (<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;key) const</td></tr>
+<tr class="memitem:a6ca0abbc9da8cf20494e7f1656bcd883" id="r_a6ca0abbc9da8cf20494e7f1656bcd883"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a6ca0abbc9da8cf20494e7f1656bcd883">at_value</a> (const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;value)</td></tr>
+<tr class="memitem:a601a9970cf1f6accde9f9b4a9e0347b8" id="r_a601a9970cf1f6accde9f9b4a9e0347b8"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a601a9970cf1f6accde9f9b4a9e0347b8">at_value</a> (<a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;value)</td></tr>
+<tr class="memitem:ad4d69b2b72c6781880e11e083aeef805" id="r_ad4d69b2b72c6781880e11e083aeef805"><td class="memItemLeft">_MSTD_CONSTEXPR20 const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad4d69b2b72c6781880e11e083aeef805">at_value</a> (const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;value) const</td></tr>
+<tr class="memitem:ae25a5281ec796bc29f3354c75e692118" id="r_ae25a5281ec796bc29f3354c75e692118"><td class="memItemLeft">_MSTD_CONSTEXPR20 const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ae25a5281ec796bc29f3354c75e692118">at_value</a> (<a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;value) const</td></tr>
 <tr class="memitem:a54cfbdb381b4df3293de1866e027a281" id="r_a54cfbdb381b4df3293de1866e027a281"><td class="memItemLeft">_MSTD_CONSTEXPR20 size_t&#160;</td><td class="memItemRight"><a class="el" href="#a54cfbdb381b4df3293de1866e027a281">size</a> () const</td></tr>
 <tr class="memitem:a77255d143ea5e16816c1e659d5a1ad86" id="r_a77255d143ea5e16816c1e659d5a1ad86"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#a77255d143ea5e16816c1e659d5a1ad86">empty</a> () const</td></tr>
-<tr class="memitem:a6b477a09bc1fc7b94475d1b05c4b5c19" id="r_a6b477a09bc1fc7b94475d1b05c4b5c19"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#a6b477a09bc1fc7b94475d1b05c4b5c19">contains</a> (const Key &amp;key) const</td></tr>
-<tr class="memitem:ad7e0cd998864ffc0c5d81e185e685404" id="r_ad7e0cd998864ffc0c5d81e185e685404"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#ad7e0cd998864ffc0c5d81e185e685404">contains_value</a> (const T &amp;value) const</td></tr>
-<tr class="memitem:aee87f437a38fe67c0536f85425269728" id="r_aee87f437a38fe67c0536f85425269728"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#aee87f437a38fe67c0536f85425269728">find</a> (const Key &amp;key)</td></tr>
-<tr class="memitem:a55ff6454d6d77c2e8c0115b0a159835f" id="r_a55ff6454d6d77c2e8c0115b0a159835f"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a55ff6454d6d77c2e8c0115b0a159835f">find</a> (const Key &amp;key) const</td></tr>
-<tr class="memitem:aaadc1d6d6a79ad590f574c34788483f0" id="r_aaadc1d6d6a79ad590f574c34788483f0"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#aaadc1d6d6a79ad590f574c34788483f0">find_value</a> (const T &amp;value)</td></tr>
-<tr class="memitem:ae6e31588c58f2098ce33c0d9d99637c2" id="r_ae6e31588c58f2098ce33c0d9d99637c2"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae6e31588c58f2098ce33c0d9d99637c2">find_value</a> (const T &amp;value) const</td></tr>
+<tr class="memitem:a7d8a1dab88f73ca7668089b828fc5da4" id="r_a7d8a1dab88f73ca7668089b828fc5da4"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#a7d8a1dab88f73ca7668089b828fc5da4">contains</a> (const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;key) const</td></tr>
+<tr class="memitem:aba1fe804de4d06134c24b1b2d300201f" id="r_aba1fe804de4d06134c24b1b2d300201f"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#aba1fe804de4d06134c24b1b2d300201f">contains</a> (<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;key) const</td></tr>
+<tr class="memitem:a8475adcf8f24b3de7a38349c11e81d12" id="r_a8475adcf8f24b3de7a38349c11e81d12"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#a8475adcf8f24b3de7a38349c11e81d12">contains_value</a> (const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;value) const</td></tr>
+<tr class="memitem:a1cc8be4038323723305511814aca5746" id="r_a1cc8be4038323723305511814aca5746"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#a1cc8be4038323723305511814aca5746">contains_value</a> (<a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;value) const</td></tr>
+<tr class="memitem:ae9e4be4be47e018a6733fb167c6ffb06" id="r_ae9e4be4be47e018a6733fb167c6ffb06"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae9e4be4be47e018a6733fb167c6ffb06">find</a> (const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;key)</td></tr>
+<tr class="memitem:a2cbd14beb2ecd9b78d88ef8c20ce9963" id="r_a2cbd14beb2ecd9b78d88ef8c20ce9963"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2cbd14beb2ecd9b78d88ef8c20ce9963">find</a> (<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;key)</td></tr>
+<tr class="memitem:ae3a0b1f3f529c12f1bfc6f79439120d7" id="r_ae3a0b1f3f529c12f1bfc6f79439120d7"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae3a0b1f3f529c12f1bfc6f79439120d7">find</a> (const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;key) const</td></tr>
+<tr class="memitem:a868443dd671c4b201964b1dcee93df94" id="r_a868443dd671c4b201964b1dcee93df94"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a868443dd671c4b201964b1dcee93df94">find</a> (<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;key) const</td></tr>
+<tr class="memitem:a7bc76a8410dc4494fba4c69dd884994b" id="r_a7bc76a8410dc4494fba4c69dd884994b"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7bc76a8410dc4494fba4c69dd884994b">find_value</a> (const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;value)</td></tr>
+<tr class="memitem:a0a800deff9b9b299bea5031802dfa72c" id="r_a0a800deff9b9b299bea5031802dfa72c"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0a800deff9b9b299bea5031802dfa72c">find_value</a> (<a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;value)</td></tr>
+<tr class="memitem:aa5684b6165b197867bc564f282d0061b" id="r_aa5684b6165b197867bc564f282d0061b"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa5684b6165b197867bc564f282d0061b">find_value</a> (const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;value) const</td></tr>
+<tr class="memitem:a116b1808a9b55c4a832b4cbe454468eb" id="r_a116b1808a9b55c4a832b4cbe454468eb"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a116b1808a9b55c4a832b4cbe454468eb">find_value</a> (<a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;value) const</td></tr>
 <tr class="memitem:affc11f27938b13d222ee9b97f3d4527e" id="r_affc11f27938b13d222ee9b97f3d4527e"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#affc11f27938b13d222ee9b97f3d4527e">clear</a> ()</td></tr>
 <tr class="memitem:aeb31e6399dbc8112f819bbd49031f73d" id="r_aeb31e6399dbc8112f819bbd49031f73d"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#aeb31e6399dbc8112f819bbd49031f73d">begin</a> ()</td></tr>
 <tr class="memitem:abe76e824ecc53b05d34a57dfae8ec372" id="r_abe76e824ecc53b05d34a57dfae8ec372"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#abe76e824ecc53b05d34a57dfae8ec372">end</a> ()</td></tr>
@@ -162,26 +176,58 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0dd34200e4b4f5f582e75513ea5c69ec" id="r_a0dd34200e4b4f5f582e75513ea5c69ec"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a77078ef663e0f909e1dd9c5c8979a073">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0dd34200e4b4f5f582e75513ea5c69ec">rend</a> () const</td></tr>
 <tr class="memitem:ab2886f378f7504cff3c39f39525d7d19" id="r_ab2886f378f7504cff3c39f39525d7d19"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a77078ef663e0f909e1dd9c5c8979a073">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab2886f378f7504cff3c39f39525d7d19">crbegin</a> () const</td></tr>
 <tr class="memitem:aafdb9065b62bd92d5a5d74064de3357c" id="r_aafdb9065b62bd92d5a5d74064de3357c"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a77078ef663e0f909e1dd9c5c8979a073">const_reverse_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#aafdb9065b62bd92d5a5d74064de3357c">crend</a> () const</td></tr>
-<tr class="memitem:a0dd8b07bcc8dc8a31bc5f1f4cee5b533" id="r_a0dd8b07bcc8dc8a31bc5f1f4cee5b533"><td class="memItemLeft">_MSTD_CONSTEXPR20 T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a0dd8b07bcc8dc8a31bc5f1f4cee5b533">operator[]</a> (const Key &amp;key)</td></tr>
-<tr class="memitem:a1e45686b30a21e1ec0dd7553e1eaa10b" id="r_a1e45686b30a21e1ec0dd7553e1eaa10b"><td class="memItemLeft">_MSTD_CONSTEXPR20 const T &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a1e45686b30a21e1ec0dd7553e1eaa10b">operator[]</a> (const Key &amp;key) const</td></tr>
+<tr class="memitem:a12b8caf6cf223a8964de5e1031271cc3" id="r_a12b8caf6cf223a8964de5e1031271cc3"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a12b8caf6cf223a8964de5e1031271cc3">operator[]</a> (const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;key)</td></tr>
+<tr class="memitem:aaaf8e4467b16b071639628851674027b" id="r_aaaf8e4467b16b071639628851674027b"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aaaf8e4467b16b071639628851674027b">operator[]</a> (<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;key)</td></tr>
+<tr class="memitem:a50e3e8b3f6cc434b53481f4b39731a20" id="r_a50e3e8b3f6cc434b53481f4b39731a20"><td class="memItemLeft">_MSTD_CONSTEXPR20 const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a50e3e8b3f6cc434b53481f4b39731a20">operator[]</a> (const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;key) const</td></tr>
+<tr class="memitem:ac0a5ff1c471cd2cc6e6d9d36ea44bf90" id="r_ac0a5ff1c471cd2cc6e6d9d36ea44bf90"><td class="memItemLeft">_MSTD_CONSTEXPR20 const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ac0a5ff1c471cd2cc6e6d9d36ea44bf90">operator[]</a> (<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;key) const</td></tr>
 <tr class="memitem:af034d2d0ada9db1e605b2a11738e640e" id="r_af034d2d0ada9db1e605b2a11738e640e"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#af034d2d0ada9db1e605b2a11738e640e">operator==</a> (const <a class="el" href="#aa37674d1b96428e5969ed23dfbcd6f2b">bimap</a> &amp;other) const</td></tr>
 <tr class="memitem:a957dbd096a7beee8275cd2b937260021" id="r_a957dbd096a7beee8275cd2b937260021"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#a957dbd096a7beee8275cd2b937260021">operator!=</a> (const <a class="el" href="#aa37674d1b96428e5969ed23dfbcd6f2b">bimap</a> &amp;other) const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
 Private Types</h2></td></tr>
-<tr class="memitem:ae4a76fa1321c9c25dfc530e76c04e359" id="r_ae4a76fa1321c9c25dfc530e76c04e359"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ae4a76fa1321c9c25dfc530e76c04e359">_data_type</a> = std::vector&lt;<a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a>&gt;</td></tr>
-<tr class="memitem:a5ea27cc91a060c437a2bb8e6a1b6d6dc" id="r_a5ea27cc91a060c437a2bb8e6a1b6d6dc"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a5ea27cc91a060c437a2bb8e6a1b6d6dc">_map_type</a> = Map&lt;Key, <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a>&gt;</td></tr>
-<tr class="memitem:a8b4305378fa5907ce83039b813fe9464" id="r_a8b4305378fa5907ce83039b813fe9464"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a8b4305378fa5907ce83039b813fe9464">_inverted_map_type</a> = Map&lt;T, <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a>&gt;</td></tr>
+<tr class="memitem:ae4a76fa1321c9c25dfc530e76c04e359" id="r_ae4a76fa1321c9c25dfc530e76c04e359"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ae4a76fa1321c9c25dfc530e76c04e359">_data_type</a> = std::vector&lt;<a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a>&gt;</td></tr>
+<tr class="memitem:a18f9abbfe5b358fa5acc0828e9be84b5" id="r_a18f9abbfe5b358fa5acc0828e9be84b5"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a18f9abbfe5b358fa5acc0828e9be84b5">_map_type</a> = Map&lt;<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a>, <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a>&gt;</td></tr>
+<tr class="memitem:a7e8e97c1cde396cf631eed7a0e369689" id="r_a7e8e97c1cde396cf631eed7a0e369689"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a7e8e97c1cde396cf631eed7a0e369689">_inverted_map_type</a> = Map&lt;<a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a>, <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a>&gt;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a8eaa150ba96247235aef0d6b32cca7c9" id="r_a8eaa150ba96247235aef0d6b32cca7c9"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#a8eaa150ba96247235aef0d6b32cca7c9">_update_indexes</a> (const <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a> &amp;from)</td></tr>
+<tr class="memitem:a25c91e9ed3c14dbd40d7ebb771638fbf" id="r_a25c91e9ed3c14dbd40d7ebb771638fbf"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#a25c91e9ed3c14dbd40d7ebb771638fbf">_update_indexes</a> (const <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a> from)</td></tr>
+<tr class="memitem:a3943d56687bf6b756bdef564c8864157" id="r_a3943d56687bf6b756bdef564c8864157"><td class="memTemplParams" colspan="2">template&lt;class UK, class U&gt; </td></tr>
+<tr class="memitem:a3943d56687bf6b756bdef564c8864157 template"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a3943d56687bf6b756bdef564c8864157">_emplace</a> (UK &amp;&amp;key, U &amp;&amp;value)</td></tr>
+<tr class="memitem:ae74145843f50fb6dee84fffcd0f7e762" id="r_ae74145843f50fb6dee84fffcd0f7e762"><td class="memTemplParams" colspan="2">template&lt;class U&gt; </td></tr>
+<tr class="memitem:ae74145843f50fb6dee84fffcd0f7e762 template"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ae74145843f50fb6dee84fffcd0f7e762">_insert</a> (U &amp;&amp;value)</td></tr>
+<tr class="memitem:a317ce7819ae7fcbbe777a01c1737c079" id="r_a317ce7819ae7fcbbe777a01c1737c079"><td class="memTemplParams" colspan="2">template&lt;class UK&gt; </td></tr>
+<tr class="memitem:a317ce7819ae7fcbbe777a01c1737c079 template"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#a317ce7819ae7fcbbe777a01c1737c079">_erase</a> (UK &amp;&amp;key)</td></tr>
+<tr class="memitem:aa30138b31e980e1bb30882ff0ee6b483" id="r_aa30138b31e980e1bb30882ff0ee6b483"><td class="memTemplParams" colspan="2">template&lt;class U&gt; </td></tr>
+<tr class="memitem:aa30138b31e980e1bb30882ff0ee6b483 template"><td class="memItemLeft">_MSTD_CONSTEXPR20 void&#160;</td><td class="memItemRight"><a class="el" href="#aa30138b31e980e1bb30882ff0ee6b483">_erase_value</a> (U &amp;&amp;value)</td></tr>
+<tr class="memitem:a916b678b66354daa7a1dddfd3ec1bef0" id="r_a916b678b66354daa7a1dddfd3ec1bef0"><td class="memTemplParams" colspan="2">template&lt;class UK&gt; </td></tr>
+<tr class="memitem:a916b678b66354daa7a1dddfd3ec1bef0 template"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a916b678b66354daa7a1dddfd3ec1bef0">_at</a> (UK &amp;&amp;key)</td></tr>
+<tr class="memitem:a0cd380c8b4433cefd0669d8f14698af3" id="r_a0cd380c8b4433cefd0669d8f14698af3"><td class="memTemplParams" colspan="2">template&lt;class UK&gt; </td></tr>
+<tr class="memitem:a0cd380c8b4433cefd0669d8f14698af3 template"><td class="memItemLeft">_MSTD_CONSTEXPR20 const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a0cd380c8b4433cefd0669d8f14698af3">_at</a> (UK &amp;&amp;key) const</td></tr>
+<tr class="memitem:a32e7b0163d8df472970e97437c52a424" id="r_a32e7b0163d8df472970e97437c52a424"><td class="memTemplParams" colspan="2">template&lt;class U&gt; </td></tr>
+<tr class="memitem:a32e7b0163d8df472970e97437c52a424 template"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a32e7b0163d8df472970e97437c52a424">_at_value</a> (U &amp;&amp;value)</td></tr>
+<tr class="memitem:a3c93ab30f19aff16e1e004dd0e5026d3" id="r_a3c93ab30f19aff16e1e004dd0e5026d3"><td class="memTemplParams" colspan="2">template&lt;class U&gt; </td></tr>
+<tr class="memitem:a3c93ab30f19aff16e1e004dd0e5026d3 template"><td class="memItemLeft">_MSTD_CONSTEXPR20 const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a3c93ab30f19aff16e1e004dd0e5026d3">_at_value</a> (U &amp;&amp;value) const</td></tr>
+<tr class="memitem:a2c52da34b5b0287b9068a105b6791ba2" id="r_a2c52da34b5b0287b9068a105b6791ba2"><td class="memTemplParams" colspan="2">template&lt;class UK&gt; </td></tr>
+<tr class="memitem:a2c52da34b5b0287b9068a105b6791ba2 template"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#a2c52da34b5b0287b9068a105b6791ba2">_contains</a> (UK &amp;&amp;key) const</td></tr>
+<tr class="memitem:a3b716577c2cf6f13e8cf4a4ea65ce6f6" id="r_a3b716577c2cf6f13e8cf4a4ea65ce6f6"><td class="memTemplParams" colspan="2">template&lt;class U&gt; </td></tr>
+<tr class="memitem:a3b716577c2cf6f13e8cf4a4ea65ce6f6 template"><td class="memItemLeft">_MSTD_CONSTEXPR20 bool&#160;</td><td class="memItemRight"><a class="el" href="#a3b716577c2cf6f13e8cf4a4ea65ce6f6">_contains_value</a> (U &amp;&amp;value) const</td></tr>
+<tr class="memitem:ab2f86345f4cf9ea4aa92e98fb3e5142b" id="r_ab2f86345f4cf9ea4aa92e98fb3e5142b"><td class="memTemplParams" colspan="2">template&lt;class UK&gt; </td></tr>
+<tr class="memitem:ab2f86345f4cf9ea4aa92e98fb3e5142b template"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ab2f86345f4cf9ea4aa92e98fb3e5142b">_at_with_construct</a> (UK &amp;&amp;key)</td></tr>
+<tr class="memitem:a5424ce68f75c4acff15f3625b51800bc" id="r_a5424ce68f75c4acff15f3625b51800bc"><td class="memTemplParams" colspan="2">template&lt;class UK&gt; </td></tr>
+<tr class="memitem:a5424ce68f75c4acff15f3625b51800bc template"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5424ce68f75c4acff15f3625b51800bc">_find</a> (UK &amp;&amp;key)</td></tr>
+<tr class="memitem:ad1cb78f55cf509d10cf0248e52ffa31f" id="r_ad1cb78f55cf509d10cf0248e52ffa31f"><td class="memTemplParams" colspan="2">template&lt;class UK&gt; </td></tr>
+<tr class="memitem:ad1cb78f55cf509d10cf0248e52ffa31f template"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad1cb78f55cf509d10cf0248e52ffa31f">_find</a> (UK &amp;&amp;key) const</td></tr>
+<tr class="memitem:a67e3d491effff16b2a597f8ebdca6efc" id="r_a67e3d491effff16b2a597f8ebdca6efc"><td class="memTemplParams" colspan="2">template&lt;class U&gt; </td></tr>
+<tr class="memitem:a67e3d491effff16b2a597f8ebdca6efc template"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a67e3d491effff16b2a597f8ebdca6efc">_find_value</a> (U &amp;&amp;value)</td></tr>
+<tr class="memitem:a1cea800530b342b703594e0e051f34db" id="r_a1cea800530b342b703594e0e051f34db"><td class="memTemplParams" colspan="2">template&lt;class U&gt; </td></tr>
+<tr class="memitem:a1cea800530b342b703594e0e051f34db template"><td class="memItemLeft">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1cea800530b342b703594e0e051f34db">_find_value</a> (U &amp;&amp;value) const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a616dcdb3017678120b06b6810d14b191" id="r_a616dcdb3017678120b06b6810d14b191"><td class="memItemLeft"><a class="el" href="#ae4a76fa1321c9c25dfc530e76c04e359">_data_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#a616dcdb3017678120b06b6810d14b191">_data</a></td></tr>
-<tr class="memitem:abd82dc88f481593054a19ec556077de3" id="r_abd82dc88f481593054a19ec556077de3"><td class="memItemLeft"><a class="el" href="#a5ea27cc91a060c437a2bb8e6a1b6d6dc">_map_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#abd82dc88f481593054a19ec556077de3">_map</a></td></tr>
-<tr class="memitem:a1d79300c016d1636c57c32da97928745" id="r_a1d79300c016d1636c57c32da97928745"><td class="memItemLeft"><a class="el" href="#a8b4305378fa5907ce83039b813fe9464">_inverted_map_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1d79300c016d1636c57c32da97928745">_invertedMap</a></td></tr>
+<tr class="memitem:abd82dc88f481593054a19ec556077de3" id="r_abd82dc88f481593054a19ec556077de3"><td class="memItemLeft"><a class="el" href="#a18f9abbfe5b358fa5acc0828e9be84b5">_map_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#abd82dc88f481593054a19ec556077de3">_map</a></td></tr>
+<tr class="memitem:a1d79300c016d1636c57c32da97928745" id="r_a1d79300c016d1636c57c32da97928745"><td class="memItemLeft"><a class="el" href="#a7e8e97c1cde396cf631eed7a0e369689">_inverted_map_type</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1d79300c016d1636c57c32da97928745">_invertedMap</a></td></tr>
 </table>
 <a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="ae4a76fa1321c9c25dfc530e76c04e359" name="ae4a76fa1321c9c25dfc530e76c04e359"></a>
@@ -196,7 +242,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_data_type = std::vector&lt;<a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a>&gt;</td>
+          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_data_type = std::vector&lt;<a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -208,8 +254,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a8b4305378fa5907ce83039b813fe9464" name="a8b4305378fa5907ce83039b813fe9464"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b4305378fa5907ce83039b813fe9464">&#9670;&#160;</a></span>_inverted_map_type</h2>
+<a id="a7e8e97c1cde396cf631eed7a0e369689" name="a7e8e97c1cde396cf631eed7a0e369689"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e8e97c1cde396cf631eed7a0e369689">&#9670;&#160;</a></span>_inverted_map_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -220,7 +266,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_inverted_map_type = Map&lt;T, <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a>&gt;</td>
+          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_inverted_map_type = Map&lt;<a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a>, <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -232,8 +278,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a5ea27cc91a060c437a2bb8e6a1b6d6dc" name="a5ea27cc91a060c437a2bb8e6a1b6d6dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ea27cc91a060c437a2bb8e6a1b6d6dc">&#9670;&#160;</a></span>_map_type</h2>
+<a id="a18f9abbfe5b358fa5acc0828e9be84b5" name="a18f9abbfe5b358fa5acc0828e9be84b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18f9abbfe5b358fa5acc0828e9be84b5">&#9670;&#160;</a></span>_map_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -244,7 +290,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_map_type = Map&lt;Key, <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a>&gt;</td>
+          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_map_type = Map&lt;<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a>, <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -281,7 +327,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::const_reference = const <a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a>&amp;</td>
+          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::const_reference = const <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a>&amp;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -336,8 +382,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a35dfe95c7de658920bfd810429253f7f" name="a35dfe95c7de658920bfd810429253f7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35dfe95c7de658920bfd810429253f7f">&#9670;&#160;</a></span>key_type</h2>
+<a id="a0b3c68d6f3c71890b905dbb26250e0e3" name="a0b3c68d6f3c71890b905dbb26250e0e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b3c68d6f3c71890b905dbb26250e0e3">&#9670;&#160;</a></span>key_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -345,15 +391,15 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::key_type = Key</td>
+          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::key_type = <a class="el" href="../../df/d3d/namespacemstd.html#af5fd27e3044b6d4deb2647461508ceb2">remove_cvref_t</a>&lt;Key&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a0b8014f106313a22fb99ef1183060384" name="a0b8014f106313a22fb99ef1183060384"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b8014f106313a22fb99ef1183060384">&#9670;&#160;</a></span>mapped_type</h2>
+<a id="ac289c5e88567d95bda103843c7fb9f79" name="ac289c5e88567d95bda103843c7fb9f79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac289c5e88567d95bda103843c7fb9f79">&#9670;&#160;</a></span>mapped_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -361,7 +407,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::mapped_type = T</td>
+          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::mapped_type = <a class="el" href="../../df/d3d/namespacemstd.html#af5fd27e3044b6d4deb2647461508ceb2">remove_cvref_t</a>&lt;T&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -377,7 +423,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::reference = <a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a>&amp;</td>
+          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::reference = <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a>&amp;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -416,8 +462,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="abb10c5346b84d3acd33df3599bb2ac1e" name="abb10c5346b84d3acd33df3599bb2ac1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb10c5346b84d3acd33df3599bb2ac1e">&#9670;&#160;</a></span>value_type</h2>
+<a id="ad29ec291cfd9a7a00f692daee941e76d" name="ad29ec291cfd9a7a00f692daee941e76d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad29ec291cfd9a7a00f692daee941e76d">&#9670;&#160;</a></span>value_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -425,7 +471,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::value_type = std::pair&lt;Key, T&gt;</td>
+          <td class="memname">using <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::value_type = std::pair&lt;<a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a>, <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -460,8 +506,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a63091dabdfb7a68c94dc15afe06fdcf9" name="a63091dabdfb7a68c94dc15afe06fdcf9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63091dabdfb7a68c94dc15afe06fdcf9">&#9670;&#160;</a></span>bimap() <span class="overload">[2/5]</span></h2>
+<a id="a80cf347a0bf04ca75396fcc07d832ac2" name="a80cf347a0bf04ca75396fcc07d832ac2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80cf347a0bf04ca75396fcc07d832ac2">&#9670;&#160;</a></span>bimap() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -474,7 +520,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
         <tr>
           <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::bimap </td>
           <td>(</td>
-          <td class="paramtype">const std::initializer_list&lt; <a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>init</em></span></td><td>)</td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>init</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -487,8 +533,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a131d997154a03db278643c0cb8c2f860" name="a131d997154a03db278643c0cb8c2f860"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a131d997154a03db278643c0cb8c2f860">&#9670;&#160;</a></span>bimap() <span class="overload">[3/5]</span></h2>
+<a id="a3f7f1d2c589758f87915aefcac9aaa33" name="a3f7f1d2c589758f87915aefcac9aaa33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f7f1d2c589758f87915aefcac9aaa33">&#9670;&#160;</a></span>bimap() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -514,8 +560,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="af5fc03610a6eb04f49bcacd8f8cc2190" name="af5fc03610a6eb04f49bcacd8f8cc2190"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5fc03610a6eb04f49bcacd8f8cc2190">&#9670;&#160;</a></span>bimap() <span class="overload">[4/5]</span></h2>
+<a id="a937ce8fae1b3301f76942de706d0acda" name="a937ce8fae1b3301f76942de706d0acda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a937ce8fae1b3301f76942de706d0acda">&#9670;&#160;</a></span>bimap() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -541,15 +587,15 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a76d4a6f992cfa04265b845932af9a275" name="a76d4a6f992cfa04265b845932af9a275"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76d4a6f992cfa04265b845932af9a275">&#9670;&#160;</a></span>bimap() <span class="overload">[5/5]</span></h2>
+<a id="aae2de261a00d86db3d4d554e462e007b" name="aae2de261a00d86db3d4d554e462e007b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae2de261a00d86db3d4d554e462e007b">&#9670;&#160;</a></span>bimap() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
 <div class="memtemplate">
-template&lt;<a class="el" href="../../d7/dad/conceptmstd_1_1iterator.html">mstd::iterator</a> Iter&gt; </div>
+template&lt;<a class="el" href="../../d5/de2/conceptmstd_1_1iterator__of.html">mstd::iterator_of</a>&lt; <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> &gt; Iter&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -557,12 +603,12 @@ template&lt;<a class="el" href="../../d7/dad/conceptmstd_1_1iterator.html">mstd:
         <tr>
           <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::bimap </td>
           <td>(</td>
-          <td class="paramtype">const Iter &amp;</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
+          <td class="paramtype">Iter</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Iter &amp;</td>          <td class="paramname"><span class="paramname"><em>end</em></span>&#160;)</td>
+          <td class="paramtype">Iter</td>          <td class="paramname"><span class="paramname"><em>end</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -602,21 +648,259 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a8eaa150ba96247235aef0d6b32cca7c9" name="a8eaa150ba96247235aef0d6b32cca7c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8eaa150ba96247235aef0d6b32cca7c9">&#9670;&#160;</a></span>_update_indexes()</h2>
+<a id="a916b678b66354daa7a1dddfd3ec1bef0" name="a916b678b66354daa7a1dddfd3ec1bef0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a916b678b66354daa7a1dddfd3ec1bef0">&#9670;&#160;</a></span>_at() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class UK&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR20 void <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_update_indexes </td>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_at </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>from</em></span></td><td>)</td>
+          <td class="paramtype">UK &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0cd380c8b4433cefd0669d8f14698af3" name="a0cd380c8b4433cefd0669d8f14698af3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cd380c8b4433cefd0669d8f14698af3">&#9670;&#160;</a></span>_at() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class UK&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_at </td>
+          <td>(</td>
+          <td class="paramtype">UK &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32e7b0163d8df472970e97437c52a424" name="a32e7b0163d8df472970e97437c52a424"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32e7b0163d8df472970e97437c52a424">&#9670;&#160;</a></span>_at_value() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_at_value </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3c93ab30f19aff16e1e004dd0e5026d3" name="a3c93ab30f19aff16e1e004dd0e5026d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c93ab30f19aff16e1e004dd0e5026d3">&#9670;&#160;</a></span>_at_value() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_at_value </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab2f86345f4cf9ea4aa92e98fb3e5142b" name="ab2f86345f4cf9ea4aa92e98fb3e5142b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2f86345f4cf9ea4aa92e98fb3e5142b">&#9670;&#160;</a></span>_at_with_construct()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class UK&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_at_with_construct </td>
+          <td>(</td>
+          <td class="paramtype">UK &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2c52da34b5b0287b9068a105b6791ba2" name="a2c52da34b5b0287b9068a105b6791ba2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c52da34b5b0287b9068a105b6791ba2">&#9670;&#160;</a></span>_contains()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class UK&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 bool <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_contains </td>
+          <td>(</td>
+          <td class="paramtype">UK &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3b716577c2cf6f13e8cf4a4ea65ce6f6" name="a3b716577c2cf6f13e8cf4a4ea65ce6f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b716577c2cf6f13e8cf4a4ea65ce6f6">&#9670;&#160;</a></span>_contains_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 bool <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_contains_value </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3943d56687bf6b756bdef564c8864157" name="a3943d56687bf6b756bdef564c8864157"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3943d56687bf6b756bdef564c8864157">&#9670;&#160;</a></span>_emplace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class UK, class U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_emplace </td>
+          <td>(</td>
+          <td class="paramtype">UK &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a317ce7819ae7fcbbe777a01c1737c079" name="a317ce7819ae7fcbbe777a01c1737c079"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a317ce7819ae7fcbbe777a01c1737c079">&#9670;&#160;</a></span>_erase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class UK&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 void <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_erase </td>
+          <td>(</td>
+          <td class="paramtype">UK &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -629,8 +913,182 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a4ffb570d687849f5a16ca3f4ea62ad78" name="a4ffb570d687849f5a16ca3f4ea62ad78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ffb570d687849f5a16ca3f4ea62ad78">&#9670;&#160;</a></span>at() <span class="overload">[1/2]</span></h2>
+<a id="aa30138b31e980e1bb30882ff0ee6b483" name="aa30138b31e980e1bb30882ff0ee6b483"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa30138b31e980e1bb30882ff0ee6b483">&#9670;&#160;</a></span>_erase_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 void <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_erase_value </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5424ce68f75c4acff15f3625b51800bc" name="a5424ce68f75c4acff15f3625b51800bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5424ce68f75c4acff15f3625b51800bc">&#9670;&#160;</a></span>_find() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class UK&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_find </td>
+          <td>(</td>
+          <td class="paramtype">UK &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad1cb78f55cf509d10cf0248e52ffa31f" name="ad1cb78f55cf509d10cf0248e52ffa31f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1cb78f55cf509d10cf0248e52ffa31f">&#9670;&#160;</a></span>_find() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class UK&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_find </td>
+          <td>(</td>
+          <td class="paramtype">UK &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67e3d491effff16b2a597f8ebdca6efc" name="a67e3d491effff16b2a597f8ebdca6efc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67e3d491effff16b2a597f8ebdca6efc">&#9670;&#160;</a></span>_find_value() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_find_value </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1cea800530b342b703594e0e051f34db" name="a1cea800530b342b703594e0e051f34db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cea800530b342b703594e0e051f34db">&#9670;&#160;</a></span>_find_value() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_find_value </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae74145843f50fb6dee84fffcd0f7e762" name="ae74145843f50fb6dee84fffcd0f7e762"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae74145843f50fb6dee84fffcd0f7e762">&#9670;&#160;</a></span>_insert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;class U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_insert </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25c91e9ed3c14dbd40d7ebb771638fbf" name="a25c91e9ed3c14dbd40d7ebb771638fbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25c91e9ed3c14dbd40d7ebb771638fbf">&#9670;&#160;</a></span>_update_indexes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -641,9 +1099,36 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR20 T &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at </td>
+          <td class="memname">_MSTD_CONSTEXPR20 void <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_update_indexes </td>
           <td>(</td>
-          <td class="paramtype">const Key &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#a1e9a3f2d5ea51bcf14a4735fb692dddb">size_type</a></td>          <td class="paramname"><span class="paramname"><em>from</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeb14d1e06a5491a7fcae5b9c6a0ade44" name="aeb14d1e06a5491a7fcae5b9c6a0ade44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb14d1e06a5491a7fcae5b9c6a0ade44">&#9670;&#160;</a></span>at() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -656,8 +1141,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a130c9cc3d8f89b049453dfbf34b576c1" name="a130c9cc3d8f89b049453dfbf34b576c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a130c9cc3d8f89b049453dfbf34b576c1">&#9670;&#160;</a></span>at() <span class="overload">[2/2]</span></h2>
+<a id="a895dabf0d886d66401c751cf0cf564e3" name="a895dabf0d886d66401c751cf0cf564e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a895dabf0d886d66401c751cf0cf564e3">&#9670;&#160;</a></span>at() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -668,9 +1153,9 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR20 const T &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at </td>
+          <td class="memname">_MSTD_CONSTEXPR20 const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at </td>
           <td>(</td>
-          <td class="paramtype">const Key &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -683,8 +1168,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="afdf9d2f1d4c26b356a4117ed6ea9f5a9" name="afdf9d2f1d4c26b356a4117ed6ea9f5a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afdf9d2f1d4c26b356a4117ed6ea9f5a9">&#9670;&#160;</a></span>at_value() <span class="overload">[1/2]</span></h2>
+<a id="a02e7f3f76052f612e8ade676bc8748d5" name="a02e7f3f76052f612e8ade676bc8748d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02e7f3f76052f612e8ade676bc8748d5">&#9670;&#160;</a></span>at() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -695,9 +1180,9 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR20 Key &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at_value </td>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at </td>
           <td>(</td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -710,8 +1195,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a1ce16c1da031b766c051e876b3eb311c" name="a1ce16c1da031b766c051e876b3eb311c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ce16c1da031b766c051e876b3eb311c">&#9670;&#160;</a></span>at_value() <span class="overload">[2/2]</span></h2>
+<a id="a4a9a9a7af1705f7994501d8ab9c26a4e" name="a4a9a9a7af1705f7994501d8ab9c26a4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a9a9a7af1705f7994501d8ab9c26a4e">&#9670;&#160;</a></span>at() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -722,9 +1207,117 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR20 const Key &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at_value </td>
+          <td class="memname">_MSTD_CONSTEXPR20 const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at </td>
           <td>(</td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6ca0abbc9da8cf20494e7f1656bcd883" name="a6ca0abbc9da8cf20494e7f1656bcd883"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ca0abbc9da8cf20494e7f1656bcd883">&#9670;&#160;</a></span>at_value() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at_value </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4d69b2b72c6781880e11e083aeef805" name="ad4d69b2b72c6781880e11e083aeef805"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4d69b2b72c6781880e11e083aeef805">&#9670;&#160;</a></span>at_value() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at_value </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a601a9970cf1f6accde9f9b4a9e0347b8" name="a601a9970cf1f6accde9f9b4a9e0347b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a601a9970cf1f6accde9f9b4a9e0347b8">&#9670;&#160;</a></span>at_value() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae25a5281ec796bc29f3354c75e692118" name="ae25a5281ec796bc29f3354c75e692118"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae25a5281ec796bc29f3354c75e692118">&#9670;&#160;</a></span>at_value() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::at_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -872,8 +1465,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a6b477a09bc1fc7b94475d1b05c4b5c19" name="a6b477a09bc1fc7b94475d1b05c4b5c19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b477a09bc1fc7b94475d1b05c4b5c19">&#9670;&#160;</a></span>contains()</h2>
+<a id="a7d8a1dab88f73ca7668089b828fc5da4" name="a7d8a1dab88f73ca7668089b828fc5da4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d8a1dab88f73ca7668089b828fc5da4">&#9670;&#160;</a></span>contains() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -886,7 +1479,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
         <tr>
           <td class="memname">_MSTD_CONSTEXPR20 bool <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::contains </td>
           <td>(</td>
-          <td class="paramtype">const Key &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -899,8 +1492,35 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="ad7e0cd998864ffc0c5d81e185e685404" name="ad7e0cd998864ffc0c5d81e185e685404"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7e0cd998864ffc0c5d81e185e685404">&#9670;&#160;</a></span>contains_value()</h2>
+<a id="aba1fe804de4d06134c24b1b2d300201f" name="aba1fe804de4d06134c24b1b2d300201f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba1fe804de4d06134c24b1b2d300201f">&#9670;&#160;</a></span>contains() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 bool <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::contains </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8475adcf8f24b3de7a38349c11e81d12" name="a8475adcf8f24b3de7a38349c11e81d12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8475adcf8f24b3de7a38349c11e81d12">&#9670;&#160;</a></span>contains_value() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -913,7 +1533,34 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
         <tr>
           <td class="memname">_MSTD_CONSTEXPR20 bool <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::contains_value </td>
           <td>(</td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1cc8be4038323723305511814aca5746" name="a1cc8be4038323723305511814aca5746"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cc8be4038323723305511814aca5746">&#9670;&#160;</a></span>contains_value() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 bool <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::contains_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -980,8 +1627,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="ad93f2a1b49c019ff92ca5a92b93e51a8" name="ad93f2a1b49c019ff92ca5a92b93e51a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad93f2a1b49c019ff92ca5a92b93e51a8">&#9670;&#160;</a></span>emplace()</h2>
+<a id="a6ab3840f70660b4b26e44a3ade98408a" name="a6ab3840f70660b4b26e44a3ade98408a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ab3840f70660b4b26e44a3ade98408a">&#9670;&#160;</a></span>emplace() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -992,14 +1639,45 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR20 T &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::emplace </td>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::emplace </td>
           <td>(</td>
-          <td class="paramtype">const Key &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+          <td class="paramtype">const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a142af1c4b86b021d210a9a65ca51a0b7" name="a142af1c4b86b021d210a9a65ca51a0b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a142af1c4b86b021d210a9a65ca51a0b7">&#9670;&#160;</a></span>emplace() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::emplace </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1092,8 +1770,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="acb3b4a6203c185d98059762f158023f8" name="acb3b4a6203c185d98059762f158023f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb3b4a6203c185d98059762f158023f8">&#9670;&#160;</a></span>erase()</h2>
+<a id="a99bedc3515746fe75d9dbf4ed33ddc35" name="a99bedc3515746fe75d9dbf4ed33ddc35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99bedc3515746fe75d9dbf4ed33ddc35">&#9670;&#160;</a></span>erase() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1106,7 +1784,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
         <tr>
           <td class="memname">_MSTD_CONSTEXPR20 void <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::erase </td>
           <td>(</td>
-          <td class="paramtype">const Key &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1119,8 +1797,35 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="aa8cee4de4c3ec23ffc50a0f2514b4833" name="aa8cee4de4c3ec23ffc50a0f2514b4833"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8cee4de4c3ec23ffc50a0f2514b4833">&#9670;&#160;</a></span>erase_value()</h2>
+<a id="ae814073700ebf01c364f5941f29c9c6a" name="ae814073700ebf01c364f5941f29c9c6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae814073700ebf01c364f5941f29c9c6a">&#9670;&#160;</a></span>erase() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 void <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::erase </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af188a37d2525c2aed1f06b137adb6923" name="af188a37d2525c2aed1f06b137adb6923"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af188a37d2525c2aed1f06b137adb6923">&#9670;&#160;</a></span>erase_value() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1133,7 +1838,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
         <tr>
           <td class="memname">_MSTD_CONSTEXPR20 void <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::erase_value </td>
           <td>(</td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1146,8 +1851,35 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="aee87f437a38fe67c0536f85425269728" name="aee87f437a38fe67c0536f85425269728"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee87f437a38fe67c0536f85425269728">&#9670;&#160;</a></span>find() <span class="overload">[1/2]</span></h2>
+<a id="a114607885df651c5b6876b2bec2b40f6" name="a114607885df651c5b6876b2bec2b40f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a114607885df651c5b6876b2bec2b40f6">&#9670;&#160;</a></span>erase_value() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 void <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::erase_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae9e4be4be47e018a6733fb167c6ffb06" name="ae9e4be4be47e018a6733fb167c6ffb06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9e4be4be47e018a6733fb167c6ffb06">&#9670;&#160;</a></span>find() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1160,7 +1892,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
         <tr>
           <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::find </td>
           <td>(</td>
-          <td class="paramtype">const Key &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1173,8 +1905,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a55ff6454d6d77c2e8c0115b0a159835f" name="a55ff6454d6d77c2e8c0115b0a159835f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55ff6454d6d77c2e8c0115b0a159835f">&#9670;&#160;</a></span>find() <span class="overload">[2/2]</span></h2>
+<a id="ae3a0b1f3f529c12f1bfc6f79439120d7" name="ae3a0b1f3f529c12f1bfc6f79439120d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3a0b1f3f529c12f1bfc6f79439120d7">&#9670;&#160;</a></span>find() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1187,7 +1919,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
         <tr>
           <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::find </td>
           <td>(</td>
-          <td class="paramtype">const Key &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1200,8 +1932,62 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="aaadc1d6d6a79ad590f574c34788483f0" name="aaadc1d6d6a79ad590f574c34788483f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaadc1d6d6a79ad590f574c34788483f0">&#9670;&#160;</a></span>find_value() <span class="overload">[1/2]</span></h2>
+<a id="a2cbd14beb2ecd9b78d88ef8c20ce9963" name="a2cbd14beb2ecd9b78d88ef8c20ce9963"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cbd14beb2ecd9b78d88ef8c20ce9963">&#9670;&#160;</a></span>find() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::find </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a868443dd671c4b201964b1dcee93df94" name="a868443dd671c4b201964b1dcee93df94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a868443dd671c4b201964b1dcee93df94">&#9670;&#160;</a></span>find() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::find </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7bc76a8410dc4494fba4c69dd884994b" name="a7bc76a8410dc4494fba4c69dd884994b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bc76a8410dc4494fba4c69dd884994b">&#9670;&#160;</a></span>find_value() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1214,7 +2000,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
         <tr>
           <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::find_value </td>
           <td>(</td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1227,8 +2013,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="ae6e31588c58f2098ce33c0d9d99637c2" name="ae6e31588c58f2098ce33c0d9d99637c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6e31588c58f2098ce33c0d9d99637c2">&#9670;&#160;</a></span>find_value() <span class="overload">[2/2]</span></h2>
+<a id="aa5684b6165b197867bc564f282d0061b" name="aa5684b6165b197867bc564f282d0061b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5684b6165b197867bc564f282d0061b">&#9670;&#160;</a></span>find_value() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1241,7 +2027,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
         <tr>
           <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::find_value </td>
           <td>(</td>
-          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1254,28 +2040,76 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a5974aa4e6221e23cf5d9cee424d502bf" name="a5974aa4e6221e23cf5d9cee424d502bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5974aa4e6221e23cf5d9cee424d502bf">&#9670;&#160;</a></span>insert() <span class="overload">[1/2]</span></h2>
+<a id="a0a800deff9b9b299bea5031802dfa72c" name="a0a800deff9b9b299bea5031802dfa72c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a800deff9b9b299bea5031802dfa72c">&#9670;&#160;</a></span>find_value() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
-<div class="memtemplate">
-template&lt;<a class="el" href="../../d7/dad/conceptmstd_1_1iterator.html">mstd::iterator</a> Iter&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR20 void <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::insert </td>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a3e694515c6ba04178f9d27f825395048">iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::find_value </td>
           <td>(</td>
-          <td class="paramtype">const Iter &amp;</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">const Iter &amp;</td>          <td class="paramname"><span class="paramname"><em>end</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a116b1808a9b55c4a832b4cbe454468eb" name="a116b1808a9b55c4a832b4cbe454468eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a116b1808a9b55c4a832b4cbe454468eb">&#9670;&#160;</a></span>find_value() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#a440b825dcc3cdfb6b7a7ea96f0c36355">const_iterator</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::find_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a650fdeed0a0f2c186f63baacecc93706" name="a650fdeed0a0f2c186f63baacecc93706"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a650fdeed0a0f2c186f63baacecc93706">&#9670;&#160;</a></span>insert() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::insert </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -1287,8 +2121,41 @@ template&lt;<a class="el" href="../../d7/dad/conceptmstd_1_1iterator.html">mstd:
 
 </div>
 </div>
-<a id="ababf68efe0646ecca363c15859a42a32" name="ababf68efe0646ecca363c15859a42a32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ababf68efe0646ecca363c15859a42a32">&#9670;&#160;</a></span>insert() <span class="overload">[2/2]</span></h2>
+<a id="a6ac31ace9b36c9f17f9acfe03a79193c" name="a6ac31ace9b36c9f17f9acfe03a79193c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ac31ace9b36c9f17f9acfe03a79193c">&#9670;&#160;</a></span>insert() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<div class="memtemplate">
+template&lt;<a class="el" href="../../d5/de2/conceptmstd_1_1iterator__of.html">mstd::iterator_of</a>&lt; <a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> &gt; Iter&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 void <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::insert </td>
+          <td>(</td>
+          <td class="paramtype">Iter</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iter</td>          <td class="paramname"><span class="paramname"><em>end</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af460e341f79f582ec0c2c40543f3f919" name="af460e341f79f582ec0c2c40543f3f919"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af460e341f79f582ec0c2c40543f3f919">&#9670;&#160;</a></span>insert() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1299,9 +2166,9 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR20 T &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::insert </td>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::insert </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="#abb10c5346b84d3acd33df3599bb2ac1e">value_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#ad29ec291cfd9a7a00f692daee941e76d">value_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1422,8 +2289,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a0dd8b07bcc8dc8a31bc5f1f4cee5b533" name="a0dd8b07bcc8dc8a31bc5f1f4cee5b533"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0dd8b07bcc8dc8a31bc5f1f4cee5b533">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
+<a id="a12b8caf6cf223a8964de5e1031271cc3" name="a12b8caf6cf223a8964de5e1031271cc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12b8caf6cf223a8964de5e1031271cc3">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1434,9 +2301,9 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR20 T &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::operator[] </td>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">const Key &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1449,8 +2316,8 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
 
 </div>
 </div>
-<a id="a1e45686b30a21e1ec0dd7553e1eaa10b" name="a1e45686b30a21e1ec0dd7553e1eaa10b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e45686b30a21e1ec0dd7553e1eaa10b">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/2]</span></h2>
+<a id="a50e3e8b3f6cc434b53481f4b39731a20" name="a50e3e8b3f6cc434b53481f4b39731a20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50e3e8b3f6cc434b53481f4b39731a20">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1461,9 +2328,63 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">_MSTD_CONSTEXPR20 const T &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::operator[] </td>
+          <td class="memname">_MSTD_CONSTEXPR20 const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">const Key &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaaf8e4467b16b071639628851674027b" name="aaaf8e4467b16b071639628851674027b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaf8e4467b16b071639628851674027b">&#9670;&#160;</a></span>operator[]() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac0a5ff1c471cd2cc6e6d9d36ea44bf90" name="ac0a5ff1c471cd2cc6e6d9d36ea44bf90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0a5ff1c471cd2cc6e6d9d36ea44bf90">&#9670;&#160;</a></span>operator[]() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key, class T, template&lt; class, class, class... &gt; class Map&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_MSTD_CONSTEXPR20 const <a class="el" href="#ac289c5e88567d95bda103843c7fb9f79">mapped_type</a> &amp; <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a0b3c68d6f3c71890b905dbb26250e0e3">key_type</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1648,7 +2569,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a8b4305378fa5907ce83039b813fe9464">_inverted_map_type</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_invertedMap</td>
+          <td class="memname"><a class="el" href="#a7e8e97c1cde396cf631eed7a0e369689">_inverted_map_type</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_invertedMap</td>
         </tr>
       </table>
   </td>
@@ -1672,7 +2593,7 @@ template&lt;class Key, class T, template&lt; class, class, class... &gt; class M
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a5ea27cc91a060c437a2bb8e6a1b6d6dc">_map_type</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_map</td>
+          <td class="memname"><a class="el" href="#a18f9abbfe5b358fa5acc0828e9be84b5">_map_type</a> <a class="el" href="../../d9/d0c/classmstd_1_1bimap.html">mstd::bimap</a>&lt; Key, T, Map &gt;::_map</td>
         </tr>
       </table>
   </td>
