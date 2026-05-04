@@ -19,17 +19,9 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 
 		#include <mstd/containers_libs.hpp>
 
-namespace mstd {
-		#pragma region REMOVE_CVREF
-		#if _MSTD_HAS_CXX20
-	template<class T>
-	using remove_cvref_t = std::remove_cvref_t<T>;
-		#else
-	template<class T>
-	using remove_cvref_t = std::remove_cv_t<std::remove_reference_t<T> >;
-		#endif
-		#pragma endregion
+		#include <mstd/management_utils.hpp>
 
+namespace mstd {
 		#pragma region IS_ITERATOR
 
 	template<class T, class = void>

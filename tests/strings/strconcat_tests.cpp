@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <pch.hpp>
+#include <mstd/strconcat.hpp>
 
 namespace mstd::test {
 	TEST(StringConcatTest, ConcatToExistingString) {

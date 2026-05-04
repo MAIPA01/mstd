@@ -11,6 +11,9 @@
 #ifndef _MSTD_FUNCTION_VIEW_HPP_
 	#define _MSTD_FUNCTION_VIEW_HPP_
 
+	#include "fmt/chrono.h"
+
+
 	#include <mstd/config.hpp>
 
 	#if !_MSTD_HAS_CXX17
@@ -52,6 +55,14 @@ namespace mstd {
 		#endif
 		#pragma endregion
 
+		struct function_storage {
+			union {
+				void* functor_ptr = nullptr;
+				void (*func_ptr)();
+				std::byte mem_func_buffer[sizeof(void*) * 3];
+			};
+		};
+
 		template<class F, class Ret, class ArgsTuple>
 		struct base_function_view {};
 
@@ -63,56 +74,77 @@ namespace mstd {
 
 			template<class MemberFunc>
 			static _MSTD_CONSTEXPR17 bool is_valid_member_function_v =
-			  utils::is_valid_member_function_v<MemberFunc, F, Ret, Args...>;
+			  utils::is_valid_member_function_v<mstd::remove_cvref_t<MemberFunc>, F, Ret, Args...>;
 
 			template<class Functor, bool IsConst>
 			static _MSTD_CONSTEXPR17 bool is_valid_functor_v = utils::is_valid_functor_v<Functor, IsConst, F, Ret, Args...>;
 
 			template<class FreeFunc>
-			static Ret _free_func_invoker(void* func, void*, Args&&... args) noexcept(is_noexcept_function_v<FreeFunc>) {
+			static Ret _free_func_invoker(const function_storage& storage, void*,
+			  Args&&... args) noexcept(is_noexcept_function_v<FreeFunc>) {
 				using func_ptr	  = c_func_t<function_type_t<FreeFunc> >;
 
-				func_ptr freeFunc = reinterpret_cast<func_ptr>(func);
+				func_ptr freeFunc = reinterpret_cast<func_ptr>(storage.func_ptr);
 				return std::invoke(freeFunc, std::forward<Args>(args)...);
 			}
 
 			template<class MemberFunc>
-			static Ret _member_func_invoker(void* func, void* parent,
+			static Ret _member_func_invoker(const function_storage& storage, void* parent,
 			  Args&&... args) noexcept(is_noexcept_function_v<MemberFunc>) {
 				using parent_type	 = function_parent_t<MemberFunc>;
 				using parent_ptr	 = parent_type*;
 				using func_ptr		 = c_member_func_t<parent_type, function_type_t<MemberFunc> >;
 
 				parent_ptr parentObj = static_cast<parent_type*>(parent);
-				func_ptr memberFunc	 = *static_cast<const func_ptr*>(func);
+				func_ptr memberFunc;
+				std::memcpy(&memberFunc, storage.mem_func_buffer, sizeof(func_ptr));
+
 				return std::invoke(memberFunc, parentObj, std::forward<Args>(args)...);
 			}
 
 			template<class Functor>
-			static Ret _functor_invoker(void* func, void*, Args&&... args) noexcept(is_noexcept_function_v<Functor>) {
-				return std::invoke(*static_cast<Functor*>(func), std::forward<Args>(args)...);
+			static Ret _functor_invoker(const function_storage& storage, void*,
+			  Args&&... args) noexcept(is_noexcept_function_v<Functor>) {
+				return std::invoke(*static_cast<Functor*>(storage.functor_ptr), std::forward<Args>(args)...);
 			}
 
-			using _invoker_type	   = Ret (*)(void*, void*, Args&&...) noexcept(is_noexcept_function_v<F>);
+			using _invoker_type = Ret (*)(const function_storage&, void*, Args&&...) noexcept(is_noexcept_function_v<F>);
 
-			void* _func			   = nullptr;
+			function_storage _storage;
 			void* _parent		   = nullptr;
 			_invoker_type _invoker = nullptr;
 
 		public:
-			base_function_view() noexcept						   = default;
-			base_function_view(const base_function_view&) noexcept = default;
+			base_function_view() noexcept { std::memset(&_storage, 0, sizeof(function_storage)); }
+
+			base_function_view(std::nullptr_t) noexcept : base_function_view() {}
+
+			base_function_view(const base_function_view& other) noexcept
+				: _storage(other._storage), _parent(other._parent), _invoker(other._invoker) {}
 
 			base_function_view(base_function_view&& other) noexcept
-				: _func(std::exchange(other._func, nullptr)), _parent(std::exchange(other._parent, nullptr)),
-				  _invoker(std::exchange(other._invoker, nullptr)) {}
+				: _parent(std::exchange(other._parent, nullptr)), _invoker(std::exchange(other._invoker, nullptr)) {
+				_storage = other._storage;
+				std::memset(&other._storage, 0, sizeof(function_storage));
+			}
 
-			virtual ~base_function_view() noexcept							  = default;
+			virtual ~base_function_view() noexcept = default;
 
-			base_function_view& operator=(const base_function_view&) noexcept = default;
+			base_function_view& operator=(std::nullptr_t) noexcept {
+				reset();
+				return *this;
+			}
+
+			base_function_view& operator=(const base_function_view& other) noexcept {
+				_storage = other._storage;
+				_parent	 = other._parent;
+				_invoker = other._invoker;
+				return *this;
+			}
 
 			base_function_view& operator=(base_function_view&& other) noexcept {
-				_func	 = std::exchange(other._func, nullptr);
+				_storage = other._storage;
+				std::memset(&other._storage, 0, sizeof(function_storage));
 				_parent	 = std::exchange(other._parent, nullptr);
 				_invoker = std::exchange(other._invoker, nullptr);
 				return *this;
@@ -126,8 +158,11 @@ namespace mstd {
 			template<class FreeFunc, std::enable_if_t<is_valid_free_function_v<FreeFunc>, bool> = true>
 		#endif
 			base_function_view(FreeFunc&& freeFunc) noexcept : _invoker(&_free_func_invoker<FreeFunc>) {
-					if _MSTD_CONSTEXPR17 (is_function_ptr_v<FreeFunc>) { _func = reinterpret_cast<void*>(freeFunc); }
-					else { _func = reinterpret_cast<void*>(&freeFunc); }
+				std::memset(&_storage, 0, sizeof(function_storage));
+					if _MSTD_CONSTEXPR17 (is_function_ptr_v<FreeFunc>) {
+						_storage.func_ptr = reinterpret_cast<void (*)()>(freeFunc);
+					}
+					else { _storage.func_ptr = reinterpret_cast<void (*)()>(&freeFunc); }
 			}
 
 		#if _MSTD_HAS_CXX20
@@ -138,8 +173,11 @@ namespace mstd {
 		#endif
 			base_function_view& operator=(FreeFunc&& freeFunc) noexcept {
 				_invoker = &_free_func_invoker<FreeFunc>;
-					if _MSTD_CONSTEXPR17 (is_function_ptr_v<FreeFunc>) { _func = reinterpret_cast<void*>(freeFunc); }
-					else { _func = reinterpret_cast<void*>(&freeFunc); }
+				std::memset(&_storage, 0, sizeof(function_storage));
+					if _MSTD_CONSTEXPR17 (is_function_ptr_v<FreeFunc>) {
+						_storage.func_ptr = reinterpret_cast<void (*)()>(freeFunc);
+					}
+					else { _storage.func_ptr = reinterpret_cast<void (*)()>(&freeFunc); }
 				return *this;
 			}
 
@@ -152,19 +190,10 @@ namespace mstd {
 		#else
 			template<class MemberFunc, std::enable_if_t<is_valid_member_function_v<MemberFunc>, bool> = true>
 		#endif
-			base_function_view(function_parent_t<MemberFunc>* parentPtr, MemberFunc&& memberFunc) noexcept
-				: _func(memberFunc), _parent(parentPtr), _invoker(&_member_func_invoker<MemberFunc>) {
-			}
-
-		#pragma region MEMBER_FUNCTIONS
-		#if _MSTD_HAS_CXX20
-			template<class MemberFunc>
-			requires (is_valid_member_function_v<MemberFunc>)
-		#else
-			template<class MemberFunc, std::enable_if_t<is_valid_member_function_v<MemberFunc>, bool> = true>
-		#endif
-			base_function_view(const function_parent_t<MemberFunc>* parentPtr, MemberFunc&& memberFunc) noexcept
-				: _func(memberFunc), _parent(parentPtr), _invoker(&_member_func_invoker<MemberFunc>) {
+			base_function_view(function_parent_t<remove_cvref_t<MemberFunc> >* parentPtr, MemberFunc&& memberFunc) noexcept
+				: _parent(parentPtr), _invoker(&_member_func_invoker<remove_cvref_t<MemberFunc> >) {
+				std::memset(&_storage, 0, sizeof(function_storage));
+				std::memcpy(_storage.mem_func_buffer, &memberFunc, sizeof(MemberFunc));
 			}
 
 		#if _MSTD_HAS_CXX20
@@ -173,9 +202,10 @@ namespace mstd {
 		#else
 			template<class MemberFunc, std::enable_if_t<is_valid_member_function_v<MemberFunc>, bool> = true>
 		#endif
-			base_function_view(std::pair<function_parent_t<MemberFunc>*, MemberFunc>&& pair) noexcept
-				: _func(const_cast<void*>(reinterpret_cast<const void*>(&pair.second))), _parent(pair.first),
-				  _invoker(&_member_func_invoker<MemberFunc>) {
+			base_function_view(const function_parent_t<remove_cvref_t<MemberFunc> >* parentPtr, MemberFunc&& memberFunc) noexcept
+				: _parent(parentPtr), _invoker(&_member_func_invoker<remove_cvref_t<MemberFunc> >) {
+				std::memset(&_storage, 0, sizeof(function_storage));
+				std::memcpy(_storage.mem_func_buffer, memberFunc, sizeof(MemberFunc));
 			}
 
 		#if _MSTD_HAS_CXX20
@@ -184,9 +214,10 @@ namespace mstd {
 		#else
 			template<class MemberFunc, std::enable_if_t<is_valid_member_function_v<MemberFunc>, bool> = true>
 		#endif
-			base_function_view(const std::pair<function_parent_t<MemberFunc>*, MemberFunc>& pair) noexcept
-				: _func(const_cast<void*>(reinterpret_cast<const void*>(&pair.second))), _parent(pair.first),
-				  _invoker(&_member_func_invoker<MemberFunc>) {
+			base_function_view(std::pair<function_parent_t<remove_cvref_t<MemberFunc> >*, MemberFunc>&& pair) noexcept
+				: _parent(pair.first), _invoker(&_member_func_invoker<remove_cvref_t<MemberFunc> >) {
+				std::memset(&_storage, 0, sizeof(function_storage));
+				std::memcpy(_storage.mem_func_buffer, &pair.second, sizeof(MemberFunc));
 			}
 
 		#if _MSTD_HAS_CXX20
@@ -195,10 +226,25 @@ namespace mstd {
 		#else
 			template<class MemberFunc, std::enable_if_t<is_valid_member_function_v<MemberFunc>, bool> = true>
 		#endif
-			base_function_view& operator=(std::pair<function_parent_t<MemberFunc>*, MemberFunc>&& pair) noexcept {
-				_func	 = const_cast<void*>(reinterpret_cast<const void*>(&pair.second));
+			base_function_view(const std::pair<function_parent_t<remove_cvref_t<MemberFunc> >*, MemberFunc>& pair) noexcept
+				: _parent(pair.first), _invoker(&_member_func_invoker<remove_cvref_t<MemberFunc> >) {
+				std::memset(&_storage, 0, sizeof(function_storage));
+				std::memcpy(_storage.mem_func_buffer, &pair.second, sizeof(MemberFunc));
+			}
+
+		#if _MSTD_HAS_CXX20
+			template<class MemberFunc>
+			requires (is_valid_member_function_v<MemberFunc>)
+		#else
+			template<class MemberFunc, std::enable_if_t<is_valid_member_function_v<MemberFunc>, bool> = true>
+		#endif
+			base_function_view& operator=(
+			  std::pair<function_parent_t<remove_cvref_t<MemberFunc> >*, MemberFunc>&& pair
+			) noexcept {
+				std::memset(&_storage, 0, sizeof(function_storage));
+				std::memcpy(_storage.mem_func_buffer, &pair.second, sizeof(MemberFunc));
 				_parent	 = pair.first;
-				_invoker = &_member_func_invoker<MemberFunc>;
+				_invoker = &_member_func_invoker<remove_cvref_t<MemberFunc> >;
 				return *this;
 			}
 
@@ -208,10 +254,13 @@ namespace mstd {
 		#else
 			template<class MemberFunc, std::enable_if_t<is_valid_member_function_v<MemberFunc>, bool> = true>
 		#endif
-			base_function_view& operator=(const std::pair<function_parent_t<MemberFunc>*, MemberFunc>& pair) noexcept {
-				_func	 = const_cast<void*>(reinterpret_cast<const void*>(&pair.second));
+			base_function_view& operator=(
+			  const std::pair<function_parent_t<remove_cvref_t<MemberFunc> >*, MemberFunc>& pair
+			) noexcept {
+				std::memset(&_storage, 0, sizeof(function_storage));
+				std::memcpy(_storage.mem_func_buffer, &pair.second, sizeof(MemberFunc));
 				_parent	 = pair.first;
-				_invoker = &_member_func_invoker<MemberFunc>;
+				_invoker = &_member_func_invoker<remove_cvref_t<MemberFunc> >;
 				return *this;
 			}
 
@@ -224,7 +273,9 @@ namespace mstd {
 		#else
 			template<class Functor, std::enable_if_t<is_valid_functor_v<Functor, false>, bool> = true>
 		#endif
-			base_function_view(Functor& functor) noexcept : _func(&functor), _invoker(&_functor_invoker<Functor>) {
+			base_function_view(Functor& functor) noexcept : _invoker(&_functor_invoker<Functor>) {
+				std::memset(&_storage, 0, sizeof(function_storage));
+				_storage.functor_ptr = &functor;
 			}
 
 		#if _MSTD_HAS_CXX20
@@ -233,8 +284,9 @@ namespace mstd {
 		#else
 			template<class Functor, std::enable_if_t<is_valid_functor_v<Functor, true>, bool> = true>
 		#endif
-			base_function_view(const Functor& functor) noexcept
-				: _func(const_cast<void*>(static_cast<const void*>(&functor))), _invoker(&_functor_invoker<const Functor>) {
+			base_function_view(const Functor& functor) noexcept : _invoker(&_functor_invoker<const Functor>) {
+				std::memset(&_storage, 0, sizeof(function_storage));
+				_storage.functor_ptr = &functor;
 			}
 
 		#if _MSTD_HAS_CXX20
@@ -252,8 +304,9 @@ namespace mstd {
 			template<class Functor, std::enable_if_t<is_valid_functor_v<Functor, false>, bool> = true>
 		#endif
 			base_function_view& operator=(Functor& functor) noexcept {
-				_func	 = &functor;
-				_invoker = &_functor_invoker<Functor>;
+				std::memset(&_storage, 0, sizeof(function_storage));
+				_storage.functor_ptr = &functor;
+				_invoker			 = &_functor_invoker<Functor>;
 				return *this;
 			}
 
@@ -264,8 +317,9 @@ namespace mstd {
 			template<class Functor, std::enable_if_t<is_valid_functor_v<Functor, true>, bool> = true>
 		#endif
 			base_function_view& operator=(const Functor& functor) noexcept {
-				_func	 = static_cast<void*>(const_cast<Functor*>(&functor));
-				_invoker = &_functor_invoker<const Functor>;
+				std::memset(&_storage, 0, sizeof(function_storage));
+				_storage.functor_ptr = &functor;
+				_invoker			 = &_functor_invoker<const Functor>;
 				return *this;
 			}
 
@@ -279,7 +333,7 @@ namespace mstd {
 		#pragma endregion
 
 			void reset() noexcept {
-				_func	 = nullptr;
+				std::memset(&_storage, 0, sizeof(function_storage));
 				_parent	 = nullptr;
 				_invoker = nullptr;
 			}
@@ -290,8 +344,8 @@ namespace mstd {
 		#else
 			template<class... InvokeArgs, std::enable_if_t<std::is_invocable_v<F, InvokeArgs...>, bool> = true>
 		#endif
-			Ret invoke(InvokeArgs&&... args) const noexcept(is_noexcept_function_v<F>) {
-				return _invoker(_func, _parent, std::forward<InvokeArgs>(args)...);
+			[[nodiscard]] Ret invoke(InvokeArgs&&... args) const noexcept(is_noexcept_function_v<F>) {
+				return _invoker(_storage, _parent, std::forward<InvokeArgs>(args)...);
 			}
 
 		#if _MSTD_HAS_CXX20
@@ -300,9 +354,35 @@ namespace mstd {
 		#else
 			template<class... InvokeArgs, std::enable_if_t<std::is_invocable_v<F, InvokeArgs...>, bool> = true>
 		#endif
-			Ret operator()(InvokeArgs&&... args) const noexcept(is_noexcept_function_v<F>) {
+			[[nodiscard]] Ret operator()(InvokeArgs&&... args) const noexcept(is_noexcept_function_v<F>) {
 				return invoke(std::forward<InvokeArgs>(args)...);
 			}
+
+			[[nodiscard]] operator bool() const noexcept { return operator!=(nullptr); }
+
+			[[nodiscard]] bool operator!() const noexcept { return !static_cast<bool>(*this); }
+
+			[[nodiscard]] bool operator==(const base_function_view& other) const noexcept {
+					if (_parent != other._parent) { return false; }
+					if (_invoker != other._invoker) { return false; }
+
+					if (_invoker == nullptr) { return true; }
+
+				return std::memcmp(&_storage, &other._storage, sizeof(function_storage)) == 0;
+			}
+
+			[[nodiscard]] bool operator!=(const base_function_view& other) const noexcept
+		#if _MSTD_HAS_CXX20
+			  = default;
+		#else
+			{
+				return !operator==(other);
+			}
+		#endif
+
+			[[nodiscard]] bool operator==(std::nullptr_t) const noexcept { return _invoker == nullptr; }
+
+			[[nodiscard]] bool operator!=(std::nullptr_t) const noexcept { return !operator==(nullptr); }
 		};
 
 		template<class F>
@@ -332,7 +412,10 @@ namespace mstd {
 		  !is_noexcept_function_v<F> || (is_noexcept_function_v<F> && is_noexcept_function_v<Func>);
 
 	public:
-		function_view() noexcept					 = default;
+		function_view() noexcept = default;
+
+		function_view(nullptr_t) noexcept : _base(nullptr) {}
+
 		function_view(const function_view&) noexcept = default;
 		function_view(function_view&&) noexcept		 = default;
 		~function_view() noexcept override			 = default;
@@ -387,60 +470,7 @@ namespace mstd {
 		function_view& operator=(const function_view&) noexcept = default;
 		function_view& operator=(function_view&&) noexcept		= default;
 
-		#if _MSTD_HAS_CXX20
-		template<class Func>
-		requires (!std::is_same_v<mstd::remove_cvref_t<Func>, function_view> && can_be_noexcept_v<Func>)
-		#else
-		template<class Func,
-		  std::enable_if_t<!std::is_same_v<mstd::remove_cvref_t<Func>, function_view> && can_be_noexcept_v<Func>, bool> = true>
-		#endif
-		function_view& operator=(Func& func) noexcept {
-			_base::operator=(func);
-			return *this;
-		}
-
-		#if _MSTD_HAS_CXX20
-		template<class Func>
-		requires (!std::is_same_v<mstd::remove_cvref_t<Func>, function_view> && can_be_noexcept_v<Func>)
-		#else
-		template<class Func,
-		  std::enable_if_t<!std::is_same_v<mstd::remove_cvref_t<Func>, function_view> && can_be_noexcept_v<Func>, bool> = true>
-		#endif
-		function_view& operator=(const Func& func) noexcept {
-			_base::operator=(func);
-			return *this;
-		}
-
-		#if _MSTD_HAS_CXX20
-		template<class Func>
-		requires (!std::is_same_v<std::decay_t<Func>, function_view> && can_be_noexcept_v<Func>)
-		#else
-		template<class Func,
-		  std::enable_if_t<!std::is_same_v<std::decay_t<Func>, function_view> && can_be_noexcept_v<Func>, bool> = true>
-		#endif
-		function_view& operator=(Func&& func) noexcept = delete;
-
-		#if _MSTD_HAS_CXX20
-		template<class MemberFunc>
-		requires (can_be_noexcept_v<MemberFunc>)
-		#else
-		template<class MemberFunc, std::enable_if_t<can_be_noexcept_v<MemberFunc>, bool> = true>
-		#endif
-		function_view& operator=(const std::pair<function_parent_t<MemberFunc>*, MemberFunc>& pair) noexcept {
-			_base::operator=(pair);
-			return *this;
-		}
-
-		#if _MSTD_HAS_CXX20
-		template<class MemberFunc>
-		requires (can_be_noexcept_v<MemberFunc>)
-		#else
-		template<class MemberFunc, std::enable_if_t<can_be_noexcept_v<MemberFunc>, bool> = true>
-		#endif
-		function_view& operator=(std::pair<function_parent_t<MemberFunc>*, MemberFunc>&& pair) noexcept {
-			_base::operator=(pair);
-			return *this;
-		}
+		using _base::operator=;
 	};
 } // namespace mstd
 

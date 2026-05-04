@@ -3,7 +3,6 @@
 	#define _MSTD_TESTS_PCH_HPP_
 
 	#include <gtest/gtest.h>
-	#include <mstd/mstd.hpp>
 	#include <string>
 	#include <type_traits>
 	#include <unordered_set>

@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <pch.hpp>
+#include <mstd/bit_operations.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_BIT_OPERATIONS, ALL) {

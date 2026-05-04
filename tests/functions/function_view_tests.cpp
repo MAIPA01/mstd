@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <mstd/function_view.hpp>
 #include <pch.hpp>
 
 namespace mstd::tests {
@@ -117,5 +118,69 @@ namespace mstd::tests {
 		static_assert(utils::is_valid_member_function_v<decltype(&Mock::mem_noexcept), SigNoexcept, int, int>);
 
 		static_assert(!utils::is_valid_member_function_v<decltype(&Mock::mem_const), SigNoexcept, int, int>);
+	}
+
+	// function_view eq test
+	struct SaveFunctionViewMock {
+		mstd::function_view<int(int)> saved_func = nullptr;
+	};
+
+	struct SetSelfFunctionViewMock {
+		int a = 0;
+
+		int function(const int x) const { return x + a; }
+
+		void set_function(SaveFunctionViewMock& mock) {
+			mock.saved_func = std::make_pair(this, &SetSelfFunctionViewMock::function);
+		}
+	};
+
+	TEST(FunctionViewTest, SaveAndResetFunction) {
+		SaveFunctionViewMock m;
+		m.saved_func = nullptr;
+
+		m.saved_func.reset();
+
+		ASSERT_TRUE(m.saved_func == nullptr);
+		ASSERT_FALSE(m.saved_func != nullptr);
+		ASSERT_FALSE(m.saved_func);
+		ASSERT_TRUE(!m.saved_func);
+		ASSERT_TRUE(m.saved_func == m.saved_func);
+		ASSERT_FALSE(m.saved_func != m.saved_func);
+
+		{ m.saved_func = free_func; }
+
+		{
+			ASSERT_TRUE(m.saved_func == m.saved_func);
+			ASSERT_TRUE(m.saved_func == free_func);
+			ASSERT_EQ(m.saved_func(1), 2);
+		}
+
+		Mock mo;
+		mo.val = 10;
+		{ m.saved_func = std::make_pair(&mo, &Mock::mem_const); }
+
+		{
+			ASSERT_TRUE(m.saved_func == m.saved_func);
+			ASSERT_TRUE(m.saved_func == std::make_pair(&mo, &Mock::mem_const));
+			ASSERT_EQ(m.saved_func(1), 11);
+		}
+
+		{ m.saved_func = mstd::function_view<int(int)>(&mo, &Mock::mem_const); }
+
+		{
+			ASSERT_TRUE(m.saved_func == m.saved_func);
+			ASSERT_TRUE(m.saved_func == mstd::function_view<int(int)>(&mo, &Mock::mem_const));
+			ASSERT_EQ(m.saved_func(1), 11);
+		}
+
+		SetSelfFunctionViewMock s;
+		{ s.set_function(m); }
+
+		{
+			ASSERT_TRUE(m.saved_func == m.saved_func);
+			ASSERT_TRUE(m.saved_func == std::make_pair(&s, &SetSelfFunctionViewMock::function));
+			ASSERT_EQ(m.saved_func(1), 1);
+		}
 	}
 } // namespace mstd::tests

@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <pch.hpp>
+#include <mstd/stable_vector.hpp>
 
 namespace mstd::test {
 

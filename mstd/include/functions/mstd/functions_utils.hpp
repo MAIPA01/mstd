@@ -20,5 +20,7 @@ _MSTD_WARNING("this is only available for c++17 and greater!");
 		#include <mstd/function_traits.hpp>
 		#include <mstd/functions_libs.hpp>
 
+		#include <mstd/management_utils.hpp>
+
 	#endif
 #endif

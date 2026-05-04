@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <pch.hpp>
+#include <mstd/flags.hpp>
 
 enum class TestEnum : uint8_t {
 	None = 0,

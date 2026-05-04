@@ -17,6 +17,7 @@
 _MSTD_WARNING("this is only available for c++17 and greater!");
 	#else
 
+		#include <fmt/base.h>
 		#include <algorithm>
 		#include <initializer_list>
 		#include <map>

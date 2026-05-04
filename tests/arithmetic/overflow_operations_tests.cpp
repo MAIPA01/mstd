@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <pch.hpp>
+#include <mstd/overflow_operations.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_OVERFLOW_OPERATIONS, ALL) {

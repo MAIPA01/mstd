@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <pch.hpp>
+#include <mstd/bimap.hpp>
 
 namespace mstd::test {
 	class BimapTest : public ::testing::Test {
