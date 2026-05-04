@@ -1,0 +1,11 @@
+<map id="mstd::utils::function_storage" name="mstd::utils::function_storage">
+<area shape="rect" id="Node000001" title=" " alt="" coords="108,104,245,147"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,60,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="37,44,46,63,56,78,81,96,110,110,105,111,78,101,53,82,41,66,37,50"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="101,5,167,32"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,45,137,79,154,104,149,103,132,81,129,50"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="196,5,242,32"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="211,45,187,105,183,102,206,48"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="266,5,708,32"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="441,37,319,83,245,106,244,101,317,77,436,38"/>
+</map>
