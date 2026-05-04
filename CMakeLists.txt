@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(mstd VERSION 1.5.3 LANGUAGES CXX)
+project(mstd VERSION 1.5.4 LANGUAGES CXX)
 
 option(MSTD_BUILD_TESTS 				"Build mstd tests" 				${PROJECT_IS_TOP_LEVEL})
 option(MSTD_BUILD_COVERAGE 				"Enable coverage reporting"		${PROJECT_IS_TOP_LEVEL})

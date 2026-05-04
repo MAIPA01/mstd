@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <pch.hpp>
+#include <mstd/isstrnum.hpp>
 
 namespace mstd::test {
 	TEST(StrValidatorTest, IsHex) {

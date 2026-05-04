@@ -6,6 +6,7 @@ var annotated_dup =
         [ "function_core_traits", "df/db9/structmstd_1_1utils_1_1function__core__traits.html", null ],
         [ "function_core_traits&lt; R(Args...), void &gt;", "d3/d07/structmstd_1_1utils_1_1function__core__traits_3_01_r_07_args_8_8_8_08_00_01void_01_4.html", "d3/d07/structmstd_1_1utils_1_1function__core__traits_3_01_r_07_args_8_8_8_08_00_01void_01_4" ],
         [ "function_core_traits&lt; R(Args...), C &gt;", "d1/d4f/structmstd_1_1utils_1_1function__core__traits_3_01_r_07_args_8_8_8_08_00_01_c_01_4.html", "d1/d4f/structmstd_1_1utils_1_1function__core__traits_3_01_r_07_args_8_8_8_08_00_01_c_01_4" ],
+        [ "function_storage", "db/d76/structmstd_1_1utils_1_1function__storage.html", "db/d76/structmstd_1_1utils_1_1function__storage" ],
         [ "base_function_view", "d0/dec/structmstd_1_1utils_1_1base__function__view.html", null ],
         [ "base_function_view&lt; F, Ret, std::tuple&lt; Args... &gt; &gt;", "dd/d5b/structmstd_1_1utils_1_1base__function__view_3_01_f_00_01_ret_00_01std_1_1tuple_3_01_args_8_8_8_01_4_01_4.html", "dd/d5b/structmstd_1_1utils_1_1base__function__view_3_01_f_00_01_ret_00_01std_1_1tuple_3_01_args_8_8_8_01_4_01_4" ],
         [ "c_func_impl", "d1/dd9/structmstd_1_1utils_1_1c__func__impl.html", null ],

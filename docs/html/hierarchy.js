@@ -230,6 +230,7 @@ var hierarchy =
     [ "mstd::utils::function_default_type_traits&lt; true &gt;", "d0/d74/structmstd_1_1utils_1_1function__default__type__traits.html", [
       [ "mstd::function_traits< R(Args...), C >", "dd/db6/structmstd_1_1function__traits_3_01_r_07_args_8_8_8_08_00_01_c_01_4.html", null ]
     ] ],
+    [ "mstd::utils::function_storage", "db/d76/structmstd_1_1utils_1_1function__storage.html", null ],
     [ "mstd::utils::if_impl&lt; Condition, TrueValue, FalseValue &gt;", "dc/d3f/structmstd_1_1utils_1_1if__impl.html", null ],
     [ "mstd::utils::if_impl&lt; true, TrueValue, FalseValue &gt;", "d5/dad/structmstd_1_1utils_1_1if__impl_3_01true_00_01_true_value_00_01_false_value_01_4.html", null ],
     [ "std::is_same", null, [

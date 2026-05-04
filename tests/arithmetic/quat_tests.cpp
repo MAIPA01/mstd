@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <pch.hpp>
+#include <mstd/quat.hpp>
 
 namespace mstd::test {
 	TEST(ARITHMETIC_TESTS_QUAT, ALL) {

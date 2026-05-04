@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <pch.hpp>
+#include <mstd/strtonum.hpp>
 
 namespace mstd::test {
 	TEST(StrNumTest, HexadecimalParsing) {
