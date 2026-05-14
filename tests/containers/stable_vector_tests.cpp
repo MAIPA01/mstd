@@ -174,6 +174,83 @@ namespace mstd::test {
 		EXPECT_EQ(container.at(5), 50);
 	}
 
+	TEST_F(StableVectorTest, EmplaceBackAndErase) {
+		EXPECT_EQ(container.size(), 0);
+
+		container.emplace_back(0);
+		EXPECT_TRUE(container.has_value(0));
+		EXPECT_EQ(container.get_next_id(), 1);
+		EXPECT_EQ(container.size(), 1);
+
+		container.emplace_back(0);
+		EXPECT_TRUE(container.has_value(1));
+		EXPECT_EQ(container.get_next_id(), 2);
+		EXPECT_EQ(container.size(), 2);
+
+		container.emplace_back(0);
+		EXPECT_TRUE(container.has_value(2));
+		EXPECT_EQ(container.get_next_id(), 3);
+		EXPECT_EQ(container.size(), 3);
+
+		container.emplace_back(0);
+		EXPECT_TRUE(container.has_value(3));
+		EXPECT_EQ(container.get_next_id(), 4);
+		EXPECT_EQ(container.size(), 4);
+
+		container.emplace_back(0);
+		EXPECT_TRUE(container.has_value(4));
+		EXPECT_EQ(container.get_next_id(), 5);
+		EXPECT_EQ(container.size(), 5);
+
+		// ADD 5
+		container.emplace_back(0);
+		EXPECT_TRUE(container.has_value(5));
+		EXPECT_FALSE(container.has_value(6));
+		EXPECT_FALSE(container.has_value(7));
+		EXPECT_EQ(container.get_next_id(), 6);
+		EXPECT_EQ(container.size(), 6);
+
+		// ADD 6
+		container.emplace_back(0);
+		EXPECT_TRUE(container.has_value(5));
+		EXPECT_TRUE(container.has_value(6));
+		EXPECT_FALSE(container.has_value(7));
+		EXPECT_EQ(container.get_next_id(), 7);
+		EXPECT_EQ(container.size(), 7);
+
+		// ADD 7
+		container.emplace_back(0);
+		EXPECT_TRUE(container.has_value(5));
+		EXPECT_TRUE(container.has_value(6));
+		EXPECT_TRUE(container.has_value(7));
+		EXPECT_EQ(container.get_next_id(), 8);
+		EXPECT_EQ(container.size(), 8);
+
+		// REMOVE 5
+		container.erase(5);
+		EXPECT_FALSE(container.has_value(5));
+		EXPECT_TRUE(container.has_value(6));
+		EXPECT_TRUE(container.has_value(7));
+		EXPECT_EQ(container.get_next_id(), 5);
+		EXPECT_EQ(container.size(), 8);
+
+		// REMOVE 6
+		container.erase(6);
+		EXPECT_FALSE(container.has_value(5));
+		EXPECT_FALSE(container.has_value(6));
+		EXPECT_TRUE(container.has_value(7));
+		EXPECT_EQ(container.get_next_id(), 6);
+		EXPECT_EQ(container.size(), 8);
+
+		// REMOVE 7
+		container.erase(7);
+		EXPECT_FALSE(container.has_value(5));
+		EXPECT_FALSE(container.has_value(6));
+		EXPECT_FALSE(container.has_value(7));
+		EXPECT_EQ(container.get_next_id(), 5);
+		EXPECT_EQ(container.size(), 5);
+	}
+
 	TEST_F(StableVectorTest, TryAtReturnsPointerOrNull) {
 		container.insert_at(5, 500);
 

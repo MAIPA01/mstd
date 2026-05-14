@@ -273,28 +273,39 @@ namespace mstd {
 				if (!has_value(id)) { return _data.end(); }
 
 			// get data index
-			size_t index	 = _toData[id];
-			size_t lastIndex = _data.size() - 1;
+			size_t dataIndex	 = _toData[id];
+			size_t lastDataIndex = _data.size() - 1;
 
-			// swap data
-			std::swap(_data[index], _data[lastIndex]);
+			// swap data (move current to back)
+			std::swap(_data[dataIndex], _data[lastDataIndex]);
 
-			// swap ids
-			std::swap(_toId[index], _toId[lastIndex]);
+			// swap ids (move to same position as data)
+			std::swap(_toId[dataIndex], _toId[lastDataIndex]);
 
-			// erase last item
-			auto itr = _data.erase(std::prev(_data.cend()));
+			// erase last item in data
+			_data.pop_back();
 
-			// update indexes
-			std::swap(_toData[_toId[index]], _toData[id]);
+			// update indexes (update to data pointers)
+			std::swap(_toData[_toId[dataIndex]], _toData[id]);
 
-				// change size if it is possible
-				if (_toData[lastIndex] == lastIndex) {
-					_toData.erase(std::prev(_toData.cend()));
-					_toId.erase(std::prev(_toId.cend()));
-				}
+			// if last id was not freed then we don't need to shrink toData and toId
+			if (id != _toData.size() - 1) {
+				return _data.end();
+			}
 
-			return itr;
+			// shrink toData and toId to last possible id
+			while (!_toData.empty() && !has_value(_toData.size() - 1)) {
+				size_t lastId = _toData.size() - 1;
+				size_t swapId = _toId[lastId];
+
+				std::swap(_toData[swapId], _toData[lastId]);
+				std::swap(_toId[swapId], _toId[lastId]);
+
+				_toData.pop_back();
+				_toId.pop_back();
+			}
+
+			return _data.end();
 		}
 
 		_MSTD_CONSTEXPR20 iterator erase(iterator pos) {
