@@ -100,6 +100,12 @@ namespace mstd {
 			_insert(std::forward<U>(value));
 		}
 
+		_MSTD_CONSTEXPR20 iterator _erase(const std::vector<size_t>& indexes) {
+			iterator iter = end();
+				for (const auto& idx : indexes) { iter = erase(idx); }
+			return iter;
+		}
+
 		template<class U>
 		_MSTD_CONSTEXPR20 void _resize(const size_type count, U&& value) {
 			_append_indexes(count - size());
@@ -167,18 +173,20 @@ namespace mstd {
 		_MSTD_CONSTEXPR20 iterator insert_at(const size_type id, value_type&& value) { return _insert_at(id, std::move(value)); }
 
 		_MSTD_CONSTEXPR20 iterator insert_at(const size_type id, const value_type& value, const size_type count) {
-				for (size_t i = 0; i < count; ++i) { _insert_at(id + i, value); }
-			return std::next(_data.begin(), _toData[id]);
+			iterator iter = end();
+				for (size_t i = 0; i < count; ++i) { iter = _insert_at(id + i, value); }
+			return iter;
 		}
 
 		#if _MSTD_HAS_CXX20
-		template<mstd::iterator_of<value_type> Iter>
+		template<iterator_of<value_type> Iter>
 		#else
 		template<class Iter, std::enable_if_t<is_iterator_of_v<Iter, value_type>, bool> = true>
 		#endif
 		_MSTD_CONSTEXPR20 iterator insert_at(size_type id, Iter first, Iter last) {
-				for (Iter it = first; it != last; ++it, ++id) { insert_at(id, *it); }
-			return std::next(_data.begin(), _toData[id]);
+			iterator iter = end();
+				for (Iter it = first; it != last; ++it, ++id) { iter = insert_at(id, *it); }
+			return iter;
 		}
 
 		_MSTD_CONSTEXPR20 iterator insert_at(const size_type id, std::initializer_list<value_type> init) {
@@ -288,46 +296,62 @@ namespace mstd {
 			// update indexes (update to data pointers)
 			std::swap(_toData[_toId[dataIndex]], _toData[id]);
 
-			// if last id was not freed then we don't need to shrink toData and toId
-			if (id != _toData.size() - 1) {
-				return _data.end();
-			}
+				// // if last id was not freed then we don't need to shrink toData and toId
+				// if (id != _toData.size() - 1) { return end(); }
 
-			// shrink toData and toId to last possible id
-			while (!_toData.empty() && !has_value(_toData.size() - 1)) {
-				size_t lastId = _toData.size() - 1;
-				size_t swapId = _toId[lastId];
+				// shrink toData and toId to last possible id
+				while (!_toData.empty() && !has_value(_toData.size() - 1)) {
+					size_t lastId		 = _toData.size() - 1;
 
-				std::swap(_toData[swapId], _toData[lastId]);
-				std::swap(_toId[swapId], _toId[lastId]);
+					size_t posInToId	 = _toData[lastId];
+					size_t lastPosInToId = _toId.size() - 1;
 
-				_toData.pop_back();
-				_toId.pop_back();
-			}
+						if (posInToId != lastPosInToId) {
+							size_t idAtLastPos = _toId[lastPosInToId];
 
-			return _data.end();
+							std::swap(_toId[posInToId], _toId[lastPosInToId]);
+							std::swap(_toData[lastId], _toData[idAtLastPos]);
+						}
+
+					_toData.pop_back();
+					_toId.pop_back();
+				}
+
+			return end();
+		}
+
+		_MSTD_CONSTEXPR20 iterator erase(const size_type firstId, const size_type endId) {
+			iterator iter = end();
+				for (size_t i = firstId; i < endId; ++i) { iter = erase(i); }
+			return iter;
 		}
 
 		_MSTD_CONSTEXPR20 iterator erase(iterator pos) {
-			mstd_assert(pos == _data.end(), "Pos out of bounds");
-			return erase(std::distance(_data.begin(), pos));
+			mstd_assert(pos != _data.end(), "Pos out of bounds");
+			return erase(get_id(pos));
 		}
 
 		_MSTD_CONSTEXPR20 iterator erase(const_iterator pos) {
-			mstd_assert(pos == _data.cend(), "Pos out of bounds");
-			return erase(std::distance(_data.cbegin(), pos));
+			mstd_assert(pos != _data.cend(), "Pos out of bounds");
+			return erase(get_id(pos));
 		}
 
 		_MSTD_CONSTEXPR20 iterator erase(iterator first, iterator last) {
-			iterator iter;
-				for (iterator it = first; it != last; ++it) { iter = erase(it); }
-			return iter;
+			std::vector<size_t> idsToErase = {};
+			idsToErase.reserve(std::distance(first, last));
+
+				for (iterator it = first; it != last; ++it) { idsToErase.push_back(get_id(it)); }
+
+			return _erase(idsToErase);
 		}
 
 		_MSTD_CONSTEXPR20 iterator erase(const_iterator first, const_iterator last) {
-			iterator iter;
-				for (const_iterator it = first; it != last; ++it) { iter = erase(it); }
-			return iter;
+			std::vector<size_t> idsToErase = {};
+			idsToErase.reserve(std::distance(first, last));
+
+				for (const_iterator it = first; it != last; ++it) { idsToErase.push_back(get_id(it)); }
+
+			return _erase(idsToErase);
 		}
 
 		_MSTD_CONSTEXPR20 void reserve(const size_type capacity) {
@@ -493,16 +517,26 @@ namespace mstd {
 
 		[[nodiscard]] const value_type* data() const { return _data.data(); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(const stable_vector& other) const {
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(const stable_vector& other) const
+		#if _MSTD_HAS_CXX20
+		  = default;
+		#else
+		{
 			return _data == other._data && _toId == other._toId && _toData == other._toData;
 		}
+		#endif
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(const stable_vector& other) const { return !(*this == other); }
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(const stable_vector& other) const
+		#if _MSTD_HAS_CXX20
+		  = default;
+		#else
+		{
+			return !(*this == other);
+		}
+		#endif
 
 		#if _MSTD_HAS_CXX20
-		[[nodiscard]] _MSTD_CONSTEXPR20 auto operator<=>(const stable_vector& other) const {
-			return _data <=> other._data && _toId <=> other._toId && _toData <=> other._toData;
-		}
+		[[nodiscard]] _MSTD_CONSTEXPR20 auto operator<=>(const stable_vector& other) const = default;
 		#else
 		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<(const stable_vector& other) const {
 			return _data < other._data && _toId < other._toId && _toData < other._toData;

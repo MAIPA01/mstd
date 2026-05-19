@@ -518,4 +518,155 @@ namespace mstd::test {
 			ASSERT_TRUE(true);
 		}
 	}
+
+	TEST_F(StableVectorTest, CopyConstructorAndAssignment) {
+		container = { 10, 20, 30 };
+		container.erase(1);
+
+		const mstd::stable_vector<int> copy_constructed(container);
+		EXPECT_EQ(copy_constructed.size(), 3);
+		EXPECT_EQ(copy_constructed.active_slots(), 2);
+		EXPECT_TRUE(copy_constructed.has_value(0));
+		EXPECT_FALSE(copy_constructed.has_value(1));
+		EXPECT_TRUE(copy_constructed.has_value(2));
+
+		mstd::stable_vector<int> copy_assigned;
+		copy_assigned = container;
+		EXPECT_EQ(copy_assigned.active_slots(), 2);
+		EXPECT_EQ(copy_assigned.at(2), 30);
+	}
+
+	TEST_F(StableVectorTest, MoveConstructorAndAssignment) {
+		mstd::stable_vector<int> original = { 1, 2, 3 };
+
+		mstd::stable_vector<int> move_constructed(std::move(original));
+		EXPECT_EQ(move_constructed.active_slots(), 3);
+		EXPECT_EQ(move_constructed.at(1), 2);
+		EXPECT_TRUE(original.empty());
+
+		mstd::stable_vector<int> move_assigned;
+		move_assigned = std::move(move_constructed);
+		EXPECT_EQ(move_assigned.active_slots(), 3);
+		EXPECT_EQ(move_assigned.at(2), 3);
+	}
+
+	TEST_F(StableVectorTest, EraseIteratorRange) {
+		container = { 10, 20, 30, 40, 50 }; // ID: 0, 1, 2, 3, 4
+
+		const auto first = std::next(container.begin(), 1); // 20
+		const auto last = std::next(container.begin(), 3);  // 40
+
+		container.erase(first, last);
+
+		EXPECT_EQ(container.active_slots(), 3);
+		EXPECT_TRUE(container.has_value(0));
+		EXPECT_FALSE(container.has_value(1)); // 20 deleted
+		EXPECT_FALSE(container.has_value(2)); // 30 deleted
+		EXPECT_TRUE(container.has_value(3));
+		EXPECT_TRUE(container.has_value(4));
+
+		EXPECT_EQ(container.at(0), 10);
+		EXPECT_EQ(container.at(3), 40);
+		EXPECT_EQ(container.at(4), 50);
+	}
+
+	TEST_F(StableVectorTest, DeepFreeListRecycling) {
+		container = { 0, 10, 20, 30, 40 }; // IDs: 0, 1, 2, 3, 4
+
+		container.erase(1);
+		container.erase(3);
+
+		EXPECT_EQ(container.active_slots(), 3);
+		EXPECT_FALSE(container.has_value(1));
+		EXPECT_FALSE(container.has_value(3));
+
+		container.push_back(99);
+		container.push_back(88);
+
+		EXPECT_EQ(container.active_slots(), 5);
+		EXPECT_TRUE(container.has_value(1));
+		EXPECT_TRUE(container.has_value(3));
+
+		EXPECT_EQ(container.at(3), 99);
+		EXPECT_EQ(container.at(1), 88);
+	}
+
+	TEST_F(StableVectorTest, ClearRemovesAllElements) {
+		container = { 1, 2, 3 };
+		container.clear();
+
+		EXPECT_TRUE(container.empty());
+		EXPECT_EQ(container.active_slots(), 0);
+		EXPECT_EQ(container.size(), 0); // clear()
+	}
+
+	TEST_F(StableVectorTest, SwapExchangesContents) {
+		mstd::stable_vector<int> v1 = { 1, 2 };
+		mstd::stable_vector<int> v2 = { 9, 8, 7 };
+
+		v1.swap(v2);
+
+		EXPECT_EQ(v1.active_slots(), 3);
+		EXPECT_EQ(v1.at(0), 9);
+
+		EXPECT_EQ(v2.active_slots(), 2);
+		EXPECT_EQ(v2.at(0), 1);
+	}
+
+	TEST_F(StableVectorTest, ReverseIteration) {
+		container = { 10, 20, 30 };
+
+		auto it = container.rbegin();
+		EXPECT_EQ(*it, 30);
+		++it;
+		EXPECT_EQ(*it, 20);
+		++it;
+		EXPECT_EQ(*it, 10);
+		++it;
+		EXPECT_EQ(it, container.rend());
+	}
+
+	TEST_F(StableVectorTest, IteratorRangeConstructor) {
+		std::vector<int> src = { 5, 10, 15 };
+		mstd::stable_vector<int> c(src.begin(), src.end());
+
+		EXPECT_EQ(c.size(), 3);
+		EXPECT_EQ(c.at(0), 5);
+		EXPECT_EQ(c.at(2), 15);
+	}
+
+	TEST_F(StableVectorTest, InsertIteratorRange) {
+		container.push_back(1);
+		std::vector<int> to_insert = { 2, 3 };
+
+		container.insert(to_insert.begin(), to_insert.end());
+
+		EXPECT_EQ(container.active_slots(), 3);
+		EXPECT_EQ(container.at(0), 1);
+		EXPECT_EQ(container.at(1), 2);
+		EXPECT_EQ(container.at(2), 3);
+	}
+
+	TEST_F(StableVectorTest, RelationalOperators) {
+		mstd::stable_vector<int> c1 = { 1, 2, 3 };
+		mstd::stable_vector<int> c2 = { 1, 2, 4 };
+		mstd::stable_vector<int> c3 = { 1, 2, 3, 4 };
+
+		#if _MSTD_HAS_CXX20
+		EXPECT_TRUE(c1 < c2);  // 3 < 4
+		#else
+		EXPECT_FALSE(c1 < c2);
+		#endif
+
+		EXPECT_TRUE(c1 <= c2);
+
+		#if _MSTD_HAS_CXX20
+		EXPECT_TRUE(c2 > c1);
+		#else
+		EXPECT_FALSE(c2 > c1);
+		#endif
+
+		EXPECT_TRUE(c2 >= c1);
+		EXPECT_TRUE(c1 < c3); // c1 is shorter
+	}
 } // namespace mstd::test
