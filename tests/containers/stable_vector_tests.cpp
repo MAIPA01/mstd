@@ -652,20 +652,9 @@ namespace mstd::test {
 		mstd::stable_vector<int> c2 = { 1, 2, 4 };
 		mstd::stable_vector<int> c3 = { 1, 2, 3, 4 };
 
-		#if _MSTD_HAS_CXX20
 		EXPECT_TRUE(c1 < c2);  // 3 < 4
-		#else
-		EXPECT_FALSE(c1 < c2);
-		#endif
-
 		EXPECT_TRUE(c1 <= c2);
-
-		#if _MSTD_HAS_CXX20
 		EXPECT_TRUE(c2 > c1);
-		#else
-		EXPECT_FALSE(c2 > c1);
-		#endif
-
 		EXPECT_TRUE(c2 >= c1);
 		EXPECT_TRUE(c1 < c3); // c1 is shorter
 	}

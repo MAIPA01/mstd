@@ -517,42 +517,36 @@ namespace mstd {
 
 		[[nodiscard]] const value_type* data() const { return _data.data(); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(const stable_vector& other) const
-		#if _MSTD_HAS_CXX20
-		  = default;
-		#else
-		{
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator==(const stable_vector& other) const {
 			return _data == other._data && _toId == other._toId && _toData == other._toData;
 		}
-		#endif
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(const stable_vector& other) const
-		#if _MSTD_HAS_CXX20
-		  = default;
-		#else
-		{
-			return !(*this == other);
-		}
-		#endif
+		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator!=(const stable_vector& other) const { return !(*this == other); }
 
 		#if _MSTD_HAS_CXX20
-		[[nodiscard]] _MSTD_CONSTEXPR20 auto operator<=>(const stable_vector& other) const = default;
+		[[nodiscard]] constexpr auto operator<=>(const stable_vector& other) const {
+				if (auto cmp = _data <=> other._data; cmp != 0) { return cmp; }
+
+				if (auto cmp = _toId <=> other._toId; cmp != 0) { return cmp; }
+
+			return _toData <=> other._toData;
+		}
 		#else
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<(const stable_vector& other) const {
-			return _data < other._data && _toId < other._toId && _toData < other._toData;
+		[[nodiscard]] bool operator<(const stable_vector& other) const {
+				if (_data < other._data) { return true; }
+				if (other._data < _data) { return false; }
+
+				if (_toId < other._toId) { return true; }
+				if (other._toId < _toId) { return false; }
+
+			return _toData < other._toData;
 		}
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator<=(const stable_vector& other) const {
-			return _data <= other._data && _toId <= other._toId && _toData <= other._toData;
-		}
+		[[nodiscard]] bool operator<=(const stable_vector& other) const { return !(other < *this); }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>(const stable_vector& other) const {
-			return _data > other._data && _toId > other._toId && _toData > other._toData;
-		}
+		[[nodiscard]] bool operator>(const stable_vector& other) const { return other < *this; }
 
-		[[nodiscard]] _MSTD_CONSTEXPR20 bool operator>=(const stable_vector& other) const {
-			return _data >= other._data && _toId >= other._toId && _toData >= other._toData;
-		}
+		[[nodiscard]] bool operator>=(const stable_vector& other) const { return !(*this < other); }
 		#endif
 	};
 } // namespace mstd
